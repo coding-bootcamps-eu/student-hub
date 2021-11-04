@@ -81,6 +81,10 @@ export default {
       this.currentRoti.autorID = this.$store.getters.getCurrentUserID;
       await addDoc(collection(firestore, "student-roti"), this.currentRoti);
       this.addRotiToUser(this.currentRoti);
+      this.$store.dispatch(
+        "setUserRotis",
+        this.$store.getters.getCurrentUserID
+      );
       alert("Danke dass du dein Roti abgegeben hast :)");
       this.$router.push("/rotigiven");
     },
