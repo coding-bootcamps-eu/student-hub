@@ -148,7 +148,7 @@ export default createStore({
       );
       const querySnapshot = await getDocs(q);
       if (state.getters.getUserQuestions[0] ?? null) {
-        console.error("Questions allready loaded");
+        //console.error("Questions allready loaded");
       } else {
         querySnapshot.forEach((doc) => {
           state.commit("setspUserQuestions", {
@@ -230,7 +230,7 @@ export default createStore({
             studentData: student.data(),
           });
         } else {
-          console.error("no teachers or guests are allowed in the list");
+          //console.error("no teachers or guests are allowed in the list");
         }
       });
       state.commit({

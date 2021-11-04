@@ -11,7 +11,7 @@ try {
     }
   });
 } catch (e) {
-  console.error("shit happens: ", e);
+  alert("shit happens: ", e);
 }
 
 const app = createApp(App).use(store).use(router);

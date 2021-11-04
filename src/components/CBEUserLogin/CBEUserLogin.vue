@@ -134,7 +134,7 @@ export default {
           sessionStorage.clear();
         })
         .catch((error) => {
-          console.error("Error: ", error);
+          alert("Error: ", error);
         });
     },
   },
