@@ -7,6 +7,9 @@
 <script>
 export default {
   name: "RotiGiven",
+  created() {
+    location.reload();
+  },
 };
 </script>
 

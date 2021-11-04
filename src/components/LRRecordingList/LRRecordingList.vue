@@ -118,17 +118,40 @@ export default {
           minutes = _minutes;
         }
         let recordingDate = `${day}.${month}.${year}, ${hours}:${minutes}`;
+        let rfdurl = [];
+        if (doc.data().recordingFilesDownloadUrl.includes(",")) {
+          let urls = doc.data().recordingFilesDownloadUrl.split(",");
+          urls.forEach((url) => {
+            rfdurl.push(url);
+          });
+        } else {
+          rfdurl.push(doc.data().recordingFilesDownloadUrl);
+        }
+        let rfpurl = [];
+        if (doc.data().recordingFilesPlayUrl.includes(",")) {
+          let urls = doc.data().recordingFilesPlayUrl.split(",");
+          urls.forEach((url) => {
+            rfpurl.push(url);
+          });
+        } else {
+          rfpurl.push(doc.data().recordingFilesPlayUrl);
+        }
+        let surl = [];
+        if (doc.data().shareUrl.includes(",")) {
+          let urls = doc.data().shareUrl.split(",");
+          urls.forEach((url) => {
+            surl.push(url);
+          });
+        } else {
+          surl.push(doc.data().shareUrl);
+        }
         this.lrRecordingsArray.push({
           recordingKey: doc.id,
           recordingData: {
             date: recordingDate,
-            recordingFilesDownloadUrl:
-              doc.data()["recording-files-download-url"] ||
-              doc.data().recordingFilesDownloadUrl,
-            recordingFilesPlayUrl:
-              doc.data()["recording-files-play-url"] ||
-              doc.data().recordingFilesPlayUrl,
-            shareUrl: doc.data()["share-url"] || doc.data().shareUrl,
+            recordingFilesDownloadUrl: rfdurl,
+            recordingFilesPlayUrl: rfpurl,
+            shareUrl: surl,
             topic: doc.data().topic,
             description: doc.data().description,
             uuid: doc.data().uuid,

@@ -4,8 +4,8 @@
     <p class="lesson-date">{{ date }}</p>
     <p class="description">Beschreibung: {{ description }}</p>
     <div class="link-wrapper">
-      <a target="_blank" :href="playURL || shareURL" class="play">Play</a>
-      <a target="_blank" :href="downloadURL" class="download">Download</a>
+      <a target="_blank" :href="shareURL[0] || playURL[0]" class="play">Play</a>
+      <a target="_blank" :href="downloadURL[0]" class="download">Download</a>
       <cbe-main-btn
         buttonClass="secondary"
         @click="$emit('removeRecording')"
@@ -36,13 +36,13 @@ export default {
       type: String,
     },
     playURL: {
-      type: String,
+      type: Array,
     },
     downloadURL: {
-      type: String,
+      type: Array,
     },
     shareURL: {
-      type: String,
+      type: Array,
     },
     description: {
       type: String,
