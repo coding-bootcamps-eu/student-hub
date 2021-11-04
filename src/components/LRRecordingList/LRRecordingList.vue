@@ -108,10 +108,20 @@ export default {
       );
       querySnapshot.forEach((doc) => {
         let date = new Date(doc.data().date);
+        let month = date.getMonth() + 1;
+        let day = date.getDate();
+        let year = date.getFullYear();
+        let hours = date.getHours();
+        let minutes = date.getMinutes();
+        if (minutes.toString().length === 1) {
+          let _minutes = minutes + "0";
+          minutes = _minutes;
+        }
+        let recordingDate = `${day}.${month}.${year}, ${hours}:${minutes}`;
         this.lrRecordingsArray.push({
           recordingKey: doc.id,
           recordingData: {
-            date: date.toDateString(),
+            date: recordingDate,
             recordingFilesDownloadUrl:
               doc.data()["recording-files-download-url"] ||
               doc.data().recordingFilesDownloadUrl,
