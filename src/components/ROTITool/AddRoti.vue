@@ -82,6 +82,7 @@ export default {
       await addDoc(collection(firestore, "student-roti"), this.currentRoti);
       this.addRotiToUser(this.currentRoti);
       alert("Danke dass du dein Roti abgegeben hast :)");
+      this.$router.push("/rotigiven");
     },
     setRating(ratingValue) {
       this.currentRoti.rotiRating = ratingValue;
