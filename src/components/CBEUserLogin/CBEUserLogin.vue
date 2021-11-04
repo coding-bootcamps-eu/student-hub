@@ -111,10 +111,12 @@ export default {
               gitURL: this.$store.getters.getCurrentUserGitURL,
               userScheduleURL: this.$store.getters.getCurrentUserScheduleURL,
               email: this.$store.getters.getCurrentUserEmail,
+              studentRotis: [],
               userIssues: 0,
               userRepos: 0,
               userRole: this.userRole,
             });
+            this.$store.commit("setCurrentUserRole", this.userRole);
           }
         });
         this.$router.push("/");

@@ -109,7 +109,10 @@ export default {
         : false;
     },
     isGuest() {
-      return this.$store.getters.getCurrentUserRole === "guest" ? true : false;
+      return this.$store.getters.getCurrentUserRole === "guest" ||
+        this.$store.getters.getCurrentUserRole === "null"
+        ? true
+        : false;
     },
     isStudent() {
       return this.$store.getters.getCurrentUserRole === "student"

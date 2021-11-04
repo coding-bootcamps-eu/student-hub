@@ -70,7 +70,7 @@ export default {
         studentRotis: arrayUnion(roti),
       });
     },
-    initRoti() {
+    async initRoti() {
       firestore;
       let fullDate = new Date();
       let month = fullDate.getMonth() + 1;
@@ -79,7 +79,7 @@ export default {
       this.currentRoti.rotiDate = `${day}.${month}.${year}`;
       this.currentRoti.rotiAutor = this.$store.getters.getCurrentUserScreenname;
       this.currentRoti.autorID = this.$store.getters.getCurrentUserID;
-      addDoc(collection(firestore, "student-roti"), this.currentRoti);
+      await addDoc(collection(firestore, "student-roti"), this.currentRoti);
       this.addRotiToUser(this.currentRoti);
       alert("Danke dass du dein Roti abgegeben hast :)");
     },
