@@ -42,6 +42,12 @@ const routes = [
       ),
   },
   {
+    path: "/rotigiven",
+    name: "RotiGiven",
+    component: () =>
+      import(/* webpackChunkName: "rotigiven" */ "../views/RotiGiven.vue"),
+  },
+  {
     path: "/lessonrecordings",
     name: "Lesson-Recordings",
     component: () =>
