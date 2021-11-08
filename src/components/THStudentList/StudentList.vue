@@ -24,8 +24,11 @@ export default {
   name: "StudentList",
   components: { StudentListElement },
   async created() {
-    await this.$store.dispatch("setStudentRepos");
-    await this.$store.dispatch("setStudentIssues");
+    await this.$store.dispatch("setStudentIssuesCounter", {
+      userToken: this.$store.getters.getCurrentUserToken,
+      studentScreenName: this.$store.getters.getCurrentUserScreenname,
+    });
+    await this.$store.dispatch("updateStudentsIssuesCounter");
   },
 };
 </script>

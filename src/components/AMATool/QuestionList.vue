@@ -39,7 +39,7 @@
     <div class="question-list-wrapper">
       <ol id="questions">
         <QuestionListElement
-          v-for="question in this.$store.getters.getAllQuestions"
+          v-for="question in filteredQuestions"
           :key="question.questionKey"
           :questionTitle="question.questionData.questionTitle"
           :questionAuthor="question.questionData.questionAuthor"
@@ -106,6 +106,7 @@ export default {
           questionData: doc.data(),
         });
       });
+      this.questionsDOM = this.questionsDOM.slice(0).sort(this.compareVotes);
       this.$store.commit({
         type: "setAllQuestions",
         allQuestions: this.questionsDOM,
@@ -188,14 +189,7 @@ export default {
       }
       this.$store.dispatch("updateAllQuestions");
     },
-    /*
-    Wenn der user votet, kommt er ins array. wenn er auf dem array ist, darf er nicht voten
-    wenn er nicht voten darf, wird der knopf rot. wenn man auf den knopf drückt,
-    darf man wieder voten.
-    die anzahl der votes = usersVoted.length
 
-
-    */
     downVote(questionKey, userIDInc) {
       this.createUsersVotedArray(questionKey);
       const questionRef = doc(firestore, "ama-questions", questionKey);
@@ -230,8 +224,10 @@ export default {
       this.$store.dispatch("updateAllQuestions");
     },
     compareVotes(a, b) {
-      if (a.questionUpvotes > b.questionUpvotes) return -1;
-      if (a.questionUpvotes < b.questionUpvotes) return 1;
+      if (a.questionData.questionUpvotes > b.questionData.questionUpvotes)
+        return -1;
+      if (a.questionData.questionUpvotes < b.questionData.questionUpvotes)
+        return 1;
       return 0;
     },
   },
@@ -242,11 +238,11 @@ export default {
         return this.$store.getters.getAllQuestions;
       } else if (questionFilterStatus === "false") {
         return this.$store.getters.getAllQuestions.filter((question) => {
-          return question.questionIsDone === false;
+          return question.questionData.questionIsDone === false;
         });
       } else {
         return this.$store.getters.getAllQuestions.filter((question) => {
-          return question.questionIsDone === true;
+          return question.questionData.questionIsDone === true;
         });
       }
     },

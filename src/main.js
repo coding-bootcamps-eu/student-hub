@@ -2,8 +2,9 @@ import { createApp } from "vue";
 import App from "./App.vue";
 import router from "./router";
 import store from "./store";
-//registerServicdeWorker deinstallieren
+
 import CBEMainButton from "./components/CBEMainButton/CBEMainButton.vue";
+
 try {
   navigator.serviceWorker.getRegistrations().then(function (registrations) {
     for (let registration of registrations) {

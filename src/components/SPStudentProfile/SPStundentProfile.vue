@@ -8,7 +8,7 @@
         </p>
         <a :href="this.$store.getters.getspUser.gitURL">GitHub Profile</a>
         <span class="sp__issue-count"
-          >Open Issues: {{ this.$store.getters.getspUser.userIssues }}</span
+          >Open Issues: {{ this.$store.getters.getStudentIssuesCounter }}</span
         >
       </div>
       <div class="button-wrapper">
@@ -74,7 +74,7 @@ export default {
   name: "SPStudentProfile",
   data() {
     return {
-      userID: this.$route.params.studentKey,
+      userID: this.$store.getters.getCurrentUserID,
       questionsShown: false,
       questionBtnTxtShow: "Zeige Fragen",
       questionBtnTxtHide: "Verstecke Fragen",
@@ -102,12 +102,22 @@ export default {
     },
   },
   async created() {
-    await this.$store.dispatch("setUserRotis", this.$route.params.studentKey);
+    await this.$store.dispatch("setStudentIssuesCounter", {
+      userToken: this.$store.getters.getCurrentUserToken,
+      studentScreenName: this.$store.getters.getCurrentUserScreenname,
+    });
+    await this.$store.dispatch(
+      "setUserRotis",
+      this.$store.getters.getCurrentUserID
+    );
     await this.$store.dispatch(
       "setUserQuestions",
-      this.$route.params.studentKey
+      this.$store.getters.getCurrentUserID
     );
-    await this.$store.dispatch("setspUser", this.$route.params.studentKey);
+    await this.$store.dispatch(
+      "setspUser",
+      this.$store.getters.getCurrentUserID
+    );
   },
 };
 </script>

@@ -26,8 +26,6 @@ export default createStore({
     currentUserEmail: "",
     currentUserGitURL: "",
     currentUserScheduleURL: "",
-    currentIssuesCounter: 0,
-    currentReposCounter: 0,
     issuesInfo: [],
     currentIssue: {
       name: "",
@@ -35,8 +33,7 @@ export default createStore({
       duration: null,
     },
     allStudents: [],
-    studentRepos: 0,
-    studentIssues: 0,
+    studentIssuesCounter: 0,
     allQuestions: [],
     usersVotedQuestion: [],
     questionFilterStatus: "All",
@@ -45,17 +42,14 @@ export default createStore({
     spUserQuestions: [],
   },
   mutations: {
+    setStudentIssuesCounter(state, payload) {
+      state.studentIssuesCounter = payload.studentIssuesCounter;
+    },
     setspUserQuestions(state, payload) {
       state.spUserQuestions.push(payload);
     },
     setspUser(state, payload) {
       state.spUser = payload.user;
-    },
-    setStudentIssues(state, payload) {
-      state.studentIssues = payload.studentIssues;
-    },
-    setStudentRepos(state, payload) {
-      state.studentRepos = payload.studentRepos;
     },
     setAllStudents(state, payload) {
       state.allStudents = payload.allStudents;
@@ -82,15 +76,7 @@ export default createStore({
     setIssuesInfo(state, payload) {
       state.issuesInfo = payload.issuesInfo;
     },
-    setCBEClassCollection(state, payload) {
-      state.cbeClassCollection = payload.cbeClassCollection;
-    },
-    setCurrentIssuesCounter(state, payload) {
-      state.currentIssuesCounter = payload.currentIssuesCounter;
-    },
-    setCurrentReposCounter(state, payload) {
-      state.currentReposCounter = payload.currentReposCounter;
-    },
+
     setCurrentUser(state, payload) {
       sessionStorage.setItem("currentUser", JSON.stringify(payload));
       state.currentUser = payload;
@@ -133,6 +119,51 @@ export default createStore({
     },
   },
   actions: {
+    async setStudentIssuesCounter(state, payload) {
+      let _userToken = "token " + payload.userToken;
+      let url =
+        "https://api.github.com/repos/" +
+        payload.studentScreenName +
+        "/bootcamp-schedule/issues";
+      const httpElement = await fetch(url, {
+        headers: {
+          Accept: "application/json",
+          authorization: _userToken,
+          "Content-Type": "application/json",
+        },
+        method: "GET",
+      });
+      let _repoIssues = await httpElement.json();
+      let _counter = await _repoIssues;
+      state.commit("setStudentIssuesCounter", {
+        studentIssuesCounter: _counter.length,
+      });
+      return _counter.length;
+    },
+    async updateStudentsIssuesCounter(state) {
+      await state.getters.getAllStudents.forEach((student) => {
+        state
+          .dispatch("setStudentIssuesCounter", {
+            userToken: student.studentData.gitToken,
+            studentScreenName: student.studentData.gitScreenName,
+          })
+          .then((counter) => {
+            setDoc(doc(firestore, "all-users", student.studentKey), {
+              email: student.studentData.email,
+              gitDisplayName: student.studentData.gitDisplayName,
+              gitScreenName: student.studentData.gitScreenName,
+              gitToken: student.studentData.gitToken,
+              gitURL: student.studentData.gitURL,
+              userScheduleURL: student.studentData.userScheduleURL,
+              id: student.studentData.id,
+              studentRotis: student.studentData.studentRotis,
+              userIssues: counter,
+              userRepos: student.studentData.userRepos,
+              userRole: student.studentData.userRole,
+            });
+          });
+      });
+    },
     async setspUser(state, payload) {
       onSnapshot(doc(firestore, "all-users", payload), (doc) => {
         state.commit({
@@ -163,32 +194,6 @@ export default createStore({
         state.commit({
           type: "setUserRotis",
           userRotis: doc.data().studentRotis,
-        });
-      });
-    },
-    async setStudentIssues(state) {
-      state.getters.getAllStudents.forEach((student) => {
-        GitAPIService.printIssues(
-          student.studentData.gitScreenName,
-          student.studentData.gitToken
-        ).then((userIssues) => {
-          state.commit({
-            type: "setStudentIssues",
-            studentIssues: userIssues,
-          });
-          setDoc(doc(firestore, "all-users", student.studentKey), {
-            email: student.studentData.email,
-            gitDisplayName: student.studentData.gitDisplayName,
-            gitScreenName: student.studentData.gitScreenName,
-            gitToken: student.studentData.gitToken,
-            gitURL: student.studentData.gitURL,
-            userScheduleURL: student.studentData.userScheduleURL,
-            id: student.studentData.id,
-            studentRotis: student.studentData.studentRotis,
-            userIssues: userIssues,
-            userRepos: student.studentData.userRepos,
-            userRole: student.studentData.userRole,
-          });
         });
       });
     },
@@ -313,6 +318,9 @@ export default createStore({
   },
   modules: {},
   getters: {
+    getStudentIssuesCounter(state) {
+      return state.studentIssuesCounter;
+    },
     getspUser(state) {
       return state.spUser;
     },
@@ -321,9 +329,6 @@ export default createStore({
     },
     getUserRotis(state) {
       return state.userRotis;
-    },
-    getStudentIssues(state) {
-      return state.studentIssues;
     },
     getStudentRepos(state) {
       return state.studentRepos;
@@ -348,15 +353,6 @@ export default createStore({
     },
     getIssuesInfo(state) {
       return state.issuesInfo;
-    },
-    getCBEClassCollection(state) {
-      return state.cbeClassCollection;
-    },
-    getCurrentIssuesCounter(state) {
-      return state.currentIssuesCounter;
-    },
-    getCurrentReposCounter(state) {
-      return state.currentReposCounter;
     },
     getCurrentUser(state) {
       return state.currentUser;

@@ -102,22 +102,24 @@ export default {
       if (a.recordingData.date > b.recordingData.date) return 1;
       return 0;
     },
+    generateDateString(date) {
+      let month = date.getMonth() + 1;
+      let day = date.getDate();
+      let year = date.getFullYear();
+      let hours = date.getHours();
+      let minutes = date.getMinutes();
+      if (minutes.toString().length === 1) {
+        let _minutes = minutes + "0";
+        minutes = _minutes;
+      }
+      return `${day}.${month}.${year}, ${hours}:${minutes}`;
+    },
     async getAllRecordings() {
       const querySnapshot = await getDocs(
         collection(firestore, "zoom-recordings")
       );
       querySnapshot.forEach((doc) => {
-        let date = new Date(doc.data().date);
-        let month = date.getMonth() + 1;
-        let day = date.getDate();
-        let year = date.getFullYear();
-        let hours = date.getHours();
-        let minutes = date.getMinutes();
-        if (minutes.toString().length === 1) {
-          let _minutes = minutes + "0";
-          minutes = _minutes;
-        }
-        let recordingDate = `${day}.${month}.${year}, ${hours}:${minutes}`;
+        let recordingDate = this.generateDateString(new Date(doc.data().date));
         let rfdurl = [];
         if (doc.data().recordingFilesDownloadUrl.includes(",")) {
           let urls = doc.data().recordingFilesDownloadUrl.split(",");
