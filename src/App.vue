@@ -16,6 +16,8 @@ export default {
   components: { CBEMainNavigation, CBEMainHeader, CBEMainFooter },
   async created() {
     await this.$store.dispatch("setAllStudents");
+    await this.$store.dispatch("updateStudentsIssuesCounter");
+    await this.$store.dispatch("updateStudentsReposCounter");
   },
   mounted() {
     this.$store.commit({

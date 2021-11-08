@@ -17,6 +17,9 @@ const allTeamsURL = "https://api.github.com/orgs/coding-bootcamps-eu/teams";
 export default createStore({
   plugins: [],
   state: {
+    /**
+     * Current User States
+     */
     currentUser: {},
     currentUserRole: "",
     currentUserName: "",
@@ -26,24 +29,37 @@ export default createStore({
     currentUserEmail: "",
     currentUserGitURL: "",
     currentUserScheduleURL: "",
+    /**
+     * Issues Analyze by Glissario
+     */
     issuesInfo: [],
     currentIssue: {
       name: "",
       status: "open",
       duration: null,
     },
+    /**
+     * StudentList / Profile
+     */
     allStudents: [],
     studentIssuesCounter: 0,
-    allQuestions: [],
-    usersVotedQuestion: [],
-    questionFilterStatus: "All",
+    studentReposCounter: 0,
     userRotis: [],
     spUser: {},
     spUserQuestions: [],
+    /**
+     * AMA-Tool States
+     */
+    allQuestions: [],
+    usersVotedQuestion: [],
+    questionFilterStatus: "All",
   },
   mutations: {
     setStudentIssuesCounter(state, payload) {
       state.studentIssuesCounter = payload.studentIssuesCounter;
+    },
+    setStudentReposCounter(state, payload) {
+      state.studentReposCounter = payload.studentReposCounter;
     },
     setspUserQuestions(state, payload) {
       state.spUserQuestions.push(payload);
@@ -148,19 +164,70 @@ export default createStore({
             studentScreenName: student.studentData.gitScreenName,
           })
           .then((counter) => {
-            setDoc(doc(firestore, "all-users", student.studentKey), {
-              email: student.studentData.email,
-              gitDisplayName: student.studentData.gitDisplayName,
-              gitScreenName: student.studentData.gitScreenName,
-              gitToken: student.studentData.gitToken,
-              gitURL: student.studentData.gitURL,
-              userScheduleURL: student.studentData.userScheduleURL,
-              id: student.studentData.id,
-              studentRotis: student.studentData.studentRotis,
-              userIssues: counter,
-              userRepos: student.studentData.userRepos,
-              userRole: student.studentData.userRole,
-            });
+            try {
+              setDoc(doc(firestore, "all-users", student.studentKey), {
+                email: student.studentData.email,
+                gitDisplayName: student.studentData.gitDisplayName,
+                gitScreenName: student.studentData.gitScreenName,
+                gitToken: student.studentData.gitToken,
+                gitURL: student.studentData.gitURL,
+                userScheduleURL: student.studentData.userScheduleURL,
+                id: student.studentData.id,
+                studentRotis: student.studentData.studentRotis,
+                userIssues: counter,
+                userRepos: student.studentData.userRepos,
+                userRole: student.studentData.userRole,
+              });
+            } catch (e) {
+              console.error(e);
+            }
+          });
+      });
+    },
+    async setStudentReposCounter(state, payload) {
+      let _userToken = "token " + payload.userToken;
+      const url =
+        "https://api.github.com/users/" + payload.studentScreenName + "/repos";
+      const httpElement = await fetch(url, {
+        headers: {
+          Accept: "application/json",
+          authorization: _userToken,
+          "Content-Type": "application/json",
+        },
+        method: "GET",
+      });
+      let _studentRepos = await httpElement.json();
+      let _counter = await _studentRepos;
+      state.commit("setStudentReposCounter", {
+        studentReposCounter: _counter.length,
+      });
+      return _counter.length;
+    },
+    async updateStudentsReposCounter(state) {
+      await state.getters.getAllStudents.forEach((student) => {
+        state
+          .dispatch("setStudentReposCounter", {
+            userToken: student.studentData.gitToken,
+            studentScreenName: student.studentData.gitScreenName,
+          })
+          .then((counter) => {
+            try {
+              setDoc(doc(firestore, "all-users", student.studentKey), {
+                email: student.studentData.email,
+                gitDisplayName: student.studentData.gitDisplayName,
+                gitScreenName: student.studentData.gitScreenName,
+                gitToken: student.studentData.gitToken,
+                gitURL: student.studentData.gitURL,
+                userScheduleURL: student.studentData.userScheduleURL,
+                id: student.studentData.id,
+                studentRotis: student.studentData.studentRotis,
+                userIssues: student.studentData.userRotis,
+                userRepos: counter,
+                userRole: student.studentData.userRole,
+              });
+            } catch (e) {
+              console.error(e);
+            }
           });
       });
     },
@@ -321,6 +388,9 @@ export default createStore({
     getStudentIssuesCounter(state) {
       return state.studentIssuesCounter;
     },
+    getStudentReposCounter(state) {
+      return state.studentReposCounter;
+    },
     getspUser(state) {
       return state.spUser;
     },
@@ -329,9 +399,6 @@ export default createStore({
     },
     getUserRotis(state) {
       return state.userRotis;
-    },
-    getStudentRepos(state) {
-      return state.studentRepos;
     },
     getAllStudents(state) {
       return state.allStudents;
