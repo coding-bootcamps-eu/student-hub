@@ -227,7 +227,7 @@ export default createStore({
                 userScheduleURL: student.studentData.userScheduleURL,
                 id: student.studentData.id,
                 studentRotis: student.studentData.studentRotis,
-                userIssues: student.studentData.userRotis,
+                userIssues: student.studentData.userIssues,
                 userRepos: counter,
                 userRole: student.studentData.userRole,
               });
