@@ -114,39 +114,32 @@ export default {
       }
       return `${day}.${month}.${year}, ${hours}:${minutes}`;
     },
+    urlIncludesComma(docURL, targetArray) {
+      if (docURL.includes(",")) {
+        let _urls = docURL.split(",");
+        _urls.forEach((url) => {
+          targetArray.push(url);
+        });
+      } else {
+        targetArray.push(docURL);
+      }
+    },
     async getAllRecordings() {
       const querySnapshot = await getDocs(
         collection(firestore, "zoom-recordings")
       );
       querySnapshot.forEach((doc) => {
         let recordingDate = this.generateDateString(new Date(doc.data().date));
+        // recording files download
         let rfdurl = [];
-        if (doc.data().recordingFilesDownloadUrl.includes(",")) {
-          let urls = doc.data().recordingFilesDownloadUrl.split(",");
-          urls.forEach((url) => {
-            rfdurl.push(url);
-          });
-        } else {
-          rfdurl.push(doc.data().recordingFilesDownloadUrl);
-        }
+        this.urlIncludesComma(doc.data().recordingFilesDownloadUrl, rfdurl);
+        // recording files play
         let rfpurl = [];
-        if (doc.data().recordingFilesPlayUrl.includes(",")) {
-          let urls = doc.data().recordingFilesPlayUrl.split(",");
-          urls.forEach((url) => {
-            rfpurl.push(url);
-          });
-        } else {
-          rfpurl.push(doc.data().recordingFilesPlayUrl);
-        }
+        this.urlIncludesComma(doc.data().recordingFilesPlayUrl, rfpurl);
+        // share url
         let surl = [];
-        if (doc.data().shareUrl.includes(",")) {
-          let urls = doc.data().shareUrl.split(",");
-          urls.forEach((url) => {
-            surl.push(url);
-          });
-        } else {
-          surl.push(doc.data().shareUrl);
-        }
+        this.urlIncludesComma(doc.data().shareUrl, surl);
+        // add to dom array
         this.lrRecordingsArray.push({
           recordingKey: doc.id,
           recordingData: {
