@@ -98,8 +98,8 @@ export default {
       this.userFilterQuery = result;
     },
     compareDates(a, b) {
-      if (a.recordingData.date < b.recordingData.date) return -1;
-      if (a.recordingData.date > b.recordingData.date) return 1;
+      if (a.recordingData.date < b.recordingData.date) return 1;
+      if (a.recordingData.date > b.recordingData.date) return -1;
       return 0;
     },
     generateDateString(date) {
