@@ -11,9 +11,6 @@ import {
   where,
 } from "firebase/firestore";
 
-import GitAPIService from "@/services/GitAPIService.js";
-
-const allTeamsURL = "https://api.github.com/orgs/coding-bootcamps-eu/teams";
 export default createStore({
   plugins: [],
   state: {
@@ -55,44 +52,7 @@ export default createStore({
     questionFilterStatus: "All",
   },
   mutations: {
-    setStudentIssuesCounter(state, payload) {
-      state.studentIssuesCounter = payload.studentIssuesCounter;
-    },
-    setStudentReposCounter(state, payload) {
-      state.studentReposCounter = payload.studentReposCounter;
-    },
-    setspUserQuestions(state, payload) {
-      state.spUserQuestions.push(payload);
-    },
-    setspUser(state, payload) {
-      state.spUser = payload.user;
-    },
-    setAllStudents(state, payload) {
-      state.allStudents = payload.allStudents;
-    },
-    setQuestionFilterStatus(state, payload) {
-      state.questionFilterStatus = payload.questionFilterStatus;
-    },
-    setUsersVotedQuestion(state, payload) {
-      state.usersVotedQuestion = payload.vote;
-    },
-    setAllQuestions(state, payload) {
-      state.allQuestions = payload.allQuestions;
-    },
-    setCurrentUserScheduleURL(state, payload) {
-      state.currentUserScheduleURL = payload.userScheduleURL;
-    },
-    setCurrentIssue(state, payload) {
-      state.currentIssue = {
-        name: payload.name,
-        status: payload.status,
-        duration: payload.duration,
-      };
-    },
-    setIssuesInfo(state, payload) {
-      state.issuesInfo = payload.issuesInfo;
-    },
-
+    //<- Current User Mutations ->
     setCurrentUser(state, payload) {
       sessionStorage.setItem("currentUser", JSON.stringify(payload));
       state.currentUser = payload;
@@ -125,16 +85,62 @@ export default createStore({
       sessionStorage.setItem("currentUserToken", payload.userToken);
       state.currentUserToken = payload.userToken;
     },
-    setUserRotis(state, payload) {
-      sessionStorage.setItem("userRotis", JSON.stringify(payload.userRotis));
-      state.userRotis = payload.userRotis;
+    setCurrentUserScheduleURL(state, payload) {
+      state.currentUserScheduleURL = payload.userScheduleURL;
     },
     setUserLoginState(state, payload) {
       sessionStorage.setItem("userLoginState", payload.isLoggedIn);
       state.userLoginState = payload.isLoggedIn;
     },
+
+    // <- Issue Analyze ->
+    setCurrentIssue(state, payload) {
+      state.currentIssue = {
+        name: payload.name,
+        status: payload.status,
+        duration: payload.duration,
+      };
+    },
+    setIssuesInfo(state, payload) {
+      state.issuesInfo = payload.issuesInfo;
+    },
+
+    // <- StudentList & Profile ->
+    setStudentIssuesCounter(state, payload) {
+      state.studentIssuesCounter = payload.studentIssuesCounter;
+    },
+    setStudentReposCounter(state, payload) {
+      state.studentReposCounter = payload.studentReposCounter;
+    },
+    setspUserQuestions(state, payload) {
+      state.spUserQuestions.push(payload);
+    },
+    setspUser(state, payload) {
+      state.spUser = payload.user;
+    },
+    setAllStudents(state, payload) {
+      state.allStudents = payload.allStudents;
+    },
+
+    // <- AMA - TOOL ->
+    setQuestionFilterStatus(state, payload) {
+      state.questionFilterStatus = payload.questionFilterStatus;
+    },
+    setUsersVotedQuestion(state, payload) {
+      state.usersVotedQuestion = payload.vote;
+    },
+    setAllQuestions(state, payload) {
+      state.allQuestions = payload.allQuestions;
+    },
+
+    // <- ROTI - TOOL ->
+    setUserRotis(state, payload) {
+      sessionStorage.setItem("userRotis", JSON.stringify(payload.userRotis));
+      state.userRotis = payload.userRotis;
+    },
   },
   actions: {
+    //<-StundentList & Profile->
     async setStudentIssuesCounter(state, payload) {
       let _userToken = "token " + payload.userToken;
       let url =
@@ -239,57 +245,6 @@ export default createStore({
         });
       });
     },
-    async setUserQuestions(state, payload) {
-      const q = query(
-        collection(firestore, "ama-questions"),
-        where("questionAuthorID", "==", payload)
-      );
-      const querySnapshot = await getDocs(q);
-      if (state.getters.getUserQuestions[0] ?? null) {
-        //console.error("Questions allready loaded");
-      } else {
-        querySnapshot.forEach((doc) => {
-          state.commit("setspUserQuestions", {
-            key: doc.id,
-            data: doc.data(),
-          });
-        });
-      }
-    },
-    async setUserRotis(state, payload) {
-      onSnapshot(doc(firestore, "all-users", payload), (doc) => {
-        state.commit({
-          type: "setUserRotis",
-          userRotis: doc.data().studentRotis,
-        });
-      });
-    },
-    async setStudentRepos(state) {
-      state.getters.getAllStudents.forEach((student) => {
-        GitAPIService.printRepos(
-          student.studentData.gitScreenName,
-          student.studentData.gitToken
-        ).then((userRepos) => {
-          state.commit({
-            type: "setStudentRepos",
-            studentRepos: userRepos,
-          });
-          setDoc(doc(firestore, "all-users", student.studentKey), {
-            email: student.studentData.email,
-            gitDisplayName: student.studentData.gitDisplayName,
-            gitScreenName: student.studentData.gitScreenName,
-            gitToken: student.studentData.gitToken,
-            gitURL: student.studentData.gitURL,
-            userScheduleURL: student.studentData.userScheduleURL,
-            id: student.studentData.id,
-            studentRotis: student.studentData.studentRotis,
-            userIssues: student.studentData.userIssues,
-            userRepos: userRepos,
-            userRole: student.studentData.userRole,
-          });
-        });
-      });
-    },
     async setAllStudents(state) {
       let _students = [];
       const userTableSnapshot = await getDocs(
@@ -310,9 +265,7 @@ export default createStore({
         allStudents: _students,
       });
     },
-    setCurrentUserName(state, payload) {
-      state.currentUserName = payload.userName;
-    },
+    //<-AMA-TOOL->
     updateAllQuestions(state) {
       const q = query(collection(firestore, "ama-questions"));
       onSnapshot(q, (querySnapshot) => {
@@ -330,7 +283,6 @@ export default createStore({
         });
       });
     },
-
     async setAllQuestions(state) {
       let _questions = [];
       const querySnapshot = await getDocs(
@@ -348,29 +300,30 @@ export default createStore({
         });
       });
     },
-    async setCBEClasses(state) {
-      let _token = "token " + this.getters.getCurrentUserToken;
-      const teamsResponse = await fetch(allTeamsURL, {
-        headers: {
-          Accept: "application/json",
-          authorization: _token,
-          "Content-Type": "application/json",
-        },
-        method: "GET",
-      });
-      const allTeams = await teamsResponse.json();
-      let cleanedClassList = [];
-      allTeams.forEach((singleClass) => {
-        if (singleClass.name.includes("Class #3")) {
-          cleanedClassList.push({
-            className: singleClass.name,
-            classID: singleClass.id,
+    async setUserQuestions(state, payload) {
+      const q = query(
+        collection(firestore, "ama-questions"),
+        where("questionAuthorID", "==", payload)
+      );
+      const querySnapshot = await getDocs(q);
+      if (state.getters.getUserQuestions[0] ?? null) {
+        //console.error("Questions allready loaded");
+      } else {
+        querySnapshot.forEach((doc) => {
+          state.commit("setspUserQuestions", {
+            key: doc.id,
+            data: doc.data(),
           });
-        }
-      });
-      state.commit({
-        type: "setCBEClasses",
-        cbeClasses: cleanedClassList,
+        });
+      }
+    },
+    //<-ROTI-TOOL->
+    async setUserRotis(state, payload) {
+      onSnapshot(doc(firestore, "all-users", payload), (doc) => {
+        state.commit({
+          type: "setUserRotis",
+          userRotis: doc.data().studentRotis,
+        });
       });
     },
   },
@@ -385,42 +338,7 @@ export default createStore({
   },
   modules: {},
   getters: {
-    getStudentIssuesCounter(state) {
-      return state.studentIssuesCounter;
-    },
-    getStudentReposCounter(state) {
-      return state.studentReposCounter;
-    },
-    getspUser(state) {
-      return state.spUser;
-    },
-    getUserQuestions(state) {
-      return state.spUserQuestions;
-    },
-    getUserRotis(state) {
-      return state.userRotis;
-    },
-    getAllStudents(state) {
-      return state.allStudents;
-    },
-    getQuestionFilterStatus(state) {
-      return state.questionFilterStatus;
-    },
-    getUsersVotedQuestion(state) {
-      return state.usersVotedQuestion;
-    },
-    getAllQuestions(state) {
-      return state.allQuestions;
-    },
-    getCurrentUserScheduleURL(state) {
-      return state.currentUserScheduleURL;
-    },
-    getCurrentIssue(state) {
-      return state.currentIssue;
-    },
-    getIssuesInfo(state) {
-      return state.issuesInfo;
-    },
+    //<-CURRENT USER->
     getCurrentUser(state) {
       return state.currentUser;
     },
@@ -445,8 +363,49 @@ export default createStore({
     getCurrentUserToken(state) {
       return state.currentUserToken;
     },
+    getCurrentUserScheduleURL(state) {
+      return state.currentUserScheduleURL;
+    },
     getUserLoginState(state) {
       return state.userLoginState;
+    },
+    //<-ISSUES-ANALYZE->
+    getCurrentIssue(state) {
+      return state.currentIssue;
+    },
+    getIssuesInfo(state) {
+      return state.issuesInfo;
+    },
+    //<-StudentList & Profile->
+    getStudentIssuesCounter(state) {
+      return state.studentIssuesCounter;
+    },
+    getStudentReposCounter(state) {
+      return state.studentReposCounter;
+    },
+    getspUser(state) {
+      return state.spUser;
+    },
+    getAllStudents(state) {
+      return state.allStudents;
+    },
+    //<-AMA-TOOL->
+    getUserQuestions(state) {
+      return state.spUserQuestions;
+    },
+    getQuestionFilterStatus(state) {
+      return state.questionFilterStatus;
+    },
+    getUsersVotedQuestion(state) {
+      return state.usersVotedQuestion;
+    },
+    getAllQuestions(state) {
+      return state.allQuestions;
+    },
+
+    //<-ROTI-TOOL->
+    getUserRotis(state) {
+      return state.userRotis;
     },
   },
 });
