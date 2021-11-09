@@ -1,6 +1,7 @@
 <template>
   <CBEMainHeader class="main-header" />
   <CBEMainNavigation />
+  <CBEMobileNavigation />
   <main>
     <router-view />
   </main>
@@ -11,9 +12,16 @@
 import CBEMainFooter from "@/components/CBEMainFooter/CBEMainFooter.vue";
 import CBEMainHeader from "@/components/CBEMainHeader/CBEMainHeader.vue";
 import CBEMainNavigation from "@/components/CBEMainNavigation/CBEMainNavigation.vue";
+import CBEMobileNavigation from "@/components/CBEMobileNavigation/CBEMobileNavigation.vue";
+
 export default {
   name: "App",
-  components: { CBEMainNavigation, CBEMainHeader, CBEMainFooter },
+  components: {
+    CBEMainNavigation,
+    CBEMainHeader,
+    CBEMainFooter,
+    CBEMobileNavigation,
+  },
   async created() {
     await this.$store.dispatch("setAllStudents");
     await this.$store.dispatch("updateStudentsIssuesCounter");
