@@ -78,17 +78,12 @@ export default {
       ).matches;
     },
     addNavWidth() {
-      console.log(event.target.style);
       event.target.style.width = 12 + "rem";
     },
     removeNavWidth() {
       event.target.style.width = 4 + "rem";
     },
     removeNavWidthCauseClick() {
-      console.log(
-        event.target.parentElement.parentElement.parentElement.parentElement
-          .style.width
-      );
       event.target.parentElement.parentElement.parentElement.parentElement.style.width =
         4 + "rem";
     },
