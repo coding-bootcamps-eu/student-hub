@@ -160,7 +160,7 @@ export default createStore({
       state.commit("setStudentIssuesCounter", {
         studentIssuesCounter: _counter.length,
       });
-      return _counter.length;
+      return await _counter.length;
     },
     async updateStudentsIssuesCounter(state) {
       await state.getters.getAllStudents.forEach((student) => {
@@ -207,7 +207,7 @@ export default createStore({
       state.commit("setStudentReposCounter", {
         studentReposCounter: _counter.length,
       });
-      return _counter.length;
+      return await _counter.length;
     },
     async updateStudentsReposCounter(state) {
       await state.getters.getAllStudents.forEach((student) => {
