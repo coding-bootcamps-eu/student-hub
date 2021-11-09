@@ -72,6 +72,24 @@ export default {
       ).matches;
     },
   },
+  computed: {
+    isTeacher() {
+      return this.$store.getters.getCurrentUserRole === "teacher"
+        ? true
+        : false;
+    },
+    isGuest() {
+      return this.$store.getters.getCurrentUserRole === "guest" ||
+        this.$store.getters.getCurrentUserRole === "null"
+        ? true
+        : false;
+    },
+    isStudent() {
+      return this.$store.getters.getCurrentUserRole === "student"
+        ? true
+        : false;
+    },
+  },
 };
 </script>
 
@@ -91,7 +109,7 @@ export default {
   height: 100%;
   position: fixed;
   background-color: whitesmoke;
-  transition: 200ms ease-in-out;
+  transition: 500ms ease-in-out;
   box-shadow: var(--primary-color) 0px 0.5px 1.5px,
     rgba(0, 0, 0, 0.24) 0px 0.5px 1px;
 }
@@ -101,6 +119,7 @@ export default {
     display: block;
     justify-content: baseline;
     align-items: baseline;
+    hyphens: auto;
   }
   .header-logo {
     max-width: 3rem;
