@@ -28,7 +28,6 @@ export default {
     await this.$store.dispatch("updateStudentsReposCounter");
   },
   mounted() {
-    console.log(window.matchMedia(screen && "(max-width: 555px)").matches);
     this.$store.commit({
       type: "setUserLoginState",
       isLoggedIn: sessionStorage.getItem("userLoginState"),
