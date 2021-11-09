@@ -102,39 +102,6 @@ export default {
   padding: 0.25rem;
   margin-top: 0.5rem;
 }
-.cbe__mobile-nav {
-  display: block;
-  z-index: 1;
-  width: 4rem;
-  height: 100%;
-  position: fixed;
-  background-color: whitesmoke;
-  transition: 500ms ease-in-out;
-  box-shadow: var(--primary-color) 0px 0.5px 1.5px,
-    rgba(0, 0, 0, 0.24) 0px 0.5px 1px;
-}
-.cbe__mobile-nav:hover {
-  width: 12rem;
-  .link-text {
-    display: block;
-    justify-content: baseline;
-    align-items: baseline;
-    hyphens: auto;
-  }
-  .header-logo {
-    max-width: 3rem;
-    padding: 0.25rem;
-  }
-  .cbe__nav-element {
-    text-align: center;
-    min-width: 95%;
-    a {
-      &:hover {
-        width: 100%;
-      }
-    }
-  }
-}
 .cbe__nav-list {
   all: unset;
   list-style: none;
@@ -144,35 +111,71 @@ export default {
   margin: 0;
   padding: 0;
   height: 100%;
+  li:last-child {
+    margin-top: 2rem;
+  }
 }
-nav {
-  .cbe__nav-list {
-    flex-flow: column;
-    margin: 0.5rem;
+.cbe__mobile-nav {
+  display: block;
+  z-index: 1;
+  width: 4rem;
+  height: 100%;
+  position: fixed;
+  background-color: whitesmoke;
+  transition: 400ms ease-in-out;
+  box-shadow: var(--primary-color) 0px 0.5px 1.5px,
+    rgba(0, 0, 0, 0.24) 0px 0.5px 1px;
+  .link-text {
+    display: none;
+    transition: 0.05s ease-in-out;
   }
   .cbe__nav-element {
     max-width: 95%;
     min-width: 2.5rem;
-    margin: 0.5rem 0.125rem;
-    transition: width 1s ease-in-out;
+    margin: 1.5rem 0.125rem;
+    transition: max-width 400ms ease-in-out;
     &:hover {
       width: 100%;
     }
     a {
+      color: var(--primary-color);
       margin: 0;
-      transition: 0.25s ease-in-out;
-      display: flex;
-      justify-content: space-between;
-      flex-flow: row;
+      transition: 400ms ease-in-out;
+      i {
+        color: var(--primary-color);
+      }
       &:hover {
-        background: var(--primary-color);
-        color: var(--background-color);
-        font-weight: bold;
         i {
-          color: var(--background-color);
-          font-size: 1.2em;
-          margin-right: 0.4rem;
+          color: var(--secondary-color);
         }
+      }
+    }
+  }
+}
+
+.cbe__mobile-nav:hover {
+  width: 12rem;
+  .link-text {
+    display: block;
+    justify-content: baseline;
+    align-items: baseline;
+  }
+  .cbe__nav-element {
+    min-width: 95%;
+    margin: 0.5rem;
+    padding: 0.25rem;
+    a {
+      border-radius: 0.25rem;
+      border: 0.5px solid var(--secondary-color);
+      color: var(--primary-color);
+      text-decoration: none;
+      display: flex;
+      flex-flow: row;
+      justify-content: space-between;
+      align-items: baseline;
+      padding: 0.5rem 1rem;
+      .link-text {
+        margin: 0;
       }
     }
   }
