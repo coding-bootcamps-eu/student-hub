@@ -1,5 +1,15 @@
 <template>
-  <nav class="cbe__mobile-nav" v-if="mobileNavigation">
+  <nav
+    class="cbe__mobile-nav"
+    v-if="mobileNavigation"
+    v-bind:style="{ width: openMobileNav ? '12rem' : '4rem' }"
+    @mouseenter="openMobileNav = true"
+    @mouseleave="openMobileNav = false"
+    v-on:touchstart="openMobileNav = true"
+    v-on:touchmove="openMobileNav = true"
+    v-on:touchend="openMobileNav = false"
+    @focus="openMobileNav = true"
+  >
     <img
       class="header-logo"
       alt="Coding Bootcamp Europe Logo"
@@ -17,30 +27,31 @@
               studentKey: this.$store.getters.getCurrentUserID,
             },
           }"
+          @click="removeNavWidthCauseClick"
           ><p class="link-text">Profile</p>
           <i class="fas fa-user-circle"></i
         ></router-link>
       </li>
       <li class="cbe__nav-element" v-if="isTeacher">
-        <router-link to="/teacherhub"
+        <router-link to="/teacherhub" @click="removeNavWidthCauseClick"
           ><p class="link-text">Teacher</p>
           <i class="fas fa-school"></i
         ></router-link>
       </li>
       <li class="cbe__nav-element">
-        <router-link to="/amaview"
+        <router-link to="/amaview" @click="removeNavWidthCauseClick"
           ><p class="link-text">AMA</p>
           <i class="fas fa-question-circle"></i
         ></router-link>
       </li>
       <li class="cbe__nav-element">
-        <router-link to="/rotitool"
+        <router-link to="/rotitool" @click="removeNavWidthCauseClick"
           ><p class="link-text">ROTI</p>
           <i class="fas fa-clock"></i
         ></router-link>
       </li>
       <li class="cbe__nav-element">
-        <router-link to="/lessonrecordings"
+        <router-link to="/lessonrecordings" @click="removeNavWidthCauseClick"
           ><p class="link-text">Recordings</p>
           <i class="fas fa-video"></i
         ></router-link>
@@ -60,6 +71,7 @@ export default {
     return {
       mobileNavigation: window.matchMedia(screen && "(max-width:555px)")
         .matches,
+      openMobileNav: false,
     };
   },
   created() {
@@ -70,6 +82,15 @@ export default {
       this.mobileNavigation = window.matchMedia(
         screen && "(max-width:555px)"
       ).matches;
+    },
+    addNavWidth() {
+      event.target.style.width = 12 + "rem";
+    },
+    removeNavWidth() {
+      event.target.style.width = 4 + "rem";
+    },
+    removeNavWidthCauseClick() {
+      this.openMobileNav = false;
     },
   },
   computed: {
@@ -154,7 +175,6 @@ export default {
 }
 
 .cbe__mobile-nav:hover {
-  width: 12rem;
   .link-text {
     display: block;
     justify-content: baseline;
