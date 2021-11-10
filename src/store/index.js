@@ -9,6 +9,7 @@ import {
   onSnapshot,
   query,
   where,
+  getDoc,
 } from "firebase/firestore";
 
 export default createStore({
@@ -50,6 +51,7 @@ export default createStore({
     allQuestions: [],
     usersVotedQuestion: [],
     questionFilterStatus: "All",
+    singleQuestion: {},
   },
   mutations: {
     //<- Current User Mutations ->
@@ -131,6 +133,9 @@ export default createStore({
     },
     setAllQuestions(state, payload) {
       state.allQuestions = payload.allQuestions;
+    },
+    setSingleQuestion(state, payload) {
+      state.singleQuestion = payload.question;
     },
 
     // <- ROTI - TOOL ->
@@ -317,6 +322,17 @@ export default createStore({
         });
       }
     },
+    async setSingleQuestion(state, payload) {
+      const questionRef = doc(firestore, "ama-questions", payload.questionKey);
+      const questionSnap = await getDoc(questionRef);
+      if (questionSnap.exists()) {
+        state.commit("setSingleQuestion", {
+          question: questionSnap.data(),
+        });
+      } else {
+        console.log("No such document!");
+      }
+    },
     //<-ROTI-TOOL->
     async setUserRotis(state, payload) {
       onSnapshot(doc(firestore, "all-users", payload), (doc) => {
@@ -401,6 +417,9 @@ export default createStore({
     },
     getAllQuestions(state) {
       return state.allQuestions;
+    },
+    getSingleQuestion(state) {
+      return state.singleQuestion;
     },
 
     //<-ROTI-TOOL->
