@@ -26,6 +26,14 @@ const routes = [
       import(/* webpackChunkName: "amaview" */ "../views/AMATool/AMAView.vue"),
   },
   {
+    path: "/questions/:questionKey",
+    name: "QuestionDetailsView",
+    component: () =>
+      import(
+        /* webpackChunkName: "QuestionDetails" */ "../views/AMATool/QuestionDetailsView.vue"
+      ),
+  },
+  {
     path: "/learnprogress",
     name: "Learn-Progress",
     component: () =>

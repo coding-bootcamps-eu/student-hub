@@ -1,7 +1,17 @@
 <template>
   <li data-cy="list-element">
     <div class="question-heading">
-      {{ questionTitle }}
+      <router-link
+        class="question-title"
+        :to="{
+          name: 'QuestionDetailsView',
+          params: {
+            questionKey,
+          },
+        }"
+      >
+        {{ questionTitle }}
+      </router-link>
       <div class="inner-question-wrapper">
         <span class="who-asked">
           Frage von: <br />
