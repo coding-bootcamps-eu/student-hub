@@ -5,6 +5,9 @@
     v-bind:style="{ width: openMobileNav ? '12rem' : '4rem' }"
     @mouseenter="openMobileNav = true"
     @mouseleave="openMobileNav = false"
+    v-on:touchstart="openMobileNav = true"
+    v-on:touchmove="openMobileNav = true"
+    v-on:touchend="openMobileNav = false"
     @focus="openMobileNav = true"
   >
     <img
