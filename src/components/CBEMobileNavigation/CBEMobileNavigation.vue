@@ -28,31 +28,31 @@
             },
           }"
           @click="removeNavWidthCauseClick"
-          ><p class="link-text">Profile</p>
+          ><p v-if="openMobileNav">Profile</p>
           <i class="fas fa-user-circle"></i
         ></router-link>
       </li>
       <li class="cbe__nav-element" v-if="isTeacher">
         <router-link to="/teacherhub" @click="removeNavWidthCauseClick"
-          ><p class="link-text">Teacher</p>
+          ><p v-if="openMobileNav">Teacher</p>
           <i class="fas fa-school"></i
         ></router-link>
       </li>
       <li class="cbe__nav-element">
         <router-link to="/amaview" @click="removeNavWidthCauseClick"
-          ><p class="link-text">AMA</p>
+          ><p v-if="openMobileNav">AMA</p>
           <i class="fas fa-question-circle"></i
         ></router-link>
       </li>
       <li class="cbe__nav-element">
         <router-link to="/rotitool" @click="removeNavWidthCauseClick"
-          ><p class="link-text">ROTI</p>
+          ><p v-if="openMobileNav">ROTI</p>
           <i class="fas fa-clock"></i
         ></router-link>
       </li>
       <li class="cbe__nav-element">
         <router-link to="/lessonrecordings" @click="removeNavWidthCauseClick"
-          ><p class="link-text">Recordings</p>
+          ><p v-if="openMobileNav">Recordings</p>
           <i class="fas fa-video"></i
         ></router-link>
       </li>
