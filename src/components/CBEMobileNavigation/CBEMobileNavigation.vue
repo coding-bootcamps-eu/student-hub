@@ -2,8 +2,10 @@
   <nav
     class="cbe__mobile-nav"
     v-if="mobileNavigation"
-    @mouseenter="addNavWidth"
-    @mouseleave="removeNavWidth"
+    v-bind:style="{ width: openMobileNav ? '12rem' : '4rem' }"
+    @mouseenter="openMobileNav = true"
+    @mouseleave="openMobileNav = false"
+    @focus="openMobileNav = true"
   >
     <img
       class="header-logo"
@@ -66,6 +68,7 @@ export default {
     return {
       mobileNavigation: window.matchMedia(screen && "(max-width:555px)")
         .matches,
+      openMobileNav: false,
     };
   },
   created() {
@@ -84,8 +87,7 @@ export default {
       event.target.style.width = 4 + "rem";
     },
     removeNavWidthCauseClick() {
-      event.target.parentElement.parentElement.parentElement.parentElement.style.width =
-        4 + "rem";
+      this.openMobileNav = false;
     },
   },
   computed: {
