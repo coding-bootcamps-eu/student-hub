@@ -13,6 +13,13 @@
       />
     </div>
     <div class="question-button-wrapper">
+      <div
+        class="question-status done"
+        v-if="computedQuestion.questionIsDone === true"
+      >
+        Done
+      </div>
+      <div class="question-status open" v-else>Open</div>
       <cbe-main-btn
         id="button"
         buttonClass="primary"
@@ -101,6 +108,28 @@ section {
     padding-left: 0.25rem;
     border-left: 0.5px dotted var(--primary-color);
   }
+}
+
+.question-button-wrapper {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+}
+.question-status {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 0.25rem;
+  border-radius: 0.25rem;
+  font-size: 0.7em;
+  font-weight: bold;
+}
+.open {
+  background: var(--success-color);
+  color: var(--font-color);
+}
+.done {
+  background: var(--fail-color);
+  color: var(--background-color);
 }
 
 @media screen and (min-width: 555px) {
