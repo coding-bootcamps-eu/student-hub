@@ -283,7 +283,6 @@ export default createStore({
             questionData: doc.data(),
           });
         });
-        _questions.slice(0).sort(this.compareVotes);
         state.commit({
           type: "setAllQuestions",
           allQuestions: _questions,
@@ -300,7 +299,6 @@ export default createStore({
           questionKey: doc.id,
           questionData: doc.data(),
         });
-        _questions.slice(0).sort(this.compareVotes);
         state.commit({
           type: "setAllQuestions",
           allQuestions: _questions,
@@ -349,15 +347,6 @@ export default createStore({
           userRotis: doc.data().studentRotis,
         });
       });
-    },
-  },
-  methods: {
-    compareVotes(a, b) {
-      if (a.questionData.questionUpvotes > b.questionData.questionUpvotes)
-        return -1;
-      if (a.questionData.questionUpvotes < b.questionData.questionUpvotes)
-        return 1;
-      return 0;
     },
   },
   modules: {},

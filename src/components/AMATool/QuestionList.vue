@@ -48,10 +48,10 @@
           :questionUpvotes="question.questionData.questionUpvotes"
           :questionIsDone="question.questionData.questionIsDone"
           v-bind="question"
-          @upvote="voteQuestion(question.questionKey, getUserID())"
+          @upvote="voteQuestion(question.questionKey, currentUserID)"
           @answer="answerQuestion(question.questionKey)"
           @takebackanswer="takebackanswer(question.questionKey)"
-          @downvote="downVote(question.questionKey, getUserID())"
+          @downvote="downVote(question.questionKey, currentUserID)"
         />
       </ol>
     </div>
@@ -74,44 +74,16 @@ import {
 
 export default {
   name: "QuestionList",
-  props: ["question"],
-  el: "#questionList",
   components: {
     QuestionListElement,
   },
   data() {
     return {
-      questionsDOM: [],
       usersVotedQuestionDOM: [],
-      watchedQuestion: null,
       questionFilterStatus: "All",
-      storageKeyUserID: "userID",
-      storageKeyVoteStatus: "voteStatus",
-      userID: this.$store.getters.getCurrentUserID,
     };
   },
-  watch: {
-    question: function (question) {
-      this.watchedQuestion = { ...question };
-    },
-  },
   methods: {
-    async getAllQuestions() {
-      const querySnapshot = await getDocs(
-        collection(firestore, "ama-questions")
-      );
-      querySnapshot.forEach((doc) => {
-        this.questionsDOM.push({
-          questionKey: doc.id,
-          questionData: doc.data(),
-        });
-      });
-      this.questionsDOM = this.questionsDOM.slice(0).sort(this.compareVotes);
-      this.$store.commit({
-        type: "setAllQuestions",
-        allQuestions: this.questionsDOM,
-      });
-    },
     async initUsersVotedQuestion() {
       const querySnapshot = await getDocs(
         collection(firestore, "ama-questions")
@@ -125,27 +97,28 @@ export default {
       });
     },
     /**
-     * On each Datachange, update the questionsDOM Array with new Data
+     * Question Voting
      */
-    onDataChange(changedQuestions) {
-      let _questions = [];
-      changedQuestions.forEach((changedQuestion) => {
-        let questionKey = changedQuestion.key;
-        let changedData = changedQuestion.val();
-        _questions.push({
-          questionKey: questionKey,
-          ...changedData,
+    async voteQuestion(questionKey, userIDInc) {
+      await this.createUsersVotedArray(questionKey);
+      if (this.isUserAllowedToVote(userIDInc) === true) {
+        const questionRef = doc(firestore, "ama-questions", questionKey);
+        updateDoc(questionRef, {
+          usersVotedQuestion: arrayUnion(userIDInc),
         });
-      });
-      this.questionsDOM = _questions;
-      this.questionsDOM = this.questionsDOM.slice(0).sort(this.compareVotes);
+        const docRef = doc(firestore, "ama-questions", questionKey);
+        getDoc(docRef).then((docSnap) => {
+          if (docSnap.exists()) {
+            const voteRef = doc(firestore, "ama-questions", questionKey);
+            updateDoc(voteRef, {
+              questionUpvotes: docSnap.data().questionUpvotes + 1,
+            });
+          }
+        });
+      }
+      this.$store.dispatch("updateAllQuestions");
     },
 
-    getUserID() {
-      if (this.$store.getters.getUserLoginState === true) {
-        return this.$store.getters.getCurrentUserID;
-      }
-    },
     async createUsersVotedArray(questionKey) {
       const querySnapshot = await getDocs(
         collection(firestore, "ama-questions")
@@ -170,26 +143,6 @@ export default {
       }
     },
 
-    async voteQuestion(questionKey, userIDInc) {
-      await this.createUsersVotedArray(questionKey);
-      if (this.isUserAllowedToVote(userIDInc) === true) {
-        const questionRef = doc(firestore, "ama-questions", questionKey);
-        updateDoc(questionRef, {
-          usersVotedQuestion: arrayUnion(userIDInc),
-        });
-        const docRef = doc(firestore, "ama-questions", questionKey);
-        getDoc(docRef).then((docSnap) => {
-          if (docSnap.exists()) {
-            const voteRef = doc(firestore, "ama-questions", questionKey);
-            updateDoc(voteRef, {
-              questionUpvotes: docSnap.data().questionUpvotes + 1,
-            });
-          }
-        });
-      }
-      this.$store.dispatch("updateAllQuestions");
-    },
-
     downVote(questionKey, userIDInc) {
       this.createUsersVotedArray(questionKey);
       const questionRef = doc(firestore, "ama-questions", questionKey);
@@ -207,7 +160,9 @@ export default {
       });
       this.$store.dispatch("updateAllQuestions");
     },
-
+    /**
+     * Question interaction
+     */
     async answerQuestion(questionKey) {
       const questionRef = doc(firestore, "ama-questions", questionKey);
       await updateDoc(questionRef, {
@@ -223,6 +178,7 @@ export default {
       });
       this.$store.dispatch("updateAllQuestions");
     },
+
     compareVotes(a, b) {
       if (a.questionData.questionUpvotes > b.questionData.questionUpvotes)
         return -1;
@@ -232,18 +188,29 @@ export default {
     },
   },
   computed: {
+    currentUserID() {
+      return this.$store.getters.getCurrentUserID;
+    },
     filteredQuestions: function () {
       let questionFilterStatus = this.questionFilterStatus;
       if (questionFilterStatus === "All") {
-        return this.$store.getters.getAllQuestions;
+        return this.$store.getters.getAllQuestions
+          .slice(0)
+          .sort(this.compareVotes);
       } else if (questionFilterStatus === "false") {
-        return this.$store.getters.getAllQuestions.filter((question) => {
-          return question.questionData.questionIsDone === false;
-        });
+        return this.$store.getters.getAllQuestions
+          .slice(0)
+          .sort(this.compareVotes)
+          .filter((question) => {
+            return question.questionData.questionIsDone === false;
+          });
       } else {
-        return this.$store.getters.getAllQuestions.filter((question) => {
-          return question.questionData.questionIsDone === true;
-        });
+        return this.$store.getters.getAllQuestions
+          .slice(0)
+          .sort(this.compareVotes)
+          .filter((question) => {
+            return question.questionData.questionIsDone === true;
+          });
       }
     },
   },
@@ -265,7 +232,7 @@ ol > li {
   display: flex;
   flex-flow: row;
   align-items: flex-start;
-  padding-left: 2rem;
+  padding: 1.5rem 0 1rem 2.5rem;
   label {
     margin-right: 1rem;
   }

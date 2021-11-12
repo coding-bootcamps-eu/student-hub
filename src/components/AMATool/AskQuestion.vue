@@ -149,8 +149,8 @@ export default {
   methods: {
     async addQuestionToUser(question) {
       this.$store.dispatch("addQuestionToStudent", {
-        question: question,
         currentUserID: this.$store.getters.getCurrentUserID,
+        question: question,
       });
     },
     validateQuestion() {
