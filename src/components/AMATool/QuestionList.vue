@@ -84,6 +84,9 @@ export default {
     };
   },
   methods: {
+    /**
+     * Question Voting
+     */
     async initUsersVotedQuestion() {
       const querySnapshot = await getDocs(
         collection(firestore, "ama-questions")
@@ -96,9 +99,28 @@ export default {
         vote: this.usersVotedQuestionDOM,
       });
     },
-    /**
-     * Question Voting
-     */
+    async createUsersVotedArray(questionKey) {
+      const querySnapshot = await getDocs(
+        collection(firestore, "ama-questions")
+      );
+      querySnapshot.forEach((doc) => {
+        if (doc.id === questionKey) {
+          this.usersVotedQuestionDOM.push(...doc.data().usersVotedQuestion);
+          this.$store.commit({
+            type: "setUsersVotedQuestion",
+            vote: this.usersVotedQuestionDOM,
+          });
+        }
+      });
+      this.$store.dispatch("updateAllQuestions");
+    },
+    isUserAllowedToVote(userIDInc) {
+      if (this.$store.getters.getUsersVotedQuestion.includes(userIDInc)) {
+        return false;
+      } else {
+        return true;
+      }
+    },
     async voteQuestion(questionKey, userIDInc) {
       await this.createUsersVotedArray(questionKey);
       if (this.isUserAllowedToVote(userIDInc) === true) {
@@ -118,31 +140,6 @@ export default {
       }
       this.$store.dispatch("updateAllQuestions");
     },
-
-    async createUsersVotedArray(questionKey) {
-      const querySnapshot = await getDocs(
-        collection(firestore, "ama-questions")
-      );
-      querySnapshot.forEach((doc) => {
-        if (doc.id === questionKey) {
-          this.usersVotedQuestionDOM.push(...doc.data().usersVotedQuestion);
-          this.$store.commit({
-            type: "setUsersVotedQuestion",
-            vote: this.usersVotedQuestionDOM,
-          });
-        }
-      });
-      this.$store.dispatch("updateAllQuestions");
-    },
-
-    isUserAllowedToVote(userIDInc) {
-      if (this.$store.getters.getUsersVotedQuestion.includes(userIDInc)) {
-        return false;
-      } else {
-        return true;
-      }
-    },
-
     downVote(questionKey, userIDInc) {
       this.createUsersVotedArray(questionKey);
       const questionRef = doc(firestore, "ama-questions", questionKey);
@@ -178,7 +175,9 @@ export default {
       });
       this.$store.dispatch("updateAllQuestions");
     },
-
+    /**
+     * Question sorting by votes
+     */
     compareVotes(a, b) {
       if (a.questionData.questionUpvotes > b.questionData.questionUpvotes)
         return -1;
