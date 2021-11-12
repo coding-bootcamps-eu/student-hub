@@ -108,6 +108,14 @@ export default {
       let year = date.getFullYear();
       let hours = date.getHours();
       let minutes = date.getMinutes();
+      if (day.toString().length === 1) {
+        let _day = "0" + day;
+        day = _day;
+      }
+      if (hours.toString().length === 1) {
+        let _hours = "0" + hours;
+        hours = _hours;
+      }
       if (minutes.toString().length === 1) {
         let _minutes = minutes + "0";
         minutes = _minutes;
