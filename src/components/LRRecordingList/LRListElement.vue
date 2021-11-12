@@ -9,14 +9,14 @@
       <cbe-main-btn
         buttonClass="secondary"
         @click="$emit('removeRecording')"
-        v-if="this.$store.getters.getCurrentUserRole === 'teacher'"
+        v-if="currentUserRole === 'teacher'"
       >
         Remove
       </cbe-main-btn>
       <cbe-main-btn
         buttonClass="primary"
         @click="$emit('addDescription')"
-        v-if="this.$store.getters.getCurrentUserRole === 'teacher'"
+        v-if="currentUserRole === 'teacher'"
       >
         Add description
       </cbe-main-btn>
@@ -28,6 +28,11 @@
 export default {
   name: "LRListElement",
   emits: ["removeRecording", "addDescription"],
+  computed: {
+    currentUserRole() {
+      return this.$store.getters.getCurrentUserRole;
+    },
+  },
   props: {
     date: {
       type: String,

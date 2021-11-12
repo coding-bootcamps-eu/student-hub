@@ -149,7 +149,7 @@ export default {
         : this.questionIsDone;
     },
     isUserAllowedToVote(userIDInc) {
-      return this.$store.getters.getUsersVotedQuestion.includes(userIDInc) ===
+      return this.$store.getters.getUsersVotedQuestion.includes(userIDInc) ??
         null
         ? false
         : true;
