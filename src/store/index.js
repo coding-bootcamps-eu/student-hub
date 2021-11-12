@@ -10,6 +10,8 @@ import {
   query,
   where,
   getDoc,
+  arrayUnion,
+  updateDoc,
 } from "firebase/firestore";
 
 export default createStore({
@@ -332,6 +334,12 @@ export default createStore({
       } else {
         console.log("No such document!");
       }
+    },
+    async addQuestionToStudent(payload) {
+      const studentRef = doc(firestore, "all-users", payload.currentUserID);
+      await updateDoc(studentRef, {
+        studentQuestions: arrayUnion(payload.question),
+      });
     },
     //<-ROTI-TOOL->
     async setUserRotis(state, payload) {

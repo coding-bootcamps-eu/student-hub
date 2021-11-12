@@ -110,13 +110,7 @@
 import Markdown from "vue3-markdown-it";
 import "highlight.js/styles/github.css";
 import firestore from "@/firestore";
-import {
-  collection,
-  addDoc,
-  doc,
-  arrayUnion,
-  updateDoc,
-} from "firebase/firestore";
+import { collection, addDoc } from "firebase/firestore";
 
 import RadioButton from "./RadioButton.vue";
 export default {
@@ -154,13 +148,9 @@ export default {
   },
   methods: {
     async addQuestionToUser(question) {
-      const studentRef = doc(
-        firestore,
-        "all-users",
-        this.$store.getters.getCurrentUserID
-      );
-      await updateDoc(studentRef, {
-        studentQuestions: arrayUnion(question),
+      this.$store.dispatch("addQuestionToStudent", {
+        question: question,
+        currentUserID: this.$store.getters.getCurrentUserID,
       });
     },
     validateQuestion() {
@@ -190,9 +180,6 @@ export default {
     },
     initQuestions() {
       firestore;
-      // initiated with send-button. questionToList will be new stringify-Entry and will be pushed in array - later new DB-entry.
-      // todo: check min-length of title/description?
-      // afterwards delete this.title, this.description. Later on have to check all the attributes.
       let validation = this.validateQuestion();
       if (validation) {
         let fullDate = new Date();
@@ -214,7 +201,6 @@ export default {
           usersVotedQuestion: this.currentQuestion.usersVotedQuestion,
         };
         this.questionArray.push(questionToList);
-        // creates database entry with given questionToList
         addDoc(collection(firestore, "ama-questions"), {
           ...questionToList,
         });
@@ -274,11 +260,9 @@ export default {
         ? "question-description"
         : "question-description red-border";
     },
-
     userValidation() {
       return this.$store.getters.getUserLoginState === null ? false : true;
     },
-
     togglePreview() {
       if (
         this.currentQuestion.questionDescription.length === 0 &&
@@ -289,7 +273,6 @@ export default {
         return this.previewIsVisible;
       }
     },
-
     buttonText() {
       return this.togglePreview === true
         ? "VORSCHAU AUSBLENDEN"

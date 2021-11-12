@@ -52,7 +52,6 @@
           </p>
         </li>
       </ul>
-
       <ul class="list sp__student-roti-list" v-if="rotisShown">
         <legend>Roti-Liste</legend>
         <li
