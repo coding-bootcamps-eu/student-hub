@@ -1,6 +1,6 @@
 # cbe-tool
 
-## What is it?
+## What is it??
 
 The CBE- Tool is an organizing tool for coding bootcamps europe 
 
