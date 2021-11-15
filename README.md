@@ -2,7 +2,7 @@
 
 ## What is it?
 
-The CBE- Tool is an organizing tool for coding bootcamps europe
+The Student-Hub is an organizing tool for coding bootcamps europe
 
 ## Functions included
 

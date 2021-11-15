@@ -6,8 +6,8 @@
         alt="Coding Bootcamp Europe Logo"
         src="@/assets/cbe-logo-plain.png"
       />
-      <h1 class="big-title">Coding Bootcamp EU - Tool</h1>
-      <h1 class="small-title">CBE - Tool</h1>
+      <h1 class="big-title">Student-Hub</h1>
+      <h1 class="small-title">Student-Hub</h1>
     </div>
   </header>
 </template>
