@@ -1,10 +1,10 @@
-# cbe-tool
+# student-hub
 
-## What is it=!=!=!
+## What is it?
 
 The CBE- Tool is an organizing tool for coding bootcamps europe
 
-## Functions included=!=!=!=!
+## Functions included
 
 ### As a Teacher
 
