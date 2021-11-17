@@ -59,6 +59,7 @@ export default createStore({
      */
     studentLP: {},
     teacherLP: {},
+    currentLP: {},
   },
   mutations: {
     //<- Current User Mutations ->
@@ -157,6 +158,9 @@ export default createStore({
     },
     setTeacherLP(state, payload) {
       state.teacherLP = payload.teacherLP;
+    },
+    setCurrentLP(state, payload) {
+      state.currentLP = payload.currentLP;
     },
   },
   actions: {
@@ -377,11 +381,22 @@ export default createStore({
       }
     },
     async setTeacherLP(state, payload) {
-      const lpRef = doc(firestore, "learn-progress", payload.lpKey);
+      const lpRef = doc(firestore, "lp-answers", payload.lpKey);
       const lpSnap = await getDoc(lpRef);
       if (lpSnap.exists()) {
         state.commit("setTeacherLP", {
           teacherLP: lpSnap.data(),
+        });
+      } else {
+        console.log("No such document!");
+      }
+    },
+    async setCurrentLP(state, payload) {
+      const lpRef = doc(firestore, "learn-progress", payload.lpKey);
+      const lpSnap = await getDoc(lpRef);
+      if (lpSnap.exists()) {
+        state.commit("setCurrentLP", {
+          currentLP: lpSnap.data(),
         });
       } else {
         console.log("No such document!");
@@ -469,6 +484,9 @@ export default createStore({
     },
     getTeacherLP(state) {
       return state.teacherLP;
+    },
+    getCurrentLP(state) {
+      return state.currentLP;
     },
   },
 });
