@@ -1,8 +1,8 @@
 <template>
   <section>
-    <h2>Hier steht die Frage</h2>
+    <h2>{{ lpLegend }}</h2>
     <LPSlideBar />
-    <textarea placeholder="optional"></textarea>
+    <textarea :placeholder="lp__placeholder"></textarea>
   </section>
 </template>
 
