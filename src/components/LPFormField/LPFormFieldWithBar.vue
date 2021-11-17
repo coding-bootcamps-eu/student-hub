@@ -1,6 +1,6 @@
 <template>
-  <section>
-    <h2>Hier steht die Frage</h2>
+  <section class="lpFormfieldWithBar">
+    <p>Hier steht die Frage</p>
     <LPSlideBar />
     <textarea placeholder="optional"></textarea>
   </section>
@@ -16,4 +16,21 @@ export default {
 };
 </script>
 
-<style></style>
+<style scoped>
+.lpFormfieldWithBar {
+  border: 2px solid rebeccapurple;
+  margin-bottom: 20px;
+  border-radius: 10px;
+}
+p {
+  text-align: start;
+  margin-left: 10px;
+  font-weight: bold;
+}
+textarea {
+  border: 1px solid rebeccapurple;
+  width: 98%;
+  height: 130px;
+  border-radius: 10px;
+}
+</style>

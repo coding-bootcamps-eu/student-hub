@@ -12,8 +12,8 @@
         <LPFormFieldWithoutBar />
       </div>
       <div>
-        <button>Abrechen</button>
-        <button>Abschicken</button>
+        <button class="button-abbruch">Abrechen</button>
+        <button class="button-send">Abschicken</button>
       </div>
     </form>
   </section>
@@ -31,4 +31,18 @@ export default {
 };
 </script>
 
-<style></style>
+<style scoaped>
+button {
+  background: rebeccapurple;
+  width: 150px;
+  height: 40px;
+}
+.button-abbruch {
+  float: left;
+  margin-top: -20px;
+}
+.button-send {
+  float: right;
+  margin-top: -20px;
+}
+</style>
