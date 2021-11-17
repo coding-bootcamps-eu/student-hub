@@ -402,6 +402,11 @@ export default createStore({
         console.log("No such document!");
       }
     },
+    async addLPToStudent(payload) {
+      console.log(payload);
+      const studentRef = doc(firestore, "all-users", payload.currentUserID);
+      console.log(studentRef);
+    },
   },
   modules: {},
   getters: {

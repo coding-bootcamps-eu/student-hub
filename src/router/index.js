@@ -89,6 +89,12 @@ const routes = [
         /* webpackChunkName: "studentDetails" */ "../views/TeacherHub/StudentDetailView.vue"
       ),
   },
+  {
+    path: "/testArea",
+    name: "testArea",
+    component: () =>
+      import(/* webpackChunkName: "testArea" */ "../views/TestArea.vue"),
+  },
 ];
 
 const router = createRouter({
