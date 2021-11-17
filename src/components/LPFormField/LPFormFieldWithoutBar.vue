@@ -1,14 +1,21 @@
 <template>
   <section>
-    <h2>Hier steht die Frage</h2>
-    <textarea placeholder="optional"></textarea>
+    <h2>{{ lpLegend }}</h2>
+    <textarea :placeholder="lp__placeholder"></textarea>
   </section>
 </template>
 
 <script>
 export default {
   name: "LPFormFieldWithoutBar",
-  props: {},
+  props: {
+    lpLegend: {
+      type: String,
+    },
+    lp__placeholder: {
+      type: String,
+    },
+  },
 };
 </script>
 
