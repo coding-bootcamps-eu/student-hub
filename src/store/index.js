@@ -58,6 +58,7 @@ export default createStore({
      * LearnProgress
      */
     studentLP: {},
+    teacherLP: {},
   },
   mutations: {
     //<- Current User Mutations ->
@@ -153,6 +154,9 @@ export default createStore({
     // <- Learn-Progress ->
     setStudentLP(state, payload) {
       state.studentLP = payload.studentLP;
+    },
+    setTeacherLP(state, payload) {
+      state.teacherLP = payload.teacherLP;
     },
   },
   actions: {
@@ -281,6 +285,7 @@ export default createStore({
         allStudents: _students,
       });
     },
+
     //<-AMA-TOOL->
     updateAllQuestions(state) {
       const q = query(collection(firestore, "ama-questions"));
@@ -348,6 +353,7 @@ export default createStore({
         studentQuestions: arrayUnion(payload.question),
       });
     },
+
     //<-ROTI-TOOL->
     async setUserRotis(state, payload) {
       onSnapshot(doc(firestore, "all-users", payload), (doc) => {
@@ -365,6 +371,17 @@ export default createStore({
       if (lpSnap.exists()) {
         state.commit("setStudentLP", {
           studentLP: lpSnap.data(),
+        });
+      } else {
+        console.log("No such document!");
+      }
+    },
+    async setTeacherLP(state, payload) {
+      const lpRef = doc(firestore, "learn-progress", payload.lpKey);
+      const lpSnap = await getDoc(lpRef);
+      if (lpSnap.exists()) {
+        state.commit("setTeacherLP", {
+          teacherLP: lpSnap.data(),
         });
       } else {
         console.log("No such document!");
@@ -449,6 +466,9 @@ export default createStore({
     //<-Learn-Progress->
     getStudentLP(state) {
       return state.studentLP;
+    },
+    getTeacherLP(state) {
+      return state.teacherLP;
     },
   },
 });
