@@ -12,8 +12,7 @@
         <LPFormFieldWithoutBar />
       </div>
       <div>
-        <button class="button-abbruch">Abrechen</button>
-        <button class="button-send">Abschicken</button>
+        <cbe-main-btn buttonClass="secondary">Text</cbe-main-btn>
       </div>
     </form>
   </section>
@@ -36,6 +35,7 @@ button {
   background: rebeccapurple;
   width: 150px;
   height: 40px;
+  border-radius: 10px;
 }
 .button-abbruch {
   float: left;

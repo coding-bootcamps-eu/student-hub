@@ -19,10 +19,18 @@ input {
 }
 input::-webkit-slider-thumb {
   color: #9146ff;
-  background-color: #9146ff;
   width: 95%;
 }
--webkit-slider-thumb {
-  color: #000;
+input::-moz-range-thumb {
+  color: #9146ff;
+  width: 95%;
+}
+input::-ms-thumb {
+  color: #9146ff;
+  width: 95%;
+}
+input::-webkit-slider-runnable-track {
+  color: #9146ff;
+  width: 95%;
 }
 </style>
