@@ -54,6 +54,10 @@ export default createStore({
     usersVotedQuestion: [],
     questionFilterStatus: "All",
     singleQuestion: {},
+    /**
+     * LearnProgress
+     */
+    studentLP: {},
   },
   mutations: {
     //<- Current User Mutations ->
@@ -144,6 +148,11 @@ export default createStore({
     setUserRotis(state, payload) {
       sessionStorage.setItem("userRotis", JSON.stringify(payload.userRotis));
       state.userRotis = payload.userRotis;
+    },
+
+    // <- Learn-Progress ->
+    setStudentLP(state, payload) {
+      state.studentLP = payload.studentLP;
     },
   },
   actions: {
@@ -348,6 +357,19 @@ export default createStore({
         });
       });
     },
+
+    // <- Learn-Progress ->
+    async setStudentLP(state, payload) {
+      const lpRef = doc(firestore, "learn-progress", payload.lpKey);
+      const lpSnap = await getDoc(lpRef);
+      if (lpSnap.exists()) {
+        state.commit("setStudentLP", {
+          studentLP: lpSnap.data(),
+        });
+      } else {
+        console.log("No such document!");
+      }
+    },
   },
   modules: {},
   getters: {
@@ -422,6 +444,11 @@ export default createStore({
     //<-ROTI-TOOL->
     getUserRotis(state) {
       return state.userRotis;
+    },
+
+    //<-Learn-Progress->
+    getStudentLP(state) {
+      return state.studentLP;
     },
   },
 });
