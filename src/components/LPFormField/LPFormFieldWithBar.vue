@@ -1,6 +1,6 @@
 <template>
   <section>
-    <h2>{{ lpLegend }}</h2>
+    <legend>{{ lpLegend }}</legend>
     <LPSlideBar />
     <textarea
       placeholder="Bitte gebe einen zusätzlichen Kommentar ab."
