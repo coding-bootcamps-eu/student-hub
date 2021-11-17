@@ -2,7 +2,9 @@
   <section>
     <h2>{{ lpLegend }}</h2>
     <LPSlideBar />
-    <textarea :placeholder="lp__placeholder"></textarea>
+    <textarea
+      placeholder="Bitte gebe einen zusätzlichen Kommentar ab."
+    ></textarea>
   </section>
 </template>
 
@@ -12,6 +14,11 @@ export default {
   name: "LPFormFieldWithBar",
   components: {
     LPSlideBar,
+  },
+  props: {
+    lpLegend: {
+      type: String,
+    },
   },
 };
 </script>
