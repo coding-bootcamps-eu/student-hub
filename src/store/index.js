@@ -57,7 +57,7 @@ export default createStore({
     /**
      * LearnProgress
      */
-    studentLP: {},
+    studentLP: [],
     teacherLP: {},
     currentLP: {},
   },
@@ -370,15 +370,21 @@ export default createStore({
 
     // <- Learn-Progress ->
     async setStudentLP(state, payload) {
-      const lpRef = doc(firestore, "learn-progress", payload.lpKey);
-      const lpSnap = await getDoc(lpRef);
-      if (lpSnap.exists()) {
-        state.commit("setStudentLP", {
-          studentLP: lpSnap.data(),
-        });
-      } else {
-        console.log("No such document!");
-      }
+      let _lps = [];
+      const q = query(
+        collection(firestore, "learn-progress"),
+        where("userID", "==", payload.userID)
+      );
+      const querySnapshot = await getDocs(q);
+
+      querySnapshot.forEach((doc) => {
+        _lps.push(doc.data());
+      });
+      state.commit({
+        type: "setStudentLP",
+        studentLP: _lps,
+      });
+      console.log(_lps);
     },
     async setTeacherLP(state, payload) {
       const lpRef = doc(firestore, "lp-answers", payload.lpKey);
@@ -402,10 +408,12 @@ export default createStore({
         console.log("No such document!");
       }
     },
-    async addLPToStudent(payload) {
-      console.log(payload);
-      const studentRef = doc(firestore, "all-users", payload.currentUserID);
-      console.log(studentRef);
+    async updateLP(payload) {
+      console.log(payload.key);
+      const lpRef = doc(firestore, "learn-progress", payload);
+      await updateDoc(lpRef, {
+        answerNeeded: false,
+      });
     },
   },
   modules: {},

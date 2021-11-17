@@ -4,13 +4,7 @@
 
 <script>
 import firestore from "@/firestore";
-import {
-  collection,
-  addDoc,
-  updateDoc,
-  arrayUnion,
-  doc,
-} from "firebase/firestore";
+import { collection, addDoc } from "firebase/firestore";
 export default {
   name: "AddLP",
   data() {
@@ -18,10 +12,10 @@ export default {
       currentLP: {
         author: "ChristianMLux",
         userID: "ovoC8dWOkQfYOxkJdp8mAUCUbzL2",
-        basicLP: 2,
-        cssLP: 5,
-        htmlLP: 3,
-        jsLP: 5,
+        basicLP: 4,
+        cssLP: 4,
+        htmlLP: 4,
+        jsLP: 4,
         goodInCourse: "Alles tutti in Frutti",
         improvements: "Nothing",
         whatCouldBeBetter: "Nothing",
@@ -31,25 +25,15 @@ export default {
     };
   },
   methods: {
-    async addLPToStudent(currentLP) {
-      const studentRef = doc(
-        firestore,
-        "all-users",
-        this.$store.getters.getCurrentUserID
-      );
-      await updateDoc(studentRef, {
-        studentLPs: arrayUnion(currentLP),
-      });
-    },
     async createLP() {
       this.$store.commit("setCurrentLP", {
         currentLP: this.currentLP,
       });
-      await addDoc(
+      const docRef = await addDoc(
         collection(firestore, "learn-progress"),
         this.$store.getters.getCurrentLP
       );
-      this.addLPToStudent(this.$store.getters.getCurrentLP);
+      console.log(docRef.id);
     },
   },
 };
