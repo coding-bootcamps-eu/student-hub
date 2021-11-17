@@ -1,6 +1,6 @@
 <template>
   <section>
-    <h2>{{ lpLegend }}</h2>
+    <legend>{{ lpLegend }}</legend>
     <textarea :placeholder="lp__placeholder"></textarea>
   </section>
 </template>
