@@ -1,6 +1,6 @@
 <template>
   <section class="lpFormfieldWithBar">
-    <p>Hier steht die Frage</p>
+    <h2>Hier steht die Frage</h2>
     <LPSlideBar />
     <textarea placeholder="optional"></textarea>
   </section>
@@ -22,7 +22,7 @@ export default {
   margin-bottom: 20px;
   border-radius: 10px;
 }
-p {
+h2 {
   text-align: start;
   margin-left: 10px;
   font-weight: bold;

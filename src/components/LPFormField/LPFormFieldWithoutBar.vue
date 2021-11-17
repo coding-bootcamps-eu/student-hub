@@ -1,6 +1,6 @@
 <template>
   <section class="lpFormfieldWithoutBar">
-    <p>Hier steht die Frage</p>
+    <h2>Hier steht die Frage</h2>
     <textarea placeholder="optional"></textarea>
   </section>
 </template>
@@ -18,7 +18,7 @@ export default {
   margin-bottom: 25px;
   border-radius: 10px;
 }
-p {
+h2 {
   text-align: start;
   margin-left: 10px;
   font-weight: bold;

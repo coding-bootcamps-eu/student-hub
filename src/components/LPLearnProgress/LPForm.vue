@@ -30,19 +30,4 @@ export default {
 };
 </script>
 
-<style scoaped>
-button {
-  background: rebeccapurple;
-  width: 150px;
-  height: 40px;
-  border-radius: 10px;
-}
-.button-abbruch {
-  float: left;
-  margin-top: -20px;
-}
-.button-send {
-  float: right;
-  margin-top: -20px;
-}
-</style>
+<style></style>
