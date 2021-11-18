@@ -18,9 +18,9 @@ export default {
 
 <style scoped>
 .lpFormfieldWithBar {
-  border: 2px solid rebeccapurple;
-  margin-bottom: 20px;
-  border-radius: 10px;
+  border: 0.5px solid var(--primary-color);
+  margin-bottom: 1.5rem;
+  border-radius: 0.25rem;
 }
 h2 {
   text-align: start;
@@ -28,9 +28,9 @@ h2 {
   font-weight: bold;
 }
 textarea {
-  border: 1px solid rebeccapurple;
   width: 98%;
   height: 130px;
-  border-radius: 10px;
+  border: 0.5px solid var(--secondary-color);
+  border-radius: 0.25rem;
 }
 </style>
