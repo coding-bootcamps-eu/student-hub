@@ -50,7 +50,7 @@
           :modelValue="currentLP.whatCouldBeBetter"
         />
       </div>
-      <div>
+      <div class="button-wrapper">
         <input type="reset" value="Reset" class="cbe-reset-btn" />
         <cbe-main-btn buttonClass="primary" @click="createLP"
           >Abschicken</cbe-main-btn
@@ -133,6 +133,12 @@ export default {
   outline: none;
   border: 2.5px solid var(--success-color);
 }
+.button-wrapper {
+  display: flex;
+  margin: 1.5rem 4rem 0.8rem 2.5rem;
+  justify-content: space-evenly;
+}
+
 @media screen and (max-width: 975px) {
   .cbe-reset-btn {
     font-size: 0.75rem;
