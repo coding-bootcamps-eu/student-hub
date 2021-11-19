@@ -1,6 +1,13 @@
 <template>
   <section>
-    <input type="range" id="slider-value" min="1" max="10" step="1" />
+    <input
+      class=".slidingTool"
+      type="range"
+      id="slider-value"
+      min="1"
+      max="10"
+      step="1"
+    />
     <label for="slider-value"></label>
   </section>
 </template>
@@ -12,12 +19,20 @@ export default {
 </script>
 
 <style scoped>
-input {
-  color: #9146ff;
-  background-color: #9146ff;
-  width: 95%;
+.slidingTool {
+  -webkit-appearance: none;
+  appearance: none;
+  background-color: red;
+  /*height: 0.5rem;*/
+  border-radius: 0.5rem;
 }
-label {
-  color: var(--primary-color);
+
+.slidingTool::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 1.5rem;
+  /*height: 1.5rem;*/
+  background: red;
+  border-radius: 50%;
 }
 </style>

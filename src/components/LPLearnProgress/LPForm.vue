@@ -32,8 +32,9 @@
           lp__placeholder="Beschreibe was du am Kurs verbessern würdest..."
         />
       </div>
-      <div>
-        <cbe-main-btn buttonClass="primary">Absenden</cbe-main-btn>
+      <div class="buttn-wrapper">
+        <cbe-main-btn buttonClass="primary">ABBRECHEN</cbe-main-btn>
+        <cbe-main-btn buttonClass="secondary">ABSCHICKEN</cbe-main-btn>
       </div>
     </form>
   </section>
@@ -51,4 +52,10 @@ export default {
 };
 </script>
 
-<style scoped></style>
+<style scoped>
+.buttn-wrapper {
+  display: flex;
+  margin: 1.5rem 4rem 0.8rem 2.5rem;
+  justify-content: space-evenly;
+}
+</style>
