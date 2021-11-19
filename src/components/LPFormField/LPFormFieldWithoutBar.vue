@@ -31,6 +31,7 @@ textarea {
   width: 98%;
   border: 1px solid var(--secondary-color);
   border-radius: 0.25rem;
+  height: 20vh;
 }
 placeholder {
   color: rgba(18, 18, 18, 0.493);

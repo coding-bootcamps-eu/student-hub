@@ -35,6 +35,7 @@ textarea {
   width: 98%;
   border: 0.5px solid var(--secondary-color);
   border-radius: 0.25rem;
+  height: 20vh;
 }
 legend {
   text-align: left;
