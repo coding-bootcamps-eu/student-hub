@@ -50,9 +50,9 @@
           :modelValue="currentLP.whatCouldBeBetter"
         />
       </div>
-      <div>
-        <button>Abrechen</button>
-        <button>Abschicken</button>
+      <div class="buttn-wrapper">
+        <cbe-main-btn buttonClass="primary">ABBRECHEN</cbe-main-btn>
+        <cbe-main-btn buttonClass="secondary">ABSCHICKEN</cbe-main-btn>
       </div>
     </form>
   </section>
@@ -92,4 +92,10 @@ export default {
 };
 </script>
 
-<style></style>
+<style scoped>
+.buttn-wrapper {
+  display: flex;
+  margin: 1.5rem 4rem 0.8rem 2.5rem;
+  justify-content: space-evenly;
+}
+</style>
