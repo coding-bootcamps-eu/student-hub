@@ -4,14 +4,15 @@
     <textarea
       :placeholder="lp__placeholder"
       :v-model="modelValue"
-      @keydown="updateValue"
-      @keyup="updateValue"
+      @keydown="updateValueWithoutBar"
+      @keyup="updateValueWithoutBar"
     ></textarea>
   </section>
 </template>
 
 <script>
 export default {
+  emits: ["lp-value-without-bar"],
   name: "LPFormFieldWithoutBar",
   props: {
     lpLegend: {
@@ -24,8 +25,8 @@ export default {
       type: [String, Number],
     },
     methods: {
-      updateValue() {
-        this.$emit("lp-value", event.target.value);
+      updateValueWithoutBar() {
+        this.$emit("lp-value-without-bar", event.target.value);
       },
     },
   },
