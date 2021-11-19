@@ -15,17 +15,23 @@
         <LPFormFieldWithBar
           lpLegend="Wie fit und wohl fühlst du dich in HTML?"
           @lp-value="this.currentLP.htmlLPComment = $event"
+          @slider-value="currentLP.htmlLP = $event"
           :modelValue="currentLP.htmlLP"
+          :lpSliderPropertie="currentLP.htmlLP"
         />
         <LPFormFieldWithBar
           lpLegend="Wie fit und wohl fühlst du dich in CSS?"
           @lp-value="this.currentLP.cssLPComment = $event"
+          @slider-value="currentLP.cssLP = $event"
           :modelValue="currentLP.cssLP"
+          :lpSliderPropertie="currentLP.cssLP"
         />
         <LPFormFieldWithBar
           lpLegend="Wie fit und wohl fühlst du dich in JavaScript?"
           @lp-value="this.currentLP.jsLPComment = $event"
+          @slider-value="currentLP.jsLP = $event"
           :modelValue="currentLP.jsLP"
+          :lpSliderPropertie="currentLP.jsLP"
         />
         <LPFormFieldWithoutBar
           lpLegend="Was lief deiner Meinung nach gut für dich?"

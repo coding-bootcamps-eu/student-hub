@@ -34,9 +34,6 @@ export default {
     updateSliderValue(val) {
       this.$emit("slider-value", val);
     },
-    console(val) {
-      console.log(val);
-    },
   },
 };
 </script>
