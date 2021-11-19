@@ -36,7 +36,7 @@ textarea {
   max-width: 120ch;
   border: 1px solid var(--secondary-color);
   border-radius: 0.25rem;
-  height: 20vh;
+  height: auto;
 }
 legend {
   text-align: left;
