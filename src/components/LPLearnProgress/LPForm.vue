@@ -9,6 +9,7 @@
           lpLegend="Bewerte deinen allgemeinen Lernfortschritt"
           @lp-value="this.currentLP.basicLPComment = $event"
           :modelValue="currentLP.basicLPComment"
+          :lpSliderPropertie="currentLP.basicLP"
         />
         <LPFormFieldWithBar
           lpLegend="Wie fit und wohl fühlst du dich in HTML?"

@@ -5,6 +5,7 @@
       @slider-value="lpSliderPropertie = $event"
       :sliderValue="lpSliderPropertie"
     />
+    {{ lpSliderPropertie }}
     <textarea
       placeholder="Bitte gebe einen zusätzlichen Kommentar ab."
       :v-model="modelValue"

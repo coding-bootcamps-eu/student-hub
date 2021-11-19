@@ -19,13 +19,8 @@ export default {
   emits: ["slider-value"],
   props: {
     sliderValue: {
-      type: String,
+      type: [String, Number],
     },
-  },
-  data() {
-    return {
-      value: 1,
-    };
   },
   methods: {
     updateValue() {
