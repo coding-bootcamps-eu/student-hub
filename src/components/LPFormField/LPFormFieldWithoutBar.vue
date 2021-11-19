@@ -24,10 +24,10 @@ export default {
     modelValue: {
       type: [String, Number],
     },
-    methods: {
-      updateValueWithoutBar() {
-        this.$emit("lp-value-without-bar", event.target.value);
-      },
+  },
+  methods: {
+    updateValueWithoutBar() {
+      this.$emit("lp-value-without-bar", event.target.value);
     },
   },
 };

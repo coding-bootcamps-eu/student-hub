@@ -31,7 +31,6 @@
           @lp-value-without-bar="this.currentLP.goodInCourse = $event"
           :modelValue="currentLP.goodInCourse"
         />
-
         <LPFormFieldWithoutBar
           lpLegend="Was würdest du gerne besser machen?"
           lp__placeholder="Beschreibe was du gerne besser machen würdest..."
@@ -90,11 +89,6 @@ export default {
     LPFormFieldWithBar,
     LPFormFieldWithoutBar,
   },
-  // computed: {
-  //   submitButton() {
-  //     return console.log(this.currentLP);
-  //   },
-  // },
 };
 </script>
 
