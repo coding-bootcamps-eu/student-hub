@@ -8,6 +8,7 @@
         <LPFormFieldWithBar
           lpLegend="Bewerte deinen allgemeinen Lernfortschritt"
           @lp-value="this.currentLP.basicLPComment = $event"
+          @slider-value="currentLP.basicLP = $event"
           :modelValue="currentLP.basicLPComment"
           :lpSliderPropertie="currentLP.basicLP"
         />
