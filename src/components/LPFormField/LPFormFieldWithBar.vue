@@ -1,11 +1,7 @@
 <template>
   <section class="lpformwith">
     <legend>{{ lpLegend }}</legend>
-    <LPSlideBar
-      @slider-value="lpSliderPropertie = $event"
-      :sliderValue="lpSliderPropertie"
-    />
-    {{ lpSliderPropertie }}
+    <LPSlideBar @slider-value="console" />
     <textarea
       placeholder="Bitte gebe einen zusätzlichen Kommentar ab."
       :v-model="modelValue"
@@ -30,13 +26,13 @@ export default {
     modelValue: {
       type: [String, Number],
     },
-    sliderValue: {
-      type: String,
-    },
   },
   methods: {
     updateValue() {
       this.$emit("lp-value", event.target.value);
+    },
+    console(val) {
+      console.log(val);
     },
   },
 };
