@@ -32,7 +32,8 @@ textarea {
   max-width: 120ch;
   border: 1px solid var(--secondary-color);
   border-radius: 0.25rem;
-  height: auto;
+  min-height: 5rem;
+  max-height: 30vh;
 }
 placeholder {
   color: rgba(18, 18, 18, 0.493);

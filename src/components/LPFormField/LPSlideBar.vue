@@ -11,4 +11,8 @@ export default {
 };
 </script>
 
-<style scoped></style>
+<style scoped>
+#slider-value {
+  accent-color: var(--primary-color);
+}
+</style>
