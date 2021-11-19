@@ -28,7 +28,8 @@ section {
 }
 
 textarea {
-  width: 98%;
+  min-width: 350px;
+  max-width: 120ch;
   border: 1px solid var(--secondary-color);
   border-radius: 0.25rem;
   height: 20vh;

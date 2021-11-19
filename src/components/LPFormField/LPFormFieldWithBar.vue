@@ -32,8 +32,9 @@ export default {
 }
 
 textarea {
-  width: 98%;
-  border: 0.5px solid var(--secondary-color);
+  min-width: 350px;
+  max-width: 120ch;
+  border: 1px solid var(--secondary-color);
   border-radius: 0.25rem;
   height: 20vh;
 }
@@ -41,7 +42,7 @@ legend {
   text-align: left;
   padding: 0 0.25rem;
   margin: 0.5rem;
-  border: 0.25px dotted var(--secondary-color);
+  border: 1px dotted var(--secondary-color);
   border-radius: 0.25rem;
   font-size: 0.8em;
 }
