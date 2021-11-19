@@ -1,8 +1,10 @@
 <template>
-  <section class="lpFormfieldWithBar">
-    <h2>Hier steht die Frage</h2>
+  <section class="lpformwith">
+    <legend>{{ lpLegend }}</legend>
     <LPSlideBar />
-    <textarea placeholder="optional"></textarea>
+    <textarea
+      placeholder="Bitte gebe einen zusätzlichen Kommentar ab."
+    ></textarea>
   </section>
 </template>
 
@@ -13,24 +15,33 @@ export default {
   components: {
     LPSlideBar,
   },
+  props: {
+    lpLegend: {
+      type: String,
+    },
+  },
 };
 </script>
 
 <style scoped>
-.lpFormfieldWithBar {
-  border: 0.5px solid var(--primary-color);
+.lpformwith {
+  border: 1px solid var(--primary-color);
   margin-bottom: 1.5rem;
   border-radius: 0.25rem;
+  margin: 1.5rem 4rem 0.8rem 2.5rem;
 }
-h2 {
-  text-align: start;
-  margin-left: 10px;
-  font-weight: bold;
-}
+
 textarea {
   width: 98%;
-  height: 130px;
   border: 0.5px solid var(--secondary-color);
   border-radius: 0.25rem;
+}
+legend {
+  text-align: left;
+  padding: 0 0.25rem;
+  margin: 0.5rem;
+  border: 0.25px dotted var(--secondary-color);
+  border-radius: 0.25rem;
+  font-size: 0.8em;
 }
 </style>

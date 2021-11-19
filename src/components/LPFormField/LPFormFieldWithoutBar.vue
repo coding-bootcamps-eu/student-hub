@@ -1,32 +1,46 @@
 <template>
-  <section class="lpFormfieldWithoutBar">
-    <h2>Hier steht die Frage</h2>
-    <textarea placeholder="optional"></textarea>
+  <section>
+    <legend>{{ lpLegend }}</legend>
+    <textarea :placeholder="lp__placeholder"></textarea>
   </section>
 </template>
 
 <script>
 export default {
   name: "LPFormFieldWithoutBar",
-  props: {},
+  props: {
+    lpLegend: {
+      type: String,
+    },
+    lp__placeholder: {
+      type: String,
+    },
+  },
 };
 </script>
 
 <style scoped>
-.lpFormfieldWithoutBar {
-  border: 0.5px solid var(--primary-color);
+section {
+  border: 1px solid var(--primary-color);
   margin-bottom: 1.5rem;
   border-radius: 0.25rem;
+  margin: 1.5rem 4rem 0.8rem 2.5rem;
 }
-h2 {
-  text-align: start;
-  margin-left: 10px;
-  font-weight: bold;
-}
+
 textarea {
   width: 98%;
-  height: 150px;
-  border: 0.5px solid var(--secondary-color);
+  border: 1px solid var(--secondary-color);
   border-radius: 0.25rem;
+}
+placeholder {
+  color: rgba(18, 18, 18, 0.493);
+}
+legend {
+  text-align: left;
+  padding: 0 0.25rem;
+  margin: 0.5rem;
+  border: 0.25px dotted var(--secondary-color);
+  border-radius: 0.25rem;
+  font-size: 0.8em;
 }
 </style>

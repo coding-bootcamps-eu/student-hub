@@ -17,8 +17,7 @@ input {
   background-color: #9146ff;
   width: 95%;
 }
-input::-webkit-slider-thumb {
-  color: #9146ff;
-  width: 95%;
+label {
+  color: var(--primary-color);
 }
 </style>

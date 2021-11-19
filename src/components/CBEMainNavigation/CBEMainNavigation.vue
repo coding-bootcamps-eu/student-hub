@@ -41,6 +41,12 @@
         ></router-link>
       </li>
       <li class="cbe__nav-element">
+        <router-link to="/testArea"
+          ><p class="link-text">TestArea</p>
+          <i class="fas fa-video"></i
+        ></router-link>
+      </li>
+      <li class="cbe__nav-element">
         <CBEUserLogin />
       </li>
     </ul>
