@@ -1,6 +1,6 @@
 <template>
   <section>
-    <form>
+    <form @input="updateLP">
       <div>
         <!--LP-Value = emit aus child component
          getValue Parent method
@@ -12,17 +12,17 @@
         />
         <LPFormFieldWithBar
           lpLegend="Wie fit und wohl fühlst du dich in HTML?"
-          @lp-value="this.currentLP.htmlLP = $event"
+          @lp-value="this.currentLP.htmlLPComment = $event"
           :modelValue="currentLP.htmlLP"
         />
         <LPFormFieldWithBar
           lpLegend="Wie fit und wohl fühlst du dich in CSS?"
-          @lp-value="this.currentLP.cssLP = $event"
+          @lp-value="this.currentLP.cssLPComment = $event"
           :modelValue="currentLP.cssLP"
         />
         <LPFormFieldWithBar
           lpLegend="Wie fit und wohl fühlst du dich in JavaScript?"
-          @lp-value="this.currentLP.jsLP = $event"
+          @lp-value="this.currentLP.jsLPComment = $event"
           :modelValue="currentLP.jsLP"
         />
         <LPFormFieldWithoutBar
@@ -50,9 +50,11 @@
           :modelValue="currentLP.whatCouldBeBetter"
         />
       </div>
-      <div class="buttn-wrapper">
-        <cbe-main-btn buttonClass="primary">ABBRECHEN</cbe-main-btn>
-        <cbe-main-btn buttonClass="secondary">ABSCHICKEN</cbe-main-btn>
+      <div class="button-wrapper">
+        <input type="reset" value="Reset" class="cbe-reset-btn" />
+        <cbe-main-btn buttonClass="primary" @click="createLP"
+          >Abschicken</cbe-main-btn
+        >
       </div>
     </form>
   </section>
@@ -61,6 +63,10 @@
 <script>
 import LPFormFieldWithBar from "@/components/LPFormField/LPFormFieldWithBar.vue";
 import LPFormFieldWithoutBar from "@/components/LPFormField/LPFormFieldWithoutBar.vue";
+
+import firestore from "@/firestore";
+import { collection, addDoc } from "firebase/firestore";
+
 export default {
   name: "LPForm",
   data() {
@@ -74,7 +80,7 @@ export default {
         cssLP: "",
         cssLPComment: 0,
         htmlLP: "",
-        htmlpLPComment: 0,
+        htmlLPComment: 0,
         jsLP: "",
         jsLPComment: 0,
         goodInCourse: "",
@@ -89,13 +95,61 @@ export default {
     LPFormFieldWithBar,
     LPFormFieldWithoutBar,
   },
+  methods: {
+    updateLP() {
+      this.$store.commit("setCurrentLP", {
+        currentLP: this.currentLP,
+      });
+    },
+    async createLP() {
+      this.currentLP.author = this.$store.getters.getCurrentUserScreenname;
+      this.currentLP.userID = this.$store.getters.getCurrentUserID;
+      this.$store.commit("setCurrentLP", {
+        currentLP: this.currentLP,
+      });
+      const docRef = await addDoc(
+        collection(firestore, "learn-progress"),
+        this.$store.getters.getCurrentLP
+      );
+      console.log(docRef.id);
+    },
+  },
 };
 </script>
 
-<style scoped>
-.buttn-wrapper {
+<style lang="scss" scoped>
+.cbe-reset-btn {
+  color: var(--background-color);
+  font-weight: bold;
+  background-color: var(--primary-color);
+  border: 2.5px solid transparent;
+  border-radius: 0.25rem;
+  padding: 0.3rem 0.7rem;
+  font-family: "Open Sans", sans-serif;
+  font-size: 18px;
+  line-height: 1.5rem;
+}
+.cbe-reset-btn:focus {
+  outline: none;
+  border: 2.5px solid var(--success-color);
+}
+.button-wrapper {
   display: flex;
   margin: 1.5rem 4rem 0.8rem 2.5rem;
   justify-content: space-evenly;
+}
+
+@media screen and (max-width: 975px) {
+  .cbe-reset-btn {
+    font-size: 0.75rem;
+  }
+}
+
+@media screen and (max-width: 720px) {
+  .cbe-reset-btn {
+    font-size: 0.55rem;
+    line-height: 1rem;
+    margin: 0.2rem;
+  }
 }
 </style>
