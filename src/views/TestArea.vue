@@ -3,9 +3,12 @@
   <ReadLP />
   <section>
     <ul>
-      <li v-for="(lp, idx) in studentLP" :key="idx" v-bind="lp">
-        {{ lp.author }}
-        {{ lp.answerNeeded }}
+      <li v-for="lp in studentLP" :key="lp.lpKey" :lpKey="lp.lpKey" v-bind="lp">
+        <router-link :to="{ name: 'lpDetail', params: { lpKey: lp.lpKey } }">
+          {{ lp.lpKey }}
+        </router-link>
+        {{ lp.lpData.author }}
+        {{ lp.lpData.answerNeeded }}
       </li>
     </ul>
   </section>

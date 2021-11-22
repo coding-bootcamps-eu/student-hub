@@ -378,7 +378,11 @@ export default createStore({
       const querySnapshot = await getDocs(q);
 
       querySnapshot.forEach((doc) => {
-        _lps.push(doc.data());
+        console.log(doc.id);
+        _lps.push({
+          lpKey: doc.id,
+          lpData: doc.data(),
+        });
       });
       state.commit({
         type: "setStudentLP",

@@ -50,6 +50,14 @@ const routes = [
       ),
   },
   {
+    path: "/:lpKey",
+    name: "lpDetail",
+    component: () =>
+      import(
+        /* webpackChunkName: "lpdetail" */ "../views/LearnProgress/LP-detail.vue"
+      ),
+  },
+  {
     path: "/rotitool",
     name: "ROTI-Tool",
     component: () =>
