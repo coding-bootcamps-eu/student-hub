@@ -42,6 +42,14 @@ const routes = [
       ),
   },
   {
+    path: "/lpTeacher",
+    name: "lp-teacher",
+    component: () =>
+      import(
+        /* webpackChunkName: "lpTeacher" */ "../views/LearnProgress/LP-teacher.vue"
+      ),
+  },
+  {
     path: "/rotitool",
     name: "ROTI-Tool",
     component: () =>
