@@ -42,6 +42,11 @@
           >
         </p>
       </li>
+      <li>
+        <cbe-main-btn buttonClass="primary" @click="$router.push('lpTeacher')"
+          >Lp Antworten</cbe-main-btn
+        >
+      </li>
     </ul>
   </li>
 </template>
