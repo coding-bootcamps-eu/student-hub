@@ -81,16 +81,16 @@ export default {
     return {
       lpValue: "",
       currentLP: {
-        author: "",
-        userID: "",
+        author: this.$store.getters.getCurrentUserScreenname,
+        userID: this.$store.getters.getCurrentUserID,
         basicLP: 0,
         basicLPComment: "",
-        cssLP: "",
-        cssLPComment: 0,
-        htmlLP: "",
-        htmlLPComment: 0,
-        jsLP: "",
-        jsLPComment: 0,
+        cssLP: 0,
+        cssLPComment: "",
+        htmlLP: 0,
+        htmlLPComment: "",
+        jsLP: 0,
+        jsLPComment: "",
         goodInCourse: "",
         improvements: "",
         whatCouldBeBetter: "",
@@ -112,12 +112,9 @@ export default {
     async createLP() {
       this.currentLP.author = this.$store.getters.getCurrentUserScreenname;
       this.currentLP.userID = this.$store.getters.getCurrentUserID;
-      this.$store.commit("setCurrentLP", {
-        currentLP: this.currentLP,
-      });
       const docRef = await addDoc(
         collection(firestore, "learn-progress"),
-        this.$store.getters.getCurrentLP
+        this.currentLP
       );
       console.log(docRef.id);
     },

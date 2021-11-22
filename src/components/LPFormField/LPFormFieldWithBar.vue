@@ -1,7 +1,10 @@
 <template>
   <section class="lpformwith">
     <legend>{{ lpLegend }}</legend>
-    <LPSlideBar @slider-value="updateSliderValue" />
+    <LPSlideBar
+      @slider-value="updateSliderValue"
+      :sliderValue="lpSliderPropertie"
+    />
     <textarea
       placeholder="Bitte gebe einen zusätzlichen Kommentar ab."
       :v-model="modelValue"
@@ -24,6 +27,9 @@ export default {
       type: String,
     },
     modelValue: {
+      type: [String, Number],
+    },
+    lpSliderPropertie: {
       type: [String, Number],
     },
   },
