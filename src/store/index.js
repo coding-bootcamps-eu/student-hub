@@ -373,7 +373,7 @@ export default createStore({
       let _lps = [];
       const q = query(
         collection(firestore, "learn-progress"),
-        where("userID", "==", payload.userID)
+        where("studentID", "==", payload.studentID)
       );
       const querySnapshot = await getDocs(q);
 
