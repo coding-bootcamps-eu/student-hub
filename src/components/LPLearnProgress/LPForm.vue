@@ -9,7 +9,8 @@
           lpLegend="Bewerte deinen allgemeinen Lernfortschritt"
           @lp-value="this.currentLP.basicLPComment = $event"
           @slider-value="currentLP.basicLP = $event"
-          :modelValue="currentLP.basicLPComment"
+          @change="testingInput()"
+          ref="learningInput"
           :lpSliderPropertie="currentLP.basicLP"
         />
         <LPFormFieldWithBar
@@ -77,9 +78,11 @@ import { collection, addDoc } from "firebase/firestore";
 
 export default {
   name: "LPForm",
+
   data() {
     return {
       lpValue: "",
+      testInput: "",
       currentLP: {
         studentName: this.$store.getters.getCurrentUserScreenname,
         studentID: this.$store.getters.getCurrentUserID,
@@ -104,6 +107,10 @@ export default {
     LPFormFieldWithoutBar,
   },
   methods: {
+    testingInput() {
+      console.log(this.currentLP.basicLPComment);
+      console.log(this.currentLP.basicLP);
+    },
     updateLP() {
       this.$store.commit("setCurrentLP", {
         currentLP: this.currentLP,
@@ -117,8 +124,9 @@ export default {
         collection(firestore, "learn-progress"),
         this.currentLP
       );
-      location.reload();
+      console.log(this.currentLP.basicLPComment);
       console.log(docRef.id);
+      this.$refs.learningInput.resetInput();
     },
   },
 };

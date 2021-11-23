@@ -2,25 +2,31 @@
   <section class="lpformwith">
     <legend>{{ lpLegend }}</legend>
     <LPSlideBar
-      @slider-value="updateSliderValue"
-      :sliderValue="lpSliderPropertie"
+      @sliderValue="this.sliderValue = $event"
+      @change="changeComponentOutput"
     />
     <textarea
       placeholder="Bitte gebe einen zusätzlichen Kommentar ab."
-      :v-model="modelValue"
-      @keydown="updateValue"
-      @keyup="updateValue"
+      v-model="inputValue"
+      @change="changeComponentOutput"
     ></textarea>
   </section>
 </template>
 
 <script>
 import LPSlideBar from "@/components/LPFormField/LPSlideBar.vue";
+
 export default {
   emits: ["lp-value", "slider-value"],
   name: "LPFormFieldWithBar",
   components: {
     LPSlideBar,
+  },
+  data() {
+    return {
+      inputValue: "",
+      sliderValue: 1,
+    };
   },
   props: {
     lpLegend: {
@@ -34,11 +40,19 @@ export default {
     },
   },
   methods: {
-    updateValue() {
-      this.$emit("lp-value", event.target.value);
+    changeComponentOutput() {
+      this.updateValue(this.inputValue);
+      this.updateSliderValue(this.sliderValue);
     },
-    updateSliderValue(val) {
-      this.$emit("slider-value", val);
+    resetInput() {
+      this.inputValue = "";
+      this.sliderValue = 1;
+    },
+    updateValue(value) {
+      this.$emit("lp-value", value);
+    },
+    updateSliderValue(value) {
+      this.$emit("slider-value", value);
     },
   },
 };
