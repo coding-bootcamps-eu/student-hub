@@ -109,6 +109,43 @@
           </p>
         </li>
       </ol>
+      <ol class="" v-if="lpShow">
+        <legend>LPTeacher - Ergebnisse</legend>
+        <li
+          v-for="lpt in this.$store.getters.getTeacherLP"
+          :key="lpt.key"
+          v-bind="lpt"
+        >
+          <p>
+            Allgemeiner Lernfortschritt: {{ lpt.lpData.basicLP }} Kommentar:
+            {{ lpt.lpData.jsbasicComment }}
+          </p>
+          <p>
+            HTML Lernprozess: {{ lpt.lpData.htmlLP }} HTML Kommentar:
+            {{ lpt.lpData.htmlLPComment }}
+          </p>
+          <p>
+            CSS Lernprozess: {{ lpt.lpData.cssLP }} CSS Kommentar:
+            {{ lpt.lpData.cssLPComment }}
+          </p>
+          <p>
+            JS Lernprozess: {{ lpt.lpData.jsLP }} JS Kommentar:
+            {{ lpt.lpData.jsLPComment }}
+          </p>
+          <p>
+            Was lief deiner Meinung nach gut für dich?:
+            {{ lpt.lpData.goodInCourse }}
+          </p>
+          <p>
+            Was würdest du gerne besser machen: {{ lpt.lpData.improvements }}
+          </p>
+          <p>Was läuft gut im Kurs? {{ lpt.lpData.whatWasGood }}</p>
+          <p>
+            Was würdest du gerne verbessert sehen?
+            {{ lpt.lpData.whatCouldBeBetter }}
+          </p>
+        </li>
+      </ol>
     </div>
   </section>
 </template>
@@ -151,6 +188,7 @@ export default {
     },
     showLPs() {
       this.lpShow = !this.lpShow;
+      this.lpteacherShow = !this.lpteacherShow;
     },
   },
   async created() {
@@ -172,6 +210,9 @@ export default {
     );
     await this.$store.dispatch("setStudentLP", {
       userID: this.$store.getters.getCurrentUserID,
+    });
+    await this.$store.dispatch("setTeacherLP", {
+      teacherID: this.$store.getters.getCurrentUserID,
     });
   },
 };
