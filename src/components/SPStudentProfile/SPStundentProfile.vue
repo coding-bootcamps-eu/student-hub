@@ -76,16 +76,16 @@
         <legend>LP - Ergebnisse</legend>
         <li
           v-for="lp in this.$store.getters.getStudentLP"
-          :key="lp.key"
+          :key="lp.lpKey"
           v-bind="lp"
         >
           <p>
-            Allgemeiner Lernfortschritt: {{ lp.basicLP }} Kommentar:
-            {{ lp.jsbasicComment }}
+            Allgemeiner Lernfortschritt: {{ lp.lpData.basicLP }} Kommentar:
+            {{ lp.lpData.jsbasicComment }}
           </p>
           <p>
-            HTML Lernprozess: {{ lp.htmlLP }} HTML Kommentar:
-            {{ lp.htmlLPComment }}
+            HTML Lernprozess: {{ lp.lpData.htmlLP }} HTML Kommentar:
+            {{ lp.lpData.htmlLPComment }}
           </p>
           <p>
             CSS Lernprozess: {{ lp.cssLP }} CSS Kommentar: {{ lp.cssLPComment }}
@@ -165,7 +165,7 @@ export default {
       this.$store.getters.getCurrentUserID
     );
     await this.$store.dispatch("setStudentLP", {
-      userID: this.$store.getters.getCurrentUserID,
+      studentID: this.$store.getters.getCurrentUserID,
     });
   },
 };
