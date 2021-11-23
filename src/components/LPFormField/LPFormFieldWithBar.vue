@@ -1,6 +1,5 @@
 <template>
   <section class="lpformwith">
-
     <legend data-cy="legend-question">{{ lpLegend }}</legend>
     <LPSlideBar
       @slider-value="updateSliderValue"
