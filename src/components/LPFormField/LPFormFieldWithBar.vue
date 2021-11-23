@@ -3,13 +3,13 @@
     <legend>{{ lpLegend }}</legend>
     <LPSlideBar
       @sliderValue="this.sliderValue = $event"
-      @change="changeComponentOutput"
+      @input="changeComponentOutput"
       ref="slideBarComponent"
     />
     <textarea
       placeholder="Bitte gebe einen zusätzlichen Kommentar ab."
       v-model="inputValue"
-      @change="changeComponentOutput"
+      @input="changeComponentOutput"
     ></textarea>
   </section>
 </template>

@@ -4,7 +4,7 @@
     <textarea
       :placeholder="lp__placeholder"
       v-model="modelValue"
-      @change="changeComponentOutput"
+      @input="changeComponentOutput"
     ></textarea>
   </section>
 </template>
