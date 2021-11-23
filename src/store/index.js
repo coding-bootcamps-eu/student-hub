@@ -373,12 +373,16 @@ export default createStore({
       let _lps = [];
       const q = query(
         collection(firestore, "learn-progress"),
-        where("userID", "==", payload.userID)
+        where("studentID", "==", payload.studentID)
       );
       const querySnapshot = await getDocs(q);
 
       querySnapshot.forEach((doc) => {
-        _lps.push(doc.data());
+        console.log(doc.id);
+        _lps.push({
+          lpKey: doc.id,
+          lpData: doc.data(),
+        });
       });
       state.commit({
         type: "setStudentLP",
