@@ -7,6 +7,7 @@
       max="10"
       step="1"
       v-model="value"
+      data-cy="input-range-valuation"
     />
     <label for="slider-value">{{ value }}</label>
   </section>
