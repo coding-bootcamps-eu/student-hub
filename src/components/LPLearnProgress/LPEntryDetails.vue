@@ -3,6 +3,7 @@
     <p>lpKey: {{ lpKey }}</p>
     <p>studentName: {{ this.localLP.studentName }}</p>
     <p>studentID: {{ localLP.studentID }}</p>
+    <p>teacherID: {{ teacherID }}</p>
   </section>
 </template>
 
@@ -16,6 +17,11 @@ export default {
       lpKey: this.$route.params.lpKey,
       localLP: {},
     };
+  },
+  computed: {
+    teacherID() {
+      return this.$store.getters.getCurrentUserID;
+    },
   },
   methods: {
     async getLP() {
