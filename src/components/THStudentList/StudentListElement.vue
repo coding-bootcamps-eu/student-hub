@@ -44,9 +44,17 @@
       </li>
       <li>
         <ul v-if="studentLPArray ?? null">
-          <li v-for="lp in studentLPArray" :key="lp" v-bind="key">
-            {{ lp.answerNeeded }}
-            {{ lp.key }}
+          <li
+            v-for="lp in studentLPArray"
+            :key="lp.lpKey"
+            :lpKey="lp.lpKey"
+            v-bind="lp"
+          >
+            <router-link
+              :to="{ name: 'lpDetail', params: { lpKey: lp.lpKey } }"
+            >
+              {{ lp.lpKey }}
+            </router-link>
           </li>
         </ul>
       </li>
@@ -69,7 +77,7 @@ export default {
     async createStudentLPArray() {
       const q = query(
         collection(firestore, "learn-progress"),
-        where("userID", "==", this.studentKey)
+        where("studentID", "==", this.studentKey)
       );
       const querySnapshot = await getDocs(q);
       querySnapshot.forEach((doc) => {
@@ -77,6 +85,7 @@ export default {
           this.studentLPArray.push(doc.data());
         }
       });
+      console.log("DOM Array", this.studentLPArray);
     },
   },
   props: {

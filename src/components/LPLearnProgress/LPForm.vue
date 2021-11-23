@@ -109,13 +109,15 @@ export default {
         currentLP: this.currentLP,
       });
     },
-    async createLP() {
+    async createLP(e) {
       this.currentLP.studentName = this.$store.getters.getCurrentUserScreenname;
       this.currentLP.studentID = this.$store.getters.getCurrentUserID;
+      e.preventDefault();
       const docRef = await addDoc(
         collection(firestore, "learn-progress"),
         this.currentLP
       );
+      location.reload();
       console.log(docRef.id);
     },
   },
