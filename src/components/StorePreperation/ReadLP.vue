@@ -8,7 +8,7 @@ export default {
   methods: {
     async readLP() {
       await this.$store.dispatch("setStudentLP", {
-        userID: this.$store.getters.getCurrentUserID,
+        studentID: this.$store.getters.getCurrentUserID,
       });
     },
   },

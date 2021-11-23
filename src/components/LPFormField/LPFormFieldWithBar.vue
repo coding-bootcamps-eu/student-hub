@@ -1,7 +1,11 @@
 <template>
   <section class="lpformwith">
+
     <legend data-cy="legend-question">{{ lpLegend }}</legend>
-    <LPSlideBar />
+    <LPSlideBar
+      @slider-value="updateSliderValue"
+      :sliderValue="lpSliderPropertie"
+    />
     <textarea
       placeholder="Bitte gebe einen zusätzlichen Kommentar ab."
       :v-model="modelValue"
@@ -15,7 +19,7 @@
 <script>
 import LPSlideBar from "@/components/LPFormField/LPSlideBar.vue";
 export default {
-  emits: ["lp-value"],
+  emits: ["lp-value", "slider-value"],
   name: "LPFormFieldWithBar",
   components: {
     LPSlideBar,
@@ -27,10 +31,16 @@ export default {
     modelValue: {
       type: [String, Number],
     },
+    lpSliderPropertie: {
+      type: [String, Number],
+    },
   },
   methods: {
     updateValue() {
       this.$emit("lp-value", event.target.value);
+    },
+    updateSliderValue(val) {
+      this.$emit("slider-value", val);
     },
   },
 };

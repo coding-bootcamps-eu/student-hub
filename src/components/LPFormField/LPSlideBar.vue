@@ -6,10 +6,13 @@
       min="1"
       max="10"
       step="1"
-      v-model="value"
+      value="1"
+      :v-model="sliderValue"
+      @input="updateValue"
       data-cy="input-range-valuation"
+
     />
-    <label for="slider-value">{{ value }}</label>
+    <label for="slider-value">{{ lpSliderValue }}</label>
   </section>
 </template>
 
@@ -18,8 +21,20 @@ export default {
   name: "LPSlideBar",
   data() {
     return {
-      value: 1,
+      lpSliderValue: 1,
     };
+  },
+  props: {
+    sliderValue: {
+      type: [Number, String],
+    },
+  },
+  emits: ["slider-value"],
+  methods: {
+    updateValue(event) {
+      this.$emit("slider-value", event.target.value);
+      this.lpSliderValue = event.target.value;
+    },
   },
 };
 </script>

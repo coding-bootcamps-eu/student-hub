@@ -59,12 +59,7 @@
         />
       </div>
       <div class="button-wrapper">
-        <input
-          type="reset"
-          value="Reset"
-          class="cbe-reset-btn"
-          data-cy="textarea-reset-btn"
-        />
+        <input type="reset" value="Reset" class="cbe-reset-btn" />
         <cbe-main-btn buttonClass="primary" @click="createLP"
           >Abschicken</cbe-main-btn
         >
@@ -86,8 +81,8 @@ export default {
     return {
       lpValue: "",
       currentLP: {
-        studentName: this.$store.getters.getCurrentUserScreenname,
-        studentID: this.$store.getters.getCurrentUserID,
+        author: this.$store.getters.getCurrentUserScreenname,
+        userID: this.$store.getters.getCurrentUserID,
         basicLP: 0,
         basicLPComment: "",
         cssLP: 0,
@@ -115,10 +110,10 @@ export default {
       });
     },
     async createLP() {
-      this.currentLP.studentName = this.$store.getters.getCurrentUserScreenname;
-      this.currentLP.studentID = this.$store.getters.getCurrentUserID;
+      this.currentLP.author = this.$store.getters.getCurrentUserScreenname;
+      this.currentLP.userID = this.$store.getters.getCurrentUserID;
       const docRef = await addDoc(
-        collection(firestore, "learn-progress"),
+        collection(firestore, "lp-answer"),
         this.currentLP
       );
       console.log(docRef.id);

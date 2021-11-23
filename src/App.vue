@@ -24,8 +24,8 @@ export default {
   },
   async created() {
     await this.$store.dispatch("setAllStudents");
-    await this.$store.dispatch("updateStudentsIssuesCounter");
-    await this.$store.dispatch("updateStudentsReposCounter");
+    //await this.$store.dispatch("updateStudentsIssuesCounter");
+    //await this.$store.dispatch("updateStudentsReposCounter");
   },
   mounted() {
     this.$store.commit({

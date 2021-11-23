@@ -19,6 +19,13 @@
           ></router-link>
         </div>
         <cbe-main-btn
+          id="showLPBtn"
+          class="margin-left hidebtn"
+          buttonClass="secondary"
+          @click="showLPs"
+          >{{ lpBtnText }}
+        </cbe-main-btn>
+        <cbe-main-btn
           id="showAmaBtn"
           class="margin-left hidebtn"
           buttonClass="secondary"
@@ -65,6 +72,37 @@
           <p class="roti-date">{{ roti.rotiDate }}</p>
         </li>
       </ul>
+      <ol class="" v-if="lpShow">
+        <legend>LP - Ergebnisse</legend>
+        <li
+          v-for="lp in this.$store.getters.getStudentLP"
+          :key="lp.key"
+          v-bind="lp"
+        >
+          <p>
+            Allgemeiner Lernfortschritt: {{ lp.basicLP }} Kommentar:
+            {{ lp.jsbasicComment }}
+          </p>
+          <p>
+            HTML Lernprozess: {{ lp.htmlLP }} HTML Kommentar:
+            {{ lp.htmlLPComment }}
+          </p>
+          <p>
+            CSS Lernprozess: {{ lp.cssLP }} CSS Kommentar: {{ lp.cssLPComment }}
+          </p>
+          <p>
+            JS Lernprozess: {{ lp.jsLP }} JS Kommentar: {{ lp.jsLPComment }}
+          </p>
+          <p>
+            Was lief deiner Meinung nach gut für dich?: {{ lp.goodInCourse }}
+          </p>
+          <p>Was würdest du gerne besser machen: {{ lp.improvements }}</p>
+          <p>Was läuft gut im Kurs? {{ lp.whatWasGood }}</p>
+          <p>
+            Was würdest du gerne verbessert sehen? {{ lp.whatCouldBeBetter }}
+          </p>
+        </li>
+      </ol>
     </div>
   </section>
 </template>
@@ -80,6 +118,9 @@ export default {
       rotisShown: false,
       rotisBtnTxtShow: "Zeige Rotis",
       rotisBtnTxtHide: "Verstecke Rotis",
+      lpShow: false,
+      lpBtnTextShow: "Zeige Lernfortschritte",
+      lpBtnTextHide: "Verstecke Lernfortschritte",
     };
   },
   computed: {
@@ -91,6 +132,9 @@ export default {
     rotiBtnText() {
       return this.rotisShown ? this.rotisBtnTxtHide : this.rotisBtnTxtShow;
     },
+    lpBtnText() {
+      return this.lpShow ? this.lpBtnTextHide : this.lpBtnTextShow;
+    },
   },
   methods: {
     showQuestions() {
@@ -98,6 +142,9 @@ export default {
     },
     showRotis() {
       this.rotisShown = !this.rotisShown;
+    },
+    showLPs() {
+      this.lpShow = !this.lpShow;
     },
   },
   async created() {
@@ -117,6 +164,9 @@ export default {
       "setspUser",
       this.$store.getters.getCurrentUserID
     );
+    await this.$store.dispatch("setStudentLP", {
+      userID: this.$store.getters.getCurrentUserID,
+    });
   },
 };
 </script>

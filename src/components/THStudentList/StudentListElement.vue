@@ -42,13 +42,43 @@
           >
         </p>
       </li>
+      <li>
+        <ul v-if="studentLPArray ?? null">
+          <li v-for="lp in studentLPArray" :key="lp" v-bind="key">
+            {{ lp.answerNeeded }}
+            {{ lp.key }}
+          </li>
+        </ul>
+      </li>
     </ul>
   </li>
 </template>
 
 <script>
+import firestore from "@/firestore";
+
+import { collection, getDocs, query, where } from "firebase/firestore";
 export default {
   name: "StudentListElement",
+  data() {
+    return {
+      studentLPArray: [],
+    };
+  },
+  methods: {
+    async createStudentLPArray() {
+      const q = query(
+        collection(firestore, "learn-progress"),
+        where("userID", "==", this.studentKey)
+      );
+      const querySnapshot = await getDocs(q);
+      querySnapshot.forEach((doc) => {
+        if (doc.data().answerNeeded === true) {
+          this.studentLPArray.push(doc.data());
+        }
+      });
+    },
+  },
   props: {
     email: {
       type: String,
@@ -83,6 +113,9 @@ export default {
     studentKey: {
       required: true,
     },
+  },
+  async created() {
+    await this.createStudentLPArray();
   },
 };
 </script>
