@@ -35,15 +35,15 @@ export default {
     },
   },
   methods: {
-    changeComponentOutput() {
-      this.updateValue(this.inputValue);
-      this.updateSliderValue(this.sliderValue);
-    },
     resetInput() {
       this.inputValue = "";
       this.sliderValue = 1;
       this.$refs.slideBarComponent.lpSliderValue = 1;
       this.$refs.slideBarComponent.$refs.slideBar.value = 1;
+    },
+    changeComponentOutput() {
+      this.updateValue(this.inputValue);
+      this.updateSliderValue(this.sliderValue);
     },
     updateValue(value) {
       this.$emit("lp-value", value);
