@@ -82,7 +82,10 @@ export default {
       const querySnapshot = await getDocs(q);
       querySnapshot.forEach((doc) => {
         if (doc.data().answerNeeded === true) {
-          this.studentLPArray.push(doc.data());
+          this.studentLPArray.push({
+            lpKey: doc.id,
+            lpData: doc.data(),
+          });
         }
       });
       console.log("DOM Array", this.studentLPArray);
