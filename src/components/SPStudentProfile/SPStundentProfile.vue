@@ -80,26 +80,32 @@
           v-bind="lp"
         >
           <p>
-            Allgemeiner Lernfortschritt: {{ lp.basicLP }} Kommentar:
-            {{ lp.jsbasicComment }}
+            Allgemeiner Lernfortschritt: {{ lp.lpData.basicLP }} Kommentar:
+            {{ lp.lpData.jsbasicComment }}
           </p>
           <p>
-            HTML Lernprozess: {{ lp.htmlLP }} HTML Kommentar:
-            {{ lp.htmlLPComment }}
+            HTML Lernprozess: {{ lp.lpData.htmlLP }} HTML Kommentar:
+            {{ lp.lpData.htmlLPComment }}
           </p>
           <p>
-            CSS Lernprozess: {{ lp.cssLP }} CSS Kommentar: {{ lp.cssLPComment }}
+            CSS Lernprozess: {{ lp.lpData.cssLP }} CSS Kommentar:
+            {{ lp.lpData.cssLPComment }}
           </p>
           <p>
-            JS Lernprozess: {{ lp.jsLP }} JS Kommentar: {{ lp.jsLPComment }}
+            JS Lernprozess: {{ lp.lpData.jsLP }} JS Kommentar:
+            {{ lp.lpData.jsLPComment }}
           </p>
           <p>
-            Was lief deiner Meinung nach gut für dich?: {{ lp.goodInCourse }}
+            Was lief deiner Meinung nach gut für dich?:
+            {{ lp.lpData.goodInCourse }}
           </p>
-          <p>Was würdest du gerne besser machen: {{ lp.improvements }}</p>
-          <p>Was läuft gut im Kurs? {{ lp.whatWasGood }}</p>
           <p>
-            Was würdest du gerne verbessert sehen? {{ lp.whatCouldBeBetter }}
+            Was würdest du gerne besser machen: {{ lp.lpData.improvements }}
+          </p>
+          <p>Was läuft gut im Kurs? {{ lp.lpData.whatWasGood }}</p>
+          <p>
+            Was würdest du gerne verbessert sehen?
+            {{ lp.lpData.whatCouldBeBetter }}
           </p>
         </li>
       </ol>
@@ -119,8 +125,8 @@ export default {
       rotisBtnTxtShow: "Zeige Rotis",
       rotisBtnTxtHide: "Verstecke Rotis",
       lpShow: false,
-      lpBtnTextShow: "Zeige Lernfortschritte",
-      lpBtnTextHide: "Verstecke Lernfortschritte",
+      lpBtnTextShow: "Zeige LP",
+      lpBtnTextHide: "Verstecke LP",
     };
   },
   computed: {
