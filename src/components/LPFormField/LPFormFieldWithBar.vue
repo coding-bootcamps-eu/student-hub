@@ -4,6 +4,7 @@
     <LPSlideBar
       @sliderValue="this.sliderValue = $event"
       @change="changeComponentOutput"
+      ref="slideBarComponent"
     />
     <textarea
       placeholder="Bitte gebe einen zusätzlichen Kommentar ab."
@@ -32,12 +33,6 @@ export default {
     lpLegend: {
       type: String,
     },
-    modelValue: {
-      type: [String, Number],
-    },
-    lpSliderPropertie: {
-      type: [String, Number],
-    },
   },
   methods: {
     changeComponentOutput() {
@@ -47,6 +42,8 @@ export default {
     resetInput() {
       this.inputValue = "";
       this.sliderValue = 1;
+      this.$refs.slideBarComponent.lpSliderValue = 1;
+      this.$refs.slideBarComponent.$refs.slideBar.value = 1;
     },
     updateValue(value) {
       this.$emit("lp-value", value);
