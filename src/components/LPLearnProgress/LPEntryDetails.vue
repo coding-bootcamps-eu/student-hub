@@ -5,13 +5,24 @@
     <p>studentID: {{ localLP.studentID }}</p>
     <p>teacherID: {{ teacherID }}</p>
   </section>
+  <LPTeacherForm
+    :studentName="localLP.studentName"
+    :teacherID="teacherID"
+    :studentID="localLP.studentID"
+    :lpKey="lpKey"
+  />
 </template>
 
 <script>
 import firestore from "@/firestore";
 import { doc, getDoc } from "firebase/firestore";
+
+import LPTeacherForm from "@/components/LPLearnProgress/LPTeacherForm.vue";
 export default {
   name: "LPEntryDetails",
+  components: {
+    LPTeacherForm,
+  },
   data() {
     return {
       lpKey: this.$route.params.lpKey,

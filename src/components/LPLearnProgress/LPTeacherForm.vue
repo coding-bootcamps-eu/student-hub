@@ -6,14 +6,14 @@
          getValue Parent method
          -->
         <LPFormFieldWithBar
-          lpLegend="Bewerte deinen allgemeinen Lernfortschritt"
+          :lpLegend="'Bewerte den allgemeinen Fortschritt von ' + studentName"
           @lp-value="this.currentLP.basicLPComment = $event"
           @slider-value="currentLP.basicLP = $event"
           :modelValue="currentLP.basicLPComment"
           :lpSliderPropertie="currentLP.basicLP"
         />
         <LPFormFieldWithBar
-          lpLegend="Wie fit und wohl fühlst du dich in HTML?"
+          :lpLegend="'Wie fit fühlt sich ' + studentName + ' in HTML?'"
           @lp-value="this.currentLP.htmlLPComment = $event"
           @slider-value="currentLP.htmlLP = $event"
           :modelValue="currentLP.htmlLP"
@@ -76,13 +76,29 @@ import firestore from "@/firestore";
 import { collection, addDoc } from "firebase/firestore";
 
 export default {
-  name: "LPForm",
+  name: "LPTeacherForm",
+  props: {
+    studentName: {
+      type: String,
+    },
+    studentID: {
+      type: String,
+    },
+    teacherID: {
+      type: String,
+    },
+    lpKey: {
+      type: String,
+    },
+  },
   data() {
     return {
       lpValue: "",
       currentLP: {
-        author: this.$store.getters.getCurrentUserScreenname,
-        userID: this.$store.getters.getCurrentUserID,
+        teacherID: this.teacherID,
+        studentID: this.studentID,
+        studentName: this.studentName,
+        lpKey: this.lpKey,
         basicLP: 0,
         basicLPComment: "",
         cssLP: 0,
@@ -105,17 +121,22 @@ export default {
   },
   methods: {
     updateLP() {
+      this.currentLP.studentName = this.studentName;
+      this.currentLP.studentID = this.studentID;
       this.$store.commit("setCurrentLP", {
         currentLP: this.currentLP,
       });
     },
-    async createLP() {
-      this.currentLP.author = this.$store.getters.getCurrentUserScreenname;
-      this.currentLP.userID = this.$store.getters.getCurrentUserID;
+    async createLP(e) {
+      this.currentLP.answerNeeded = false;
+      this.currentLP.studentName = this.studentName;
+      this.currentLP.studentID = this.studentID;
+      e.preventDefault();
       const docRef = await addDoc(
         collection(firestore, "lp-answer"),
         this.currentLP
       );
+      location.reload();
       console.log(docRef.id);
     },
   },
