@@ -76,7 +76,7 @@
         <legend>LP - Ergebnisse</legend>
         <li
           v-for="lp in this.$store.getters.getStudentLP"
-          :key="lp.key"
+          :key="lp.lpKey"
           v-bind="lp"
         >
           <p>
@@ -209,7 +209,7 @@ export default {
       this.$store.getters.getCurrentUserID
     );
     await this.$store.dispatch("setStudentLP", {
-      userID: this.$store.getters.getCurrentUserID,
+      studentID: this.$store.getters.getCurrentUserID,
     });
     await this.$store.dispatch("setTeacherLP", {
       teacherID: this.$store.getters.getCurrentUserID,

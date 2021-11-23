@@ -1,6 +1,6 @@
 <template>
   <section class="lpformwith">
-    <legend>{{ lpLegend }}</legend>
+    <legend data-cy="legend-question">{{ lpLegend }}</legend>
     <LPSlideBar
       @slider-value="updateSliderValue"
       :sliderValue="lpSliderPropertie"
@@ -10,6 +10,7 @@
       :v-model="modelValue"
       @keydown="updateValue"
       @keyup="updateValue"
+      data-cy="textarea-text-valuation"
     ></textarea>
   </section>
 </template>

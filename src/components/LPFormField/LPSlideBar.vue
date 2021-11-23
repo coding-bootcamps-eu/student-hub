@@ -9,6 +9,7 @@
       value="1"
       :v-model="sliderValue"
       @input="updateValue"
+      data-cy="input-range-valuation"
     />
     <label for="slider-value">{{ lpSliderValue }}</label>
   </section>

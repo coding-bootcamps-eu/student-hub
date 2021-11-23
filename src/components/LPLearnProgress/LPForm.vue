@@ -59,7 +59,12 @@
         />
       </div>
       <div class="button-wrapper">
-        <input type="reset" value="Reset" class="cbe-reset-btn" />
+        <input
+          type="reset"
+          value="Reset"
+          class="cbe-reset-btn"
+          data-cy="textarea-reset-btn"
+        />
         <cbe-main-btn buttonClass="primary" @click="createLP"
           >Abschicken</cbe-main-btn
         >

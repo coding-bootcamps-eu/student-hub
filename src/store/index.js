@@ -58,6 +58,7 @@ export default createStore({
      * LearnProgress
      */
     studentLP: [],
+    answeredLP: [],
     teacherLP: {},
     currentLP: {},
   },
@@ -155,6 +156,9 @@ export default createStore({
     // <- Learn-Progress ->
     setStudentLP(state, payload) {
       state.studentLP = payload.studentLP;
+    },
+    setAnsweredLP(state, payload) {
+      state.answeredLP = payload.answeredLP;
     },
     setTeacherLP(state, payload) {
       state.teacherLP = payload.teacherLP;
@@ -390,6 +394,27 @@ export default createStore({
       });
       console.log(_lps);
     },
+    async setAnsweredLP(state, payload) {
+      let _lps = [];
+      const q = query(
+        collection(firestore, "lp-answer"),
+        where("studentID", "==", payload.studentID)
+      );
+      const querySnapshot = await getDocs(q);
+
+      querySnapshot.forEach((doc) => {
+        console.log(doc.id);
+        _lps.push({
+          lpKey: doc.id,
+          lpData: doc.data(),
+        });
+      });
+      state.commit({
+        type: "setAnsweredLP",
+        answeredLP: _lps,
+      });
+      console.log(_lps);
+    },
     async setTeacherLP(state, payload) {
       const lpRef = doc(firestore, "lp-answers", payload.lpKey);
       const lpSnap = await getDoc(lpRef);
@@ -498,6 +523,9 @@ export default createStore({
     //<-Learn-Progress->
     getStudentLP(state) {
       return state.studentLP;
+    },
+    getAnsweredLP(state) {
+      return state.answeredLP;
     },
     getTeacherLP(state) {
       return state.teacherLP;
