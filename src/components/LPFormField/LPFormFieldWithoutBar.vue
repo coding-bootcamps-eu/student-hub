@@ -3,9 +3,8 @@
     <legend>{{ lpLegend }}</legend>
     <textarea
       :placeholder="lp__placeholder"
-      :v-model="modelValue"
-      @keydown="updateValueWithoutBar"
-      @keyup="updateValueWithoutBar"
+      v-model="modelValue"
+      @change="changeComponentOutput"
     ></textarea>
   </section>
 </template>
@@ -14,6 +13,11 @@
 export default {
   emits: ["lp-value-without-bar"],
   name: "LPFormFieldWithoutBar",
+  data() {
+    return {
+      modelValue: "",
+    };
+  },
   props: {
     lpLegend: {
       type: String,
@@ -21,13 +25,16 @@ export default {
     lp__placeholder: {
       type: String,
     },
-    modelValue: {
-      type: [String, Number],
-    },
   },
   methods: {
-    updateValueWithoutBar() {
-      this.$emit("lp-value-without-bar", event.target.value);
+    resetInput() {
+      this.modelValue = "";
+    },
+    changeComponentOutput() {
+      this.updateValueWithoutBar(this.modelValue);
+    },
+    updateValueWithoutBar(value) {
+      this.$emit("lp-value-without-bar", value);
     },
   },
 };

@@ -9,53 +9,49 @@
           lpLegend="Bewerte deinen allgemeinen Lernfortschritt"
           @lp-value="this.currentLP.basicLPComment = $event"
           @slider-value="currentLP.basicLP = $event"
-          :modelValue="currentLP.basicLPComment"
-          :lpSliderPropertie="currentLP.basicLP"
+          ref="basicLearningInput"
         />
         <LPFormFieldWithBar
           lpLegend="Wie fit und wohl fühlst du dich in HTML?"
           @lp-value="this.currentLP.htmlLPComment = $event"
           @slider-value="currentLP.htmlLP = $event"
-          :modelValue="currentLP.htmlLP"
-          :lpSliderPropertie="currentLP.htmlLP"
+          ref="htmlLearningInput"
         />
         <LPFormFieldWithBar
           lpLegend="Wie fit und wohl fühlst du dich in CSS?"
           @lp-value="this.currentLP.cssLPComment = $event"
           @slider-value="currentLP.cssLP = $event"
-          :modelValue="currentLP.cssLP"
-          :lpSliderPropertie="currentLP.cssLP"
+          ref="cssLearningInput"
         />
         <LPFormFieldWithBar
           lpLegend="Wie fit und wohl fühlst du dich in JavaScript?"
           @lp-value="this.currentLP.jsLPComment = $event"
           @slider-value="currentLP.jsLP = $event"
-          :modelValue="currentLP.jsLP"
-          :lpSliderPropertie="currentLP.jsLP"
+          ref="jsLearningInput"
         />
         <LPFormFieldWithoutBar
           lpLegend="Was lief deiner Meinung nach gut für dich?"
           lp__placeholder="Beschreibe was deiner Meinung nach gut für dich lief..."
           @lp-value-without-bar="this.currentLP.goodInCourse = $event"
-          :modelValue="currentLP.goodInCourse"
+          ref="goodInCouseInput"
         />
         <LPFormFieldWithoutBar
           lpLegend="Was würdest du gerne besser machen?"
           lp__placeholder="Beschreibe was du gerne besser machen würdest..."
           @lp-value-without-bar="this.currentLP.improvements = $event"
-          :modelValue="currentLP.improvements"
+          ref="improvementsInput"
         />
         <LPFormFieldWithoutBar
           lpLegend="Was läuft gut im Kurs?"
           lp__placeholder="Beschreibe was du am Kurs gut findest..."
           @lp-value-without-bar="this.currentLP.whatWasGood = $event"
-          :modelValue="currentLP.whatWasGood"
+          ref="whatWasGoodInput"
         />
         <LPFormFieldWithoutBar
           lpLegend="Was würdest du gerne verbessert sehen?"
           lp__placeholder="Beschreibe was du am Kurs verbessern würdest..."
           @lp-value-without-bar="this.currentLP.whatCouldBeBetter = $event"
-          :modelValue="currentLP.whatCouldBeBetter"
+          ref="whatCouldBeBetterInput"
         />
       </div>
       <div class="button-wrapper">
@@ -77,9 +73,11 @@ import { collection, addDoc } from "firebase/firestore";
 
 export default {
   name: "LPForm",
+
   data() {
     return {
       lpValue: "",
+      testInput: "",
       currentLP: {
         studentName: this.$store.getters.getCurrentUserScreenname,
         studentID: this.$store.getters.getCurrentUserID,
@@ -117,8 +115,19 @@ export default {
         collection(firestore, "learn-progress"),
         this.currentLP
       );
-      location.reload();
       console.log(docRef.id);
+
+      this.resetInput();
+    },
+    resetInput() {
+      this.$refs.basicLearningInput.resetInput();
+      this.$refs.htmlLearningInput.resetInput();
+      this.$refs.cssLearningInput.resetInput();
+      this.$refs.jsLearningInput.resetInput();
+      this.$refs.goodInCouseInput.resetInput();
+      this.$refs.improvementsInput.resetInput();
+      this.$refs.whatWasGoodInput.resetInput();
+      this.$refs.whatCouldBeBetterInput.resetInput();
     },
   },
 };

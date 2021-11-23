@@ -8,6 +8,7 @@
       step="1"
       value="1"
       :v-model="sliderValue"
+      ref="slideBar"
       @input="updateValue"
     />
     <label for="slider-value">{{ lpSliderValue }}</label>
