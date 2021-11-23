@@ -73,7 +73,7 @@ import LPFormFieldWithBar from "@/components/LPFormField/LPFormFieldWithBar.vue"
 import LPFormFieldWithoutBar from "@/components/LPFormField/LPFormFieldWithoutBar.vue";
 
 import firestore from "@/firestore";
-import { collection, addDoc } from "firebase/firestore";
+import { collection, addDoc, doc, updateDoc } from "firebase/firestore";
 
 export default {
   name: "LPTeacherForm",
@@ -132,12 +132,12 @@ export default {
       this.currentLP.studentName = this.studentName;
       this.currentLP.studentID = this.studentID;
       e.preventDefault();
-      const docRef = await addDoc(
-        collection(firestore, "lp-answer"),
-        this.currentLP
-      );
-      location.reload();
-      console.log(docRef.id);
+      await addDoc(collection(firestore, "lp-answer"), this.currentLP);
+      const studentLPRef = doc(firestore, "learn-progress", this.lpKey);
+      await updateDoc(studentLPRef, {
+        answerNeeded: false,
+      });
+      this.$router.push("teacherhub");
     },
   },
 };
