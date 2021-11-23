@@ -112,8 +112,8 @@
       <ol class="" v-if="lpShow">
         <legend>LPTeacher - Ergebnisse</legend>
         <li
-          v-for="lpt in this.$store.getters.getTeacherLP"
-          :key="lpt.key"
+          v-for="lpt in this.$store.getters.getAnsweredLP"
+          :key="lpt.lpkey"
           v-bind="lpt"
         >
           <p>
@@ -211,8 +211,8 @@ export default {
     await this.$store.dispatch("setStudentLP", {
       studentID: this.$store.getters.getCurrentUserID,
     });
-    await this.$store.dispatch("setTeacherLP", {
-      teacherID: this.$store.getters.getCurrentUserID,
+    await this.$store.dispatch("setAnsweredLP", {
+      studentID: this.$store.getters.getCurrentUserID,
     });
   },
 };
