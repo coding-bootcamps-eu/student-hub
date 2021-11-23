@@ -116,7 +116,7 @@
           <legend>LPTeacher - Ergebnisse</legend>
           <li
             v-for="lpt in this.$store.getters.getAnsweredLP"
-            :key="lpt.lpkey"
+            :key="lpt.lpKey"
             v-bind="lpt"
           >
             <div>
