@@ -4,7 +4,7 @@
     <textarea
       :placeholder="lp__placeholder"
       v-model="modelValue"
-      @input="changeComponentOutput"
+      @input="updateValueWithoutBar"
     ></textarea>
   </section>
 </template>
@@ -30,11 +30,8 @@ export default {
     resetInput() {
       this.modelValue = "";
     },
-    changeComponentOutput() {
-      this.updateValueWithoutBar(this.modelValue);
-    },
-    updateValueWithoutBar(value) {
-      this.$emit("lp-value-without-bar", value);
+    updateValueWithoutBar() {
+      this.$emit("lp-value-without-bar", event.target.value);
     },
   },
 };

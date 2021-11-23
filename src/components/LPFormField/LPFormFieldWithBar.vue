@@ -2,14 +2,14 @@
   <section class="lpformwith">
     <legend>{{ lpLegend }}</legend>
     <LPSlideBar
-      @sliderValue="this.sliderValue = $event"
-      @input="changeComponentOutput"
+      @slider-value="this.sliderValue = $event"
+      @input="updateSliderValue"
       ref="slideBarComponent"
     />
     <textarea
       placeholder="Bitte gebe einen zusätzlichen Kommentar ab."
       v-model="inputValue"
-      @input="changeComponentOutput"
+      @input="updateValue"
     ></textarea>
   </section>
 </template>
@@ -41,15 +41,11 @@ export default {
       this.$refs.slideBarComponent.lpSliderValue = 1;
       this.$refs.slideBarComponent.$refs.slideBar.value = 1;
     },
-    changeComponentOutput() {
-      this.updateValue(this.inputValue);
-      this.updateSliderValue(this.sliderValue);
+    updateValue() {
+      this.$emit("lp-value", event.target.value);
     },
-    updateValue(value) {
-      this.$emit("lp-value", value);
-    },
-    updateSliderValue(value) {
-      this.$emit("slider-value", value);
+    updateSliderValue() {
+      this.$emit("slider-value", event.target.value);
     },
   },
 };

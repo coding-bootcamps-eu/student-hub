@@ -2,9 +2,6 @@
   <section>
     <form @input="updateLP">
       <div>
-        <!--LP-Value = emit aus child component
-         getValue Parent method
-         -->
         <LPFormFieldWithBar
           lpLegend="Bewerte deinen allgemeinen Lernfortschritt"
           @lp-value="this.currentLP.basicLPComment = $event"
@@ -76,8 +73,6 @@ export default {
 
   data() {
     return {
-      lpValue: "",
-      testInput: "",
       currentLP: {
         studentName: this.$store.getters.getCurrentUserScreenname,
         studentID: this.$store.getters.getCurrentUserID,
@@ -111,12 +106,10 @@ export default {
       this.currentLP.studentName = this.$store.getters.getCurrentUserScreenname;
       this.currentLP.studentID = this.$store.getters.getCurrentUserID;
       e.preventDefault();
-      const docRef = await addDoc(
+      await addDoc(
         collection(firestore, "learn-progress"),
-        this.currentLP
+        this.$store.getters.getCurrentLP
       );
-      console.log(docRef.id);
-
       this.resetInput();
     },
     resetInput() {

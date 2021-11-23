@@ -7,9 +7,9 @@
       max="10"
       step="1"
       value="1"
-      :v-model="sliderValue"
       ref="slideBar"
       @input="updateValue"
+      data-cy="input-range-valuation"
     />
     <label for="slider-value">{{ lpSliderValue }}</label>
   </section>
@@ -22,11 +22,6 @@ export default {
     return {
       lpSliderValue: 1,
     };
-  },
-  props: {
-    sliderValue: {
-      type: [Number, String],
-    },
   },
   emits: ["slider-value"],
   methods: {
