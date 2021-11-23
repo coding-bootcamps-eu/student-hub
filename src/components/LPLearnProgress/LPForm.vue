@@ -117,11 +117,6 @@ export default {
       );
       console.log(docRef.id);
 
-      console.log(this.currentLP.basicLPComment);
-      console.log(this.currentLP.htmlLPComment);
-      console.log(this.currentLP.cssLPComment);
-      console.log(this.currentLP.jsLPComment);
-
       this.resetInput();
     },
     resetInput() {

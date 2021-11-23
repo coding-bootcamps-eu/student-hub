@@ -3,7 +3,7 @@
     <legend>{{ lpLegend }}</legend>
     <textarea
       :placeholder="lp__placeholder"
-      :v-model="modelValue"
+      v-model="modelValue"
       @change="changeComponentOutput"
     ></textarea>
   </section>
