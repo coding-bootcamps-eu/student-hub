@@ -20,39 +20,43 @@
           :lpSliderPropertie="currentLP.htmlLP"
         />
         <LPFormFieldWithBar
-          lpLegend="Wie fit und wohl fühlst du dich in CSS?"
+          :lpLegend="'Wie fit und wohl fühlt sich ' + studentName + ' in CSS?'"
           @lp-value="this.currentLP.cssLPComment = $event"
           @slider-value="currentLP.cssLP = $event"
           :modelValue="currentLP.cssLP"
           :lpSliderPropertie="currentLP.cssLP"
         />
         <LPFormFieldWithBar
-          lpLegend="Wie fit und wohl fühlst du dich in JavaScript?"
+          :lpLegend="
+            'Wie fit und wohl fühlt sich ' + studentName + ' in JavaScript?'
+          "
           @lp-value="this.currentLP.jsLPComment = $event"
           @slider-value="currentLP.jsLP = $event"
           :modelValue="currentLP.jsLP"
           :lpSliderPropertie="currentLP.jsLP"
         />
         <LPFormFieldWithoutBar
-          lpLegend="Was lief deiner Meinung nach gut für dich?"
+          :lpLegend="'Was lief deiner Meinung nach gut für ' + studentName"
           lp__placeholder="Beschreibe was deiner Meinung nach gut für dich lief..."
           @lp-value-without-bar="this.currentLP.goodInCourse = $event"
           :modelValue="currentLP.goodInCourse"
         />
         <LPFormFieldWithoutBar
-          lpLegend="Was würdest du gerne besser machen?"
+          :lpLegend="'Was könnte ' + studentName + ' besser machen?'"
           lp__placeholder="Beschreibe was du gerne besser machen würdest..."
           @lp-value-without-bar="this.currentLP.improvements = $event"
           :modelValue="currentLP.improvements"
         />
         <LPFormFieldWithoutBar
-          lpLegend="Was läuft gut im Kurs?"
+          :lpLegend="'Was läuft bei ' + studentName + ' gut im Kurs?'"
           lp__placeholder="Beschreibe was du am Kurs gut findest..."
           @lp-value-without-bar="this.currentLP.whatWasGood = $event"
           :modelValue="currentLP.whatWasGood"
         />
         <LPFormFieldWithoutBar
-          lpLegend="Was würdest du gerne verbessert sehen?"
+          :lpLegend="
+            'Was würdest du gerne bei ' + studentName + 'verbessert sehen?'
+          "
           lp__placeholder="Beschreibe was du am Kurs verbessern würdest..."
           @lp-value-without-bar="this.currentLP.whatCouldBeBetter = $event"
           :modelValue="currentLP.whatCouldBeBetter"
