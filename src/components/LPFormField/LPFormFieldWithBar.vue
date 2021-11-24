@@ -1,6 +1,6 @@
 <template>
   <section class="lpformwith">
-    <legend>{{ lpLegend }}</legend>
+    <legend data-cy="legend-question">{{ lpLegend }}</legend>
     <LPSlideBar
       @slider-value="this.sliderValue = $event"
       @input="updateSliderValue"
@@ -10,6 +10,7 @@
       placeholder="Bitte gebe einen zusätzlichen Kommentar ab."
       v-model="inputValue"
       @input="updateValue"
+      data-cy="textarea-text-valuation"
     ></textarea>
   </section>
 </template>

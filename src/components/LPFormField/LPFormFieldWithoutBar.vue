@@ -1,10 +1,11 @@
 <template>
   <section>
-    <legend>{{ lpLegend }}</legend>
+    <legend data-cy="legend-question">{{ lpLegend }}</legend>
     <textarea
       :placeholder="lp__placeholder"
       v-model="modelValue"
       @input="updateValueWithoutBar"
+      data-cy="textarea-text-valuation"
     ></textarea>
   </section>
 </template>

@@ -7,8 +7,18 @@
         <router-link :to="{ name: 'lpDetail', params: { lpKey: lp.lpKey } }">
           {{ lp.lpKey }}
         </router-link>
-        {{ lp.lpData.author }}
+        {{ lp.lpData.studentName }}
         {{ lp.lpData.answerNeeded }}
+      </li>
+    </ul>
+    <ul>
+      <li
+        v-for="lp in answeredLP"
+        :key="lp.lpKey"
+        v-bind="lp"
+        :lpKey="lp.lpKey"
+      >
+        {{ lp.lpData.teacherID }} , {{ lp.lpData.answerNeeded }}
       </li>
     </ul>
   </section>
@@ -24,6 +34,9 @@ export default {
   computed: {
     studentLP() {
       return this.$store.getters.getStudentLP;
+    },
+    answeredLP() {
+      return this.$store.getters.getAnsweredLP;
     },
   },
   components: {
