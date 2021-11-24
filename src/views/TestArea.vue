@@ -29,8 +29,10 @@
         v-bind="comparedLP"
       >
         <p>LPKEY from Student {{ comparedLP.studentLP.lpKey }}</p>
+        <p>LPValue from Student {{ comparedLP.studentLP.lpData.basicLP }}</p>
         <p>LPKEY from answer {{ comparedLP.lpKey }}</p>
         <p>TeacherID {{ comparedLP.answeredLP.lpData.teacherID }}</p>
+        <p>TEacherValue {{ comparedLP.answeredLP.lpData.basicLP }}</p>
       </li>
     </ul>
   </section>
