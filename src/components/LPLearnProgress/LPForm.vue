@@ -65,7 +65,10 @@
           class="cbe-reset-btn"
           data-cy="textarea-reset-btn"
         />
-        <cbe-main-btn buttonClass="primary" @click="createLP"
+        <cbe-main-btn
+          buttonClass="primary"
+          @click="createLP"
+          data-cy="form-send-button"
           >Abschicken</cbe-main-btn
         >
       </div>
