@@ -32,15 +32,22 @@ export default {
 
 <style lang="scss" scoped>
 ul {
-  max-width: 95%;
-  margin: 0.25rem auto;
+  list-style-type: none;
   padding: 0;
-  border: 1px solid var(--primary-color);
-  border-radius: 0.25rem;
+  margin: 0;
+  display: grid;
+  max-width: 100%;
+  gap: 1rem;
 }
 li {
-  display: flex;
-  flex-flow: row;
-  justify-content: space-between;
+  border-top: 1px solid var(--primary-color);
+  border-bottom: 1px solid var(--primary-color);
+  align-items: baseline;
+}
+@media screen and (min-width: 555px) {
+  li {
+    border: 1px solid var(--primary-color);
+    border-radius: 0.25rem;
+  }
 }
 </style>

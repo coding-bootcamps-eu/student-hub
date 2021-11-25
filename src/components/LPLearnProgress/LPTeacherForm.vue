@@ -2,29 +2,23 @@
   <section>
     <form @input="updateLP">
       <div>
-        <!--LP-Value = emit aus child component
-         getValue Parent method
-         -->
         <LPFormFieldWithBar
           :lpLegend="'Bewerte den allgemeinen Fortschritt von ' + studentName"
           @lp-value="this.currentLP.basicLPComment = $event"
           @slider-value="currentLP.basicLP = $event"
-          :modelValue="currentLP.basicLPComment"
-          :lpSliderPropertie="currentLP.basicLP"
+          ref="basicLearningInput"
         />
         <LPFormFieldWithBar
           :lpLegend="'Wie fit fühlt sich ' + studentName + ' in HTML?'"
           @lp-value="this.currentLP.htmlLPComment = $event"
           @slider-value="currentLP.htmlLP = $event"
-          :modelValue="currentLP.htmlLP"
-          :lpSliderPropertie="currentLP.htmlLP"
+          ref="htmlLearningInput"
         />
         <LPFormFieldWithBar
           :lpLegend="'Wie fit und wohl fühlt sich ' + studentName + ' in CSS?'"
           @lp-value="this.currentLP.cssLPComment = $event"
           @slider-value="currentLP.cssLP = $event"
-          :modelValue="currentLP.cssLP"
-          :lpSliderPropertie="currentLP.cssLP"
+          ref="cssLearningInput"
         />
         <LPFormFieldWithBar
           :lpLegend="
@@ -32,26 +26,25 @@
           "
           @lp-value="this.currentLP.jsLPComment = $event"
           @slider-value="currentLP.jsLP = $event"
-          :modelValue="currentLP.jsLP"
-          :lpSliderPropertie="currentLP.jsLP"
+          ref="jsLearningInput"
         />
         <LPFormFieldWithoutBar
           :lpLegend="'Was lief deiner Meinung nach gut für ' + studentName"
           lp__placeholder="Beschreibe was deiner Meinung nach gut für dich lief..."
           @lp-value-without-bar="this.currentLP.goodInCourse = $event"
-          :modelValue="currentLP.goodInCourse"
+          ref="goodInCouseInput"
         />
         <LPFormFieldWithoutBar
           :lpLegend="'Was könnte ' + studentName + ' besser machen?'"
           lp__placeholder="Beschreibe was du gerne besser machen würdest..."
           @lp-value-without-bar="this.currentLP.improvements = $event"
-          :modelValue="currentLP.improvements"
+          ref="improvementsInput"
         />
         <LPFormFieldWithoutBar
           :lpLegend="'Was läuft bei ' + studentName + ' gut im Kurs?'"
           lp__placeholder="Beschreibe was du am Kurs gut findest..."
           @lp-value-without-bar="this.currentLP.whatWasGood = $event"
-          :modelValue="currentLP.whatWasGood"
+          ref="whatWasGoodInput"
         />
         <LPFormFieldWithoutBar
           :lpLegend="
@@ -59,7 +52,7 @@
           "
           lp__placeholder="Beschreibe was du am Kurs verbessern würdest..."
           @lp-value-without-bar="this.currentLP.whatCouldBeBetter = $event"
-          :modelValue="currentLP.whatCouldBeBetter"
+          ref="whatCouldBeBetterInput"
         />
       </div>
       <div class="button-wrapper">
@@ -100,7 +93,6 @@ export default {
   },
   data() {
     return {
-      lpValue: "",
       currentLP: {
         teacherID: this.teacherID,
         studentID: this.studentID,
