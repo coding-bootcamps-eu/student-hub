@@ -72,86 +72,101 @@
           <p class="roti-date">{{ roti.rotiDate }}</p>
         </li>
       </ul>
-      <div class="lps-wrapper">
-        <ol class="" v-if="lpShow">
-          <legend>LP - Ergebnisse</legend>
-          <li
-            v-for="lp in this.$store.getters.getStudentLP"
-            :key="lp.lpKey"
-            v-bind="lp"
-          >
-            <div>
-              <p>
-                Allgemeiner Lernfortschritt: {{ lp.lpData.basicLP }} Kommentar:
-                {{ lp.lpData.jsbasicComment }}
-              </p>
-              <p>
-                HTML Lernprozess: {{ lp.lpData.htmlLP }} HTML Kommentar:
-                {{ lp.lpData.htmlLPComment }}
-              </p>
-              <p>
-                CSS Lernprozess: {{ lp.lpData.cssLP }} CSS Kommentar:
-                {{ lp.lpData.cssLPComment }}
-              </p>
-              <p>
-                JS Lernprozess: {{ lp.lpData.jsLP }} JS Kommentar:
-                {{ lp.lpData.jsLPComment }}
-              </p>
-              <p>
-                Was lief deiner Meinung nach gut für dich?:
-                {{ lp.lpData.goodInCourse }}
-              </p>
-              <p>
-                Was würdest du gerne besser machen: {{ lp.lpData.improvements }}
-              </p>
-              <p>Was läuft gut im Kurs? {{ lp.lpData.whatWasGood }}</p>
-              <p>
-                Was würdest du gerne verbessert sehen?
-                {{ lp.lpData.whatCouldBeBetter }}
-              </p>
-            </div>
-          </li>
-        </ol>
-        <ol class="" v-if="lpShow">
-          <legend>LPTeacher - Ergebnisse</legend>
-          <li
-            v-for="lpt in this.$store.getters.getAnsweredLP"
-            :key="lpt.lpKey"
-            v-bind="lpt"
-          >
-            <div>
-              <p>
-                Allgemeiner Lernfortschritt: {{ lpt.lpData.basicLP }} Kommentar:
-                {{ lpt.lpData.jsbasicComment }}
-              </p>
-              <p>
-                HTML Lernprozess: {{ lpt.lpData.htmlLP }} HTML Kommentar:
-                {{ lpt.lpData.htmlLPComment }}
-              </p>
-              <p>
-                CSS Lernprozess: {{ lpt.lpData.cssLP }} CSS Kommentar:
-                {{ lpt.lpData.cssLPComment }}
-              </p>
-              <p>
-                JS Lernprozess: {{ lpt.lpData.jsLP }} JS Kommentar:
-                {{ lpt.lpData.jsLPComment }}
-              </p>
-              <p>
-                Was lief deiner Meinung nach gut für dich?:
-                {{ lpt.lpData.goodInCourse }}
-              </p>
-              <p>
-                Was würdest du gerne besser machen:
-                {{ lpt.lpData.improvements }}
-              </p>
-              <p>Was läuft gut im Kurs? {{ lpt.lpData.whatWasGood }}</p>
-              <p>
-                Was würdest du gerne verbessert sehen?
-                {{ lpt.lpData.whatCouldBeBetter }}
-              </p>
-            </div>
-          </li>
-        </ol>
+      <div v-if="lpShow">
+        <div
+          class="lps-wrapper"
+          v-for="comparedLP in comparedLPs"
+          :key="comparedLP.lpKey"
+          v-bind="comparedLP"
+        >
+          <ul>
+            <legend>LP - Ergebnisse</legend>
+            <li>
+              <div>
+                <p>
+                  basiclp: {{ comparedLP.studentLP.lpData.basicLP }} <br />
+                  Kommentar:
+                  {{ comparedLP.studentLP.lpData.basicLPComment }}
+                </p>
+                <p>
+                  htmllp: {{ comparedLP.studentLP.lpData.htmlLP }} <br />
+                  Kommentar:
+                  {{ comparedLP.studentLP.lpData.htmlLPComment }}
+                </p>
+                <p>
+                  csslp: {{ comparedLP.studentLP.lpData.cssLP }} <br />
+                  Kommentar:
+                  {{ comparedLP.studentLP.lpData.cssLPComment }}
+                </p>
+                <p>
+                  jslp: {{ comparedLP.studentLP.lpData.jsLP }} <br />
+                  Kommentar:
+                  {{ comparedLP.studentLP.lpData.jsLPComment }}
+                </p>
+                <p>
+                  Student goodInCourse:
+                  {{ comparedLP.studentLP.lpData.goodInCourse }}
+                </p>
+                <p>
+                  Student improvements:
+                  {{ comparedLP.studentLP.lpData.improvements }}
+                </p>
+                <p>
+                  Student whatCouldBeBetter:
+                  {{ comparedLP.studentLP.lpData.whatCouldBeBetter }}
+                </p>
+                <p>
+                  Student whatWasGood:
+                  {{ comparedLP.studentLP.lpData.whatWasGood }}
+                  {{ comparedLP.studentLP.lpData.answerNeeded }}
+                </p>
+              </div>
+            </li>
+          </ul>
+          <ul>
+            <legend>LPTeacher - Ergebnisse</legend>
+            <li>
+              <div>
+                <p>
+                  basiclp: {{ comparedLP.answeredLP.lpData.basicLP }} <br />
+                  Kommentar:
+                  {{ comparedLP.answeredLP.lpData.basicLPComment }}
+                </p>
+                <p>
+                  htmllp: {{ comparedLP.answeredLP.lpData.htmlLP }} <br />
+                  Kommentar:
+                  {{ comparedLP.answeredLP.lpData.htmlLPComment }}
+                </p>
+                <p>
+                  csslp: {{ comparedLP.answeredLP.lpData.cssLP }} <br />
+                  Kommentar:
+                  {{ comparedLP.answeredLP.lpData.cssLPComment }}
+                </p>
+                <p>
+                  jslp: {{ comparedLP.answeredLP.lpData.jsLP }} <br />
+                  Kommentar:
+                  {{ comparedLP.answeredLP.lpData.jsLPComment }}
+                </p>
+                <p>
+                  Teacher goodInCourse:
+                  {{ comparedLP.answeredLP.lpData.goodInCourse }}
+                </p>
+                <p>
+                  Teacher improvements:
+                  {{ comparedLP.answeredLP.lpData.improvements }}
+                </p>
+                <p>
+                  Teacher whatCouldBeBetter:
+                  {{ comparedLP.answeredLP.lpData.whatCouldBeBetter }}
+                </p>
+                <p>
+                  Teacher whatWasGood:
+                  {{ comparedLP.answeredLP.lpData.whatWasGood }}
+                </p>
+              </div>
+            </li>
+          </ul>
+        </div>
       </div>
     </div>
   </section>
@@ -172,6 +187,7 @@ export default {
       lpShow: false,
       lpBtnTextShow: "Zeige LP",
       lpBtnTextHide: "Verstecke LP",
+      comparedLPArray: [],
     };
   },
   computed: {
@@ -183,11 +199,35 @@ export default {
     rotiBtnText() {
       return this.rotisShown ? this.rotisBtnTxtHide : this.rotisBtnTxtShow;
     },
+
     lpBtnText() {
       return this.lpShow ? this.lpBtnTextHide : this.lpBtnTextShow;
     },
+    studentLP() {
+      return this.$store.getters.getStudentLP;
+    },
+    answeredLP() {
+      return this.$store.getters.getAnsweredLP;
+    },
+    comparedLPs() {
+      return this.comparedLPArray;
+    },
   },
   methods: {
+    compareLPs() {
+      debugger;
+      this.studentLP.forEach((lp) => {
+        this.answeredLP.forEach((lpAnswer) => {
+          if (lp.lpKey === lpAnswer.lpData.lpKey) {
+            this.comparedLPArray.push({
+              lpKey: lp.lpKey,
+              studentLP: lp,
+              answeredLP: lpAnswer,
+            });
+          }
+        });
+      });
+    },
     showQuestions() {
       this.questionsShown = !this.questionsShown;
     },
@@ -222,12 +262,14 @@ export default {
     await this.$store.dispatch("setAnsweredLP", {
       studentID: this.$store.getters.getCurrentUserID,
     });
+    this.compareLPs();
   },
 };
 </script>
 <style lang="scss" scoped>
 .lps-wrapper {
   display: flex;
+  gap: 12vw;
 }
 .sp__profile-section {
   margin: 0 4rem 0 2.5rem;
