@@ -73,136 +73,142 @@
         </li>
       </ul>
       <div v-if="lpShow">
+        <h2>Beantwortete LP's</h2>
         <div
-          class="lps-wrapper"
           v-for="comparedLP in comparedLPs"
           :key="comparedLP.lpKey"
           v-bind="comparedLP"
         >
-          <ul>
-            <legend>LP - Ergebnisse</legend>
-            <li>
-              <div>
-                <p>
-                  basiclp: {{ comparedLP.studentLP.lpData.basicLP }} <br />
-                  Kommentar:
-                  {{ comparedLP.studentLP.lpData.basicLPComment }}
-                </p>
-                <p>
-                  htmllp: {{ comparedLP.studentLP.lpData.htmlLP }} <br />
-                  Kommentar:
-                  {{ comparedLP.studentLP.lpData.htmlLPComment }}
-                </p>
-                <p>
-                  csslp: {{ comparedLP.studentLP.lpData.cssLP }} <br />
-                  Kommentar:
-                  {{ comparedLP.studentLP.lpData.cssLPComment }}
-                </p>
-                <p>
-                  jslp: {{ comparedLP.studentLP.lpData.jsLP }} <br />
-                  Kommentar:
-                  {{ comparedLP.studentLP.lpData.jsLPComment }}
-                </p>
-                <p>
-                  Student goodInCourse:
-                  {{ comparedLP.studentLP.lpData.goodInCourse }}
-                </p>
-                <p>
-                  Student improvements:
-                  {{ comparedLP.studentLP.lpData.improvements }}
-                </p>
-                <p>
-                  Student whatCouldBeBetter:
-                  {{ comparedLP.studentLP.lpData.whatCouldBeBetter }}
-                </p>
-                <p>
-                  Student whatWasGood:
-                  {{ comparedLP.studentLP.lpData.whatWasGood }}
-                </p>
-              </div>
-            </li>
-            <!-- <div v-for="lp in answerNeededArray" :key="lp.lpKey">
-              <li>
-                <p>
-                  basiclp: {{ lp.lpData.basicLP }}
-                  <br />
-                  Kommentar:
-                  {{ lp.lpData.basicLPComment }}
-                </p>
-                <p>
-                  htmllp: {{ lp.lpData.htmlLP }} <br />
-                  Kommentar:
-                  {{ lp.lpData.htmlLPComment }}
-                </p>
-                <p>
-                  csslp: {{ lp.lpData.cssLP }} <br />
-                  Kommentar:
-                  {{ lp.lpData.cssLPComment }}
-                </p>
-                <p>
-                  jslp: {{ lp.lpData.jsLP }} <br />
-                  Kommentar:
-                  {{ lp.lpData.jsLPComment }}
-                </p>
-                <p>
-                  Teacher goodInCourse:
-                  {{ lp.lpData.goodInCourse }}
-                </p>
-                <p>
-                  Teacher improvements:
-                  {{ lp.lpData.improvements }}
-                </p>
-                <p>
-                  Teacher whatCouldBeBetter:
-                  {{ lp.lpData.whatCouldBeBetter }}
-                </p>
-                <p>Teacher whatWasGood: {{ lp.lpData.whatWasGood }}</p>
-              </li>
-            </div> -->
-          </ul>
-          <ul>
-            <legend>LPTeacher - Ergebnisse</legend>
-            <li>
-              <div>
-                <p>
-                  basiclp: {{ comparedLP.answeredLP.lpData.basicLP }} <br />
-                  Kommentar:
-                  {{ comparedLP.answeredLP.lpData.basicLPComment }}
-                </p>
-                <p>
-                  htmllp: {{ comparedLP.answeredLP.lpData.htmlLP }} <br />
-                  Kommentar:
-                  {{ comparedLP.answeredLP.lpData.htmlLPComment }}
-                </p>
-                <p>
-                  csslp: {{ comparedLP.answeredLP.lpData.cssLP }} <br />
-                  Kommentar:
-                  {{ comparedLP.answeredLP.lpData.cssLPComment }}
-                </p>
-                <p>
-                  jslp: {{ comparedLP.answeredLP.lpData.jsLP }} <br />
-                  Kommentar:
-                  {{ comparedLP.answeredLP.lpData.jsLPComment }}
-                </p>
-                <p>
-                  Teacher goodInCourse:
-                  {{ comparedLP.answeredLP.lpData.goodInCourse }}
-                </p>
-                <p>
-                  Teacher improvements:
-                  {{ comparedLP.answeredLP.lpData.improvements }}
-                </p>
-                <p>
-                  Teacher whatCouldBeBetter:
-                  {{ comparedLP.answeredLP.lpData.whatCouldBeBetter }}
-                </p>
-                <p>
-                  Teacher whatWasGood:
-                  {{ comparedLP.answeredLP.lpData.whatWasGood }}
-                </p>
-              </div>
-            </li>
-          </ul>
+          <div class="lpstudenteacher">
+            <div>
+              <legend>Schüler LP</legend>
+              <p>
+                Schüler einschätzung(Allgemein):
+                {{ comparedLP.studentLP.lpData.basicLP }}<br />{{
+                  comparedLP.studentLP.lpData.basicLPComment
+                }}
+              </p>
+              <p>
+                Schüler einschätzung(HTML):
+                {{ comparedLP.studentLP.lpData.htmlLP }}<br />{{
+                  comparedLP.studentLP.lpData.htmlLPComment
+                }}
+              </p>
+              <p>
+                Schüler einschätzung(CSS):
+                {{ comparedLP.studentLP.lpData.cssLP }}<br />{{
+                  comparedLP.studentLP.lpData.cssLPComment
+                }}
+              </p>
+              <p>
+                Schüler einschätzung(JS):
+                {{ comparedLP.studentLP.lpData.jsLP }}<br />{{
+                  comparedLP.studentLP.lpData.jsLPComment
+                }}
+              </p>
+              <p>
+                Was lief deiner Meinung nach gut für dich? <br />{{
+                  comparedLP.studentLP.lpData.goodInCourse
+                }}
+              </p>
+              <p>
+                Was würdest du gerne besser machen? <br />{{
+                  comparedLP.studentLP.lpData.improvements
+                }}
+              </p>
+              <p>
+                Was läuft gut im Kurs? <br />{{
+                  comparedLP.studentLP.lpData.whatCouldBeBetter
+                }}
+              </p>
+              <p>
+                Was würdest du gerne verbessert sehen? <br />{{
+                  comparedLP.studentLP.lpData.whatWasGood
+                }}
+              </p>
+            </div>
+            <div>
+              <legend>Lehrer LP</legend>
+              <p>
+                Lehrer einschätzung(Allgemein):
+                {{ comparedLP.answeredLP.lpData.basicLP }}<br />{{
+                  comparedLP.answeredLP.lpData.basicLPComment
+                }}
+              </p>
+              <p>
+                Lehrer einschätzung(HTML):
+                {{ comparedLP.answeredLP.lpData.htmlLP }}<br />{{
+                  comparedLP.answeredLP.lpData.htmlLPComment
+                }}
+              </p>
+              <p>
+                Lehrer einschätzung(CSS):
+                {{ comparedLP.answeredLP.lpData.cssLP }}<br />{{
+                  comparedLP.answeredLP.lpData.cssLPComment
+                }}
+              </p>
+              <p>
+                Lehrer einschätzung(JS): {{ comparedLP.answeredLP.lpData.jsLP
+                }}<br />{{ comparedLP.answeredLP.lpData.jsLPComment }}
+              </p>
+              <p>
+                Was lief deiner Meinung nach gut ? <br />{{
+                  comparedLP.answeredLP.lpData.goodInCourse
+                }}
+              </p>
+              <p>
+                Was würdest du gerne besser sehen? <br />{{
+                  comparedLP.answeredLP.lpData.improvements
+                }}
+              </p>
+              <p>
+                Was läuft gut im Kurs? <br />{{
+                  comparedLP.answeredLP.lpData.whatCouldBeBetter
+                }}
+              </p>
+              <p>
+                Was würdest du gerne verbessert sehen? <br />{{
+                  comparedLP.answeredLP.lpData.whatWasGood
+                }}
+              </p>
+            </div>
+          </div>
+        </div>
+        <h2>Unbeantwortete LP's</h2>
+        <div v-for="lp in answerNeededArray" :key="lp.lpKey">
+          <legend>Schüler LP</legend>
+          <p>
+            Schüler einschätzung(Allgemein):
+            {{ lp.lpData.basicLP }}<br />{{ lp.lpData.basicLPComment }}
+          </p>
+          <p>
+            Schüler einschätzung(HTML):
+            {{ lp.lpData.htmlLP }}<br />{{ lp.lpData.htmlLPComment }}
+          </p>
+          <p>
+            Schüler einschätzung(CSS):
+            {{ lp.lpData.cssLP }}<br />{{ lp.lpData.cssLPComment }}
+          </p>
+          <p>
+            Schüler einschätzung(JS):
+            {{ lp.lpData.jsLP }}<br />{{ lp.lpData.jsLPComment }}
+          </p>
+          <p>
+            Was lief deiner Meinung nach gut für dich? <br />{{
+              lp.lpData.goodInCourse
+            }}
+          </p>
+          <p>
+            Was würdest du gerne besser machen? <br />{{
+              lp.lpData.improvements
+            }}
+          </p>
+          <p>Was läuft gut im Kurs? <br />{{ lp.lpData.whatCouldBeBetter }}</p>
+          <p>
+            Was würdest du gerne verbessert sehen? <br />{{
+              lp.lpData.whatWasGood
+            }}
+          </p>
         </div>
       </div>
     </div>
@@ -319,9 +325,10 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
-.lps-wrapper {
+.lpstudenteacher {
   display: flex;
-  gap: 12vw;
+  justify-content: center;
+  gap: 3vw;
 }
 .sp__profile-section {
   margin: 0 4rem 0 2.5rem;
