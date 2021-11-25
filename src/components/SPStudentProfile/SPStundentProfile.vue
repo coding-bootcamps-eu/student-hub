@@ -118,50 +118,47 @@
                 <p>
                   Student whatWasGood:
                   {{ comparedLP.studentLP.lpData.whatWasGood }}
-                  {{ comparedLP.studentLP.lpData.answerNeeded }}
                 </p>
               </div>
             </li>
-            <li
-              v-for="lp in anserNeededArray"
-              :key="lp.lpKey"
-              v-bind="pushAnswerNeed"
-            >
-              <p>
-                basiclp: {{ lp.lpData.basicLP }} {{ lp.lpData.answerNeeded }}
-                <br />
-                Kommentar:
-                {{ lp.lpData.basicLPComment }}
-              </p>
-              <p>
-                htmllp: {{ lp.lpData.htmlLP }} <br />
-                Kommentar:
-                {{ lp.lpData.htmlLPComment }}
-              </p>
-              <p>
-                csslp: {{ lp.lpData.cssLP }} <br />
-                Kommentar:
-                {{ lp.lpData.cssLPComment }}
-              </p>
-              <p>
-                jslp: {{ lp.lpData.jsLP }} <br />
-                Kommentar:
-                {{ lp.lpData.jsLPComment }}
-              </p>
-              <p>
-                Teacher goodInCourse:
-                {{ lp.lpData.goodInCourse }}
-              </p>
-              <p>
-                Teacher improvements:
-                {{ lp.lpData.improvements }}
-              </p>
-              <p>
-                Teacher whatCouldBeBetter:
-                {{ lp.lpData.whatCouldBeBetter }}
-              </p>
-              <p>Teacher whatWasGood: {{ lp.lpData.whatWasGood }}</p>
-            </li>
+            <!-- <div v-for="lp in answerNeededArray" :key="lp.lpKey">
+              <li>
+                <p>
+                  basiclp: {{ lp.lpData.basicLP }}
+                  <br />
+                  Kommentar:
+                  {{ lp.lpData.basicLPComment }}
+                </p>
+                <p>
+                  htmllp: {{ lp.lpData.htmlLP }} <br />
+                  Kommentar:
+                  {{ lp.lpData.htmlLPComment }}
+                </p>
+                <p>
+                  csslp: {{ lp.lpData.cssLP }} <br />
+                  Kommentar:
+                  {{ lp.lpData.cssLPComment }}
+                </p>
+                <p>
+                  jslp: {{ lp.lpData.jsLP }} <br />
+                  Kommentar:
+                  {{ lp.lpData.jsLPComment }}
+                </p>
+                <p>
+                  Teacher goodInCourse:
+                  {{ lp.lpData.goodInCourse }}
+                </p>
+                <p>
+                  Teacher improvements:
+                  {{ lp.lpData.improvements }}
+                </p>
+                <p>
+                  Teacher whatCouldBeBetter:
+                  {{ lp.lpData.whatCouldBeBetter }}
+                </p>
+                <p>Teacher whatWasGood: {{ lp.lpData.whatWasGood }}</p>
+              </li>
+            </div> -->
           </ul>
           <ul>
             <legend>LPTeacher - Ergebnisse</legend>
@@ -228,7 +225,7 @@ export default {
       lpBtnTextShow: "Zeige LP",
       lpBtnTextHide: "Verstecke LP",
       comparedLPArray: [],
-      anserNeededArray: [],
+      answerNeededArray: [],
     };
   },
   computed: {
@@ -256,10 +253,11 @@ export default {
   },
   methods: {
     compareLPs() {
-      debugger;
+      console.log("comparedLPArray is execited");
       this.studentLP.forEach((lp) => {
         this.answeredLP.forEach((lpAnswer) => {
           if (lp.lpKey === lpAnswer.lpData.lpKey) {
+            console.log("array push");
             this.comparedLPArray.push({
               lpKey: lp.lpKey,
               studentLP: lp,
@@ -270,16 +268,13 @@ export default {
       });
     },
     pushAnswerNeeded() {
-      debugger;
       this.studentLP.forEach((lp) => {
         if (lp.lpData.answerNeeded === true) {
-          this.anserNeededArray.push({
+          this.answerNeededArray.push({
             lpKey: lp.lpKey,
             lpData: lp.lpData,
           });
-          console.log("antowrt:" + this.anserNeededArray);
-        } else {
-          console.log("nothing");
+          console.log("antwort:" + this.anserNeededArray);
         }
       });
     },
@@ -314,6 +309,7 @@ export default {
     await this.$store.dispatch("setStudentLP", {
       studentID: this.$store.getters.getCurrentUserID,
     });
+
     await this.$store.dispatch("setAnsweredLP", {
       studentID: this.$store.getters.getCurrentUserID,
     });
