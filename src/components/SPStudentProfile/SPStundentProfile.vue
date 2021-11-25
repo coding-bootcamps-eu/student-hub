@@ -122,6 +122,46 @@
                 </p>
               </div>
             </li>
+            <li
+              v-for="lp in anserNeededArray"
+              :key="lp.lpKey"
+              v-bind="pushAnswerNeed"
+            >
+              <p>
+                basiclp: {{ lp.lpData.basicLP }} {{ lp.lpData.answerNeeded }}
+                <br />
+                Kommentar:
+                {{ lp.lpData.basicLPComment }}
+              </p>
+              <p>
+                htmllp: {{ lp.lpData.htmlLP }} <br />
+                Kommentar:
+                {{ lp.lpData.htmlLPComment }}
+              </p>
+              <p>
+                csslp: {{ lp.lpData.cssLP }} <br />
+                Kommentar:
+                {{ lp.lpData.cssLPComment }}
+              </p>
+              <p>
+                jslp: {{ lp.lpData.jsLP }} <br />
+                Kommentar:
+                {{ lp.lpData.jsLPComment }}
+              </p>
+              <p>
+                Teacher goodInCourse:
+                {{ lp.lpData.goodInCourse }}
+              </p>
+              <p>
+                Teacher improvements:
+                {{ lp.lpData.improvements }}
+              </p>
+              <p>
+                Teacher whatCouldBeBetter:
+                {{ lp.lpData.whatCouldBeBetter }}
+              </p>
+              <p>Teacher whatWasGood: {{ lp.lpData.whatWasGood }}</p>
+            </li>
           </ul>
           <ul>
             <legend>LPTeacher - Ergebnisse</legend>
@@ -188,6 +228,7 @@ export default {
       lpBtnTextShow: "Zeige LP",
       lpBtnTextHide: "Verstecke LP",
       comparedLPArray: [],
+      anserNeededArray: [],
     };
   },
   computed: {
@@ -228,6 +269,20 @@ export default {
         });
       });
     },
+    pushAnswerNeeded() {
+      debugger;
+      this.studentLP.forEach((lp) => {
+        if (lp.lpData.answerNeeded === true) {
+          this.anserNeededArray.push({
+            lpKey: lp.lpKey,
+            lpData: lp.lpData,
+          });
+          console.log("antowrt:" + this.anserNeededArray);
+        } else {
+          console.log("nothing");
+        }
+      });
+    },
     showQuestions() {
       this.questionsShown = !this.questionsShown;
     },
@@ -263,6 +318,7 @@ export default {
       studentID: this.$store.getters.getCurrentUserID,
     });
     this.compareLPs();
+    this.pushAnswerNeeded();
   },
 };
 </script>
