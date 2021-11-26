@@ -42,6 +42,22 @@ const routes = [
       ),
   },
   {
+    path: "/lpTeacher",
+    name: "lp-teacher",
+    component: () =>
+      import(
+        /* webpackChunkName: "lpTeacher" */ "../views/LearnProgress/LP-teacher.vue"
+      ),
+  },
+  {
+    path: "/:lpKey",
+    name: "lpDetail",
+    component: () =>
+      import(
+        /* webpackChunkName: "lpdetail" */ "../views/LearnProgress/LP-detail.vue"
+      ),
+  },
+  {
     path: "/rotitool",
     name: "ROTI-Tool",
     component: () =>
@@ -88,6 +104,12 @@ const routes = [
       import(
         /* webpackChunkName: "studentDetails" */ "../views/TeacherHub/StudentDetailView.vue"
       ),
+  },
+  {
+    path: "/testArea",
+    name: "testArea",
+    component: () =>
+      import(/* webpackChunkName: "testArea" */ "../views/TestArea.vue"),
   },
 ];
 

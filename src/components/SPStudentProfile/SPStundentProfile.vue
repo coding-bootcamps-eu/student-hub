@@ -19,6 +19,13 @@
           ></router-link>
         </div>
         <cbe-main-btn
+          id="showLPBtn"
+          class="margin-left hidebtn"
+          buttonClass="secondary"
+          @click="showLPs"
+          >{{ lpBtnText }}
+        </cbe-main-btn>
+        <cbe-main-btn
           id="showAmaBtn"
           class="margin-left hidebtn"
           buttonClass="secondary"
@@ -65,6 +72,368 @@
           <p class="roti-date">{{ roti.rotiDate }}</p>
         </li>
       </ul>
+      <div v-if="lpShow">
+        <h2>Beantwortete LP's</h2>
+        <div
+          v-for="comparedLP in comparedLPs"
+          :key="comparedLP.lpKey"
+          v-bind="comparedLP"
+        >
+          <div class="lpstudenteacher">
+            <div class="lp-wrapper">
+              <legend class="heading-legend">
+                Schüler LP:
+                {{ comparedLP.studentLP.lpKey }}
+              </legend>
+              <div
+                class="lp-with-point"
+                id="lpBasicDiv"
+                @mouseenter="
+                  compareLpValues(
+                    comparedLP.studentLP.lpData.basicLP,
+                    comparedLP.answeredLP.lpData.basicLP,
+                    'lpBasicDiv'
+                  )
+                "
+                @mouseleave="resetBackgroundColor('lpBasicDiv')"
+              >
+                <p class="lp-heading">Schüler Einschätzung(Allgemein):</p>
+                <p class="lp-points">
+                  Punkte:
+                  <span class="pt">
+                    {{ comparedLP.studentLP.lpData.basicLP }}
+                  </span>
+                </p>
+                <p class="lp-comment">
+                  Kommentar:
+                  <span class="cmt">
+                    {{ comparedLP.studentLP.lpData.basicLPComment }}
+                  </span>
+                </p>
+              </div>
+              <div
+                class="lp-with-point"
+                id="lpHTMLDiv"
+                @mouseenter="
+                  compareLpValues(
+                    comparedLP.studentLP.lpData.htmlLP,
+                    comparedLP.answeredLP.lpData.htmlLP,
+                    'lpHTMLDiv'
+                  )
+                "
+                @mouseleave="resetBackgroundColor('lpHTMLDiv')"
+              >
+                <p class="lp-heading">Schüler Einschätzung(HTML):</p>
+                <p class="lp-points">
+                  Punkte:
+                  <span class="pt">
+                    {{ comparedLP.studentLP.lpData.htmlLP }}
+                  </span>
+                </p>
+                <p class="lp-comment">
+                  Kommentar:
+                  <span class="cmt">
+                    {{ comparedLP.studentLP.lpData.htmlLPComment }}
+                  </span>
+                </p>
+              </div>
+              <div
+                class="lp-with-point"
+                id="lpCSSDiv"
+                @mouseenter="
+                  compareLpValues(
+                    comparedLP.studentLP.lpData.cssLP,
+                    comparedLP.answeredLP.lpData.cssLP,
+                    'lpCSSDiv'
+                  )
+                "
+                @mouseleave="resetBackgroundColor('lpCSSDiv')"
+              >
+                <p class="lp-heading">Schüler Einschätzung(CSS):</p>
+                <p class="lp-points">
+                  Punkte:
+                  <span class="pt">
+                    {{ comparedLP.studentLP.lpData.cssLP }}
+                  </span>
+                </p>
+                <p class="lp-comment">
+                  Kommentar:
+                  <span class="cmt">
+                    {{ comparedLP.studentLP.lpData.cssLPComment }}
+                  </span>
+                </p>
+              </div>
+              <div
+                class="lp-with-point"
+                id="lpJSDiv"
+                @mouseenter="
+                  compareLpValues(
+                    comparedLP.studentLP.lpData.jsLP,
+                    comparedLP.answeredLP.lpData.jsLP,
+                    'lpJSDiv'
+                  )
+                "
+                @mouseleave="resetBackgroundColor('lpJSDiv')"
+              >
+                <p class="lp-heading">Schüler Einschätzung(JS):</p>
+                <p class="lp-points">
+                  Punkte:
+                  <span class="pt">
+                    {{ comparedLP.studentLP.lpData.jsLP }}
+                  </span>
+                </p>
+                <p class="lp-comment">
+                  Kommentar:
+                  <span class="cmt">
+                    {{ comparedLP.studentLP.lpData.jsLPComment }}
+                  </span>
+                </p>
+              </div>
+              <div class="lp-without-point">
+                <p class="lp-heading">Was lief gut für dich?</p>
+                <p class="lp-comment">
+                  Kommentar:
+                  <span class="cmt">
+                    {{ comparedLP.studentLP.lpData.goodInCourse }}
+                  </span>
+                </p>
+              </div>
+              <div class="lp-without-point">
+                <p class="lp-heading">Was würdest du gerne besser machen?</p>
+                <p class="lp-comment">
+                  Kommentar:
+                  <span class="cmt">
+                    {{ comparedLP.studentLP.lpData.improvements }}
+                  </span>
+                </p>
+              </div>
+              <div class="lp-without-point">
+                <p class="lp-heading">Was läuft gut im Kurs?</p>
+                <p class="lp-comment">
+                  Kommentar:
+                  <span class="cmt">
+                    {{ comparedLP.studentLP.lpData.whatCouldBeBetter }}
+                  </span>
+                </p>
+              </div>
+              <div class="lp-without-point">
+                <p class="lp-heading">Was würdest du gerne verbessert sehen?</p>
+                <p class="lp-comment">
+                  Kommentar:
+                  <span class="cmt">
+                    {{ comparedLP.studentLP.lpData.whatWasGood }}
+                  </span>
+                </p>
+              </div>
+            </div>
+            <div class="lp-wrapper">
+              <legend class="heading-legend">
+                Lehrer LP: {{ comparedLP.answeredLP.lpData.lpKey }}
+              </legend>
+              <div class="lp-with-point">
+                <p class="lp-heading">Lehrer Einschätzung(Allgemein):</p>
+                <p class="lp-points">
+                  Punkte:
+                  <span class="pt">
+                    {{ comparedLP.answeredLP.lpData.basicLP }}
+                  </span>
+                </p>
+                <p class="lp-comment">
+                  Kommentar:
+                  <span class="cmt">
+                    {{ comparedLP.answeredLP.lpData.basicLPComment }}
+                  </span>
+                </p>
+              </div>
+              <div class="lp-with-point">
+                <p class="lp-heading">Lehrer Einschätzung(HTML):</p>
+                <p class="lp-points">
+                  Punkte:
+                  <span class="pt">
+                    {{ comparedLP.answeredLP.lpData.htmlLP }}
+                  </span>
+                </p>
+                <p class="lp-comment">
+                  Kommentar:
+                  <span class="cmt">
+                    {{ comparedLP.answeredLP.lpData.htmlLPComment }}
+                  </span>
+                </p>
+              </div>
+              <div class="lp-with-point">
+                <p class="lp-heading">Lehrer Einschätzung(CSS):</p>
+                <p class="lp-points">
+                  Punkte:
+                  <span class="pt">
+                    {{ comparedLP.answeredLP.lpData.cssLP }}
+                  </span>
+                </p>
+                <p class="lp-comment">
+                  Kommentar:
+                  <span class="cmt">
+                    {{ comparedLP.answeredLP.lpData.cssLPComment }}
+                  </span>
+                </p>
+              </div>
+              <div class="lp-with-point">
+                <p class="lp-heading">Lehrer Einschätzung(JS):</p>
+                <p class="lp-points">
+                  Punkte:
+                  <span class="pt">
+                    {{ comparedLP.answeredLP.lpData.jsLP }}
+                  </span>
+                </p>
+                <p class="lp-comment">
+                  Kommentar:
+                  <span class="cmt">
+                    {{ comparedLP.answeredLP.lpData.jsLPComment }}
+                  </span>
+                </p>
+              </div>
+              <div class="lp-without-point">
+                <p class="lp-heading">Was lief gut für dich?</p>
+                <p class="lp-comment">
+                  Kommentar:
+                  <span class="cmt">
+                    {{ comparedLP.answeredLP.lpData.goodInCourse }}
+                  </span>
+                </p>
+              </div>
+              <div class="lp-without-point">
+                <p class="lp-heading">Wo kannst du dich verbessern?</p>
+                <p class="lp-comment">
+                  Kommentar:
+                  <span class="cmt">
+                    {{ comparedLP.answeredLP.lpData.improvements }}
+                  </span>
+                </p>
+              </div>
+              <div class="lp-without-point">
+                <p class="lp-heading">Was läuft gut im Kurs?</p>
+                <p class="lp-comment">
+                  Kommentar:
+                  <span class="cmt">
+                    {{ comparedLP.answeredLP.lpData.whatCouldBeBetter }}
+                  </span>
+                </p>
+              </div>
+              <div class="lp-without-point">
+                <p class="lp-heading">Was hast du gut gemacht?</p>
+                <p class="lp-comment">
+                  Kommentar:
+                  <span class="cmt">
+                    {{ comparedLP.answeredLP.lpData.whatWasGood }}
+                  </span>
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <h2>Unbeantwortete LP's</h2>
+        <div v-for="lp in answerNeededArray" :key="lp.lpKey">
+          <div class="lpstudent">
+            <legend class="heading-legend">Schüler LP: {{ lp.lpKey }}</legend>
+            <div class="lp-with-point">
+              <p class="lp-heading">Schüler Einschätzung(Allgemein):</p>
+              <p class="lp-points">
+                Punkte:
+                <span class="pt">
+                  {{ lp.lpData.basicLP }}
+                </span>
+              </p>
+              <p class="lp-comment">
+                Kommentar:
+                <span class="cmt">
+                  {{ lp.lpData.basicLPComment }}
+                </span>
+              </p>
+            </div>
+            <div class="lp-with-point">
+              <p class="lp-heading">Schüler Einschätzung(HTML):</p>
+              <p class="lp-points">
+                Punkte:
+                <span class="pt">
+                  {{ lp.lpData.htmlLP }}
+                </span>
+              </p>
+              <p class="lp-comment">
+                Kommentar:
+                <span class="cmt">
+                  {{ lp.lpData.htmlLPComment }}
+                </span>
+              </p>
+            </div>
+            <div class="lp-with-point">
+              <p class="lp-heading">Schüler Einschätzung(CSS):</p>
+              <p class="lp-points">
+                Punkte:
+                <span class="pt">
+                  {{ lp.lpData.cssLP }}
+                </span>
+              </p>
+              <p class="lp-comment">
+                Kommentar:
+                <span class="cmt">
+                  {{ lp.lpData.cssLPComment }}
+                </span>
+              </p>
+            </div>
+            <div class="lp-with-point">
+              <p class="lp-heading">Schüler Einschätzung(JS):</p>
+              <p class="lp-points">
+                Punkte:
+                <span class="pt">
+                  {{ lp.lpData.jsLP }}
+                </span>
+              </p>
+              <p class="lp-comment">
+                Kommentar:
+                <span class="cmt">
+                  {{ lp.lpData.jsLPComment }}
+                </span>
+              </p>
+            </div>
+            <div class="lp-without-point">
+              <p class="lp-heading">
+                Was lief deiner Meinung nach gut für dich?
+              </p>
+              <p class="lp-comment">
+                Kommentar:
+                <span class="cmt">
+                  {{ lp.lpData.goodInCourse }}
+                </span>
+              </p>
+            </div>
+            <div class="lp-without-point">
+              <p class="lp-heading">Was würdest du gerne besser machen?</p>
+              <p class="lp-comment">
+                Kommentar:
+                <span class="cmt">
+                  {{ lp.lpData.improvements }}
+                </span>
+              </p>
+            </div>
+            <div class="lp-without-point">
+              <p class="lp-heading">Was läuft gut im Kurs?</p>
+              <p class="lp-comment">
+                Kommentar:
+                <span class="cmt">
+                  {{ lp.lpData.whatCouldBeBetter }}
+                </span>
+              </p>
+            </div>
+            <div class="lp-without-point">
+              <p class="lp-heading">Was würdest du gerne verbessert sehen?</p>
+              <p class="lp-comment">
+                Kommentar:
+                <span class="cmt">
+                  {{ lp.lpData.whatWasGood }}
+                </span>
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   </section>
 </template>
@@ -73,6 +442,7 @@ export default {
   name: "SPStudentProfile",
   data() {
     return {
+      answeredLPArray: this.$store.getters.getAnsweredLP,
       userID: this.$store.getters.getCurrentUserID,
       questionsShown: false,
       questionBtnTxtShow: "Zeige Fragen",
@@ -80,6 +450,11 @@ export default {
       rotisShown: false,
       rotisBtnTxtShow: "Zeige Rotis",
       rotisBtnTxtHide: "Verstecke Rotis",
+      lpShow: false,
+      lpBtnTextShow: "Zeige LP",
+      lpBtnTextHide: "Verstecke LP",
+      comparedLPArray: [],
+      answerNeededArray: [],
     };
   },
   computed: {
@@ -91,13 +466,74 @@ export default {
     rotiBtnText() {
       return this.rotisShown ? this.rotisBtnTxtHide : this.rotisBtnTxtShow;
     },
+
+    lpBtnText() {
+      return this.lpShow ? this.lpBtnTextHide : this.lpBtnTextShow;
+    },
+    studentLP() {
+      return this.$store.getters.getStudentLP;
+    },
+    answeredLP() {
+      return this.$store.getters.getAnsweredLP;
+    },
+    comparedLPs() {
+      return this.comparedLPArray;
+    },
   },
   methods: {
+    resetBackgroundColor(elementID) {
+      let element = document.getElementById(elementID);
+      let inherit = "inherit";
+      element.style.backgroundColor = inherit;
+    },
+    compareLpValues(teacherValue, studentValue, elementID) {
+      let element = document.getElementById(elementID);
+      let yellow = "#ffc642";
+      let red = "#ed3221";
+      let green = "#a3db33";
+      if (studentValue > teacherValue) {
+        element.style.backgroundColor = red;
+        console.log("red");
+      } else if (studentValue < teacherValue) {
+        element.style.backgroundColor = green;
+        console.log("green");
+      } else {
+        console.log("yellow");
+        element.style.backgroundColor = yellow;
+      }
+    },
+    compareLPs() {
+      this.studentLP.forEach((lp) => {
+        this.answeredLP.forEach((lpAnswer) => {
+          if (lp.lpKey === lpAnswer.lpData.lpKey) {
+            this.comparedLPArray.push({
+              lpKey: lp.lpKey,
+              studentLP: lp,
+              answeredLP: lpAnswer,
+            });
+          }
+        });
+      });
+    },
+    pushAnswerNeeded() {
+      this.studentLP.forEach((lp) => {
+        if (lp.lpData.answerNeeded === true) {
+          this.answerNeededArray.push({
+            lpKey: lp.lpKey,
+            lpData: lp.lpData,
+          });
+        }
+      });
+    },
     showQuestions() {
       this.questionsShown = !this.questionsShown;
     },
     showRotis() {
       this.rotisShown = !this.rotisShown;
+    },
+    showLPs() {
+      this.lpShow = !this.lpShow;
+      this.lpteacherShow = !this.lpteacherShow;
     },
   },
   async created() {
@@ -117,6 +553,15 @@ export default {
       "setspUser",
       this.$store.getters.getCurrentUserID
     );
+    await this.$store.dispatch("setStudentLP", {
+      studentID: this.$store.getters.getCurrentUserID,
+    });
+
+    await this.$store.dispatch("setAnsweredLP", {
+      studentID: this.$store.getters.getCurrentUserID,
+    });
+    this.compareLPs();
+    this.pushAnswerNeeded();
   },
 };
 </script>
@@ -234,6 +679,81 @@ li {
 .hidebtn {
   margin: 1rem;
 }
+
+/**
+  LP Compare
+*/
+.lpstudenteacher {
+  display: flex;
+  padding: 1rem 0.5rem;
+  margin-bottom: 1rem;
+  justify-content: center;
+  box-shadow: hsl(268, 75, 44, 0.5) 0px 1px 3px,
+    hsl(268, 75, 44, 0.6) 0px 1px 2px;
+  border-radius: 0.25rem;
+  gap: 3vw;
+  text-align: left;
+}
+.lpstudent {
+  padding: 1rem 0.5rem;
+  margin-bottom: 1rem;
+  justify-content: center;
+  box-shadow: hsl(268, 75, 44, 0.5) 0px 1px 3px,
+    hsl(268, 75, 44, 0.6) 0px 1px 2px;
+  border-radius: 0.25rem;
+  gap: 3vw;
+  text-align: left;
+}
+.lp-wrapper {
+  width: 50%;
+  padding-left: 0.5rem;
+}
+.lp-wrapper {
+  div {
+    padding: 0.5rem 1rem;
+    margin: 0.5rem 0;
+    border-radius: 0.25rem;
+    transition: background-color 0.125s ease-in-out;
+    p {
+      margin: 0.125rem;
+    }
+    &:hover {
+      background-color: var(--light-grey);
+    }
+  }
+  div:nth-child(1n + 1) {
+    box-shadow: hsl(268, 76, 65, 0.5) 0px 1px 3px,
+      hsl(268, 76, 65, 0.6) 0px 1px 2px;
+  }
+  div:nth-child(2n + 2) {
+    box-shadow: hsl(268, 75, 44, 0.5) 0px 1px 3px,
+      hsl(268, 75, 44, 0.6) 0px 1px 2px;
+  }
+}
+.heading-legend {
+  font-size: 0.9em;
+  font-weight: 500;
+}
+.lp-heading {
+  font-size: 0.9em;
+  font-weight: 500;
+  text-decoration: underline;
+}
+.lp-points,
+.lp-comment {
+  font-size: 0.9em;
+  .pt {
+    font-weight: bold;
+  }
+}
+
+.lr__recording-list > li:nth-child(1n + 1) {
+  background: var(--background-color);
+}
+.lr__recording-list > li:nth-child(2n + 2) {
+  background: var(--light-grey);
+}
+
 @media screen and (max-width: 720px) {
   .lp__entry-link {
     padding: 0.65rem 0.7rem;

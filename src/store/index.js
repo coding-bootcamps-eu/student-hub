@@ -54,6 +54,13 @@ export default createStore({
     usersVotedQuestion: [],
     questionFilterStatus: "All",
     singleQuestion: {},
+    /**
+     * LearnProgress
+     */
+    studentLP: [],
+    answeredLP: [],
+    teacherLP: {},
+    currentLP: {},
   },
   mutations: {
     //<- Current User Mutations ->
@@ -144,6 +151,20 @@ export default createStore({
     setUserRotis(state, payload) {
       sessionStorage.setItem("userRotis", JSON.stringify(payload.userRotis));
       state.userRotis = payload.userRotis;
+    },
+
+    // <- Learn-Progress ->
+    setStudentLP(state, payload) {
+      state.studentLP = payload.studentLP;
+    },
+    setAnsweredLP(state, payload) {
+      state.answeredLP = payload.answeredLP;
+    },
+    setTeacherLP(state, payload) {
+      state.teacherLP = payload.teacherLP;
+    },
+    setCurrentLP(state, payload) {
+      state.currentLP = payload.currentLP;
     },
   },
   actions: {
@@ -272,6 +293,7 @@ export default createStore({
         allStudents: _students,
       });
     },
+
     //<-AMA-TOOL->
     updateAllQuestions(state) {
       const q = query(collection(firestore, "ama-questions"));
@@ -339,6 +361,7 @@ export default createStore({
         studentQuestions: arrayUnion(payload.question),
       });
     },
+
     //<-ROTI-TOOL->
     async setUserRotis(state, payload) {
       onSnapshot(doc(firestore, "all-users", payload), (doc) => {
@@ -346,6 +369,74 @@ export default createStore({
           type: "setUserRotis",
           userRotis: doc.data().studentRotis,
         });
+      });
+    },
+
+    // <- Learn-Progress ->
+    async setStudentLP(state, payload) {
+      let _lps = [];
+      const q = query(
+        collection(firestore, "learn-progress"),
+        where("studentID", "==", payload.studentID)
+      );
+      const querySnapshot = await getDocs(q);
+
+      querySnapshot.forEach((doc) => {
+        _lps.push({
+          lpKey: doc.id,
+          lpData: doc.data(),
+        });
+      });
+      state.commit({
+        type: "setStudentLP",
+        studentLP: _lps,
+      });
+    },
+    async setAnsweredLP(state, payload) {
+      let _lps = [];
+      const q = query(
+        collection(firestore, "lp-answer"),
+        where("studentID", "==", payload.studentID)
+      );
+      const querySnapshot = await getDocs(q);
+
+      querySnapshot.forEach((doc) => {
+        _lps.push({
+          lpKey: doc.id,
+          lpData: doc.data(),
+        });
+      });
+      state.commit({
+        type: "setAnsweredLP",
+        answeredLP: _lps,
+      });
+    },
+    async setTeacherLP(state, payload) {
+      const lpRef = doc(firestore, "lp-answers", payload.lpKey);
+      const lpSnap = await getDoc(lpRef);
+      if (lpSnap.exists()) {
+        state.commit("setTeacherLP", {
+          teacherLP: lpSnap.data(),
+        });
+      } else {
+        console.log("No such document!");
+      }
+    },
+    async setCurrentLP(state, payload) {
+      const lpRef = doc(firestore, "learn-progress", payload.lpKey);
+      const lpSnap = await getDoc(lpRef);
+      if (lpSnap.exists()) {
+        state.commit("setCurrentLP", {
+          currentLP: lpSnap.data(),
+        });
+      } else {
+        console.log("No such document!");
+      }
+    },
+    async updateLP(payload) {
+      const lpRef = doc(firestore, "learn-progress", payload);
+      await updateDoc(lpRef, {
+        answerNeeded: false,
       });
     },
   },
@@ -422,6 +513,20 @@ export default createStore({
     //<-ROTI-TOOL->
     getUserRotis(state) {
       return state.userRotis;
+    },
+
+    //<-Learn-Progress->
+    getStudentLP(state) {
+      return state.studentLP;
+    },
+    getAnsweredLP(state) {
+      return state.answeredLP;
+    },
+    getTeacherLP(state) {
+      return state.teacherLP;
+    },
+    getCurrentLP(state) {
+      return state.currentLP;
     },
   },
 });

@@ -1,13 +1,13 @@
 <template>
-  <LPStudentEntry />
+  <LPForm />
 </template>
 
 <script>
-import LPStudentEntry from "@/components/LPLearnProgress/LPStudentEntry.vue";
+import LPForm from "@/components/LPLearnProgress/LPForm.vue";
 export default {
   name: "LPMainView",
   components: {
-    LPStudentEntry,
+    LPForm,
   },
   data() {
     return {

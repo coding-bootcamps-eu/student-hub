@@ -94,7 +94,11 @@
       </div>
       <div class="lp__btn-wrapper">
         <cbe-main-btn buttonClass="primary" class="btn">ABBRECHEN</cbe-main-btn>
-        <cbe-main-btn buttonClass="secondary" class="btn" @click="initEntry"
+        <cbe-main-btn
+          buttonClass="secondary"
+          class="btn"
+          @click="initEntry"
+          data-cy="form-send-button"
           >ABSCHICKEN</cbe-main-btn
         >
       </div>
