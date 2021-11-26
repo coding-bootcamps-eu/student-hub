@@ -87,7 +87,6 @@ export default {
           });
         }
       });
-      console.log("DOM Array", this.studentLPArray);
     },
   },
   props: {

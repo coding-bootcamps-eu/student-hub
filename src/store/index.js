@@ -382,7 +382,6 @@ export default createStore({
       const querySnapshot = await getDocs(q);
 
       querySnapshot.forEach((doc) => {
-        console.log(doc.id);
         _lps.push({
           lpKey: doc.id,
           lpData: doc.data(),
@@ -392,7 +391,6 @@ export default createStore({
         type: "setStudentLP",
         studentLP: _lps,
       });
-      console.log(_lps);
     },
     async setAnsweredLP(state, payload) {
       let _lps = [];
@@ -403,7 +401,6 @@ export default createStore({
       const querySnapshot = await getDocs(q);
 
       querySnapshot.forEach((doc) => {
-        console.log(doc.id);
         _lps.push({
           lpKey: doc.id,
           lpData: doc.data(),
@@ -413,7 +410,6 @@ export default createStore({
         type: "setAnsweredLP",
         answeredLP: _lps,
       });
-      console.log(_lps);
     },
     async setTeacherLP(state, payload) {
       const lpRef = doc(firestore, "lp-answers", payload.lpKey);
@@ -438,7 +434,6 @@ export default createStore({
       }
     },
     async updateLP(payload) {
-      console.log(payload.key);
       const lpRef = doc(firestore, "learn-progress", payload);
       await updateDoc(lpRef, {
         answerNeeded: false,

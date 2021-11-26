@@ -479,11 +479,9 @@ export default {
       }
     },
     compareLPs() {
-      console.log("comparedLPArray is execited");
       this.studentLP.forEach((lp) => {
         this.answeredLP.forEach((lpAnswer) => {
           if (lp.lpKey === lpAnswer.lpData.lpKey) {
-            console.log("array push");
             this.comparedLPArray.push({
               lpKey: lp.lpKey,
               studentLP: lp,
@@ -500,7 +498,6 @@ export default {
             lpKey: lp.lpKey,
             lpData: lp.lpData,
           });
-          console.log("antwort:" + this.anserNeededArray);
         }
       });
     },
