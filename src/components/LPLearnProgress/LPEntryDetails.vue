@@ -47,7 +47,6 @@ export default {
   },
   async created() {
     await this.getLP();
-    console.log(this.localLP);
   },
 };
 </script>

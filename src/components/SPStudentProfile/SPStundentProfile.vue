@@ -87,12 +87,15 @@
               </legend>
               <div
                 class="lp-with-point"
+                id="lpBasicDiv"
                 @mouseenter="
                   compareLpValues(
                     comparedLP.studentLP.lpData.basicLP,
-                    comparedLP.answeredLP.lpData.basicLP
+                    comparedLP.answeredLP.lpData.basicLP,
+                    'lpBasicDiv'
                   )
                 "
+                @mouseleave="resetBackgroundColor('lpBasicDiv')"
               >
                 <p class="lp-heading">Schüler Einschätzung(Allgemein):</p>
                 <p class="lp-points">
@@ -110,12 +113,15 @@
               </div>
               <div
                 class="lp-with-point"
+                id="lpHTMLDiv"
                 @mouseenter="
                   compareLpValues(
                     comparedLP.studentLP.lpData.htmlLP,
-                    comparedLP.answeredLP.lpData.htmlLP
+                    comparedLP.answeredLP.lpData.htmlLP,
+                    'lpHTMLDiv'
                   )
                 "
+                @mouseleave="resetBackgroundColor('lpHTMLDiv')"
               >
                 <p class="lp-heading">Schüler Einschätzung(HTML):</p>
                 <p class="lp-points">
@@ -133,12 +139,15 @@
               </div>
               <div
                 class="lp-with-point"
+                id="lpCSSDiv"
                 @mouseenter="
                   compareLpValues(
                     comparedLP.studentLP.lpData.cssLP,
-                    comparedLP.answeredLP.lpData.cssLP
+                    comparedLP.answeredLP.lpData.cssLP,
+                    'lpCSSDiv'
                   )
                 "
+                @mouseleave="resetBackgroundColor('lpCSSDiv')"
               >
                 <p class="lp-heading">Schüler Einschätzung(CSS):</p>
                 <p class="lp-points">
@@ -156,12 +165,15 @@
               </div>
               <div
                 class="lp-with-point"
+                id="lpJSDiv"
                 @mouseenter="
                   compareLpValues(
                     comparedLP.studentLP.lpData.jsLP,
-                    comparedLP.answeredLP.lpData.jsLP
+                    comparedLP.answeredLP.lpData.jsLP,
+                    'lpJSDiv'
                   )
                 "
+                @mouseleave="resetBackgroundColor('lpJSDiv')"
               >
                 <p class="lp-heading">Schüler Einschätzung(JS):</p>
                 <p class="lp-points">
@@ -319,39 +331,107 @@
         </div>
         <h2>Unbeantwortete LP's</h2>
         <div v-for="lp in answerNeededArray" :key="lp.lpKey">
-          <legend class="heading-legend">Schüler LP</legend>
-          <p>
-            Schüler Einschätzung(Allgemein):
-            {{ lp.lpData.basicLP }}<br />{{ lp.lpData.basicLPComment }}
-          </p>
-          <p>
-            Schüler Einschätzung(HTML):
-            {{ lp.lpData.htmlLP }}<br />{{ lp.lpData.htmlLPComment }}
-          </p>
-          <p>
-            Schüler Einschätzung(CSS):
-            {{ lp.lpData.cssLP }}<br />{{ lp.lpData.cssLPComment }}
-          </p>
-          <p>
-            Schüler Einschätzung(JS):
-            {{ lp.lpData.jsLP }}<br />{{ lp.lpData.jsLPComment }}
-          </p>
-          <p>
-            Was lief deiner Meinung nach gut für dich? <br />{{
-              lp.lpData.goodInCourse
-            }}
-          </p>
-          <p>
-            Was würdest du gerne besser machen? <br />{{
-              lp.lpData.improvements
-            }}
-          </p>
-          <p>Was läuft gut im Kurs? <br />{{ lp.lpData.whatCouldBeBetter }}</p>
-          <p>
-            Was würdest du gerne verbessert sehen? <br />{{
-              lp.lpData.whatWasGood
-            }}
-          </p>
+          <div class="lpstudent">
+            <legend class="heading-legend">Schüler LP: {{ lp.lpKey }}</legend>
+            <div class="lp-with-point">
+              <p class="lp-heading">Schüler Einschätzung(Allgemein):</p>
+              <p class="lp-points">
+                Punkte:
+                <span class="pt">
+                  {{ lp.lpData.basicLP }}
+                </span>
+              </p>
+              <p class="lp-comment">
+                Kommentar:
+                <span class="cmt">
+                  {{ lp.lpData.basicLPComment }}
+                </span>
+              </p>
+            </div>
+            <div class="lp-with-point">
+              <p class="lp-heading">Schüler Einschätzung(HTML):</p>
+              <p class="lp-points">
+                Punkte:
+                <span class="pt">
+                  {{ lp.lpData.htmlLP }}
+                </span>
+              </p>
+              <p class="lp-comment">
+                Kommentar:
+                <span class="cmt">
+                  {{ lp.lpData.htmlLPComment }}
+                </span>
+              </p>
+            </div>
+            <div class="lp-with-point">
+              <p class="lp-heading">Schüler Einschätzung(CSS):</p>
+              <p class="lp-points">
+                Punkte:
+                <span class="pt">
+                  {{ lp.lpData.cssLP }}
+                </span>
+              </p>
+              <p class="lp-comment">
+                Kommentar:
+                <span class="cmt">
+                  {{ lp.lpData.cssLPComment }}
+                </span>
+              </p>
+            </div>
+            <div class="lp-with-point">
+              <p class="lp-heading">Schüler Einschätzung(JS):</p>
+              <p class="lp-points">
+                Punkte:
+                <span class="pt">
+                  {{ lp.lpData.jsLP }}
+                </span>
+              </p>
+              <p class="lp-comment">
+                Kommentar:
+                <span class="cmt">
+                  {{ lp.lpData.jsLPComment }}
+                </span>
+              </p>
+            </div>
+            <div class="lp-without-point">
+              <p class="lp-heading">
+                Was lief deiner Meinung nach gut für dich?
+              </p>
+              <p class="lp-comment">
+                Kommentar:
+                <span class="cmt">
+                  {{ lp.lpData.goodInCourse }}
+                </span>
+              </p>
+            </div>
+            <div class="lp-without-point">
+              <p class="lp-heading">Was würdest du gerne besser machen?</p>
+              <p class="lp-comment">
+                Kommentar:
+                <span class="cmt">
+                  {{ lp.lpData.improvements }}
+                </span>
+              </p>
+            </div>
+            <div class="lp-without-point">
+              <p class="lp-heading">Was läuft gut im Kurs?</p>
+              <p class="lp-comment">
+                Kommentar:
+                <span class="cmt">
+                  {{ lp.lpData.whatCouldBeBetter }}
+                </span>
+              </p>
+            </div>
+            <div class="lp-without-point">
+              <p class="lp-heading">Was würdest du gerne verbessert sehen?</p>
+              <p class="lp-comment">
+                Kommentar:
+                <span class="cmt">
+                  {{ lp.lpData.whatWasGood }}
+                </span>
+              </p>
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -401,21 +481,31 @@ export default {
     },
   },
   methods: {
-    compareLpValues(teacherValue, studentValue) {
+    resetBackgroundColor(elementID) {
+      let element = document.getElementById(elementID);
+      let inherit = "inherit";
+      element.style.backgroundColor = inherit;
+    },
+    compareLpValues(teacherValue, studentValue, elementID) {
+      let element = document.getElementById(elementID);
+      let yellow = "#ffc642";
+      let red = "#ed3221";
+      let green = "#a3db33";
       if (studentValue > teacherValue) {
-        console.log("green");
-      } else if (studentValue < teacherValue) {
+        element.style.backgroundColor = red;
         console.log("red");
+      } else if (studentValue < teacherValue) {
+        element.style.backgroundColor = green;
+        console.log("green");
       } else {
         console.log("yellow");
+        element.style.backgroundColor = yellow;
       }
     },
     compareLPs() {
-      console.log("comparedLPArray is execited");
       this.studentLP.forEach((lp) => {
         this.answeredLP.forEach((lpAnswer) => {
           if (lp.lpKey === lpAnswer.lpData.lpKey) {
-            console.log("array push");
             this.comparedLPArray.push({
               lpKey: lp.lpKey,
               studentLP: lp,
@@ -432,7 +522,6 @@ export default {
             lpKey: lp.lpKey,
             lpData: lp.lpData,
           });
-          console.log("antwort:" + this.anserNeededArray);
         }
       });
     },
@@ -605,6 +694,16 @@ li {
   gap: 3vw;
   text-align: left;
 }
+.lpstudent {
+  padding: 1rem 0.5rem;
+  margin-bottom: 1rem;
+  justify-content: center;
+  box-shadow: hsl(268, 75, 44, 0.5) 0px 1px 3px,
+    hsl(268, 75, 44, 0.6) 0px 1px 2px;
+  border-radius: 0.25rem;
+  gap: 3vw;
+  text-align: left;
+}
 .lp-wrapper {
   width: 50%;
   padding-left: 0.5rem;
@@ -612,8 +711,14 @@ li {
 .lp-wrapper {
   div {
     padding: 0.5rem 1rem;
+    margin: 0.5rem 0;
+    border-radius: 0.25rem;
+    transition: background-color 0.125s ease-in-out;
     p {
       margin: 0.125rem;
+    }
+    &:hover {
+      background-color: var(--light-grey);
     }
   }
   div:nth-child(1n + 1) {

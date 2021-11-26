@@ -29,11 +29,10 @@ export default {
       this.$store.commit("setCurrentLP", {
         currentLP: this.currentLP,
       });
-      const docRef = await addDoc(
+      await addDoc(
         collection(firestore, "learn-progress"),
         this.$store.getters.getCurrentLP
       );
-      console.log(docRef.id);
     },
   },
 };
