@@ -612,8 +612,14 @@ li {
 .lp-wrapper {
   div {
     padding: 0.5rem 1rem;
+    margin: 0.5rem 0;
+    border-radius: 0.25rem;
+    transition: background-color 0.125s ease-in-out;
     p {
       margin: 0.125rem;
+    }
+    &:hover {
+      background-color: var(--light-grey);
     }
   }
   div:nth-child(1n + 1) {
