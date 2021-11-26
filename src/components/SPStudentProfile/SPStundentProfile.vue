@@ -87,12 +87,15 @@
               </legend>
               <div
                 class="lp-with-point"
+                id="lpBasicDiv"
                 @mouseenter="
                   compareLpValues(
                     comparedLP.studentLP.lpData.basicLP,
-                    comparedLP.answeredLP.lpData.basicLP
+                    comparedLP.answeredLP.lpData.basicLP,
+                    'lpBasicDiv'
                   )
                 "
+                @mouseleave="resetBackgroundColor('lpBasicDiv')"
               >
                 <p class="lp-heading">Schüler Einschätzung(Allgemein):</p>
                 <p class="lp-points">
@@ -110,12 +113,15 @@
               </div>
               <div
                 class="lp-with-point"
+                id="lpHTMLDiv"
                 @mouseenter="
                   compareLpValues(
                     comparedLP.studentLP.lpData.htmlLP,
-                    comparedLP.answeredLP.lpData.htmlLP
+                    comparedLP.answeredLP.lpData.htmlLP,
+                    'lpHTMLDiv'
                   )
                 "
+                @mouseleave="resetBackgroundColor('lpHTMLDiv')"
               >
                 <p class="lp-heading">Schüler Einschätzung(HTML):</p>
                 <p class="lp-points">
@@ -133,12 +139,15 @@
               </div>
               <div
                 class="lp-with-point"
+                id="lpCSSDiv"
                 @mouseenter="
                   compareLpValues(
                     comparedLP.studentLP.lpData.cssLP,
-                    comparedLP.answeredLP.lpData.cssLP
+                    comparedLP.answeredLP.lpData.cssLP,
+                    'lpCSSDiv'
                   )
                 "
+                @mouseleave="resetBackgroundColor('lpCSSDiv')"
               >
                 <p class="lp-heading">Schüler Einschätzung(CSS):</p>
                 <p class="lp-points">
@@ -156,12 +165,15 @@
               </div>
               <div
                 class="lp-with-point"
+                id="lpJSDiv"
                 @mouseenter="
                   compareLpValues(
                     comparedLP.studentLP.lpData.jsLP,
-                    comparedLP.answeredLP.lpData.jsLP
+                    comparedLP.answeredLP.lpData.jsLP,
+                    'lpJSDiv'
                   )
                 "
+                @mouseleave="resetBackgroundColor('lpJSDiv')"
               >
                 <p class="lp-heading">Schüler Einschätzung(JS):</p>
                 <p class="lp-points">
@@ -469,13 +481,25 @@ export default {
     },
   },
   methods: {
-    compareLpValues(teacherValue, studentValue) {
+    resetBackgroundColor(elementID) {
+      let element = document.getElementById(elementID);
+      let inherit = "inherit";
+      element.style.backgroundColor = inherit;
+    },
+    compareLpValues(teacherValue, studentValue, elementID) {
+      let element = document.getElementById(elementID);
+      let yellow = "#ffc642";
+      let red = "#ed3221";
+      let green = "#a3db33";
       if (studentValue > teacherValue) {
+        element.style.backgroundColor = red;
         console.log("red");
       } else if (studentValue < teacherValue) {
+        element.style.backgroundColor = green;
         console.log("green");
       } else {
         console.log("yellow");
+        element.style.backgroundColor = yellow;
       }
     },
     compareLPs() {
