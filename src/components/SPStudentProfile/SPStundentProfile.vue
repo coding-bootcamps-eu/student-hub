@@ -85,7 +85,15 @@
                 Schüler LP:
                 {{ comparedLP.studentLP.lpKey }}
               </legend>
-              <div class="lp-with-point">
+              <div
+                class="lp-with-point"
+                @mouseenter="
+                  compareLpValues(
+                    comparedLP.studentLP.lpData.basicLP,
+                    comparedLP.answeredLP.lpData.basicLP
+                  )
+                "
+              >
                 <p class="lp-heading">Schüler Einschätzung(Allgemein):</p>
                 <p class="lp-points">
                   Punkte:
@@ -100,7 +108,15 @@
                   </span>
                 </p>
               </div>
-              <div class="lp-with-point">
+              <div
+                class="lp-with-point"
+                @mouseenter="
+                  compareLpValues(
+                    comparedLP.studentLP.lpData.htmlLP,
+                    comparedLP.answeredLP.lpData.htmlLP
+                  )
+                "
+              >
                 <p class="lp-heading">Schüler Einschätzung(HTML):</p>
                 <p class="lp-points">
                   Punkte:
@@ -115,7 +131,15 @@
                   </span>
                 </p>
               </div>
-              <div class="lp-with-point">
+              <div
+                class="lp-with-point"
+                @mouseenter="
+                  compareLpValues(
+                    comparedLP.studentLP.lpData.cssLP,
+                    comparedLP.answeredLP.lpData.cssLP
+                  )
+                "
+              >
                 <p class="lp-heading">Schüler Einschätzung(CSS):</p>
                 <p class="lp-points">
                   Punkte:
@@ -130,7 +154,15 @@
                   </span>
                 </p>
               </div>
-              <div class="lp-with-point">
+              <div
+                class="lp-with-point"
+                @mouseenter="
+                  compareLpValues(
+                    comparedLP.studentLP.lpData.jsLP,
+                    comparedLP.answeredLP.lpData.jsLP
+                  )
+                "
+              >
                 <p class="lp-heading">Schüler Einschätzung(JS):</p>
                 <p class="lp-points">
                   Punkte:
@@ -369,6 +401,15 @@ export default {
     },
   },
   methods: {
+    compareLpValues(teacherValue, studentValue) {
+      if (studentValue > teacherValue) {
+        console.log("green");
+      } else if (studentValue < teacherValue) {
+        console.log("red");
+      } else {
+        console.log("yellow");
+      }
+    },
     compareLPs() {
       console.log("comparedLPArray is execited");
       this.studentLP.forEach((lp) => {
