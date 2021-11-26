@@ -161,6 +161,7 @@ export default {
   name: "SPStudentProfile",
   data() {
     return {
+      answeredLPArray: this.$store.getters.getAnsweredLP,
       userID: this.$store.getters.getCurrentUserID,
       questionsShown: false,
       questionBtnTxtShow: "Zeige Fragen",
