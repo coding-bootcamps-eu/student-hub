@@ -80,117 +80,228 @@
           v-bind="comparedLP"
         >
           <div class="lpstudenteacher">
-            <div>
-              <legend>Schüler LP</legend>
-              <p>
-                Schüler einschätzung(Allgemein):
-                {{ comparedLP.studentLP.lpData.basicLP }}<br />{{
-                  comparedLP.studentLP.lpData.basicLPComment
-                }}
-              </p>
-              <p>
-                Schüler einschätzung(HTML):
-                {{ comparedLP.studentLP.lpData.htmlLP }}<br />{{
-                  comparedLP.studentLP.lpData.htmlLPComment
-                }}
-              </p>
-              <p>
-                Schüler einschätzung(CSS):
-                {{ comparedLP.studentLP.lpData.cssLP }}<br />{{
-                  comparedLP.studentLP.lpData.cssLPComment
-                }}
-              </p>
-              <p>
-                Schüler einschätzung(JS):
-                {{ comparedLP.studentLP.lpData.jsLP }}<br />{{
-                  comparedLP.studentLP.lpData.jsLPComment
-                }}
-              </p>
-              <p>
-                Was lief deiner Meinung nach gut für dich? <br />{{
-                  comparedLP.studentLP.lpData.goodInCourse
-                }}
-              </p>
-              <p>
-                Was würdest du gerne besser machen? <br />{{
-                  comparedLP.studentLP.lpData.improvements
-                }}
-              </p>
-              <p>
-                Was läuft gut im Kurs? <br />{{
-                  comparedLP.studentLP.lpData.whatCouldBeBetter
-                }}
-              </p>
-              <p>
-                Was würdest du gerne verbessert sehen? <br />{{
-                  comparedLP.studentLP.lpData.whatWasGood
-                }}
-              </p>
+            <div class="lp-wrapper">
+              <legend class="heading-legend">
+                Schüler LP:
+                {{ comparedLP.studentLP.lpKey }}
+              </legend>
+              <div class="lp-with-point">
+                <p class="lp-heading">Schüler Einschätzung(Allgemein):</p>
+                <p class="lp-points">
+                  Punkte:
+                  <span class="pt">
+                    {{ comparedLP.studentLP.lpData.basicLP }}
+                  </span>
+                </p>
+                <p class="lp-comment">
+                  Kommentar:
+                  <span class="cmt">
+                    {{ comparedLP.studentLP.lpData.basicLPComment }}
+                  </span>
+                </p>
+              </div>
+              <div class="lp-with-point">
+                <p class="lp-heading">Schüler Einschätzung(HTML):</p>
+                <p class="lp-points">
+                  Punkte:
+                  <span class="pt">
+                    {{ comparedLP.studentLP.lpData.htmlLP }}
+                  </span>
+                </p>
+                <p class="lp-comment">
+                  Kommentar:
+                  <span class="cmt">
+                    {{ comparedLP.studentLP.lpData.htmlLPComment }}
+                  </span>
+                </p>
+              </div>
+              <div class="lp-with-point">
+                <p class="lp-heading">Schüler Einschätzung(CSS):</p>
+                <p class="lp-points">
+                  Punkte:
+                  <span class="pt">
+                    {{ comparedLP.studentLP.lpData.cssLP }}
+                  </span>
+                </p>
+                <p class="lp-comment">
+                  Kommentar:
+                  <span class="cmt">
+                    {{ comparedLP.studentLP.lpData.cssLPComment }}
+                  </span>
+                </p>
+              </div>
+              <div class="lp-with-point">
+                <p class="lp-heading">Schüler Einschätzung(JS):</p>
+                <p class="lp-points">
+                  Punkte:
+                  <span class="pt">
+                    {{ comparedLP.studentLP.lpData.jsLP }}
+                  </span>
+                </p>
+                <p class="lp-comment">
+                  Kommentar:
+                  <span class="cmt">
+                    {{ comparedLP.studentLP.lpData.jsLPComment }}
+                  </span>
+                </p>
+              </div>
+              <div class="lp-without-point">
+                <p class="lp-heading">Was lief gut für dich?</p>
+                <p class="lp-comment">
+                  Kommentar:
+                  <span class="cmt">
+                    {{ comparedLP.studentLP.lpData.goodInCourse }}
+                  </span>
+                </p>
+              </div>
+              <div class="lp-without-point">
+                <p class="lp-heading">Was würdest du gerne besser machen?</p>
+                <p class="lp-comment">
+                  Kommentar:
+                  <span class="cmt">
+                    {{ comparedLP.studentLP.lpData.improvements }}
+                  </span>
+                </p>
+              </div>
+              <div class="lp-without-point">
+                <p class="lp-heading">Was läuft gut im Kurs?</p>
+                <p class="lp-comment">
+                  Kommentar:
+                  <span class="cmt">
+                    {{ comparedLP.studentLP.lpData.whatCouldBeBetter }}
+                  </span>
+                </p>
+              </div>
+              <div class="lp-without-point">
+                <p class="lp-heading">Was würdest du gerne verbessert sehen?</p>
+                <p class="lp-comment">
+                  Kommentar:
+                  <span class="cmt">
+                    {{ comparedLP.studentLP.lpData.whatWasGood }}
+                  </span>
+                </p>
+              </div>
             </div>
-            <div>
-              <legend>Lehrer LP</legend>
-              <p>
-                Lehrer einschätzung(Allgemein):
-                {{ comparedLP.answeredLP.lpData.basicLP }}<br />{{
-                  comparedLP.answeredLP.lpData.basicLPComment
-                }}
-              </p>
-              <p>
-                Lehrer einschätzung(HTML):
-                {{ comparedLP.answeredLP.lpData.htmlLP }}<br />{{
-                  comparedLP.answeredLP.lpData.htmlLPComment
-                }}
-              </p>
-              <p>
-                Lehrer einschätzung(CSS):
-                {{ comparedLP.answeredLP.lpData.cssLP }}<br />{{
-                  comparedLP.answeredLP.lpData.cssLPComment
-                }}
-              </p>
-              <p>
-                Lehrer einschätzung(JS): {{ comparedLP.answeredLP.lpData.jsLP
-                }}<br />{{ comparedLP.answeredLP.lpData.jsLPComment }}
-              </p>
-              <p>
-                Was lief deiner Meinung nach gut ? <br />{{
-                  comparedLP.answeredLP.lpData.goodInCourse
-                }}
-              </p>
-              <p>
-                Was würdest du gerne besser sehen? <br />{{
-                  comparedLP.answeredLP.lpData.improvements
-                }}
-              </p>
-              <p>
-                Was läuft gut im Kurs? <br />{{
-                  comparedLP.answeredLP.lpData.whatCouldBeBetter
-                }}
-              </p>
-              <p>
-                Was würdest du gerne verbessert sehen? <br />{{
-                  comparedLP.answeredLP.lpData.whatWasGood
-                }}
-              </p>
+            <div class="lp-wrapper">
+              <legend class="heading-legend">
+                Lehrer LP: {{ comparedLP.answeredLP.lpData.lpKey }}
+              </legend>
+              <div class="lp-with-point">
+                <p class="lp-heading">Lehrer Einschätzung(Allgemein):</p>
+                <p class="lp-points">
+                  Punkte:
+                  <span class="pt">
+                    {{ comparedLP.answeredLP.lpData.basicLP }}
+                  </span>
+                </p>
+                <p class="lp-comment">
+                  Kommentar:
+                  <span class="cmt">
+                    {{ comparedLP.answeredLP.lpData.basicLPComment }}
+                  </span>
+                </p>
+              </div>
+              <div class="lp-with-point">
+                <p class="lp-heading">Lehrer Einschätzung(HTML):</p>
+                <p class="lp-points">
+                  Punkte:
+                  <span class="pt">
+                    {{ comparedLP.answeredLP.lpData.htmlLP }}
+                  </span>
+                </p>
+                <p class="lp-comment">
+                  Kommentar:
+                  <span class="cmt">
+                    {{ comparedLP.answeredLP.lpData.htmlLPComment }}
+                  </span>
+                </p>
+              </div>
+              <div class="lp-with-point">
+                <p class="lp-heading">Lehrer Einschätzung(CSS):</p>
+                <p class="lp-points">
+                  Punkte:
+                  <span class="pt">
+                    {{ comparedLP.answeredLP.lpData.cssLP }}
+                  </span>
+                </p>
+                <p class="lp-comment">
+                  Kommentar:
+                  <span class="cmt">
+                    {{ comparedLP.answeredLP.lpData.cssLPComment }}
+                  </span>
+                </p>
+              </div>
+              <div class="lp-with-point">
+                <p class="lp-heading">Lehrer Einschätzung(JS):</p>
+                <p class="lp-points">
+                  Punkte:
+                  <span class="pt">
+                    {{ comparedLP.answeredLP.lpData.jsLP }}
+                  </span>
+                </p>
+                <p class="lp-comment">
+                  Kommentar:
+                  <span class="cmt">
+                    {{ comparedLP.answeredLP.lpData.jsLPComment }}
+                  </span>
+                </p>
+              </div>
+              <div class="lp-without-point">
+                <p class="lp-heading">Was lief gut für dich?</p>
+                <p class="lp-comment">
+                  Kommentar:
+                  <span class="cmt">
+                    {{ comparedLP.answeredLP.lpData.goodInCourse }}
+                  </span>
+                </p>
+              </div>
+              <div class="lp-without-point">
+                <p class="lp-heading">Wo kannst du dich verbessern?</p>
+                <p class="lp-comment">
+                  Kommentar:
+                  <span class="cmt">
+                    {{ comparedLP.answeredLP.lpData.improvements }}
+                  </span>
+                </p>
+              </div>
+              <div class="lp-without-point">
+                <p class="lp-heading">Was läuft gut im Kurs?</p>
+                <p class="lp-comment">
+                  Kommentar:
+                  <span class="cmt">
+                    {{ comparedLP.answeredLP.lpData.whatCouldBeBetter }}
+                  </span>
+                </p>
+              </div>
+              <div class="lp-without-point">
+                <p class="lp-heading">Was hast du gut gemacht?</p>
+                <p class="lp-comment">
+                  Kommentar:
+                  <span class="cmt">
+                    {{ comparedLP.answeredLP.lpData.whatWasGood }}
+                  </span>
+                </p>
+              </div>
             </div>
           </div>
         </div>
         <h2>Unbeantwortete LP's</h2>
         <div v-for="lp in answerNeededArray" :key="lp.lpKey">
-          <legend>Schüler LP</legend>
+          <legend class="heading-legend">Schüler LP</legend>
           <p>
-            Schüler einschätzung(Allgemein):
+            Schüler Einschätzung(Allgemein):
             {{ lp.lpData.basicLP }}<br />{{ lp.lpData.basicLPComment }}
           </p>
           <p>
-            Schüler einschätzung(HTML):
+            Schüler Einschätzung(HTML):
             {{ lp.lpData.htmlLP }}<br />{{ lp.lpData.htmlLPComment }}
           </p>
           <p>
-            Schüler einschätzung(CSS):
+            Schüler Einschätzung(CSS):
             {{ lp.lpData.cssLP }}<br />{{ lp.lpData.cssLPComment }}
           </p>
           <p>
-            Schüler einschätzung(JS):
+            Schüler Einschätzung(JS):
             {{ lp.lpData.jsLP }}<br />{{ lp.lpData.jsLPComment }}
           </p>
           <p>
@@ -325,11 +436,6 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
-.lpstudenteacher {
-  display: flex;
-  justify-content: center;
-  gap: 3vw;
-}
 .sp__profile-section {
   margin: 0 4rem 0 2.5rem;
 }
@@ -443,6 +549,65 @@ li {
 .hidebtn {
   margin: 1rem;
 }
+
+/**
+  LP Compare
+*/
+.lpstudenteacher {
+  display: flex;
+  padding: 1rem 0.5rem;
+  margin-bottom: 1rem;
+  justify-content: center;
+  box-shadow: hsl(268, 75, 44, 0.5) 0px 1px 3px,
+    hsl(268, 75, 44, 0.6) 0px 1px 2px;
+  border-radius: 0.25rem;
+  gap: 3vw;
+  text-align: left;
+}
+.lp-wrapper {
+  width: 50%;
+  padding-left: 0.5rem;
+}
+.lp-wrapper {
+  div {
+    padding: 0.5rem 1rem;
+    p {
+      margin: 0.125rem;
+    }
+  }
+  div:nth-child(1n + 1) {
+    box-shadow: hsl(268, 76, 65, 0.5) 0px 1px 3px,
+      hsl(268, 76, 65, 0.6) 0px 1px 2px;
+  }
+  div:nth-child(2n + 2) {
+    box-shadow: hsl(268, 75, 44, 0.5) 0px 1px 3px,
+      hsl(268, 75, 44, 0.6) 0px 1px 2px;
+  }
+}
+.heading-legend {
+  font-size: 0.9em;
+  font-weight: 500;
+}
+.lp-heading {
+  font-size: 0.9em;
+  font-weight: 500;
+  text-decoration: underline;
+}
+.lp-points,
+.lp-comment {
+  font-size: 0.9em;
+  .pt {
+    font-weight: bold;
+  }
+}
+
+.lr__recording-list > li:nth-child(1n + 1) {
+  background: var(--background-color);
+}
+.lr__recording-list > li:nth-child(2n + 2) {
+  background: var(--light-grey);
+}
+
 @media screen and (max-width: 720px) {
   .lp__entry-link {
     padding: 0.65rem 0.7rem;
