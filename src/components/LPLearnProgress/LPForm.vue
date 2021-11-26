@@ -7,48 +7,56 @@
           @lp-value="this.currentLP.basicLPComment = $event"
           @slider-value="currentLP.basicLP = $event"
           ref="basicLearningInput"
+          data-cy="textarea-text-valuation-1"
         />
         <LPFormFieldWithBar
           lpLegend="Wie fit und wohl fühlst du dich in HTML?"
           @lp-value="this.currentLP.htmlLPComment = $event"
           @slider-value="currentLP.htmlLP = $event"
           ref="htmlLearningInput"
+          data-cy="textarea-text-valuation-2"
         />
         <LPFormFieldWithBar
           lpLegend="Wie fit und wohl fühlst du dich in CSS?"
           @lp-value="this.currentLP.cssLPComment = $event"
           @slider-value="currentLP.cssLP = $event"
           ref="cssLearningInput"
+          data-cy="textarea-text-valuation-3"
         />
         <LPFormFieldWithBar
           lpLegend="Wie fit und wohl fühlst du dich in JavaScript?"
           @lp-value="this.currentLP.jsLPComment = $event"
           @slider-value="currentLP.jsLP = $event"
           ref="jsLearningInput"
+          data-cy="textarea-text-valuation-4"
         />
         <LPFormFieldWithoutBar
           lpLegend="Was lief deiner Meinung nach gut für dich?"
           lp__placeholder="Beschreibe was deiner Meinung nach gut für dich lief..."
           @lp-value-without-bar="this.currentLP.goodInCourse = $event"
           ref="goodInCouseInput"
+          data-cy="textarea-text-valuation-5"
         />
         <LPFormFieldWithoutBar
           lpLegend="Was würdest du gerne besser machen?"
           lp__placeholder="Beschreibe was du gerne besser machen würdest..."
           @lp-value-without-bar="this.currentLP.improvements = $event"
           ref="improvementsInput"
+          data-cy="textarea-text-valuation-6"
         />
         <LPFormFieldWithoutBar
           lpLegend="Was läuft gut im Kurs?"
           lp__placeholder="Beschreibe was du am Kurs gut findest..."
           @lp-value-without-bar="this.currentLP.whatWasGood = $event"
           ref="whatWasGoodInput"
+          data-cy="textarea-text-valuation-7"
         />
         <LPFormFieldWithoutBar
           lpLegend="Was würdest du gerne verbessert sehen?"
           lp__placeholder="Beschreibe was du am Kurs verbessern würdest..."
           @lp-value-without-bar="this.currentLP.whatCouldBeBetter = $event"
           ref="whatCouldBeBetterInput"
+          data-cy="textarea-text-valuation-8"
         />
       </div>
       <div class="button-wrapper">
