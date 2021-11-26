@@ -46,6 +46,7 @@
             v-bind="lp"
           >
             <router-link
+              class="answer-lp"
               :to="{ name: 'lpDetail', params: { lpKey: lp.lpKey } }"
             >
               LP
@@ -148,11 +149,15 @@ a {
   grid-template-columns: repeat(5, 1fr);
   grid-template-rows: repeat(2, auto);
   align-items: center;
-  gap: 0.5rem;
+  gap: 0.4rem;
 }
 .th__list-wrapper > * {
   width: 100%;
   height: 100%;
+}
+.th__list-wrapper > li > * {
+  padding: 0;
+  margin: 0;
 }
 .th__student-name {
   grid-column: 1 / 3;
@@ -174,10 +179,10 @@ a {
 .schedule {
   grid-row: 2 / 3;
 }
-
-.th__list-wrapper > li > * {
-  padding: 0;
-  margin: 0;
+.schedule,
+.details {
+  text-align: left;
+  font-size: 0.85em;
 }
 
 .lpList {
@@ -185,11 +190,21 @@ a {
   padding: 0;
   margin: 0;
 }
-.schedule,
-.details {
-  text-align: left;
-  font-size: 0.85em;
+.lpList > li {
+  margin: 0.5rem;
 }
+.answer-lp {
+  background-color: var(--background-color);
+  padding: 0.2rem;
+  border-radius: 0.25rem;
+  transition: background-color 250ms ease-in-out;
+  box-shadow: hsl(268, 76, 65, 0.6) 0px 1px 3px,
+    hsl(268, 76, 65, 0.7) 0px 1px 2px;
+  &:hover {
+    background-color: var(--light-grey);
+  }
+}
+
 i {
   font-size: 1.3rem;
   color: var(--primary-color);
@@ -213,44 +228,24 @@ i {
 }
 .text {
   padding-top: 0.5rem;
+  padding-bottom: 0.5rem;
   text-align: left;
-}
-/*
-
-.th__list-wrapper {
-  padding: 0;
-  list-style-type: none;
-  max-width: 43.5%;
+  font-size: 0.8em;
+  font-weight: 500;
   display: flex;
-  justify-content: space-between;
-  font-size: 0.8rem;
-}
-.th__list-wrapper > li > * {
-  text-align: center;
-}
-li > p > a {
-  font-weight: bold;
-  text-decoration-color: var(--secondary-color);
-  color: var(--font-color);
-}
-.th__list-wrapper > li {
-  min-width: 46%;
-  max-width: 100%;
-  text-align: center;
-  padding: 0 0.5rem;
-}
-
-.th__student-name {
-  display: flex;
-  flex-flow: column;
-  justify-content: center;
   align-items: center;
-  font-weight: bold;
-  font-size: 0.95em;
-  text-decoration-color: var(--secondary-color);
-  color: var(--font-color);
-  i {
-    font-size: 1rem;
+}
+.text > p {
+  padding: 0.25rem;
+  border-radius: 0.25rem;
+  transition: background-color 250ms ease-in-out;
+  box-shadow: hsl(268, 76, 65, 0.5) 0px 1px 3px,
+    hsl(268, 76, 65, 0.6) 0px 1px 2px;
+  &:hover {
+    background-color: var(--light-grey);
   }
-}*/
+}
+.details {
+  padding-top: 0.4rem;
+}
 </style>
