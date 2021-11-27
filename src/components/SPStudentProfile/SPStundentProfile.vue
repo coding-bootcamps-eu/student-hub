@@ -19,21 +19,18 @@
           ></router-link>
         </div>
         <cbe-main-btn
-          id="showLPBtn"
           class="margin-left hidebtn"
           buttonClass="secondary"
           @click="showLPs"
           >{{ lpBtnText }}
         </cbe-main-btn>
         <cbe-main-btn
-          id="showAmaBtn"
           class="margin-left hidebtn"
           buttonClass="secondary"
           @click="showQuestions"
           >{{ questionBtnText }}
         </cbe-main-btn>
         <cbe-main-btn
-          id="showRotiBtn"
           class="margin-left hidebtn"
           buttonClass="secondary"
           @click="showRotis"
@@ -87,15 +84,14 @@
               </legend>
               <div
                 class="lp-with-point"
-                id="lpBasicDiv"
                 @mouseenter="
                   compareLpValues(
                     comparedLP.studentLP.lpData.basicLP,
                     comparedLP.answeredLP.lpData.basicLP,
-                    'lpBasicDiv'
+                    $event
                   )
                 "
-                @mouseleave="resetBackgroundColor('lpBasicDiv')"
+                @mouseleave="resetBackgroundColor()"
               >
                 <p class="lp-heading">Schüler Einschätzung(Allgemein):</p>
                 <p class="lp-points">
@@ -113,12 +109,11 @@
               </div>
               <div
                 class="lp-with-point"
-                id="lpHTMLDiv"
                 @mouseenter="
                   compareLpValues(
                     comparedLP.studentLP.lpData.htmlLP,
                     comparedLP.answeredLP.lpData.htmlLP,
-                    'lpHTMLDiv'
+                    $event
                   )
                 "
                 @mouseleave="resetBackgroundColor('lpHTMLDiv')"
@@ -139,12 +134,11 @@
               </div>
               <div
                 class="lp-with-point"
-                id="lpCSSDiv"
                 @mouseenter="
                   compareLpValues(
                     comparedLP.studentLP.lpData.cssLP,
                     comparedLP.answeredLP.lpData.cssLP,
-                    'lpCSSDiv'
+                    $event
                   )
                 "
                 @mouseleave="resetBackgroundColor('lpCSSDiv')"
@@ -165,12 +159,11 @@
               </div>
               <div
                 class="lp-with-point"
-                id="lpJSDiv"
                 @mouseenter="
                   compareLpValues(
                     comparedLP.studentLP.lpData.jsLP,
                     comparedLP.answeredLP.lpData.jsLP,
-                    'lpJSDiv'
+                    $event
                   )
                 "
                 @mouseleave="resetBackgroundColor('lpJSDiv')"
@@ -481,25 +474,19 @@ export default {
     },
   },
   methods: {
-    resetBackgroundColor(elementID) {
-      let element = document.getElementById(elementID);
-      let inherit = "inherit";
-      element.style.backgroundColor = inherit;
+    resetBackgroundColor() {
+      event.target.style.backgroundColor = "inherit";
     },
-    compareLpValues(teacherValue, studentValue, elementID) {
-      let element = document.getElementById(elementID);
+    compareLpValues(teacherValue, studentValue, event) {
       let yellow = "#ffc642";
       let red = "#ed3221";
       let green = "#a3db33";
       if (studentValue > teacherValue) {
-        element.style.backgroundColor = red;
-        console.log("red");
+        event.target.style.backgroundColor = red;
       } else if (studentValue < teacherValue) {
-        element.style.backgroundColor = green;
-        console.log("green");
+        event.target.style.backgroundColor = green;
       } else {
-        console.log("yellow");
-        element.style.backgroundColor = yellow;
+        event.target.style.backgroundColor = yellow;
       }
     },
     compareLPs() {
