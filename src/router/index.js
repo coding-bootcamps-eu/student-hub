@@ -8,10 +8,10 @@ const routes = [
     component: Home,
   },
   {
-    path: "/loggedout",
-    name: "LoggedOut",
+    path: "/logout",
+    name: "Logout",
     component: () =>
-      import(/* webpackChunkName: "loggedout" */ "../views/LoggedOut.vue"),
+      import(/* webpackChunkName: "loggedout" */ "../views/Logout.vue"),
   },
   {
     path: "/about",
@@ -20,96 +20,10 @@ const routes = [
       import(/* webpackChunkName: "about" */ "../views/About.vue"),
   },
   {
-    path: "/amaview",
-    name: "AMAView",
+    path: "/recordings",
+    name: "Recordings",
     component: () =>
-      import(/* webpackChunkName: "amaview" */ "../views/AMATool/AMAView.vue"),
-  },
-  {
-    path: "/questions/:questionKey",
-    name: "QuestionDetailsView",
-    component: () =>
-      import(
-        /* webpackChunkName: "QuestionDetails" */ "../views/AMATool/QuestionDetailsView.vue"
-      ),
-  },
-  {
-    path: "/learnprogress",
-    name: "Learn-Progress",
-    component: () =>
-      import(
-        /* webpackChunkName: "learnprogress" */ "../views/LearnProgress/LP-main-view.vue"
-      ),
-  },
-  {
-    path: "/lpTeacher",
-    name: "lp-teacher",
-    component: () =>
-      import(
-        /* webpackChunkName: "lpTeacher" */ "../views/LearnProgress/LP-teacher.vue"
-      ),
-  },
-  {
-    path: "/:lpKey",
-    name: "lpDetail",
-    component: () =>
-      import(
-        /* webpackChunkName: "lpdetail" */ "../views/LearnProgress/LP-detail.vue"
-      ),
-  },
-  {
-    path: "/rotitool",
-    name: "ROTI-Tool",
-    component: () =>
-      import(
-        /* webpackChunkName: "rotitool" */ "../views/ROTITool/ROTIView.vue"
-      ),
-  },
-  {
-    path: "/rotigiven",
-    name: "RotiGiven",
-    component: () =>
-      import(/* webpackChunkName: "rotigiven" */ "../views/RotiGiven.vue"),
-  },
-  {
-    path: "/lessonrecordings",
-    name: "Lesson-Recordings",
-    component: () =>
-      import(
-        /* webpackChunkName: "lessonrecordings" */ "../views/LessonRecordings/LR-main-view.vue"
-      ),
-  },
-  {
-    path: "/student/:studentKey",
-    name: "Student-Profile",
-    component: () =>
-      import(
-        /* webpackChunkName: "studentprofile" */ "../views/StudentProfile/StudentProfile.vue"
-      ),
-  },
-  {
-    path: "/teacherhub",
-    name: "Teacher-Hub",
-    component: () =>
-      import(
-        /* webpackChunkName: "teacherhub" */ "../views/TeacherHub/TH-main-view.vue"
-      ),
-    children: [],
-  },
-
-  {
-    path: "/teacherhub/student/:studentKey",
-    name: "studentDetails",
-    component: () =>
-      import(
-        /* webpackChunkName: "studentDetails" */ "../views/TeacherHub/StudentDetailView.vue"
-      ),
-  },
-  {
-    path: "/testArea",
-    name: "testArea",
-    component: () =>
-      import(/* webpackChunkName: "testArea" */ "../views/TestArea.vue"),
+      import(/* webpackChunkName: "recordings" */ "../views/Recordings.vue"),
   },
 ];
 

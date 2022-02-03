@@ -6,20 +6,18 @@
     <div class="link-wrapper">
       <a target="_blank" :href="shareURL[0] || playURL[0]" class="play">Play</a>
       <a target="_blank" :href="downloadURL[0]" class="download">Download</a>
-      <cbe-main-btn
-        buttonClass="secondary"
+      <button
         @click="$emit('removeRecording')"
         v-if="currentUserRole === 'teacher'"
       >
         Remove
-      </cbe-main-btn>
-      <cbe-main-btn
-        buttonClass="primary"
+      </button>
+      <button
         @click="$emit('addDescription')"
         v-if="currentUserRole === 'teacher'"
       >
         Add description
-      </cbe-main-btn>
+      </button>
     </div>
   </li>
 </template>
@@ -56,7 +54,7 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped>
+<style lang="css" scoped>
 .lr__element-wrapper {
   border-radius: 0.25rem;
   border: 0.5px dotted var(--secondary-color);

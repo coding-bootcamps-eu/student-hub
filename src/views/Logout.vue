@@ -4,16 +4,16 @@
       Du bist ausgeloggt. Bitte logge dich wieder ein, falls du die Funktionen
       des Tools nutzen möchtest.
     </p>
-    <CBEUserLogin />
+    <CBELogin />
   </section>
 </template>
 
 <script>
-import CBEUserLogin from "@/components/CBEUserLogin/CBEUserLogin.vue";
+import CBELogin from "@/components/CBELogin/CBELogin.vue";
 export default {
   name: "LoggedOut",
   components: {
-    CBEUserLogin,
+    CBELogin,
   },
 };
 </script>

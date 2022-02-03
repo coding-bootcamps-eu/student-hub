@@ -1,9 +1,7 @@
 <template>
   <div class="login">
     <div class="user-logged-in" v-show="this.$store.getters.getUserLoginState">
-      <button @click="signOut" class="btn-git-logout">
-        <i class="fas fa-sign-out-alt"></i>
-      </button>
+      <button @click="signOut" class="btn-git-logout">Logout</button>
       <p class="user-name">{{ this.$store.getters.getCurrentUserName }}</p>
     </div>
     <div
@@ -27,12 +25,12 @@ import {
 import { setDoc, getDoc, doc } from "firebase/firestore";
 import firestore from "@/firestore";
 
+const DEFAULT_USER_ROLE = "guest";
+
 export default {
-  name: "CBEUserLogin",
+  name: "CBELogin",
   data() {
-    return {
-      userRole: "guest",
-    };
+    return {};
   },
   methods: {
     async isUserInDB(accessToken) {
@@ -46,10 +44,11 @@ export default {
       }
     },
     async signInGit() {
-      firestore;
       const auth = getAuth();
       const provider = new GithubAuthProvider();
+
       provider.addScope("public_repo");
+
       signInWithPopup(auth, provider).then((result) => {
         const credential = GithubAuthProvider.credentialFromResult(result);
         const token = credential.accessToken;
@@ -58,6 +57,7 @@ export default {
           type: "setUserLoginState",
           isLoggedIn: true,
         });
+
         if (result.user.displayName != null) {
           this.$store.commit({
             type: "setCurrentUserName",
@@ -69,7 +69,7 @@ export default {
             userName: result._tokenResponse.screenName,
           });
         }
-        this.$store.dispatch("setUserRotis", result.user.uid);
+
         this.$store.commit({
           type: "setCurrentUserID",
           userID: result.user.uid,
@@ -86,13 +86,7 @@ export default {
           type: "setCurrentUserGitURL",
           gitURL: "https://github.com/" + result._tokenResponse.screenName,
         });
-        this.$store.commit({
-          type: "setCurrentUserScheduleURL",
-          userScheduleURL:
-            "https://github.com/" +
-            result._tokenResponse.screenName +
-            "/bootcamp-schedule/issues",
-        });
+
         this.$store.commit({
           type: "setCurrentUserToken",
           userToken: token,
@@ -103,30 +97,29 @@ export default {
           if (user === true) {
             // user exists
           } else {
+            // user does not exis
             setDoc(doc(firestore, "all-users", result.user.uid), {
-              id: this.$store.getters.getCurrentUserID,
+              id: this.$store.getters.getCurrentUserID, // ???
               gitDisplayName: this.$store.getters.getCurrentUserName,
               gitScreenName: this.$store.getters.getCurrentUserScreenname,
               gitToken: this.$store.getters.getCurrentUserToken,
               gitURL: this.$store.getters.getCurrentUserGitURL,
-              userScheduleURL: this.$store.getters.getCurrentUserScheduleURL,
               email: this.$store.getters.getCurrentUserEmail,
-              studentRotis: [],
-              userIssues: 0,
-              userRepos: 0,
-              userRole: this.userRole,
+              userRole: DEFAULT_USER_ROLE,
             });
             this.$store.commit("setCurrentUserRole", this.userRole);
           }
         });
-        this.$router.push("/");
+
+        // TODO: verify user?
+        this.$router.push("/recordings");
       });
     },
     signOut() {
       const auth = getAuth();
       signOut(auth)
         .then(() => {
-          this.$router.push("/loggedout");
+          this.$router.push("/logout");
           this.$store.commit({
             type: "setUserLoginState",
             isLoggedIn: false,
@@ -141,7 +134,7 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped>
+<style lang="css" scoped>
 .login {
   margin: 0 0 0 0;
 }

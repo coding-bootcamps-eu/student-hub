@@ -14,17 +14,17 @@
         Du bist nun eingeloggt und kannst alle Funktionen nutzen. Viel Spaß!
       </p>
 
-      <CBEUserLogin />
+      <CBELogin />
     </div>
   </section>
 </template>
 
 <script>
-import CBEUserLogin from "@/components/CBEUserLogin/CBEUserLogin.vue";
+import CBELogin from "@/components/CBELogin/CBELogin.vue";
 
 export default {
   name: "Home",
-  components: { CBEUserLogin },
+  components: { CBELogin },
   computed: {
     isUserLoggedIn() {
       return this.$store.getters.getUserLoginState ? true : false;
