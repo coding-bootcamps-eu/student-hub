@@ -13,6 +13,7 @@ module.exports = {
     parser: "babel-eslint",
   },
   rules: {
+    "no-unused-vars": 1,
     "no-console": process.env.NODE_ENV === "production" ? "warn" : "off",
     "no-debugger": process.env.NODE_ENV === "production" ? "warn" : "off",
     "prettier/prettier": [
@@ -21,5 +22,6 @@ module.exports = {
         endOfLine: "auto",
       },
     ],
+    "vue/no-unused-components": 1,
   },
 };

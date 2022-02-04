@@ -1,6 +1,4 @@
 <template>
-  <h1>Hallo Nov Class {{ counter }}</h1>
-  <button @click="counter++">Add Count</button>
   <CBEMainHeader class="main-header" />
   <CBEMainNavigation />
   <main>
@@ -10,6 +8,8 @@
 </template>
 
 <script>
+import { getAuth } from "firebase/auth";
+
 import CBEMainFooter from "@/components/CBEMainFooter/CBEMainFooter.vue";
 import CBEMainHeader from "@/components/CBEMainHeader/CBEMainHeader.vue";
 import CBEMainNavigation from "@/components/CBEMainNavigation/CBEMainNavigation.vue";
@@ -17,54 +17,25 @@ import CBEMainNavigation from "@/components/CBEMainNavigation/CBEMainNavigation.
 export default {
   name: "App",
   data: () => {
-    return {
-      counter: 0,
-    };
+    return {};
   },
   components: {
     CBEMainNavigation,
     CBEMainHeader,
     CBEMainFooter,
   },
+  created() {
+    // Check if user is already logged in
+    getAuth().onAuthStateChanged((user) => {
+      if (user) {
+        this.$store.dispatch("login", user);
+      }
+    });
+  },
   mounted() {
-    this.$store.commit({
-      type: "setUserLoginState",
-      isLoggedIn: sessionStorage.getItem("userLoginState"),
-    });
-    this.$store.commit({
-      type: "setCurrentUserToken",
-      userToken: sessionStorage.getItem("currentUserToken"),
-    });
-    this.$store.commit({
-      type: "setCurrentUserID",
-      userID: sessionStorage.getItem("currentUserID"),
-    });
-    this.$store.commit({
-      type: "setCurrentUserName",
-      userName: sessionStorage.getItem("currentUserName"),
-    });
-    this.$store.commit({
-      type: "setCurrentUserGitURL",
-      gitURL: sessionStorage.getItem("currentUserGitURL"),
-    });
-    this.$store.commit({
-      type: "setCurrentUserEmail",
-      mail: sessionStorage.getItem("currentUserEmail"),
-    });
-    this.$store.commit({
-      type: "setCurrentUserScreenname",
-      userScreenname: sessionStorage.getItem("currentUserScreenname"),
-    });
-    this.$store.commit(
-      "setCurrentUserRole",
-      sessionStorage.getItem("currentUserRole")
-    );
-    this.$store.commit(
-      "setCurrentUser",
-      JSON.parse(sessionStorage.getItem("currentUser"))
-    );
+    // Todo: use sessionStorage?
   },
 };
 </script>
 
-<style></style>
+<style lang="css" scoped></style>

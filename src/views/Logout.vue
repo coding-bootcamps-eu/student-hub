@@ -1,10 +1,7 @@
 <template>
+  <section>Du bist jetzt ausgeloggt.</section>
   <section>
-    <p>
-      Du bist ausgeloggt. Bitte logge dich wieder ein, falls du die Funktionen
-      des Tools nutzen möchtest.
-    </p>
-    <CBELogin />
+    <CBELogin></CBELogin>
   </section>
 </template>
 
@@ -14,6 +11,23 @@ export default {
   name: "LoggedOut",
   components: {
     CBELogin,
+  },
+  beforeMount() {
+    if (this.$store.state.isLoggedIn) {
+      this.$router.push("/");
+    }
+  },
+  computed: {
+    loggedIn() {
+      return this.$store.state.isLoggedIn;
+    },
+  },
+  watch: {
+    loggedIn() {
+      if (this.$store.state.isLoggedIn) {
+        this.$router.push("/");
+      }
+    },
   },
 };
 </script>

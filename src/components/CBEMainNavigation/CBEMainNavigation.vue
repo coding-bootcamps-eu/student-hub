@@ -1,14 +1,8 @@
 <template>
   <nav class="cbe__main-nav">
-    <ul
-      class="cbe__nav-list"
-      v-if="!isGuest && this.$store.getters.getUserLoginState"
-    >
+    <ul class="cbe__nav-list" v-if="this.$store.state.isLoggedIn">
       <li class="cbe__nav-element">
-        <router-link to="/recordings"
-          ><p class="link-text">Recordings</p>
-          <i class="fas fa-video"></i
-        ></router-link>
+        <router-link to="/recordings">Recordings</router-link>
       </li>
       <li class="cbe__nav-element">
         <CBELogin />

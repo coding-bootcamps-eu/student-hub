@@ -1,96 +1,56 @@
 import { createStore } from "vuex";
 import firestore from "@/firestore";
-
-import { doc, onSnapshot } from "firebase/firestore";
+import { getDoc, doc } from "firebase/firestore";
 
 export default createStore({
   plugins: [],
   state: {
-    currentUser: {},
-    currentUserRole: "",
-    currentUserName: "",
-    currentUserID: "",
-    currentUserToken: "",
-    currentUserScreenname: "",
-    currentUserEmail: "",
-    currentUserGitURL: "",
+    // User object returned
+    // by OAuth2/firebase authentication
+    user: null,
+    // User role (teacher, student, undefined)
+    role: null,
+    // Is the user logged in
+    isLoggedIn: false,
   },
   mutations: {
-    setCurrentUser(state, payload) {
-      sessionStorage.setItem("currentUser", JSON.stringify(payload));
-      state.currentUser = payload;
+    setUser(state, user) {
+      if (user) {
+        state.user = user;
+        state.isLoggedIn = true;
+      } else {
+        state.user = null;
+        state.isLoggedIn = false;
+      }
     },
-    setCurrentUserRole(state, payload) {
-      sessionStorage.setItem("currentUserRole", payload);
-      state.currentUserRole = payload;
-    },
-    setCurrentUserScreenname(state, payload) {
-      sessionStorage.setItem("currentUserScreenname", payload.userScreenname);
-      state.currentUserScreenname = payload.userScreenname;
-    },
-    setCurrentUserEmail(state, payload) {
-      sessionStorage.setItem("currentUserEmail", payload.mail);
-      state.currentUserEmail = payload.mail;
-    },
-    setCurrentUserGitURL(state, payload) {
-      sessionStorage.setItem("currentUserGitURL", payload.gitURL);
-      state.currentUserGitURL = payload.gitURL;
-    },
-    setCurrentUserName(state, payload) {
-      sessionStorage.setItem("currentUserName", payload.userName);
-      state.currentUserName = payload.userName;
-    },
-    setCurrentUserID(state, payload) {
-      sessionStorage.setItem("currentUserID", payload.userID);
-      state.currentUserID = payload.userID;
-    },
-    setCurrentUserToken(state, payload) {
-      sessionStorage.setItem("currentUserToken", payload.userToken);
-      state.currentUserToken = payload.userToken;
-    },
-    setUserLoginState(state, payload) {
-      sessionStorage.setItem("userLoginState", payload.isLoggedIn);
-      state.userLoginState = payload.isLoggedIn;
+    setRole(state, role) {
+      state.role = role;
     },
   },
   actions: {
-    async setspUser(state, payload) {
-      onSnapshot(doc(firestore, "all-users", payload), (doc) => {
-        state.commit({
-          type: "setspUser",
-          user: doc.data(),
-        });
-      });
+    async login(context, user) {
+      // Read user role from all-users table
+      const docRef = doc(firestore, "all-users", user.uid);
+      const docSnap = await getDoc(docRef);
+      if (docSnap.exists()) {
+        let role = docSnap.data().userRole;
+        if (role === undefined) {
+          role = null;
+        }
+        context.commit("setRole", role);
+      }
+
+      context.commit("setUser", user);
+    },
+    logout(context) {
+      context.commit("setUser", null);
     },
   },
   modules: {},
   getters: {
-    getCurrentUser(state) {
-      return state.currentUser;
-    },
-    getCurrentUserRole(state) {
-      return state.currentUserRole;
-    },
-    getCurrentUserName(state) {
-      return state.currentUserName;
-    },
-    getCurrentUserScreenname(state) {
-      return state.currentUserScreenname;
-    },
-    getCurrentUserEmail(state) {
-      return state.currentUserEmail;
-    },
-    getCurrentUserGitURL(state) {
-      return state.currentUserGitURL;
-    },
-    getCurrentUserID(state) {
-      return state.currentUserID;
-    },
-    getCurrentUserToken(state) {
-      return state.currentUserToken;
-    },
-    getUserLoginState(state) {
-      return state.userLoginState;
-    },
+    isGuest: (state) => state.role === null,
+    isStudent: (state) => state.role === "student",
+    isTeacher: (state) => state.role === "teacher",
+    hasPermissions: (state) => state.role !== null,
   },
 });
