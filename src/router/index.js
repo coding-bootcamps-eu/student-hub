@@ -1,5 +1,8 @@
 import { createRouter, createWebHistory } from "vue-router";
 import Home from "../views/Home.vue";
+import Timer from "../views/Timer.vue";
+import Slides from "../views/Slides.vue";
+import Students from "../views/Students.vue";
 
 const routes = [
   {
@@ -24,6 +27,21 @@ const routes = [
     name: "Recordings",
     component: () =>
       import(/* webpackChunkName: "recordings" */ "../views/Recordings.vue"),
+  },
+  {
+    path: "/timer",
+    name: "Timer",
+    component: Timer,
+  },
+  {
+    path: "/students",
+    name: "Students",
+    component: Students,
+  },
+  {
+    path: "/slides",
+    name: "Slides",
+    component: Slides,
   },
 ];
 

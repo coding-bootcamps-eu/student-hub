@@ -5,6 +5,15 @@
         <router-link to="/recordings">Recordings</router-link>
       </li>
       <li class="cbe__nav-element">
+        <router-link to="/timer">Timer</router-link>
+      </li>
+      <li class="cbe__nav-element">
+        <router-link to="/slides">Slides</router-link>
+      </li>
+      <li class="cbe__nav-element">
+        <router-link to="/students">Students</router-link>
+      </li>
+      <li class="cbe__nav-element">
         <CBELogin />
       </li>
     </ul>
