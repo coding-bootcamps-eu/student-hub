@@ -29,17 +29,16 @@ export default createStore({
   },
   actions: {
     async login(context, user) {
-      // Read user role from all-users table
+      // Read user role from all-users collection
       const docRef = doc(firestore, "all-users", user.uid);
       const docSnap = await getDoc(docRef);
       if (docSnap.exists()) {
-        let role = docSnap.data().userRole;
+        let role = docSnap.data().role;
         if (role === undefined) {
           role = null;
         }
         context.commit("setRole", role);
       }
-
       context.commit("setUser", user);
     },
     logout(context) {
