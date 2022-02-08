@@ -2,7 +2,59 @@
   <section class="lr__recordig-section" id="recordings">
     <h2>Recordings</h2>
 
-    <!--  <h2 class="mobile-heading">Lesson Recordings</h2>
+    <form>
+      <input type="text" placeholder="Search Lesson-Recordings" />
+      <button>Search</button>
+    </form>
+
+    <h3>Lesson-Recordings</h3>
+    <p></p>
+    <template
+      v-for="recording in lrRecordingsArray"
+      :key="recording.recordingKey"
+    >
+      <article class="recording__box">
+        <section class="recording__data">
+          <div class="recording__title">
+            <p>Title:</p>
+            <p>{{ recording.recordingData.topic }}</p>
+          </div>
+
+          <div class="recording__date-time">
+            <div class="recording__date">
+              <p>Date:</p>
+              <p>22-01-31</p>
+            </div>
+            <div class="recording__time">
+              <p>Time:</p>
+              <p>17:55:30</p>
+            </div>
+          </div>
+        </section>
+        <section class="recording__download">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="16"
+            height="16"
+            fill="currentColor"
+            class="bi bi-collection-play"
+            viewBox="0 0 16 16"
+          >
+            <path
+              d="M2 3a.5.5 0 0 0 .5.5h11a.5.5 0 0 0 0-1h-11A.5.5 0 0 0 2 3zm2-2a.5.5 0 0 0 .5.5h7a.5.5 0 0 0 0-1h-7A.5.5 0 0 0 4 1zm2.765 5.576A.5.5 0 0 0 6 7v5a.5.5 0 0 0 .765.424l4-2.5a.5.5 0 0 0 0-.848l-4-2.5z"
+            />
+            <path
+              d="M1.5 14.5A1.5 1.5 0 0 1 0 13V6a1.5 1.5 0 0 1 1.5-1.5h13A1.5 1.5 0 0 1 16 6v7a1.5 1.5 0 0 1-1.5 1.5h-13zm13-1a.5.5 0 0 0 .5-.5V6a.5.5 0 0 0-.5-.5h-13A.5.5 0 0 0 1 6v7a.5.5 0 0 0 .5.5h13z"
+            />
+          </svg>
+          <button>Download</button>
+        </section>
+      </article>
+    </template>
+  </section>
+</template>
+
+<!--  <h2 class="mobile-heading">Lesson Recordings</h2>
     <div class="filter-wrapper">
       <LRFilter
         @filter-result="getFilterResults"
@@ -39,9 +91,9 @@
         @addDescription="addDescription(recording.recordingKey)"
         v-bind="recording"
       />
-    </ul> -->
+    </ul> 
   </section>
-</template>
+</template>-->
 <script>
 import firestore from "@/firestore";
 import {
@@ -162,4 +214,54 @@ export default {
 };
 </script>
 
-<style lang="css" scoped></style>
+<style lang="css" scoped>
+*,
+*::before,
+*:after {
+  box-sizing: border-box;
+}
+p {
+  margin: 0;
+}
+
+button {
+  margin-top: 0.5rem;
+}
+
+input[type="text"] {
+}
+
+.bi-collection-play {
+  width: 27px;
+  height: 27px;
+}
+
+.recording__box {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: 3rem;
+  padding: 1rem;
+  border: 1px solid black;
+  margin-bottom: 1rem;
+}
+
+.recording__data {
+  display: flex;
+  flex-direction: column;
+}
+
+.recording__title {
+  margin-bottom: 1rem;
+}
+.recording__date-time {
+  display: flex;
+  justify-content: space-between;
+}
+
+.recording__download {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+</style>
