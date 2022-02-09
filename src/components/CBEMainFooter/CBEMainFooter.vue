@@ -1,7 +1,7 @@
 <template>
   <footer>
     <div class="cbe__main-footer">
-      <a href="https://www.instagram.com/codingbootcamps.eu/">
+      <a href="https://www.instagram.com/codingbootcamps.eu/" target="_blank">
         <svg
           target="_blank"
           xmlns="http://www.w3.org/2000/svg"
@@ -16,7 +16,7 @@
           />
         </svg>
       </a>
-      <a href="https://twitter.com/CodeCampEurope">
+      <a href="https://twitter.com/CodeCampEurope" target="_blank">
         <svg
           xmlns="http://www.w3.org/2000/svg"
           width="20"
@@ -68,6 +68,6 @@ footer {
   text-align: center;
 }
 .instagram {
-  margin-right: 15px;
+  margin-right: 1rem;
 }
 </style>
