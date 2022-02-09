@@ -53,8 +53,6 @@
 import { getAuth } from "firebase/auth";
 
 import CBEMainFooter from "@/components/CBEMainFooter/CBEMainFooter.vue";
-import CBEMainHeader from "@/components/CBEMainHeader/CBEMainHeader.vue";
-import CBEMainNavigation from "@/components/CBEMainNavigation/CBEMainNavigation.vue";
 
 export default {
   name: "App",
@@ -64,8 +62,6 @@ export default {
     };
   },
   components: {
-    CBEMainNavigation,
-    CBEMainHeader,
     CBEMainFooter,
   },
   created() {
