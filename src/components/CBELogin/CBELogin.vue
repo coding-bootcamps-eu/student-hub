@@ -23,19 +23,50 @@ import {
   signInWithPopup,
   signOut,
 } from "firebase/auth";
+import { setDoc, getDoc, doc } from "firebase/firestore";
+import firestore from "@/firestore";
 
 export default {
   name: "CBELogin",
   methods: {
+    async isUserInDB(accessToken) {
+      const docRef = doc(firestore, "all-users", accessToken);
+      const docSnap = await getDoc(docRef);
+      if (docSnap.exists()) {
+        return true;
+      } else {
+        return false;
+      }
+    },
+
     async login() {
       const auth = getAuth();
       const provider = new GithubAuthProvider();
       provider.addScope("public_repo");
 
       signInWithPopup(auth, provider).then((result) => {
+        const credential = GithubAuthProvider.credentialFromResult(result);
+        const token = credential.accessToken;
+        this.isUserInDB(result.user.uid).then((userExists) => {
+          if (!userExists) {
+            // Create record for user in all-users collection
+            setDoc(doc(firestore, "all-users", result.user.uid), {
+              uid: result.user.uid,
+              githubName: result.user.displayName,
+              githubScreenName: result._tokenResponse.screenName,
+              githubToken: token,
+              githubProfileUrl:
+                "https://github.com/" + result._tokenResponse.screenName,
+              email: result.user.email,
+              role: "guest",
+            });
+          }
+        });
+
         this.$store.dispatch("login", result.user);
       });
     },
+
     logout() {
       const auth = getAuth();
       signOut(auth)
