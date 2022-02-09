@@ -17,6 +17,11 @@ const routes = [
       import(/* webpackChunkName: "loggedout" */ "../views/Logout.vue"),
   },
   {
+    path: "/login",
+    name: "Login",
+    component: Home,
+  },
+  {
     path: "/about",
     name: "About",
     component: () =>

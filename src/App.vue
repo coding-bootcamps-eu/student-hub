@@ -22,28 +22,35 @@
     </div>
     <nav class="header__nav" :class="{ 'header__nav--closed': hideNavigation }">
       <ul class="header__nav-list">
-        <li class="header__nav-item">
-          <router-link to="/recordings">Recordings</router-link>
-        </li>
-        <li class="header__nav-item">
-          <router-link to="/timer">Timer</router-link>
-        </li>
-        <li class="header__nav-item">
-          <router-link to="/students">Students</router-link>
-        </li>
-        <li class="header__nav-item">
-          <router-link to="/slides">Slides</router-link>
-        </li>
-        <li class="header__nav-item">
-          <router-link to="/logout">Logout</router-link>
-        </li>
+        <template v-if="isLoggedIn">
+          <li class="header__nav-item">
+            <router-link to="/recordings">Recordings</router-link>
+          </li>
+          <li class="header__nav-item">
+            <router-link to="/timer">Timer</router-link>
+          </li>
+          <li class="header__nav-item">
+            <router-link to="/students">Students</router-link>
+          </li>
+          <li class="header__nav-item">
+            <router-link to="/slides">Slides</router-link>
+          </li>
+          <li class="header__nav-item">
+            <router-link to="/logout">Logout</router-link>
+          </li>
+        </template>
+        <template v-else>
+          <li class="header__nav-item">
+            <router-link to="/login">Login</router-link>
+          </li>
+        </template>
       </ul>
     </nav>
     <div class="header__content">
       <h1 class="header__title">CODING BOOTCAMPS EUROPE</h1>
     </div>
   </header>
-  <main>
+  <main class="main">
     <router-view />
   </main>
   <CBEMainFooter />
@@ -71,6 +78,11 @@ export default {
         this.$store.dispatch("login", user);
       }
     });
+  },
+  computed: {
+    isLoggedIn() {
+      return this.$store.state.isLoggedIn;
+    },
   },
   watch: {
     $route() {
@@ -145,5 +157,9 @@ export default {
 a {
   color: white;
   text-decoration: none;
+}
+
+.main {
+  padding: 1rem;
 }
 </style>
