@@ -4,15 +4,11 @@
   box-sizing: border-box;
 }
 
-html,
-body {
-  min-height: 100%;
-}
-
 html {
   background-color: #ffffff;
   font-family: "Source Sans Pro", sans-serif;
   font-size: 16px;
+  min-height: 100%;
 }
 
 body {
