@@ -1,8 +1,8 @@
 <template>
   <h2>Slides</h2>
   <h3>Web Dev Foundation</h3>
-  <p>4 WEEKS</p>
-  <li>
+  <p class="learning-time">4 WEEKS</p>
+  <li class="slides-block">
     <div class="icon-block">
       <svg
         xmlns="http://www.w3.org/2000/svg"
@@ -29,7 +29,7 @@
       >
     </div>
   </li>
-  <li>
+  <li class="slides-block">
     <div class="icon-block">
       <svg
         xmlns="http://www.w3.org/2000/svg"
@@ -57,7 +57,7 @@
       >
     </div>
   </li>
-  <li>
+  <li class="slides-block">
     <div class="icon-block">
       <svg
         xmlns="http://www.w3.org/2000/svg"
@@ -84,7 +84,7 @@
       >
     </div>
   </li>
-  <li>
+  <li class="slides-block">
     <div class="icon-block">
       <svg
         xmlns="http://www.w3.org/2000/svg"
@@ -111,7 +111,7 @@
       >
     </div>
   </li>
-  <li>
+  <li class="slides-block">
     <div class="icon-block">
       <svg
         xmlns="http://www.w3.org/2000/svg"
@@ -139,8 +139,8 @@
     </div>
   </li>
   <h3>Coding Foundation</h3>
-  <p>13 DAYS</p>
-  <li>
+  <p class="learning-time">13 DAYS</p>
+  <li class="slides-block">
     <div class="icon-block">
       <svg
         xmlns="http://www.w3.org/2000/svg"
@@ -167,7 +167,7 @@
       >
     </div>
   </li>
-  <li>
+  <li class="slides-block">
     <div class="icon-block">
       <svg
         xmlns="http://www.w3.org/2000/svg"
@@ -195,8 +195,8 @@
     </div>
   </li>
   <h3>Web Apps Foundation</h3>
-  <p>9 DAYS</p>
-  <li>
+  <p class="learning-time">9 DAYS</p>
+  <li class="slides-block">
     <div class="icon-block">
       <svg
         xmlns="http://www.w3.org/2000/svg"
@@ -224,8 +224,8 @@
     </div>
   </li>
   <h3>Restful Backends</h3>
-  <p>9 DAYS</p>
-  <li>
+  <p class="learning-time">9 DAYS</p>
+  <li class="slides-block">
     <div class="icon-block">
       <svg
         xmlns="http://www.w3.org/2000/svg"
@@ -253,8 +253,8 @@
     </div>
   </li>
   <h3>Web Apps with Vue.js</h3>
-  <p>11 DAYS</p>
-  <li>
+  <p class="learning-time">11 DAYS</p>
+  <li class="slides-block">
     <div class="icon-block">
       <svg
         xmlns="http://www.w3.org/2000/svg"
@@ -293,12 +293,12 @@ h3 {
   margin-left: 2rem;
   text-transform: uppercase;
 }
-p {
+.learning-time {
   float: right;
   margin-right: 2rem;
   margin-top: 21px;
 }
-li {
+.slides-block {
   list-style-type: none;
   border: 1px solid black;
   box-shadow: 10px 20px 15px silver;
@@ -306,24 +306,17 @@ li {
   background-color: rgb(219, 219, 219);
   margin: 10px 2rem;
   display: flex;
-  _justify-content: space-between;
-  _padding: 0.5rem;
 }
 a {
   text-decoration: none;
-  _padding-top: 11px;
-  _padding-right: 150px;
   color: black;
   font-size: 20px;
-}
-svg {
-  _padding-left: 30px;
 }
 
 .link-block {
   padding-top: 17px;
   margin-bottom: 15px;
-  padding-left: 30px;
+  padding-left: 40px;
 }
 .icon-block {
   padding-top: 5px;
