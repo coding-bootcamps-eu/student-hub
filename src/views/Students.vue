@@ -78,7 +78,7 @@
               <span v-if="student.studentRelClass > 0"
                 >Class: {{ getStudentClassName(student.studentRelClass) }}</span
               >
-              <span v-else>Teilzeit</span>
+              <span v-else>Keine Klasse</span>
               ]
             </p>
             <h3>{{ setStudentNameTogether(student.studentId) }}</h3>
