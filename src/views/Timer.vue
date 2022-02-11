@@ -153,8 +153,8 @@ export default {
   methods: {
     setTime(seconds, type) {
       clearInterval(this.intervalTimer);
-      this.timer(seconds);
       this.type = type;
+      this.timer(seconds);
     },
 
     timer(seconds) {
@@ -184,7 +184,10 @@ export default {
         this.$store.commit("setTimeLeft", secondsLeft);
       }, 1000);
 
-      this.$store.commit("setTimer", this.intervalTimer);
+      this.$store.commit("setTimer", {
+        interval: this.intervalTimer,
+        type: this.type,
+      });
     },
   },
   computed: {

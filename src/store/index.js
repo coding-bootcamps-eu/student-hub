@@ -14,6 +14,7 @@ export default createStore({
     isLoggedIn: false,
     timerInterval: undefined,
     timeLeft: 0,
+    timerType: undefined,
   },
   mutations: {
     setUser(state, user) {
@@ -28,8 +29,9 @@ export default createStore({
     setRole(state, role) {
       state.role = role;
     },
-    setTimer(state, interval) {
+    setTimer(state, { interval, type }) {
       state.timerInterval = interval;
+      state.timerType = type;
     },
     setTimeLeft(state, timeLeft) {
       state.timeLeft = timeLeft;
@@ -66,5 +68,18 @@ export default createStore({
     isLoggedIn: (state) => state.isLoggedIn,
     userName: (state) =>
       state.user ? state.user.displayName : "Captain Anonymous",
+    hasTimer: (state) => !!state.timerInterval,
+    timer: (state) => {
+      const secondsLeft = state.timeLeft;
+      const minutes = Math.floor((secondsLeft % 3600) / 60);
+      const seconds = secondsLeft % 60;
+
+      return `00:${formatTimer(minutes)}:${formatTimer(seconds)}`;
+    },
   },
 });
+
+// TODO: Refactor
+function formatTimer(num) {
+  return num < 10 ? `0${num}` : num;
+}
