@@ -1,17 +1,9 @@
 <template>
-  <button
-    v-if="this.$store.state.isLoggedIn"
-    @click="logout"
-    class="btn-git-logout"
-  >
+  <button v-if="this.$store.state.isLoggedIn" @click="logout" class="button">
     Logout
   </button>
 
-  <button
-    v-if="!this.$store.state.isLoggedIn"
-    @click="login"
-    class="btn-git-login"
-  >
+  <button v-if="!this.$store.state.isLoggedIn" @click="login" class="button">
     Login with GitHub
   </button>
 </template>
@@ -64,6 +56,7 @@ export default {
         });
 
         this.$store.dispatch("login", result.user);
+        this.$router.push("/");
       });
     },
 
@@ -82,4 +75,19 @@ export default {
 };
 </script>
 
-<style lang="css" scoped></style>
+<style lang="css" scoped>
+.button {
+  cursor: pointer;
+  padding: 0.3rem 2.5rem;
+  background: #f2f2f2;
+  border: 1.75px solid #262626;
+  box-sizing: border-box;
+  border-radius: 0.3rem;
+  font-weight: 600;
+}
+
+.button:hover {
+  background-color: #262626;
+  color: white;
+}
+</style>

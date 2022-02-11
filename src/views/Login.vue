@@ -1,14 +1,14 @@
 <template>
   <section>
     <header class="page-heading">
-      <h2 class="page-heading__title">LOGOUT</h2>
-      <p class="page-heading__subtitle">You're now logged out</p>
+      <h2 class="page-heading__title">LOGIN</h2>
+      <p class="page-heading__subtitle">You're logged out</p>
     </header>
-    <div class="logout">
+    <div class="login">
       <svg
         xmlns="http://www.w3.org/2000/svg"
         fill="currentColor"
-        class="bi bi-github logout__image"
+        class="bi bi-github login__image"
         viewBox="0 0 16 16"
       >
         <path
@@ -16,8 +16,10 @@
         />
       </svg>
       <CBELogin></CBELogin>
-      <p class="logout__hint">
-        <small> You can log in again again if you want. </small>
+      <p class="login__hint">
+        <small>
+          Please log in if you want to use the functions of the Student Hub.
+        </small>
       </p>
     </div>
   </section>
@@ -25,44 +27,29 @@
 
 <script>
 import CBELogin from "@/components/CBELogin/CBELogin.vue";
-
-import { getAuth, signOut } from "firebase/auth";
-
 export default {
-  name: "LoggedOut",
-  components: {
-    CBELogin,
-  },
-  beforeMount() {
-    const auth = getAuth();
-    signOut(auth)
-      .then(() => {
-        this.$store.dispatch("logout");
-      })
-      .catch((error) => {
-        console.error("Error: ", error);
-      });
-  },
+  name: "Login",
+  components: { CBELogin },
 };
 </script>
 
 <style lang="css">
-.logout {
+.login {
   display: flex;
   flex-direction: column;
   align-items: center;
   text-align: center;
 }
 
-.logout > * + * {
+.login > * + * {
   margin-top: 1rem;
 }
 
-.logout__image {
+.login__image {
   width: 2rem;
 }
 
-.logout__hint {
+.login__hint {
   color: #999999;
 }
 </style>

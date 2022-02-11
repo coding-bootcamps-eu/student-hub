@@ -12,6 +12,9 @@ export default createStore({
     role: null,
     // Is the user logged in
     isLoggedIn: false,
+    timerInterval: undefined,
+    timeLeft: 0,
+    timerType: undefined,
   },
   mutations: {
     setUser(state, user) {
@@ -25,6 +28,17 @@ export default createStore({
     },
     setRole(state, role) {
       state.role = role;
+    },
+    setTimer(state, { interval, type }) {
+      state.timerInterval = interval;
+      state.timerType = type;
+    },
+    setTimeLeft(state, timeLeft) {
+      state.timeLeft = timeLeft;
+    },
+    stopTimer(state) {
+      state.timerInterval = undefined;
+      state.timeLeft = 0;
     },
   },
   actions: {
@@ -51,5 +65,21 @@ export default createStore({
     isStudent: (state) => state.role === "student",
     isTeacher: (state) => state.role === "teacher",
     hasPermissions: (state) => state.role !== null,
+    isLoggedIn: (state) => state.isLoggedIn,
+    userName: (state) =>
+      state.user ? state.user.displayName : "Captain Anonymous",
+    hasTimer: (state) => !!state.timerInterval,
+    timer: (state) => {
+      const secondsLeft = state.timeLeft;
+      const minutes = Math.floor((secondsLeft % 3600) / 60);
+      const seconds = secondsLeft % 60;
+
+      return `00:${formatTimer(minutes)}:${formatTimer(seconds)}`;
+    },
   },
 });
+
+// TODO: Refactor
+function formatTimer(num) {
+  return num < 10 ? `0${num}` : num;
+}
