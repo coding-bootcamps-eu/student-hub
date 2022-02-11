@@ -171,7 +171,11 @@ export default {
 
 .header__timer {
   display: flex;
-  align-items: baseline;
+  align-items: center;
+}
+
+.header__timer > svg {
+  margin-right: 0.25rem;
 }
 
 .header__nav {
