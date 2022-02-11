@@ -1,170 +1,281 @@
 <template>
-  <section class="lr__recordig-section" id="recordings">
-    <h2>Recordings</h2>
+  <section class="recording__container" id="recordings">
+    <h2 class="recording__container-heading">Recordings</h2>
+    <p class="recording__container-subheading">
+      Movie Time - watch the live sessions again
+    </p>
 
-    <form>
-      <input type="text" placeholder="Search Lesson-Recordings" />
-      <button class="search-button">
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          width="16"
-          height="16"
-          fill="currentColor"
-          class="bi bi-search"
-          viewBox="0 0 16 16"
-        >
-          <path
-            d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z"
-          />
-        </svg>
-      </button>
-    </form>
+    <label for="name">Select a Class:</label
+    ><select
+      class="select__classes"
+      name="classes"
+      @change="loadSelectedClass"
+      v-model="key"
+    >
+      <option value="">Last Recordings</option>
+      <option value="Live-Session Class 2022 Februar">Februar</option>
+      <option value="Live-Session Class 2022 Januar">Januar</option>
+      <option value="Live-Session Class 2021 Dezember">Dezember</option>
+      <option value="Live-Session Class 2021 November">November</option>
+      <option value="Live-Session Evening">Evening</option>
+    </select>
 
-    <h3>Lesson-Recordings</h3>
-    <p></p>
-    <template
-      v-for="recording in lrRecordingsArray"
+    <div class="number-of-lessons">
+      <template v-if="key">
+        <h3>Found Lesson Recordings</h3>
+        <h3>{{ this.filteredRecordings.length }}</h3>
+      </template>
+      <template v-else>
+        <h3>Last Lesson Recordings</h3>
+        <h3>{{ this.lastestRecordings.length }}</h3>
+      </template>
+    </div>
+
+    <article
+      class="recording__box"
+      v-for="recording in recordings"
       :key="recording.recordingKey"
     >
-      <article class="recording__box">
-        <section class="recording__data">
-          <div class="recording__title">
-            <p>Title:</p>
-            <p>{{ recording.recordingData.topic }}</p>
-          </div>
+      <section class="recording__data">
+        <div class="recording__title">
+          <p class="recording__date-time-headings">Title:</p>
+          <p class="recording__date-time-text">
+            {{ recording.recordingData.topic }}
+          </p>
+        </div>
 
-          <div class="recording__date-time">
-            <div class="recording__date">
-              <p>Date:</p>
-              <p>22-01-31</p>
-            </div>
-            <div class="recording__time">
-              <p>Time:</p>
-              <p>17:55:30</p>
-            </div>
+        <div class="recording__date-time">
+          <div class="recording__date">
+            <p class="recording__date-time-headings">Date:</p>
+            <p class="recording__date-time-text">
+              {{ recording.recordingData.date }}
+            </p>
           </div>
-        </section>
-        <section class="recording__download">
-          <svg
+          <div class="recording__time">
+            <p class="recording__date-time-headings">Time:</p>
+            <p class="recording__date-time-text">
+              {{ recording.recordingData.time }}
+            </p>
+          </div>
+        </div>
+      </section>
+      <section class="recording__download">
+        <a
+          target="_blank"
+          :href="recording.recordingData.shareUrl"
+          class="recording__button"
+          >Play</a
+        >
+        <a :href="recording.recordingData.recordingFilesDownloadUrl[0]" class=""
+          ><svg
             xmlns="http://www.w3.org/2000/svg"
-            width="16"
-            height="16"
+            width="20"
+            height="20"
             fill="currentColor"
-            class="bi bi-collection-play"
+            class="bi bi-file-earmark-arrow-down"
             viewBox="0 0 16 16"
           >
             <path
-              d="M2 3a.5.5 0 0 0 .5.5h11a.5.5 0 0 0 0-1h-11A.5.5 0 0 0 2 3zm2-2a.5.5 0 0 0 .5.5h7a.5.5 0 0 0 0-1h-7A.5.5 0 0 0 4 1zm2.765 5.576A.5.5 0 0 0 6 7v5a.5.5 0 0 0 .765.424l4-2.5a.5.5 0 0 0 0-.848l-4-2.5z"
+              d="M8.5 6.5a.5.5 0 0 0-1 0v3.793L6.354 9.146a.5.5 0 1 0-.708.708l2 2a.5.5 0 0 0 .708 0l2-2a.5.5 0 0 0-.708-.708L8.5 10.293V6.5z"
             />
             <path
-              d="M1.5 14.5A1.5 1.5 0 0 1 0 13V6a1.5 1.5 0 0 1 1.5-1.5h13A1.5 1.5 0 0 1 16 6v7a1.5 1.5 0 0 1-1.5 1.5h-13zm13-1a.5.5 0 0 0 .5-.5V6a.5.5 0 0 0-.5-.5h-13A.5.5 0 0 0 1 6v7a.5.5 0 0 0 .5.5h13z"
+              d="M14 14V4.5L9.5 0H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2zM9.5 3A1.5 1.5 0 0 0 11 4.5h2V14a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h5.5v2z"
+            /></svg
+          >File 1</a
+        >
+
+        <a :href="recording.recordingData.recordingFilesDownloadUrl[1]" class=""
+          ><svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="20"
+            height="20"
+            fill="currentColor"
+            class="bi bi-file-earmark-arrow-down"
+            viewBox="0 0 16 16"
+          >
+            <path
+              d="M8.5 6.5a.5.5 0 0 0-1 0v3.793L6.354 9.146a.5.5 0 1 0-.708.708l2 2a.5.5 0 0 0 .708 0l2-2a.5.5 0 0 0-.708-.708L8.5 10.293V6.5z"
             />
-          </svg>
-          <button>Download</button>
-        </section>
-      </article>
-    </template>
+            <path
+              d="M14 14V4.5L9.5 0H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2zM9.5 3A1.5 1.5 0 0 0 11 4.5h2V14a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h5.5v2z"
+            /></svg
+          >File 2</a
+        >
+      </section>
+    </article>
+    <div class="to-top">
+      <a class="to-top" href="#"
+        ><svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="36"
+          height="36"
+          fill="currentColor"
+          class="bi bi-arrow-up-circle"
+          viewBox="0 0 16 16"
+        >
+          <path
+            fill-rule="evenodd"
+            d="M1 8a7 7 0 1 0 14 0A7 7 0 0 0 1 8zm15 0A8 8 0 1 1 0 8a8 8 0 0 1 16 0zm-7.5 3.5a.5.5 0 0 1-1 0V5.707L5.354 7.854a.5.5 0 1 1-.708-.708l3-3a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1-.708.708L8.5 5.707V11.5z"
+          /></svg
+      ></a>
+    </div>
   </section>
 </template>
 
-<!--  <h2 class="mobile-heading">Lesson Recordings</h2>
-    <div class="filter-wrapper">
-      <LRFilter
-        @filter-result="getFilterResults"
-        filterHeading="Suche nach Titel oder Beschreibung"
-        placeholder="Gebe ein Suchbegriff ein..."
-      />
-    </div>
-    <ul class="lr__recording-list" v-if="userFilterQuery">
-      <LRListElement
-        v-for="recording in filteredRecordings"
-        :key="recording.recordingKey"
-        :date="recording.recordingData.date"
-        :topic="recording.recordingData.topic"
-        :description="recording.recordingData.description"
-        :playURL="recording.recordingData.recordingFilesPlayUrl"
-        :downloadURL="recording.recordingData.recordingFilesDownloadUrl"
-        :shareURL="recording.recordingData.recordingFilesPlayUrl"
-        @removeRecording="deleteRecording(recording.recordingKey)"
-        @addDescription="addDescription(recording.recordingKey)"
-        v-bind="recording"
-      />
-    </ul>
-    <ul class="lr__recording-list" v-else>
-      <LRListElement
-        v-for="recording in lrRecordingsArray"
-        :key="recording.recordingKey"
-        :date="recording.recordingData.date"
-        :topic="recording.recordingData.topic"
-        :description="recording.recordingData.description"
-        :playURL="recording.recordingData.recordingFilesPlayUrl"
-        :downloadURL="recording.recordingData.recordingFilesDownloadUrl"
-        :shareURL="recording.recordingData.recordingFilesPlayUrl"
-        @removeRecording="deleteRecording(recording.recordingKey)"
-        @addDescription="addDescription(recording.recordingKey)"
-        v-bind="recording"
-      />
-    </ul> 
-  </section>
-</template>-->
 <script>
 import firestore from "@/firestore";
 import {
-  limit,
   orderBy,
   query,
+  limit,
   collection,
   getDocs,
-  doc,
-  deleteDoc,
-  updateDoc,
+  where,
 } from "firebase/firestore";
 
 export default {
   name: "CBERecordings",
   data() {
     return {
-      lrRecordingsArray: [],
-      userFilterQuery: "",
+      lastestRecordings: [],
+      filteredRecordings: [],
+      key: "",
     };
   },
-  /*  computed: {
-    filteredRecordings: function () {
-      let recordingFilterStatus = this.userFilterQuery;
-      return this.lrRecordingsArray.filter((recording) => {
-        return (
-          recording.recordingData.topic.includes(recordingFilterStatus) ||
-          recording.recordingData.description.includes(recordingFilterStatus)
+
+  created() {
+    // Always load latest recordings --> standard use case
+    this.loadLastestRecordings();
+  },
+  computed: {
+    recordings() {
+      if (this.key === "") {
+        return this.lastestRecordings;
+      } else {
+        return this.filteredRecordings;
+      }
+    },
+  },
+  methods: {
+    async loadLastestRecordings() {
+      const querySnapshot = await getDocs(
+        query(
+          collection(firestore, "zoom-recordings"),
+          orderBy("date", "desc"),
+          limit(10)
+        )
+      );
+      const latestRecordings = [];
+      querySnapshot.forEach((doc) => {
+        const recordingDateTime = this.splitDateTime(doc.data().date);
+        const recordingDate = recordingDateTime[0];
+        const recordingTime = recordingDateTime[1];
+
+        // recording files download
+        let rfdurl = [];
+        this.urlIncludesComma(doc.data().recordingFilesDownloadUrl, rfdurl);
+        // recording files play
+        let rfpurl = [];
+        this.urlIncludesComma(doc.data().recordingFilesPlayUrl, rfpurl);
+        // share url
+        let surl = [];
+        this.urlIncludesComma(doc.data().shareUrl, surl);
+
+        // add to dom array
+        this.saveRecordings(
+          latestRecordings,
+          doc.id,
+          recordingDate,
+          recordingTime,
+          rfdurl,
+          rfpurl,
+          surl,
+          doc.data().topic,
+          doc.data()["video-files-download-url"],
+          doc.data().videoFilesDownloadUrl
         );
       });
+      this.lastestRecordings = latestRecordings;
     },
-  },*/
-  methods: {
-    async addDescription(recordingKey) {
-      let _description;
-      let description = prompt("Please enter a description", "Description..");
-      if (description == null || description == "") {
-        _description = "User cancelled the prompt.";
-      } else {
-        _description = description;
-      }
-      const recordingRef = doc(firestore, "zoom-recordings", recordingKey);
-      await updateDoc(recordingRef, {
-        description: _description,
+    async loadSelectedClass() {
+      const querySnapshot = await getDocs(
+        query(
+          collection(firestore, "zoom-recordings"),
+          where("topic", "==", this.key),
+          limit(30)
+        )
+      );
+
+      let filteredRecordings = [];
+
+      querySnapshot.forEach((doc) => {
+        const recordingDateTime = this.splitDateTime(doc.data().date);
+        const recordingDate = recordingDateTime[0];
+        const recordingTime = recordingDateTime[1];
+
+        // recording files download
+        let rfdurl = [];
+        this.urlIncludesComma(doc.data().recordingFilesDownloadUrl, rfdurl);
+        // recording files play
+        let rfpurl = [];
+        this.urlIncludesComma(doc.data().recordingFilesPlayUrl, rfpurl);
+        // share url
+        let surl = [];
+        this.urlIncludesComma(doc.data().shareUrl, surl);
+
+        this.saveRecordings(
+          filteredRecordings,
+          doc.id,
+          recordingDate,
+          recordingTime,
+          rfdurl,
+          rfpurl,
+          surl,
+          doc.data().topic,
+          doc.data()["video-files-download-url"],
+          doc.data().videoFilesDownloadUrl
+        );
       });
-      location.reload();
+      this.filteredRecordings = filteredRecordings;
+      this.sortArrayDate(this.filteredRecordings);
     },
-    async deleteRecording(recordingKey) {
-      await deleteDoc(doc(firestore, "zoom-recordings", recordingKey));
-      location.reload();
+    saveRecordings(
+      elem,
+      id,
+      date,
+      time,
+      recDown,
+      recPlay,
+      share,
+      topic,
+      vFilesDownOne,
+      vFilesDownTwo
+    ) {
+      elem.push({
+        recordingKey: id,
+        recordingData: {
+          date: date,
+          time: time,
+          recordingFilesDownloadUrl: recDown,
+          recordingFilesPlayUrl: recPlay,
+          shareUrl: share,
+          topic: topic,
+          videoFilesDownloadUrl: vFilesDownOne || vFilesDownTwo,
+        },
+      });
     },
-    getFilterResults(result) {
-      this.userFilterQuery = result;
+    sortArrayDate(elem) {
+      elem.sort(function (a, b) {
+        const dateA = new Date(a.recordingData.date);
+        const dateB = new Date(b.recordingData.date);
+        return dateA < dateB ? 1 : -1;
+      });
     },
-    compareDates(a, b) {
-      if (a.recordingData.date < b.recordingData.date) return 1;
-      if (a.recordingData.date > b.recordingData.date) return -1;
-      return 0;
+    splitDateTime(elem) {
+      elem = elem.replace("T", " ");
+      elem = elem.replace("Z", "");
+      elem = elem.split(" ");
+      return elem;
     },
     urlIncludesComma(docURL, targetArray) {
       if (docURL.includes(",")) {
@@ -176,53 +287,6 @@ export default {
         targetArray.push(docURL);
       }
     },
-    async getAllRecordings() {
-      const querySnapshot = await getDocs(
-        query(
-          collection(firestore, "zoom-recordings"),
-          orderBy("date", "desc"),
-          limit(12)
-        )
-      );
-      querySnapshot.forEach((doc) => {
-        let recordingDate = new Date(doc.data().date);
-        let recordingDateAsString = recordingDate.toLocaleString("de-DE", {
-          weekday: "long",
-          month: "long",
-          year: "numeric",
-          hour: "numeric",
-          minute: "numeric",
-        });
-        // recording files download
-        let rfdurl = [];
-        this.urlIncludesComma(doc.data().recordingFilesDownloadUrl, rfdurl);
-        // recording files play
-        let rfpurl = [];
-        this.urlIncludesComma(doc.data().recordingFilesPlayUrl, rfpurl);
-        // share url
-        let surl = [];
-        this.urlIncludesComma(doc.data().shareUrl, surl);
-        // add to dom array
-        this.lrRecordingsArray.push({
-          recordingKey: doc.id,
-          recordingData: {
-            date: recordingDateAsString,
-            recordingFilesDownloadUrl: rfdurl,
-            recordingFilesPlayUrl: rfpurl,
-            shareUrl: surl,
-            topic: doc.data().topic,
-            description: doc.data().description,
-            uuid: doc.data().uuid,
-            videoFilesDownloadUrl:
-              doc.data()["video-files-download-url"] ||
-              doc.data().videoFilesDownloadUrl,
-          },
-        });
-      });
-    },
-  },
-  async mounted() {
-    await this.getAllRecordings();
   },
 };
 </script>
@@ -233,32 +297,41 @@ export default {
 *:after {
   box-sizing: border-box;
 }
+a {
+  text-decoration: none;
+  color: #262626;
+  font-weight: 600;
+}
 p {
   margin: 0;
 }
-
-form {
-  position: relative;
+h3 {
+  color: rgba(153, 153, 153, 1);
 }
-.search-button {
-  position: absolute;
-  right: 2px;
-  top: -6px;
-  margin-top: 0.5rem;
-  border: none;
+.recording__container {
+  padding: 0 0.8rem;
+}
+.recording__container-heading {
+  font-weight: 600;
+  text-transform: uppercase;
+  margin-bottom: 0;
+}
+.recording__container-subheading {
+  color: #999999;
+  font-weight: 600;
+  margin-bottom: 2rem;
+}
+.select__classes {
+  border: 0.75px solid #262626;
+  border-radius: 0.25rem;
   background-color: transparent;
-  cursor: pointer;
+  padding: 0.25rem 0.5rem;
+  margin: 1rem;
 }
-
-input[type="text"] {
-  width: 100%;
+.number-of-lessons {
+  display: flex;
+  justify-content: space-between;
 }
-
-.bi-collection-play {
-  width: 27px;
-  height: 27px;
-}
-
 .recording__box {
   display: grid;
   grid-template-columns: 2fr 1fr;
@@ -266,13 +339,15 @@ input[type="text"] {
   padding: 1rem;
   border: 1px solid black;
   margin-bottom: 1rem;
+  background-color: #e5e5e5;
+  border: 1px solid #e5e5e5;
+  border-radius: 1rem;
+  box-shadow: 1px 1px 9px 1px rgba(166, 166, 166, 0.47);
 }
-
 .recording__data {
   display: flex;
   flex-direction: column;
 }
-
 .recording__title {
   margin-bottom: 1rem;
 }
@@ -280,11 +355,32 @@ input[type="text"] {
   display: flex;
   justify-content: space-between;
 }
-
+.recording__date-time-headings {
+  color: rgba(153, 153, 153, 1);
+  font-weight: 400;
+}
+.recording__date-time-text {
+  color: rgba(38, 38, 38, 1);
+  font-weight: 600;
+}
 .recording__download {
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  justify-content: flex-end;
   align-items: center;
+  gap: 1rem;
+}
+.recording__button {
+  border: 1.75px solid black;
+  border-radius: 0.5rem;
+  padding: 0.05rem 0.8rem;
+}
+.bi-file-earmark-arrow-down {
+  margin-right: 0.25rem;
+}
+.to-top {
+  text-align: center;
+  margin-top: 2rem;
+  margin-right: 1rem;
 }
 </style>
