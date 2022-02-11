@@ -7,7 +7,7 @@
           xmlns="http://www.w3.org/2000/svg"
           width="20"
           height="20"
-          fill="currentColor"
+          fill="#999999"
           class="instagram"
           viewBox="0 0 16 16"
         >
@@ -21,7 +21,7 @@
           xmlns="http://www.w3.org/2000/svg"
           width="20"
           height="20"
-          fill="currentColor"
+          fill="#999999"
           class="twitter"
           viewBox="0 0 16 16"
         >
@@ -66,6 +66,7 @@ footer {
   display: flex;
   justify-content: center;
   text-align: center;
+  color: #999999;
 }
 .instagram {
   margin-right: 1rem;

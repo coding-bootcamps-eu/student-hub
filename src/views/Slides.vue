@@ -1,5 +1,7 @@
 <template>
   <h2>Slides</h2>
+  <p class="slides-for-each">Slides for each coding module</p>
+  <h3 class="slides">All video lessons as slides</h3>
   <h3>Web Dev Foundation</h3>
   <p class="learning-time">4 WEEKS</p>
   <li class="slides-block">
@@ -286,12 +288,24 @@
 <style scoped>
 h2 {
   margin-left: 2rem;
-  color: grey;
+  color: black;
+  text-transform: uppercase;
 }
 h3 {
   display: inline-block;
   margin-left: 2rem;
   text-transform: uppercase;
+}
+.slides-for-each {
+  margin-left: 2rem;
+  color: #999999;
+  font-size: 20px;
+}
+.slides {
+  color: #999999;
+  font-size: 24px;
+  margin-left: 2rem;
+  text-transform: none;
 }
 .learning-time {
   float: right;
@@ -300,10 +314,9 @@ h3 {
 }
 .slides-block {
   list-style-type: none;
-  border: 1px solid black;
-  box-shadow: 10px 20px 15px silver;
+  box-shadow: 1px 1px 9px 1px #c4c4c4;
   border-radius: 5px;
-  background-color: rgb(219, 219, 219);
+  background-color: #e5e5e5;
   margin: 10px 2rem;
   display: flex;
 }
