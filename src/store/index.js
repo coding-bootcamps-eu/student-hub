@@ -51,5 +51,6 @@ export default createStore({
     isStudent: (state) => state.role === "student",
     isTeacher: (state) => state.role === "teacher",
     hasPermissions: (state) => state.role !== null,
+    isLoggedIn: (state) => state.isLoggedIn,
   },
 });

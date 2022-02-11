@@ -7,27 +7,23 @@
 
 <script>
 import CBELogin from "@/components/CBELogin/CBELogin.vue";
+
+import { getAuth, signOut } from "firebase/auth";
+
 export default {
   name: "LoggedOut",
   components: {
     CBELogin,
   },
   beforeMount() {
-    if (this.$store.state.isLoggedIn) {
-      this.$router.push("/");
-    }
-  },
-  computed: {
-    loggedIn() {
-      return this.$store.state.isLoggedIn;
-    },
-  },
-  watch: {
-    loggedIn() {
-      if (this.$store.state.isLoggedIn) {
-        this.$router.push("/");
-      }
-    },
+    const auth = getAuth();
+    signOut(auth)
+      .then(() => {
+        this.$store.dispatch("logout");
+      })
+      .catch((error) => {
+        console.error("Error: ", error);
+      });
   },
 };
 </script>

@@ -64,6 +64,7 @@ export default {
         });
 
         this.$store.dispatch("login", result.user);
+        this.$router.push("/");
       });
     },
 
