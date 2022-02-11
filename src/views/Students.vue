@@ -25,7 +25,7 @@
           </svg>
         </button>
       </div>
-      <h3>Filter:</h3>
+      <h3 class="textColorStandardGray">Filter:</h3>
       <div class="containerFilter">
         <select
           name="filterBootcampClass"
@@ -386,6 +386,14 @@ body {
 }
 h1 {
   text-transform: uppercase;
+  margin-bottom: 1vmin;
+}
+h2 {
+  color: #999;
+  margin-top: 0;
+}
+.textColorStandardGray {
+  color: #999;
 }
 .containerOuter {
   padding: 5vmin;
