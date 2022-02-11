@@ -16,31 +16,14 @@ export default {
     CBELogin,
   },
   beforeMount() {
-    // if (this.$store.state.isLoggedIn) {
-    //   this.$router.push("/");
-    // }
-
     const auth = getAuth();
     signOut(auth)
       .then(() => {
-        this.$router.push("/logout");
         this.$store.dispatch("logout");
       })
       .catch((error) => {
         console.error("Error: ", error);
       });
-  },
-  computed: {
-    loggedIn() {
-      return this.$store.state.isLoggedIn;
-    },
-  },
-  watch: {
-    loggedIn() {
-      if (this.$store.state.isLoggedIn) {
-        this.$router.push("/");
-      }
-    },
   },
 };
 </script>

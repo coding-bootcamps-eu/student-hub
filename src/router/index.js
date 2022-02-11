@@ -1,8 +1,10 @@
 import { createRouter, createWebHistory } from "vue-router";
+import Login from "../views/Login.vue";
 import Home from "../views/Home.vue";
 import Timer from "../views/Timer.vue";
 import Slides from "../views/Slides.vue";
 import Students from "../views/Students.vue";
+import Admin from "../views/Admin.vue";
 
 const routes = [
   {
@@ -11,15 +13,15 @@ const routes = [
     component: Home,
   },
   {
+    path: "/login",
+    name: "Login",
+    component: Login,
+  },
+  {
     path: "/logout",
     name: "Logout",
     component: () =>
       import(/* webpackChunkName: "loggedout" */ "../views/Logout.vue"),
-  },
-  {
-    path: "/login",
-    name: "Login",
-    component: Home,
   },
   {
     path: "/about",
@@ -47,6 +49,11 @@ const routes = [
     path: "/slides",
     name: "Slides",
     component: Slides,
+  },
+  {
+    path: "/admin",
+    name: "Admin",
+    component: Admin,
   },
 ];
 

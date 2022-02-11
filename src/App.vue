@@ -65,6 +65,7 @@ export default {
   name: "App",
   data: () => {
     return {
+      runOnce: false,
       hideNavigation: true,
     };
   },
@@ -72,10 +73,17 @@ export default {
     CBEMainFooter,
   },
   created() {
-    // Check if user is already logged in
+    //Check if user is already logged in
     getAuth().onAuthStateChanged((user) => {
+      if (this.runOnce) {
+        return;
+      }
+
+      this.runOnce = true;
       if (user) {
         this.$store.dispatch("login", user);
+      } else {
+        this.$router.push("/login");
       }
     });
   },
