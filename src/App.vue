@@ -24,6 +24,9 @@
       <ul class="header__nav-list">
         <template v-if="isLoggedIn">
           <li class="header__nav-item">
+            <router-link to="/">Home</router-link>
+          </li>
+          <li class="header__nav-item">
             <router-link to="/recordings">Recordings</router-link>
           </li>
           <li class="header__nav-item">
@@ -168,6 +171,6 @@ a {
 }
 
 .main {
-  padding: 1rem;
+  padding: 2rem;
 }
 </style>

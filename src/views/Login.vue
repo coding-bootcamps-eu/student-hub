@@ -34,20 +34,6 @@ export default {
 </script>
 
 <style lang="css">
-.page-heading {
-  margin-bottom: 3rem;
-}
-
-.page-heading__title {
-  margin-bottom: 0;
-  color: #262626;
-}
-
-.page-heading__subtitle {
-  margin: 0;
-  color: #999999;
-}
-
 .login {
   display: flex;
   flex-direction: column;
