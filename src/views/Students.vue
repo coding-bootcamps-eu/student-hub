@@ -118,7 +118,7 @@
             <h3>{{ setStudentNameTogether(student.studentId) }}</h3>
             <p>
               <a
-                href="{{student.studentGithubLink}}"
+                :href="student.studentGithubLink"
                 target="_blank"
                 rel="noopener noreferrer"
                 :title="
