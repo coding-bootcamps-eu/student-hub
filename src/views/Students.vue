@@ -3,6 +3,28 @@
     <h1>Students</h1>
     <h2>Your fellow students</h2>
     <div>
+      <div class="containerSearch">
+        <input
+          class="inputFieldSearch"
+          type="text"
+          value=""
+          placeholder="Find Student by name"
+          @input="setSearchString($event)"
+        /><button class="buttonSearch" @click="searchStudent()">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="16"
+            height="16"
+            fill="currentColor"
+            class="bi bi-search"
+            viewBox="0 0 16 16"
+          >
+            <path
+              d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z"
+            />
+          </svg>
+        </button>
+      </div>
       <h3>Filter:</h3>
       <div class="containerFilter">
         <select
@@ -55,7 +77,7 @@
               <img :src="student.studentGithubPortrait" alt="xx" />
             </div>
             <div class="studentPortraitContainerInner containerNoImage" v-else>
-              <svg
+              <!--<svg
                 xmlns="http://www.w3.org/2000/svg"
                 width="100%"
                 height="100%"
@@ -68,6 +90,18 @@
                 />
                 <path
                   d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z"
+                />
+              </svg>-->
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="100%"
+                height="100%"
+                fill="currentColor"
+                class="bi bi-person"
+                viewBox="0 0 16 16"
+              >
+                <path
+                  d="M8 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm2-3a2 2 0 1 1-4 0 2 2 0 0 1 4 0zm4 8c0 1-1 1-1 1H3s-1 0-1-1 1-4 6-4 6 3 6 4zm-1-.004c-.001-.246-.154-.986-.832-1.664C11.516 10.68 10.289 10 8 10c-2.29 0-3.516.68-4.168 1.332-.678.678-.83 1.418-.832 1.664h10z"
                 />
               </svg>
             </div>
@@ -192,6 +226,7 @@ export default {
           studentGithubPortrait: "",
         },
       ],
+      studentSearchString: "",
       studentsListFilter: [],
       studentsClass: [
         {
@@ -220,6 +255,21 @@ export default {
     };
   },
   methods: {
+    setSearchString(e) {
+      this.studentSearchString = e.target.value;
+      //console.log("Suchstring: ", e.target.value);
+    },
+    searchStudent() {
+      /*
+      let studentsTmp = this.studentsListFilter.filter(
+        (student) => student.studentNameFirst === this.studentSearchString
+      );
+      console.log("Student: ", studentsTmp);
+      */
+
+      //this.studentSearchString = "";
+      this.renderStudentsList();
+    },
     setStudentNameTogether(id) {
       const student = this.getStudentData(id);
       const nameComplete =
@@ -295,6 +345,29 @@ export default {
         );
       }
       // end filter: starttime
+      // begin: search
+      /*
+      if (this.studentSearchString !== "") {
+        studentsTmp = studentsTmp.filter(
+          (student) => student.studentNameFirst === this.studentSearchString
+        );
+      }
+*/
+      if (this.studentSearchString !== "") {
+        const searchString = this.studentSearchString;
+        studentsTmp = studentsTmp.filter(function (e) {
+          const firstName = e.studentNameFirst;
+          const secondName = e.studentNameSecond;
+          //if (firstName === searchString) {
+          if (
+            firstName.includes(searchString) ||
+            secondName.includes(searchString)
+          ) {
+            return true;
+          }
+        });
+      }
+      // end: search
 
       console.log("Students tmp: ", studentsTmp);
       this.studentsListFilter = studentsTmp;
@@ -391,5 +464,23 @@ ul.listStudents li p.studentTopContainer {
 .studentPortraitContainer img {
   max-width: 100%;
   height: auto;
+}
+.containerSearch {
+  display: flex;
+  border: 2px solid #262626;
+  border-radius: 3px;
+}
+.inputFieldSearch,
+.buttonSearch {
+  border: none;
+}
+.inputFieldSearch {
+  flex-grow: 2;
+  padding: 1vmin;
+}
+.buttonSearch {
+  padding-left: 2vmin;
+  padding-right: 2vmin;
+  cursor: pointer;
 }
 </style>
