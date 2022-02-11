@@ -12,6 +12,8 @@ export default createStore({
     role: null,
     // Is the user logged in
     isLoggedIn: false,
+    timerInterval: undefined,
+    timeLeft: 0,
   },
   mutations: {
     setUser(state, user) {
@@ -25,6 +27,16 @@ export default createStore({
     },
     setRole(state, role) {
       state.role = role;
+    },
+    setTimer(state, interval) {
+      state.timerInterval = interval;
+    },
+    setTimeLeft(state, timeLeft) {
+      state.timeLeft = timeLeft;
+    },
+    stopTimer(state) {
+      state.timerInterval = undefined;
+      state.timeLeft = 0;
     },
   },
   actions: {
