@@ -61,7 +61,7 @@ export default createStore({
   },
   modules: {},
   getters: {
-    isGuest: (state) => state.role === null,
+    isGuest: (state) => state.role === null || state.role === "guest",
     isStudent: (state) => state.role === "student",
     isTeacher: (state) => state.role === "teacher",
     hasPermissions: (state) => state.role !== null,
