@@ -1,0 +1,8 @@
+[context.production]
+  command = "npm run build:prod"
+
+[context.stage]
+  command = "npm run build:stage"
+
+[context.dev]
+  command = "npm run build:dev"
