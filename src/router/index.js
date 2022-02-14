@@ -8,6 +8,8 @@ import Students from "../views/Students.vue";
 import Admin from "../views/Admin.vue";
 import store from "../store";
 
+import { onAuthStateInit } from "./../firestore";
+
 const routes = [
   {
     path: "/",
@@ -81,17 +83,17 @@ const router = createRouter({
   routes,
 });
 
-router.beforeEach(async (to, from) => {
-  // canUserAccess() returns `true` or `false`
+router.beforeEach(async (to) => {
+  await onAuthStateInit();
 
   if (!to.meta.public) {
-    const isGuestOnly = store.getters.isGuest;
-    if (isGuestOnly) {
+    if (!store.getters.isLoggedIn) {
+      return "/login";
+    }
+    if (store.getters.isGuest) {
       return "/guest";
     }
   }
-
-  // if (isGuestOnly) return "/guest";
 });
 
 export default router;
