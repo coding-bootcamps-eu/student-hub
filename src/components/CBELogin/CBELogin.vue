@@ -56,7 +56,6 @@ export default {
         });
 
         this.$store.dispatch("login", result.user);
-        this.$router.push("/");
       });
     },
 
@@ -64,7 +63,6 @@ export default {
       const auth = getAuth();
       signOut(auth)
         .then(() => {
-          this.$router.push("/logout");
           this.$store.dispatch("logout");
         })
         .catch((error) => {

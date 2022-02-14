@@ -17,20 +17,8 @@ export default firestoreDB;
 const onAuthStateChangedPromise = new Promise((resolve, reject) => {
   getAuth().onAuthStateChanged(
     async (user) => {
-      store.dispatch(user !== null ? "login" : "logout", user);
-
-      if (user !== null) {
-        const docRef = doc(firestore, "all-users", user.uid);
-        const docSnap = await getDoc(docRef);
-        if (docSnap.exists()) {
-          let role = docSnap.data().role;
-          if (role === undefined) {
-            role = null;
-          }
-          store.commit("setRole", role);
-        }
-      }
-      resolve(user);
+      await store.dispatch(user !== null ? "login" : "logout", user);
+      resolve();
     },
     (err) => {
       reject(err);
@@ -38,3 +26,19 @@ const onAuthStateChangedPromise = new Promise((resolve, reject) => {
   );
 });
 export const onAuthStateInit = () => onAuthStateChangedPromise;
+
+export const loadUserRole = (user) => {
+  return new Promise((resolve) => {
+    let role = null;
+    const docRef = doc(firestore, "all-users", user.uid);
+    getDoc(docRef).then((docSnap) => {
+      if (docSnap.exists()) {
+        role = docSnap.data().role;
+        if (role === undefined) {
+          role = null;
+        }
+      }
+      resolve(role);
+    });
+  });
+};
