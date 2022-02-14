@@ -7,7 +7,7 @@
     <div class="guest">
       <p>
         You currently have a guest status which means you have no access to the
-        app.
+        app. An admin will review your permissions soon.
       </p>
     </div>
   </section>

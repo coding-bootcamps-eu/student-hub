@@ -54,21 +54,23 @@
     <nav class="header__nav" :class="{ 'header__nav--closed': hideNavigation }">
       <ul class="header__nav-list">
         <template v-if="isLoggedIn">
-          <li class="header__nav-item">
-            <router-link to="/">Home</router-link>
-          </li>
-          <li class="header__nav-item">
-            <router-link to="/recordings">Recordings</router-link>
-          </li>
-          <li class="header__nav-item">
-            <router-link to="/timer">Timer</router-link>
-          </li>
-          <li class="header__nav-item">
-            <router-link to="/students">Students</router-link>
-          </li>
-          <li class="header__nav-item">
-            <router-link to="/slides">Slides</router-link>
-          </li>
+          <template v-if="!this.$store.getters.isGuest">
+            <li class="header__nav-item">
+              <router-link to="/">Home</router-link>
+            </li>
+            <li class="header__nav-item">
+              <router-link to="/recordings">Recordings</router-link>
+            </li>
+            <li class="header__nav-item">
+              <router-link to="/timer">Timer</router-link>
+            </li>
+            <li class="header__nav-item">
+              <router-link to="/students">Students</router-link>
+            </li>
+            <li class="header__nav-item">
+              <router-link to="/slides">Slides</router-link>
+            </li>
+          </template>
           <li class="header__nav-item">
             <router-link to="/logout">Logout</router-link>
           </li>
@@ -91,8 +93,6 @@
 </template>
 
 <script>
-import { getAuth } from "firebase/auth";
-
 import CBEMainFooter from "@/components/CBEMainFooter/CBEMainFooter.vue";
 
 export default {
@@ -106,24 +106,9 @@ export default {
   components: {
     CBEMainFooter,
   },
-  created() {
-    //Check if user is already logged in
-    getAuth().onAuthStateChanged((user) => {
-      if (this.runOnce) {
-        return;
-      }
-
-      this.runOnce = true;
-      if (user) {
-        this.$store.dispatch("login", user);
-      } else {
-        this.$router.push("/login");
-      }
-    });
-  },
   computed: {
     isLoggedIn() {
-      return this.$store.state.isLoggedIn;
+      return this.$store.getters.isLoggedIn;
     },
   },
   watch: {
