@@ -1,4 +1,6 @@
 import { createStore } from "vuex";
+import { loadUserRole } from "../firestore";
+import router from "../router";
 
 export default createStore({
   plugins: [],
@@ -21,6 +23,7 @@ export default createStore({
         state.isLoggedIn = true;
       } else {
         state.user = null;
+        state.role = null;
         state.isLoggedIn = false;
       }
     },
@@ -42,9 +45,17 @@ export default createStore({
   actions: {
     async login(context, user) {
       context.commit("setUser", user);
+
+      const role = await loadUserRole(user);
+      context.commit("setRole", role);
+
+      if (["Login", "Logout"].includes(router.currentRoute.value.name)) {
+        router.push("/");
+      }
     },
     logout(context) {
       context.commit("setUser", null);
+      router.push("/logout");
     },
   },
   modules: {},
