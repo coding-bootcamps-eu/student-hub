@@ -9,40 +9,38 @@
 </template>
 
 <script>
-import {
-  getAuth,
-  GithubAuthProvider,
-  signInWithPopup,
-  signOut,
-} from "firebase/auth";
-import { setDoc, getDoc, doc } from "firebase/firestore";
-import firestore from "@/firestore";
+import { GithubAuthProvider, signInWithPopup, signOut } from "firebase/auth";
+import { addDoc, getDocs, query, where, collection } from "firebase/firestore";
+import { auth, db } from "../../firebase";
 
 export default {
   name: "CBELogin",
   methods: {
     async isUserInDB(accessToken) {
-      const docRef = doc(firestore, "all-users", accessToken);
-      const docSnap = await getDoc(docRef);
-      if (docSnap.exists()) {
+      const docs = await getDocs(
+        query(collection(db, "all-users"), where("uid", "==", accessToken))
+      );
+      if (docs.size === 0) {
+        return false;
+      } else if (docs.size === 1) {
         return true;
       } else {
-        return false;
+        console.error("Multiple entries found for uid ", accessToken);
       }
     },
 
     async login() {
-      const auth = getAuth();
       const provider = new GithubAuthProvider();
       provider.addScope("public_repo");
 
       signInWithPopup(auth, provider).then((result) => {
         const credential = GithubAuthProvider.credentialFromResult(result);
         const token = credential.accessToken;
+
         this.isUserInDB(result.user.uid).then((userExists) => {
           if (!userExists) {
             // Create record for user in all-users collection
-            setDoc(doc(firestore, "all-users", result.user.uid), {
+            addDoc(collection(db, "all-users"), {
               uid: result.user.uid,
               githubName: result.user.displayName,
               githubScreenName: result._tokenResponse.screenName,
@@ -60,7 +58,6 @@ export default {
     },
 
     logout() {
-      const auth = getAuth();
       signOut(auth)
         .then(() => {
           this.$store.dispatch("logout");

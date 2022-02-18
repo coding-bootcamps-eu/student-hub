@@ -14,7 +14,7 @@
 </template>
 
 <script>
-import firestore from "@/firestore";
+import { db } from "../firebase";
 import {
   collection,
   getDocs,
@@ -42,7 +42,7 @@ export default {
         const document = this.documents[i];
         setTimeout(() => {
           deletePromises.push(
-            deleteDoc(doc(firestore, "zoom-recordings", document.id))
+            deleteDoc(doc(db, "zoom-recordings", document.id))
           );
         }, 50);
       }
@@ -55,7 +55,7 @@ export default {
     async loadDocuments() {
       const querySnapshot = await getDocs(
         query(
-          collection(firestore, "zoom-recordings"),
+          collection(db, "zoom-recordings"),
           where(this.field, this.condition, this.conditionValue)
         )
       );
