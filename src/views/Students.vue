@@ -1,7 +1,7 @@
 <template>
   <section>
     <header class="page-heading">
-      <h2 class="page-heading__title">Stundents</h2>
+      <h2 class="page-heading__title">Students</h2>
       <p class="page-heading__subtitle">Your fellow students</p>
     </header>
     <section class="students">
