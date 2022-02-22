@@ -93,7 +93,7 @@
 </template>
 
 <script>
-import firestore from "@/firestore";
+import { db } from "../../firebase";
 import {
   orderBy,
   query,
@@ -128,15 +128,15 @@ export default {
   },
   methods: {
     async loadLastestRecordings() {
-      const querySnapshot = await getDocs(
+      const queryResult = await getDocs(
         query(
-          collection(firestore, "zoom-recordings"),
+          collection(db, "zoom-recordings"),
           orderBy("date", "desc"),
           limit(10)
         )
       );
       const latestRecordings = [];
-      querySnapshot.forEach((doc) => {
+      queryResult.forEach((doc) => {
         const recordingDateTime = this.splitDateTime(doc.data().date);
         const recordingDate = recordingDateTime[0];
         const recordingTime = recordingDateTime[1];
@@ -170,7 +170,7 @@ export default {
     async loadSelectedClass() {
       const querySnapshot = await getDocs(
         query(
-          collection(firestore, "zoom-recordings"),
+          collection(db, "zoom-recordings"),
           where("topic", "==", this.key),
           limit(30)
         )

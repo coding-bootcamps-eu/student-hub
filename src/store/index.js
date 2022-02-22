@@ -1,5 +1,5 @@
 import { createStore } from "vuex";
-import { loadUserRole } from "../firestore";
+import { loadUserRole } from "../firebase";
 import router from "../router";
 
 export default createStore({
