@@ -27,4 +27,6 @@ pnpm-debug.log*
 
 # Firebase
 ui-debug.log
+firebase-debug.log
 firestore-debug.log
+/firestore-export

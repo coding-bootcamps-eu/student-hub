@@ -8,7 +8,7 @@ import Students from "../views/Students.vue";
 import Admin from "../views/Admin.vue";
 import store from "../store";
 
-import { onAuthStateInit } from "./../firestore";
+import { onAuthStateInit } from "../firebase";
 
 const routes = [
   {
