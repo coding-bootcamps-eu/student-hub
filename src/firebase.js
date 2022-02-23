@@ -45,9 +45,8 @@ const onAuthStateChangedPromise = new Promise((resolve, reject) => {
 });
 export const onAuthStateInit = () => onAuthStateChangedPromise;
 
-export const loadUserRole = (user) => {
+export const loadUserDetails = (user) => {
   return new Promise((resolve) => {
-    let role = null;
     getDocs(
       query(collection(db, "all-users"), where("uid", "==", user.uid))
     ).then((docs) => {
@@ -55,11 +54,11 @@ export const loadUserRole = (user) => {
         // user record not found
       } else if (docs.size === 1) {
         // User record found
-        role = docs.docs[0].data().role;
+        resolve(docs.docs[0].data());
       } else {
         console.error("Multiple entries found for uid ", user.uid);
       }
-      resolve(role === undefined ? null : role);
+      resolve(undefined);
     });
   });
 };
