@@ -1,12 +1,15 @@
 <template>
   <section>
     <header class="page-heading">
-      <h2 class="page-heading__title">Home</h2>
+      <h2 class="page-heading__title">Lobby</h2>
       <p class="page-heading__subtitle">
         Hello, {{ this.$store.getters.userName }} - Let's go!
       </p>
     </header>
     <div class="home">
+      <section v-if="canShowTodaysGoal" class="home_daily-goal">
+        <h3>{{ todaysGoal }}</h3>
+      </section>
       <nav class="home__nav">
         <router-link class="home__link" to="/recordings">
           <svg
@@ -73,14 +76,71 @@
 </template>
 
 <script>
+import {
+  calculateWorkingDaysSinceCampStart,
+  calculateSchedule,
+  bootcampDays,
+  normalizeDate,
+} from "../schedule/schedule";
+
 export default {
   name: "Home",
+  data: () => {
+    return {};
+  },
+  created: () => {},
+  computed: {
+    todaysGoal() {
+      let studentStartDate = new Date(
+        this.$store.state.startDate.seconds * 1000
+      );
+      let today = new Date();
+      const workingDays = calculateWorkingDaysSinceCampStart(
+        studentStartDate,
+        today
+      );
+      const schedule = calculateSchedule();
+      const goal = schedule[workingDays - 1];
+
+      if (goal !== undefined) {
+        return `Day ${goal.dayOfTopic}/${goal.totalTopicDays} of "${goal.topic}"`;
+      } else {
+        return `Final Project`;
+      }
+    },
+    canShowTodaysGoal() {
+      if (!this.$store.getters.isStudent) {
+        return false;
+      }
+
+      let daysInCamp = bootcampDays + 1;
+      if (this.$store.state.startDate) {
+        daysInCamp = calculateWorkingDaysSinceCampStart(
+          new Date(this.$store.state.startDate.seconds * 1000),
+          new Date()
+        );
+      }
+
+      return (
+        this.$store.getters.isStudent &&
+        this.$store.state.startDate &&
+        this.$store.state.fulltime === true &&
+        daysInCamp <= bootcampDays
+      );
+    },
+  },
+  methods: {},
 };
 </script>
 
 <style lang="css">
 .home {
   margin-top: 4rem;
+}
+
+.home_daily-goal {
+  text-align: center;
+  margin-bottom: 3rem;
 }
 
 .home__nav {

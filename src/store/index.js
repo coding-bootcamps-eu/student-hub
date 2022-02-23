@@ -1,15 +1,15 @@
 import { createStore } from "vuex";
-import { loadUserRole } from "../firebase";
+import { loadUserDetails } from "../firebase";
 import router from "../router";
 
 export default createStore({
   plugins: [],
   state: {
-    // User object returned
-    // by OAuth2/firebase authentication
-    user: null,
-    // User role (teacher, student, undefined)
-    role: null,
+    user: null, // User object returned by OAuth2/firebase authentication
+    role: null, // User role (teacher, student, null)
+    className: null,
+    startDate: null,
+    fulltime: null,
     // Is the user logged in
     isLoggedIn: false,
     timerInterval: undefined,
@@ -27,8 +27,18 @@ export default createStore({
         state.isLoggedIn = false;
       }
     },
-    setRole(state, role) {
-      state.role = role;
+    setUserDetails(state, userDetails) {
+      if (userDetails !== null || userDetails !== undefined) {
+        state.role = userDetails.role;
+        state.className = userDetails.className;
+        state.startDate = userDetails.startDate;
+        state.fulltime = userDetails.fulltime;
+      } else {
+        state.role = null;
+        state.className = null;
+        state.startDate = null;
+        state.fulltime = null;
+      }
     },
     setTimer(state, { interval, type }) {
       state.timerInterval = interval;
@@ -46,8 +56,12 @@ export default createStore({
     async login(context, user) {
       context.commit("setUser", user);
 
-      const role = await loadUserRole(user);
-      context.commit("setRole", role);
+      const userDetails = await loadUserDetails(user);
+      if (userDetails !== undefined) {
+        context.commit("setUserDetails", userDetails);
+      } else {
+        context.commit("setUserDetails", null);
+      }
 
       if (["Login", "Logout"].includes(router.currentRoute.value.name)) {
         router.push("/");
