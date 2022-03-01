@@ -93,7 +93,7 @@ export default createStore({
 
       return `00:${formatTimer(minutes)}:${formatTimer(seconds)}`;
     },
-    canShowSchedule: (state, getters) => {
+    canShowDailyGoal: (state, getters) => {
       if (!getters.isStudent) {
         return false;
       }
@@ -112,6 +112,13 @@ export default createStore({
         state.fulltime === true &&
         daysInCamp <= bootcampDays
       );
+    },
+    canShowSchedule: (state, getters) => {
+      if (getters.isTeacher) {
+        return true;
+      }
+
+      return getters.canShowDailyGoal;
     },
   },
 });

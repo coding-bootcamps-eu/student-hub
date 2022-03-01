@@ -1,5 +1,7 @@
 export const bootcampDays = 65;
 
+export const classNames = ["2021-12-07", "2022-01-11", "2022-02-15"];
+
 export const topics = [
   { topic: "Onboarding + Bits and Bytes", days: 1 },
   { topic: "Your Frontend Developer Setup", days: 2 },
@@ -45,6 +47,14 @@ export const calculateSchedule = () => {
 
 // TODO: Use library for that
 const holidays = [
+  new Date("2021-12-24"),
+  new Date("2021-12-25"),
+  new Date("2021-12-26"),
+  new Date("2021-12-27"),
+  new Date("2021-12-28"),
+  new Date("2021-12-29"),
+  new Date("2021-12-30"),
+  new Date("2021-12-31"),
   new Date("2022-01-01"),
   new Date("2022-04-15"),
   new Date("2022-04-18"),
