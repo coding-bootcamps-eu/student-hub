@@ -1,8 +1,9 @@
 import { createRouter, createWebHistory } from "vue-router";
 import Login from "../views/Login.vue";
 import Guest from "../views/Guest.vue";
-import Home from "../views/Home.vue";
+import Lobby from "../views/Lobby.vue";
 import Timer from "../views/Timer.vue";
+import Schedule from "../views/Schedule.vue";
 import Slides from "../views/Slides.vue";
 import Students from "../views/Students.vue";
 import Admin from "../views/Admin.vue";
@@ -13,8 +14,8 @@ import { onAuthStateInit } from "../firebase";
 const routes = [
   {
     path: "/",
-    name: "Home",
-    component: Home,
+    name: "Lobby",
+    component: Lobby,
     meta: {
       public: false,
     },
@@ -70,6 +71,11 @@ const routes = [
     path: "/slides",
     name: "Slides",
     component: Slides,
+  },
+  {
+    path: "/schedule",
+    name: "Schedule",
+    component: Schedule,
   },
   {
     path: "/admin",
