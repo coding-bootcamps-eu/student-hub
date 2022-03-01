@@ -81,6 +81,9 @@ const routes = [
     path: "/admin",
     name: "Admin",
     component: Admin,
+    meta: {
+      teacher: true,
+    },
   },
 ];
 
@@ -99,6 +102,10 @@ router.beforeEach(async (to) => {
     if (store.getters.isGuest) {
       return "/guest";
     }
+  }
+
+  if (to.meta.teacher && !store.getters.isTeacher) {
+    return "/";
   }
 });
 

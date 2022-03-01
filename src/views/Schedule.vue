@@ -1,20 +1,31 @@
 <template>
   <header class="page-heading">
     <h2 class="page-heading__title">Schedule</h2>
-    <p class="page-heading__subtitle">Your personal bootcamp schedule</p>
+    <p class="page-heading__subtitle">{{ scheduleHeading }}</p>
   </header>
   <div class="schedule">
-    <div v-if="this.$store.getters.canShowSchedule">
+    <div
+      v-if="
+        this.$store.getters.canShowSchedule || this.$store.getters.isTeacher
+      "
+    >
+      <template v-if="this.$store.getters.isTeacher">
+        <select name="" id="selected-class" v-model="selectedClass">
+          <option
+            v-for="className in classes"
+            :key="className"
+            :value="className"
+          >
+            {{ className }}
+          </option>
+        </select>
+      </template>
       <ul>
         <li
           v-for="day in schedule"
           :key="day.dayInSchedule"
           class="schedule-day"
-          :class="{
-            today: day.dayInSchedule === daysInBootcamp,
-            past: day.dayInSchedule < daysInBootcamp,
-            future: day.dayInSchedule > daysInBootcamp,
-          }"
+          :class="classesForDay(day.date)"
         >
           {{ formatDate(day.date) }}: {{ day.topic }} ({{ day.dayOfTopic }}/{{
             day.totalTopicDays
@@ -38,19 +49,45 @@ import {
   calculateWorkingDaysSinceCampStart,
   calculatePersonalSchedule,
   formatDate,
+  normalizeDate,
+  classNames,
 } from "../schedule/schedule";
 
 export default {
   name: "Schedule",
   data: () => {
-    return {};
+    return {
+      selectedClass: undefined,
+      classes: [],
+    };
+  },
+  created() {
+    this.classes = classNames;
+    this.selectedClass = this.classes[0];
   },
   methods: {
     formatDate(d) {
       return formatDate(d);
     },
+    classesForDay(date) {
+      const today = normalizeDate(new Date());
+      return {
+        past: date < today,
+        today: formatDate(date) === formatDate(today),
+        future: date > today,
+      };
+    },
   },
   computed: {
+    scheduleHeading() {
+      if (this.$store.getters.isStudent) {
+        return "Your personal bootcamp schedule";
+      } else if (this.$store.getters.isTeacher && this.selectedClass) {
+        return "Schedule of Class " + this.selectedClass;
+      } else {
+        return "";
+      }
+    },
     daysInBootcamp() {
       let studentStartDate = new Date(
         this.$store.state.startDate.seconds * 1000
@@ -59,10 +96,16 @@ export default {
       return calculateWorkingDaysSinceCampStart(studentStartDate, today);
     },
     schedule() {
-      let studentStartDate = new Date(
-        this.$store.state.startDate.seconds * 1000
-      );
-      return calculatePersonalSchedule(studentStartDate);
+      if (this.$store.getters.isStudent) {
+        let studentStartDate = new Date(
+          this.$store.state.startDate.seconds * 1000
+        );
+        return calculatePersonalSchedule(studentStartDate);
+      } else if (this.$store.getters.isTeacher && this.selectedClass) {
+        return calculatePersonalSchedule(new Date(this.selectedClass));
+      } else {
+        return [];
+      }
     },
   },
 };
