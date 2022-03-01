@@ -23,6 +23,7 @@ export const topics = [
   { topic: "Checkpoint Restful Backends", days: 1 },
   { topic: "VueJS", days: 10 },
   { topic: "Checkpoint VueJS", days: 1 },
+  { topic: "Abschlussproject / Bonus", days: 7 },
 ];
 
 export const calculateSchedule = () => {
@@ -42,7 +43,7 @@ export const calculateSchedule = () => {
   return dailyTopics;
 };
 
-// Use library for that
+// TODO: Use library for that
 const holidays = [
   new Date("2022-01-01"),
   new Date("2022-04-15"),
@@ -56,6 +57,32 @@ const holidays = [
   new Date("2022-12-25"),
   new Date("2022-12-26"),
 ];
+
+export const calculatePersonalSchedule = (startDate) => {
+  startDate = normalizeDate(startDate);
+  const dailyTopics = [];
+  let dayInSchedule = 0;
+  topics.forEach((topic) => {
+    for (let i = 0; i < topic.days; i++) {
+      dayInSchedule++;
+      dailyTopics.push({
+        date: new Date(startDate),
+        topic: topic.topic,
+        dayOfTopic: i + 1,
+        totalTopicDays: topic.days,
+        dayInSchedule: dayInSchedule,
+      });
+
+      startDate.setDate(startDate.getDate() + 1);
+      if (!isWorkingDay(startDate)) {
+        while (!isWorkingDay(startDate)) {
+          startDate.setDate(startDate.getDate() + 1);
+        }
+      }
+    }
+  });
+  return dailyTopics;
+};
 
 const holidaysAsMs = holidays.map((day) => day.getTime());
 
@@ -73,11 +100,34 @@ export const calculateWorkingDaysSinceCampStart = (startDate, calledDate) => {
   return workingDays;
 };
 
+export const getBootcampDatesForStartDate = (startDate) => {
+  const dates = [];
+  startDate = normalizeDate(startDate);
+  let workingDays = 0;
+
+  while (workingDays <= bootcampDays) {
+    if (isWorkingDay(startDate)) {
+      dates.push(new Date(startDate));
+      workingDays++;
+    }
+    startDate.setDate(startDate.getDate() + 1);
+  }
+
+  return dates;
+};
+
 export const normalizeDate = (d) => {
   const dd = String(d.getDate()).padStart(2, "0");
   const mm = String(d.getMonth() + 1).padStart(2, "0"); //January is 0!
   const yyyy = d.getFullYear();
   return new Date(yyyy + "-" + mm + "-" + dd);
+};
+
+export const formatDate = (d) => {
+  const dd = String(d.getDate()).padStart(2, "0");
+  const mm = String(d.getMonth() + 1).padStart(2, "0"); //January is 0!
+  const yyyy = d.getFullYear();
+  return yyyy + "-" + mm + "-" + dd;
 };
 
 const isWorkingDay = (day) => {
