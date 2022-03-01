@@ -7,11 +7,18 @@
       </p>
     </header>
     <div class="home">
-      <section v-if="canShowTodaysGoal" class="home_daily-goal">
+      <section
+        v-if="this.$store.getters.canShowSchedule"
+        class="home_daily-goal"
+      >
         <h3>{{ todaysGoal }}</h3>
       </section>
       <nav class="home__nav">
-        <router-link class="home__link" to="/schedule">
+        <router-link
+          class="home__link"
+          to="/schedule"
+          v-if="this.$store.getters.canShowSchedule"
+        >
           <svg
             xmlns="http://www.w3.org/2000/svg"
             fill="currentColor"
@@ -96,7 +103,6 @@ import {
   calculateWorkingDaysSinceCampStart,
   calculateSchedule,
   bootcampDays,
-  normalizeDate,
 } from "../schedule/schedule";
 
 export default {
@@ -123,26 +129,6 @@ export default {
       } else {
         return `Final Project`;
       }
-    },
-    canShowTodaysGoal() {
-      if (!this.$store.getters.isStudent) {
-        return false;
-      }
-
-      let daysInCamp = bootcampDays + 1;
-      if (this.$store.state.startDate) {
-        daysInCamp = calculateWorkingDaysSinceCampStart(
-          new Date(this.$store.state.startDate.seconds * 1000),
-          new Date()
-        );
-      }
-
-      return (
-        this.$store.getters.isStudent &&
-        this.$store.state.startDate &&
-        this.$store.state.fulltime === true &&
-        daysInCamp <= bootcampDays
-      );
     },
   },
   methods: {},

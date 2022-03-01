@@ -4,7 +4,7 @@
     <p class="page-heading__subtitle">Your personal bootcamp schedule</p>
   </header>
   <div class="schedule">
-    <div v-if="canDisplaySchedule">
+    <div v-if="this.$store.getters.canShowSchedule">
       <ul>
         <li
           v-for="day in schedule"
@@ -36,7 +36,6 @@
 <script>
 import {
   calculateWorkingDaysSinceCampStart,
-  bootcampDays,
   calculatePersonalSchedule,
   formatDate,
 } from "../schedule/schedule";
@@ -64,26 +63,6 @@ export default {
         this.$store.state.startDate.seconds * 1000
       );
       return calculatePersonalSchedule(studentStartDate);
-    },
-    canDisplaySchedule() {
-      if (!this.$store.getters.isStudent) {
-        return false;
-      }
-
-      let daysInCamp = bootcampDays + 1;
-      if (this.$store.state.startDate) {
-        daysInCamp = calculateWorkingDaysSinceCampStart(
-          new Date(this.$store.state.startDate.seconds * 1000),
-          new Date()
-        );
-      }
-
-      return (
-        this.$store.getters.isStudent &&
-        this.$store.state.startDate &&
-        this.$store.state.fulltime === true &&
-        daysInCamp <= bootcampDays
-      );
     },
   },
 };

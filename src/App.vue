@@ -56,7 +56,13 @@
         <template v-if="isLoggedIn">
           <template v-if="!this.$store.getters.isGuest">
             <li class="header__nav-item">
-              <router-link to="/">Home</router-link>
+              <router-link to="/">Lobby</router-link>
+            </li>
+            <li
+              class="header__nav-item"
+              v-if="this.$store.getters.canShowSchedule"
+            >
+              <router-link to="/schedule">Schedule</router-link>
             </li>
             <li class="header__nav-item">
               <router-link to="/recordings">Recordings</router-link>
