@@ -7,10 +7,33 @@
       </p>
     </header>
     <div class="home">
-      <section v-if="canShowTodaysGoal" class="home_daily-goal">
+      <section
+        v-if="this.$store.getters.canShowSchedule"
+        class="home_daily-goal"
+      >
         <h3>{{ todaysGoal }}</h3>
       </section>
       <nav class="home__nav">
+        <router-link
+          class="home__link"
+          to="/schedule"
+          v-if="this.$store.getters.canShowSchedule"
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            fill="currentColor"
+            class="bi bi-calendar-check"
+            viewBox="0 0 16 16"
+          >
+            <path
+              d="M10.854 7.146a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708 0l-1.5-1.5a.5.5 0 1 1 .708-.708L7.5 9.793l2.646-2.647a.5.5 0 0 1 .708 0z"
+            />
+            <path
+              d="M3.5 0a.5.5 0 0 1 .5.5V1h8V.5a.5.5 0 0 1 1 0V1h1a2 2 0 0 1 2 2v11a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V3a2 2 0 0 1 2-2h1V.5a.5.5 0 0 1 .5-.5zM1 4v10a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V4H1z"
+            />
+          </svg>
+          <span class="home__link-text">Schedule</span>
+        </router-link>
         <router-link class="home__link" to="/recordings">
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -80,7 +103,6 @@ import {
   calculateWorkingDaysSinceCampStart,
   calculateSchedule,
   bootcampDays,
-  normalizeDate,
 } from "../schedule/schedule";
 
 export default {
@@ -107,26 +129,6 @@ export default {
       } else {
         return `Final Project`;
       }
-    },
-    canShowTodaysGoal() {
-      if (!this.$store.getters.isStudent) {
-        return false;
-      }
-
-      let daysInCamp = bootcampDays + 1;
-      if (this.$store.state.startDate) {
-        daysInCamp = calculateWorkingDaysSinceCampStart(
-          new Date(this.$store.state.startDate.seconds * 1000),
-          new Date()
-        );
-      }
-
-      return (
-        this.$store.getters.isStudent &&
-        this.$store.state.startDate &&
-        this.$store.state.fulltime === true &&
-        daysInCamp <= bootcampDays
-      );
     },
   },
   methods: {},

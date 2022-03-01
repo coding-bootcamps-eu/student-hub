@@ -1,6 +1,10 @@
 import { createStore } from "vuex";
 import { loadUserDetails } from "../firebase";
 import router from "../router";
+import {
+  bootcampDays,
+  calculateWorkingDaysSinceCampStart,
+} from "../schedule/schedule";
 
 export default createStore({
   plugins: [],
@@ -88,6 +92,26 @@ export default createStore({
       const seconds = secondsLeft % 60;
 
       return `00:${formatTimer(minutes)}:${formatTimer(seconds)}`;
+    },
+    canShowSchedule: (state, getters) => {
+      if (!getters.isStudent) {
+        return false;
+      }
+
+      let daysInCamp = bootcampDays + 1;
+      if (state.startDate) {
+        daysInCamp = calculateWorkingDaysSinceCampStart(
+          new Date(state.startDate.seconds * 1000),
+          new Date()
+        );
+      }
+
+      return (
+        getters.isStudent &&
+        state.startDate &&
+        state.fulltime === true &&
+        daysInCamp <= bootcampDays
+      );
     },
   },
 });

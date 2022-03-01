@@ -3,6 +3,7 @@ import Login from "../views/Login.vue";
 import Guest from "../views/Guest.vue";
 import Lobby from "../views/Lobby.vue";
 import Timer from "../views/Timer.vue";
+import Schedule from "../views/Schedule.vue";
 import Slides from "../views/Slides.vue";
 import Students from "../views/Students.vue";
 import Admin from "../views/Admin.vue";
@@ -70,6 +71,11 @@ const routes = [
     path: "/slides",
     name: "Slides",
     component: Slides,
+  },
+  {
+    path: "/schedule",
+    name: "Schedule",
+    component: Schedule,
   },
   {
     path: "/admin",
