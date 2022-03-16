@@ -120,6 +120,7 @@ import {
   calculateWorkingDaysSinceCampStart,
   calculateSchedule,
   classNames,
+  bootcampDays,
 } from "../schedule/schedule";
 
 export default {
@@ -150,15 +151,22 @@ export default {
     classGoals() {
       const schedule = calculateSchedule();
 
-      return classNames.map((className) => {
+      const classGoals = [];
+
+      classNames.forEach((className) => {
         let studentStartDate = new Date(className);
         let today = new Date();
         const workingDays = calculateWorkingDaysSinceCampStart(
           studentStartDate,
           today
         );
-        return { className, goal: schedule[workingDays - 1] };
+
+        if (workingDays <= bootcampDays) {
+          classGoals.push({ className, goal: schedule[workingDays - 1] });
+        }
       });
+
+      return classGoals;
     },
   },
   methods: {},
