@@ -1,6 +1,11 @@
 export const bootcampDays = 65;
 
-export const classNames = ["2021-12-07", "2022-01-11", "2022-02-15"];
+export const classNames = [
+  "2021-12-07",
+  "2022-01-11",
+  "2022-02-15",
+  "2022-03-15",
+];
 
 export const topics = [
   { topic: "Onboarding + Bits and Bytes", days: 1 },
@@ -47,25 +52,25 @@ export const calculateSchedule = () => {
 
 // TODO: Use library for that
 const holidays = [
-  new Date("2021-12-24"),
-  new Date("2021-12-25"),
-  new Date("2021-12-26"),
-  new Date("2021-12-27"),
-  new Date("2021-12-28"),
-  new Date("2021-12-29"),
-  new Date("2021-12-30"),
-  new Date("2021-12-31"),
-  new Date("2022-01-01"),
-  new Date("2022-04-15"),
-  new Date("2022-04-18"),
-  new Date("2022-05-01"),
-  new Date("2022-05-26"),
-  new Date("2022-06-06"),
-  new Date("2022-06-16"),
-  new Date("2022-10-03"),
-  new Date("2022-11-01"),
-  new Date("2022-12-25"),
-  new Date("2022-12-26"),
+  "2021-12-24",
+  "2021-12-25",
+  "2021-12-26",
+  "2021-12-27",
+  "2021-12-28",
+  "2021-12-29",
+  "2021-12-30",
+  "2021-12-31",
+  "2022-01-01",
+  "2022-04-15",
+  "2022-04-18",
+  "2022-05-01",
+  "2022-05-26",
+  "2022-06-06",
+  "2022-06-16",
+  "2022-10-03",
+  "2022-11-01",
+  "2022-12-25",
+  "2022-12-26",
 ];
 
 export const calculatePersonalSchedule = (startDate) => {
@@ -84,17 +89,17 @@ export const calculatePersonalSchedule = (startDate) => {
       });
 
       startDate.setDate(startDate.getDate() + 1);
-      if (!isWorkingDay(startDate)) {
-        while (!isWorkingDay(startDate)) {
-          startDate.setDate(startDate.getDate() + 1);
-        }
+
+      while (!isWorkingDay(startDate)) {
+        console.log(formatDate(startDate));
+        startDate.setDate(startDate.getDate() + 1);
       }
     }
   });
   return dailyTopics;
 };
 
-const holidaysAsMs = holidays.map((day) => day.getTime());
+//const holidaysAsMs = holidays.map((day) => day.getTime());
 
 export const calculateWorkingDaysSinceCampStart = (startDate, calledDate) => {
   startDate = normalizeDate(startDate);
@@ -144,6 +149,6 @@ const isWorkingDay = (day) => {
   return (
     day.getDay() !== 0 &&
     day.getDay() !== 6 &&
-    !holidaysAsMs.includes(day.getTime())
+    !holidays.includes(formatDate(day))
   );
 };
