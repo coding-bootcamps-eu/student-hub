@@ -20,7 +20,6 @@
       <option value="Live-Session Class 2022 Februar">Februar 2022</option>
       <option value="Live-Session Class 2022 Januar">Januar 2022</option>
       <option value="Live-Session Class 2021 Dezember">Dezember 2021</option>
-      <option value="Live-Session Class 2021 November">November 2021</option>
     </select>
 
     <div class="number-of-lessons">
