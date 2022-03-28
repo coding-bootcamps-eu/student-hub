@@ -159,7 +159,7 @@
     </div>
     <div class="link-block">
       <a
-        href="https://docs.google.com/presentation/d/1nD1b1FSYWWng31gTIOpCN9T79orE6lSTbzcRobbmkaE"
+        href="https://docs.google.com/presentation/d/1iTOCNw9hHCytLA6BE_BidURMVbkG7suCdrkp-Gtu5Eg"
         target="_blank"
         rel="nofollow"
         >Next Steps with Git</a
