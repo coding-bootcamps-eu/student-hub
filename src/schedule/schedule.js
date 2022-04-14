@@ -1,10 +1,10 @@
 export const bootcampDays = 65;
 
 export const classNames = [
-  "2021-12-07",
   "2022-01-11",
   "2022-02-15",
   "2022-03-15",
+  "2022-04-19",
 ];
 
 export const topics = [
@@ -16,13 +16,13 @@ export const topics = [
   { topic: "Advanced CSS", days: 4 },
   { topic: "Next Steps with Git", days: 1 },
   { topic: "Checkpoint Web Dev Foundation", days: 1 },
-  { topic: "Introduction to Programming with p5", days: 4 },
+  { topic: "Introduction to Programming with p5", days: 5 },
   { topic: "Solving Problems with JavaScript", days: 4 },
   { topic: "From Classes to Objects", days: 4 },
   { topic: "Checkpoint Coding Foundation", days: 1 },
   { topic: "Web App Basics", days: 5 },
   { topic: "Basic State Management", days: 2 },
-  { topic: "Async", days: 1 },
+  //{ topic: "Async", days: 1 },
   { topic: "Checkpoint Web App Basics", days: 1 },
   { topic: "Fetch and Http Requests", days: 3 },
   { topic: "Intro to Node.js and NPM", days: 2 },
@@ -91,7 +91,6 @@ export const calculatePersonalSchedule = (startDate) => {
       startDate.setDate(startDate.getDate() + 1);
 
       while (!isWorkingDay(startDate)) {
-        console.log(formatDate(startDate));
         startDate.setDate(startDate.getDate() + 1);
       }
     }
