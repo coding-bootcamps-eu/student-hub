@@ -161,7 +161,7 @@ export default {
           today
         );
 
-        if (workingDays <= bootcampDays) {
+        if (workingDays <= bootcampDays && workingDays > 0) {
           classGoals.push({ className, goal: schedule[workingDays - 1] });
         }
       });
