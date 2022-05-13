@@ -171,11 +171,7 @@ export default {
     },
     async loadSelectedClass() {
       const querySnapshot = await getDocs(
-        query(
-          collection(db, "zoom-recordings"),
-          where("topic", "==", this.key),
-          limit(30)
-        )
+        query(collection(db, "zoom-recordings"), where("topic", "==", this.key))
       );
 
       let filteredRecordings = [];
