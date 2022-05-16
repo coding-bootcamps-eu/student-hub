@@ -47,7 +47,7 @@
 <script>
 import {
   calculateWorkingDaysSinceCampStart,
-  calculatePersonalSchedule,
+  calculateSchedule,
   formatDate,
   normalizeDate,
   classNames,
@@ -89,20 +89,18 @@ export default {
       }
     },
     daysInBootcamp() {
-      let studentStartDate = new Date(
-        this.$store.state.startDate.seconds * 1000
-      );
+      let studentStartDate = new Date(this.$store.state.startDate);
       let today = new Date();
       return calculateWorkingDaysSinceCampStart(studentStartDate, today);
     },
     schedule() {
       if (this.$store.getters.isStudent) {
-        let studentStartDate = new Date(
-          this.$store.state.startDate.seconds * 1000
-        );
-        return calculatePersonalSchedule(studentStartDate);
+        let studentStartDate = new Date(this.$store.state.startDate);
+        let className = this.$store.state.className;
+        return calculateSchedule(studentStartDate, className);
       } else if (this.$store.getters.isTeacher && this.selectedClass) {
-        return calculatePersonalSchedule(new Date(this.selectedClass));
+        const className = this.selectedClass.substring(0, 7);
+        return calculateSchedule(new Date(this.selectedClass), className);
       } else {
         return [];
       }

@@ -4,6 +4,44 @@
       <h2 class="page-heading__title">Students</h2>
       <p class="page-heading__subtitle">Your fellow students</p>
     </header>
+    <section
+      class="students-wrong-meta-data"
+      v-if="this.$store.getters.isTeacher"
+    >
+      <h3>Missing Permissions and Meta Data</h3>
+      <ul class="students-list">
+        <li
+          v-for="student in studentsWrongMetaData"
+          :key="student.data.uid"
+          class="student-list__item"
+        >
+          <img :src="student.data.githubProfileUrl + '.png'" alt="" />
+          <span>{{ student.data.githubName }}</span>
+          <a
+            :href="student.data.githubProfileUrl"
+            target="_blank"
+            rel="noopener noreferrer"
+            >{{ student.data.githubProfileUrl }}</a
+          >
+          <div class="missing-meta-form">
+            <label for="">Classname</label
+            ><input type="text" v-model="student.data.className" />
+            <label for="">Fulltime</label
+            ><input type="checkbox" v-model="student.data.fulltime" />
+            <label for="">Role</label>
+
+            <select name="" id="" v-model="student.data.role">
+              <option value="">----</option>
+              <option value="guest">Guest</option>
+              <option value="student">Student</option>
+              <option value="teacher">Teacher</option>
+            </select>
+            <pre>{{ student.data }}</pre>
+            <button @click="updateUser(student)">Update</button>
+          </div>
+        </li>
+      </ul>
+    </section>
     <section class="students">
       <ul class="students-list">
         <li
@@ -26,7 +64,13 @@
 </template>
 
 <script>
-import { query, where, getDocs, collection } from "firebase/firestore";
+import {
+  query,
+  where,
+  getDocs,
+  collection,
+  updateDoc,
+} from "firebase/firestore";
 import { db } from "../firebase";
 
 export default {
@@ -37,9 +81,15 @@ export default {
   data() {
     return {
       students: [],
+      studentsWrongMetaData: [],
     };
   },
   methods: {
+    async updateUser(userObj) {
+      const { data, doc } = userObj;
+      await updateDoc(doc.ref, data);
+    },
+
     // TODO: move to store?
     async loadStudents() {
       const isStudent = this.$store.getters.isStudent;
@@ -57,7 +107,19 @@ export default {
 
       studentDocs.forEach((studentDoc) => {
         const studentData = studentDoc.data();
-        this.students.push(studentData);
+
+        if (
+          studentData.role === "guest" ||
+          studentData.fulltime === undefined ||
+          studentData.className === undefined
+        ) {
+          this.studentsWrongMetaData.push({
+            data: studentData,
+            doc: studentDoc,
+          });
+        } else {
+          this.students.push(studentData);
+        }
       });
     },
   },
@@ -67,6 +129,23 @@ export default {
 </script>
 
 <style>
+.missing-meta-form {
+  display: grid;
+  grid-template-columns: min-content 1fr;
+  grid-gap: 0.5rem;
+}
+
+.missing-meta-form > pre,
+.missing-meta-form > button {
+  grid-column-start: 1;
+  grid-column-end: 3;
+}
+
+.students-wrong-meta-data {
+  border-bottom: 2px dashed red;
+  margin-bottom: 4rem;
+}
+
 .students-list {
   padding: 0;
 }

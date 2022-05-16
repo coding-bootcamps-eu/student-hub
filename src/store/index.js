@@ -8,6 +8,7 @@ import router from "../router";
 import {
   bootcampDays,
   calculateWorkingDaysSinceCampStart,
+  classNames,
 } from "../schedule/schedule";
 
 export default createStore({
@@ -39,8 +40,14 @@ export default createStore({
       if (userDetails !== null || userDetails !== undefined) {
         state.role = userDetails.role;
         state.className = userDetails.className;
-        state.startDate = userDetails.startDate;
         state.fulltime = userDetails.fulltime;
+
+        if (state.className) {
+          const startDate = classNames.find((className) =>
+            className.startsWith(state.className)
+          );
+          state.startDate = startDate;
+        }
       } else {
         state.role = null;
         state.className = null;
@@ -69,9 +76,6 @@ export default createStore({
       // Create user doc if it does not exist
       const userExists = await doesUserRecordExist(uid);
       if (userExists === false) {
-        // // const githubCredential =
-        // //   GithubAuthProvider.credentialFromResult(credential);
-        // const xxx = GithubAuthProvider.credentialFromResult(user);
         const screenName = user.reloadUserInfo.screenName;
 
         const userDetails = {
@@ -90,7 +94,7 @@ export default createStore({
       // ----------------------------------------------------------------------
       // Load user doc
       const userDetails = await loadUserDetails(user);
-      if (userDetails !== undefined) {
+      if (userDetails !== undefined && userDetails !== null) {
         context.commit("setUserDetails", userDetails);
       } else {
         context.commit("setUserDetails", null);
@@ -131,7 +135,7 @@ export default createStore({
       let daysInCamp = bootcampDays + 1;
       if (state.startDate) {
         daysInCamp = calculateWorkingDaysSinceCampStart(
-          new Date(state.startDate.seconds * 1000),
+          new Date(state.startDate),
           new Date()
         );
       }
