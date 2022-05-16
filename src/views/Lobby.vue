@@ -131,28 +131,26 @@ export default {
   created: () => {},
   computed: {
     todaysGoal() {
-      let studentStartDate = new Date(
-        this.$store.state.startDate.seconds * 1000
-      );
+      let studentStartDate = new Date(this.$store.state.startDate);
       let today = new Date();
       const workingDays = calculateWorkingDaysSinceCampStart(
         studentStartDate,
         today
       );
-      const schedule = calculateSchedule();
+      const schedule = calculateSchedule(
+        studentStartDate,
+        this.$store.state.className
+      );
       const goal = schedule[workingDays - 1];
 
       if (goal !== undefined) {
         return `Day ${goal.dayOfTopic}/${goal.totalTopicDays} of "${goal.topic}"`;
       } else {
-        return `Final Project`;
+        return `Your bootcamp did not start yet or is already over :-)`;
       }
     },
     classGoals() {
-      const schedule = calculateSchedule();
-
       const classGoals = [];
-
       classNames.forEach((className) => {
         let studentStartDate = new Date(className);
         let today = new Date();
@@ -162,6 +160,7 @@ export default {
         );
 
         if (workingDays <= bootcampDays && workingDays > 0) {
+          const schedule = calculateSchedule(studentStartDate, className);
           classGoals.push({ className, goal: schedule[workingDays - 1] });
         }
       });

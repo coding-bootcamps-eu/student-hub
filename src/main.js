@@ -10,7 +10,7 @@ try {
     }
   });
 } catch (e) {
-  alert("shit happens: ", e);
+  console.log("Error while removing old service worker registrations: ", e);
 }
 
 const app = createApp(App).use(store).use(router);
