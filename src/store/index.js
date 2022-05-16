@@ -1,5 +1,9 @@
 import { createStore } from "vuex";
-import { loadUserDetails } from "../firebase";
+import {
+  createUserDocument,
+  doesUserRecordExist,
+  loadUserDetails,
+} from "../firebase";
 import router from "../router";
 import {
   bootcampDays,
@@ -9,7 +13,7 @@ import {
 export default createStore({
   plugins: [],
   state: {
-    user: null, // User object returned by OAuth2/firebase authentication
+    user: null, // user object
     role: null, // User role (teacher, student, null)
     className: null,
     startDate: null,
@@ -58,8 +62,33 @@ export default createStore({
   },
   actions: {
     async login(context, user) {
+      const uid = user.uid;
       context.commit("setUser", user);
 
+      // ----------------------------------------------------------------------
+      // Create user doc if it does not exist
+      const userExists = await doesUserRecordExist(uid);
+      if (userExists === false) {
+        // // const githubCredential =
+        // //   GithubAuthProvider.credentialFromResult(credential);
+        // const xxx = GithubAuthProvider.credentialFromResult(user);
+        const screenName = user.reloadUserInfo.screenName;
+
+        const userDetails = {
+          uid: user.uid,
+          githubName: user.displayName,
+          githubScreenName: screenName,
+          githubProfileUrl: "https://github.com/" + screenName,
+          email: user.email,
+          // TODO: Use constant for roles
+          role: "guest",
+        };
+
+        await createUserDocument(uid, userDetails);
+      }
+
+      // ----------------------------------------------------------------------
+      // Load user doc
       const userDetails = await loadUserDetails(user);
       if (userDetails !== undefined) {
         context.commit("setUserDetails", userDetails);
@@ -78,10 +107,11 @@ export default createStore({
   },
   modules: {},
   getters: {
-    isGuest: (state) => state.role === null || state.role === "guest",
+    isGuest: (state) =>
+      state.role === null || state.role === undefined || state.role === "guest",
     isStudent: (state) => state.role === "student",
     isTeacher: (state) => state.role === "teacher",
-    hasPermissions: (state) => state.role !== null,
+    hasPermissions: (state) => state.role !== null && state.role !== undefined,
     isLoggedIn: (state) => state.isLoggedIn,
     userName: (state) =>
       state.user ? state.user.displayName : "Captain Anonymous",
