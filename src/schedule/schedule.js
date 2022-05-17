@@ -1,14 +1,16 @@
+// Number of days in  fulltime bootcamp
 export const bootcampDays = 65;
 
+// Current classes
 export const classNames = [
-  "2022-01-11",
   "2022-02-15",
   "2022-03-15",
   "2022-04-19",
+  "2022-05-17",
 ];
 
-export const topics = [
-  { topic: "Onboarding + Bits and Bytes", days: 1 },
+export const defaultSchedule = [
+  { topic: "Onboarding", days: 1 },
   { topic: "Your Frontend Developer Setup", days: 2 },
   { topic: "First Steps with Git", days: 1 },
   { topic: "HTML Foundation", days: 2 },
@@ -22,33 +24,66 @@ export const topics = [
   { topic: "Checkpoint Coding Foundation", days: 1 },
   { topic: "Web App Basics", days: 5 },
   { topic: "Basic State Management", days: 2 },
-  //{ topic: "Async", days: 1 },
   { topic: "Checkpoint Web App Basics", days: 1 },
   { topic: "Fetch and Http Requests", days: 3 },
   { topic: "Intro to Node.js and NPM", days: 2 },
   { topic: "Introduction to Restful APIs", days: 3 },
   { topic: "Checkpoint Restful Backends", days: 1 },
-  { topic: "VueJS", days: 10 },
-  { topic: "Checkpoint VueJS", days: 1 },
-  { topic: "Abschlussproject / Bonus", days: 7 },
+  { topic: "Vue.js", days: 10 },
+  { topic: "Checkpoint Vue.js", days: 1 },
 ];
 
-export const calculateSchedule = () => {
-  const dailyTopics = [];
-  let dayInSchedule = 0;
-  topics.forEach((topic) => {
-    for (let i = 0; i < topic.days; i++) {
-      dayInSchedule++;
-      dailyTopics.push({
-        topic: topic.topic,
-        dayOfTopic: i + 1,
-        totalTopicDays: topic.days,
-        dayInSchedule: dayInSchedule,
-      });
-    }
-  });
-  return dailyTopics;
+export const schedule202205 = [
+  { topic: "Onboarding", days: 1 },
+  { topic: "Your Frontend Developer Setup", days: 2 },
+  { topic: "First Steps with Git", days: 1 },
+  { topic: "HTML Foundation", days: 2 },
+  { topic: "CSS Foundation", days: 4 },
+  { topic: "Advanced CSS", days: 4 },
+  { topic: "Next Steps with Git", days: 1 },
+  { topic: "Checkpoint Web Dev Foundation", days: 1 },
+  { topic: "Introduction to Programming with p5", days: 5 },
+  { topic: "Solving Problems with JavaScript", days: 4 },
+  { topic: "From Classes to Objects", days: 4 },
+  { topic: "Checkpoint Coding Foundation", days: 1 },
+  { topic: "Web App Basics", days: 5 },
+  { topic: "Basic State Management", days: 2 },
+  { topic: "Checkpoint Web App Basics", days: 1 },
+  { topic: "Fetch and Http Requests", days: 3 },
+  { topic: "Intro to Node.js and NPM", days: 2 },
+  { topic: "Introduction to Restful APIs", days: 3 },
+  { topic: "Checkpoint Restful Backends", days: 1 },
+  { topic: "Vue.js", days: 10 },
+  { topic: "Checkpoint Vue.js", days: 1 },
+];
+
+export const classSchedules = {
+  "2022-05": schedule202205,
 };
+
+export function getClassSchedule(className, generalSchedule, classSchedules) {
+  if (Object.keys(classSchedules).includes(className)) {
+    return classSchedules[className];
+  } else {
+    return generalSchedule;
+  }
+}
+
+// TODO: add special days to schedule
+// const specialDays = [
+//   {
+//     date: "2022-05-11",
+//     topic: "Next Steps",
+//   },
+//   {
+//     date: "2022-05-12",
+//     topic: "Agiler Vormittag",
+//   },
+//   {
+//     date: "2022-05-13",
+//     topic: "Agiler Vormittag",
+//   },
+// ];
 
 // TODO: Use library for that
 const holidays = [
@@ -73,33 +108,83 @@ const holidays = [
   "2022-12-26",
 ];
 
-export const calculatePersonalSchedule = (startDate) => {
-  startDate = normalizeDate(startDate);
+/**
+ * Calculate schedule
+ * @param {*} startDate when passed the schedule includes a date for each day
+ * @returns array of daily topics
+ */
+export const calculateSchedule = (startDate, className) => {
+  const calculateDates = startDate !== undefined && startDate !== null;
+
+  let schedule = defaultSchedule;
+  if (className) {
+    schedule = getClassSchedule(className, defaultSchedule, classSchedules);
+  }
+
+  const getNextWorkingDay = () => {
+    startDate.setDate(startDate.getDate() + 1);
+    while (!isWorkingDay(startDate)) {
+      startDate.setDate(startDate.getDate() + 1);
+    }
+  };
+
+  if (calculateDates) {
+    startDate = normalizeDate(startDate);
+  }
   const dailyTopics = [];
   let dayInSchedule = 0;
-  topics.forEach((topic) => {
+  schedule.forEach((topic) => {
     for (let i = 0; i < topic.days; i++) {
       dayInSchedule++;
-      dailyTopics.push({
-        date: new Date(startDate),
+      const dailyTopic = {
         topic: topic.topic,
         dayOfTopic: i + 1,
         totalTopicDays: topic.days,
         dayInSchedule: dayInSchedule,
-      });
+      };
 
-      startDate.setDate(startDate.getDate() + 1);
+      if (calculateDates) {
+        dailyTopic.date = new Date(startDate);
+      }
 
-      while (!isWorkingDay(startDate)) {
-        startDate.setDate(startDate.getDate() + 1);
+      dailyTopics.push(dailyTopic);
+
+      if (calculateDates) {
+        getNextWorkingDay();
       }
     }
   });
+
+  //Bonus Tage
+  const days = Object.keys(dailyTopics).length;
+  if (days < bootcampDays) {
+    const openDays = bootcampDays - days;
+    for (let i = 0; i < openDays; i++) {
+      dayInSchedule++;
+      const dailyTopic = {
+        topic: "Abschluss Bootcamp",
+        dayOfTopic: i + 1,
+        totalTopicDays: openDays,
+        dayInSchedule: dayInSchedule,
+      };
+
+      if (calculateDates) {
+        dailyTopic.date = new Date(startDate);
+      }
+
+      dailyTopics.push(dailyTopic);
+
+      if (calculateDates) {
+        getNextWorkingDay();
+      }
+    }
+  }
+
   return dailyTopics;
 };
 
-//const holidaysAsMs = holidays.map((day) => day.getTime());
-
+// Calculate the number of working days for a
+// specific bootcamp start date and a current date
 export const calculateWorkingDaysSinceCampStart = (startDate, calledDate) => {
   startDate = normalizeDate(startDate);
   calledDate = normalizeDate(calledDate);
@@ -112,22 +197,6 @@ export const calculateWorkingDaysSinceCampStart = (startDate, calledDate) => {
     startDate.setDate(startDate.getDate() + 1);
   }
   return workingDays;
-};
-
-export const getBootcampDatesForStartDate = (startDate) => {
-  const dates = [];
-  startDate = normalizeDate(startDate);
-  let workingDays = 0;
-
-  while (workingDays <= bootcampDays) {
-    if (isWorkingDay(startDate)) {
-      dates.push(new Date(startDate));
-      workingDays++;
-    }
-    startDate.setDate(startDate.getDate() + 1);
-  }
-
-  return dates;
 };
 
 export const normalizeDate = (d) => {
