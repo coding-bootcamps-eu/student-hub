@@ -16,6 +16,16 @@
 <script>
 export default {
   name: "Guest",
+  mounted() {
+    // When a user has only guest permissions
+    // it may happens that we give permissions
+    // and they reload the /guest route
+    // then the new permissions are loaded but they
+    // remain here... this is the fix 😘
+    if (this.$store.getters.isGuest !== true) {
+      this.$router.push("/");
+    }
+  },
 };
 </script>
 
