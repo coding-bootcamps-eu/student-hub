@@ -14,7 +14,7 @@
         <h3>Your personal goal for today:</h3>
         <p>{{ todaysGoal }}</p>
       </section>
-      <section class="home__class-goals" v-if="this.$store.getters.isTeacher">
+      <section class="home__class-goals" v-if="canShowClassGoals">
         <h3>Class goals for today</h3>
         <ul class="home__class-goals-list">
           <li v-for="classGoal in classGoals" :key="classGoal.className">
@@ -145,6 +145,13 @@ export default {
   },
   created: () => {},
   computed: {
+    canShowClassGoals() {
+      return (
+        (this.$store.getters.isStudent &&
+          this.$store.state.fulltime === false) ||
+        this.$store.getters.isTeacher
+      );
+    },
     todaysGoal() {
       let studentStartDate = new Date(this.$store.state.startDate);
       let today = new Date();
