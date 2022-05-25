@@ -148,11 +148,7 @@ export default createStore({
       );
     },
     canShowSchedule: (state, getters) => {
-      if (getters.isTeacher) {
-        return true;
-      }
-
-      return getters.canShowDailyGoal;
+      return getters.isTeacher || getters.isStudent;
     },
   },
 });
