@@ -51,6 +51,22 @@
           </svg>
           <span class="home__link-text">Schedule</span>
         </router-link>
+        <router-link class="home__link" to="/meetings">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            fill="currentColor"
+            class="bi bi-calendar-week"
+            viewBox="0 0 16 16"
+          >
+            <path
+              d="M11 6.5a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5v-1zm-3 0a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5v-1zm-5 3a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5v-1zm3 0a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5v-1z"
+            />
+            <path
+              d="M3.5 0a.5.5 0 0 1 .5.5V1h8V.5a.5.5 0 0 1 1 0V1h1a2 2 0 0 1 2 2v11a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V3a2 2 0 0 1 2-2h1V.5a.5.5 0 0 1 .5-.5zM1 4v10a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V4H1z"
+            />
+          </svg>
+          <span class="home__link-text">Meetings</span>
+        </router-link>
         <router-link class="home__link" to="/recordings">
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -119,8 +135,7 @@
 import {
   calculateWorkingDaysSinceCampStart,
   calculateSchedule,
-  classNames,
-  bootcampDays,
+  getDailyClassGoals,
 } from "../schedule/schedule";
 
 export default {
@@ -150,22 +165,7 @@ export default {
       }
     },
     classGoals() {
-      const classGoals = [];
-      classNames.forEach((className) => {
-        let studentStartDate = new Date(className);
-        let today = new Date();
-        const workingDays = calculateWorkingDaysSinceCampStart(
-          studentStartDate,
-          today
-        );
-
-        if (workingDays <= bootcampDays && workingDays > 0) {
-          const schedule = calculateSchedule(studentStartDate, className);
-          classGoals.push({ className, goal: schedule[workingDays - 1] });
-        }
-      });
-
-      return classGoals;
+      return getDailyClassGoals();
     },
   },
   methods: {},

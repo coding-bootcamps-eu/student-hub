@@ -13,6 +13,9 @@ import {
 import { getAuth } from "firebase/auth";
 import store from "./store";
 
+export const firebaseFunctionsPrefix =
+  process.env.VUE_APP_FIREBASE_FUNCTIONS_PREFIX;
+
 const firebaseApp = initializeApp({
   apiKey: process.env.VUE_APP_API_KEY,
   authDomain: process.env.VUE_APP_AUTH_DOMAIN,
