@@ -145,6 +145,29 @@ const holidays = [
   "2022-12-26",
 ];
 
+export const getDailyClassGoals = () => {
+  const classGoals = [];
+  classNames.forEach((className) => {
+    let studentStartDate = new Date(className);
+    let today = new Date();
+    const workingDays = calculateWorkingDaysSinceCampStart(
+      studentStartDate,
+      today
+    );
+
+    if (className.length > 7) {
+      className = className.substring(0, 7);
+    }
+
+    if (workingDays <= bootcampDays && workingDays > 0) {
+      const schedule = calculateSchedule(studentStartDate, className);
+      classGoals.push({ className, goal: schedule[workingDays - 1] });
+    }
+  });
+
+  return classGoals;
+};
+
 /**
  * Calculate schedule
  * @param {*} startDate when passed the schedule includes a date for each day
@@ -265,6 +288,13 @@ export const formatDate = (d) => {
   const mm = String(d.getMonth() + 1).padStart(2, "0"); //January is 0!
   const yyyy = d.getFullYear();
   return yyyy + "-" + mm + "-" + dd;
+};
+
+export const formatTime = (d) => {
+  const hh = String(d.getHours()).padStart(2, "0");
+  const mm = String(d.getMinutes()).padStart(2, "0");
+
+  return hh + ":" + mm;
 };
 
 const isWorkingDay = (day) => {
