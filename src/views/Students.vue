@@ -8,8 +8,16 @@
       class="students-wrong-meta-data"
       v-if="this.$store.getters.isTeacher"
     >
-      <h3>Missing Permissions and Meta Data</h3>
-      <ul class="students-list">
+      <h3>
+        Missing Permissions and Meta Data ({{ studentsWrongMetaData.length }})
+      </h3>
+      <label for="hide-wrong-meta">Show</label
+      ><input
+        id="hide-wrong-meta"
+        type="checkbox"
+        v-model="showStudentsWithWrongMetaData"
+      />
+      <ul class="students-list" v-if="showStudentsWithWrongMetaData">
         <li
           v-for="student in studentsWrongMetaData"
           :key="student.data.uid"
@@ -38,6 +46,7 @@
             </select>
             <pre>{{ student.data }}</pre>
             <button @click="updateUser(student)">Update</button>
+            <button @click="deleteUser(student)">Delete</button>
           </div>
         </li>
       </ul>
@@ -70,6 +79,7 @@ import {
   getDocs,
   collection,
   updateDoc,
+  deleteDoc,
 } from "firebase/firestore";
 import { db } from "../firebase";
 
@@ -82,12 +92,18 @@ export default {
     return {
       students: [],
       studentsWrongMetaData: [],
+      showStudentsWithWrongMetaData: false,
     };
   },
   methods: {
     async updateUser(userObj) {
       const { data, doc } = userObj;
       await updateDoc(doc.ref, data);
+    },
+
+    async deleteUser(userObj) {
+      const doc = userObj.doc;
+      await deleteDoc(doc.ref);
     },
 
     // TODO: move to store?
@@ -110,8 +126,10 @@ export default {
 
         if (
           studentData.role === "guest" ||
-          studentData.fulltime === undefined ||
-          studentData.className === undefined
+          (studentData.role === "student" &&
+            studentData.fulltime === true &&
+            (studentData.fulltime === undefined ||
+              studentData.className === undefined))
         ) {
           this.studentsWrongMetaData.push({
             data: studentData,
@@ -142,7 +160,6 @@ export default {
 }
 
 .students-wrong-meta-data {
-  border-bottom: 2px dashed red;
   margin-bottom: 4rem;
 }
 
