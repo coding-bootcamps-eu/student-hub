@@ -2,7 +2,12 @@
 export const bootcampDays = 65;
 
 // Current classes
-export const classNames = ["2022-03-15", "2022-04-19", "2022-05-17"];
+export const classNames = [
+  "2022-03-15",
+  "2022-04-19",
+  "2022-05-17",
+  "2022-06-21",
+];
 
 export const defaultSchedule = [
   { topic: "Onboarding", days: 1 },
@@ -15,15 +20,16 @@ export const defaultSchedule = [
   { topic: "Checkpoint Web Dev Foundation", days: 1 },
   { topic: "Introduction to Programming with p5", days: 5 },
   { topic: "Solving Problems with JavaScript", days: 4 },
-  { topic: "From Objects to Classes", days: 4 },
+  { topic: "From Objects to Classes", days: 1 },
   { topic: "Checkpoint Coding Foundation", days: 1 },
   { topic: "Web App Basics", days: 5 },
   { topic: "Basic State Management", days: 2 },
   { topic: "Checkpoint Web App Basics", days: 1 },
-  { topic: "Fetch and Http Requests", days: 3 },
+  { topic: "Fetch and Http Requests", days: 2 },
   { topic: "Intro to Node.js and NPM", days: 2 },
   { topic: "Introduction to Restful APIs", days: 3 },
   { topic: "Checkpoint Restful Backends", days: 1 },
+  { topic: "Testing", days: 4 },
   { topic: "Vue.js", days: 10 },
   { topic: "Checkpoint Vue.js", days: 1 },
 ];
@@ -73,7 +79,7 @@ export const schedule202204 = [
   { topic: "Intro to Node.js and NPM", days: 2 },
   { topic: "Introduction to Restful APIs", days: 3 },
   { topic: "Checkpoint Restful Backends", days: 1 },
-  { topic: "Testing", days: 3 },
+  { topic: "Testing", days: 4 },
   { topic: "Vue.js", days: 10 },
   { topic: "Checkpoint Vue.js", days: 1 },
 ];
@@ -98,7 +104,7 @@ export const schedule202205 = [
   { topic: "Intro to Node.js and NPM", days: 2 },
   { topic: "Introduction to Restful APIs", days: 3 },
   { topic: "Checkpoint Restful Backends", days: 1 },
-  { topic: "Testing", days: 3 },
+  { topic: "Testing", days: 4 },
   { topic: "Vue.js", days: 10 },
   { topic: "Checkpoint Vue.js", days: 1 },
 ];
