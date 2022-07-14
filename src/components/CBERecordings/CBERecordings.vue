@@ -13,14 +13,12 @@
       v-model="key"
     >
       <option value="">Last Recordings</option>
-      <option value="Live-Session Weekly Coding Challenge">
-        Weekly Coding Challenge
-      </option>
-      <option value="Live-Session Coaching">Coaching Live-Session</option>
+      <option value="Live-Session Coaching">Coaching</option>
+      <option value="Live-Session Class 2022 Juli">Juli 2022</option>
+      <option value="Live-Session Class 2022 Juni">Juni 2022</option>
+      <option value="Live-Session Class 2022 Mai">Mai 2022</option>
       <option value="Live-Session Class 2022 April">April 2022</option>
       <option value="Live-Session Class 2022 März">März 2022</option>
-      <option value="Live-Session Class 2022 Februar">Februar 2022</option>
-      <option value="Live-Session Class 2022 Januar">Januar 2022</option>
     </select>
 
     <div class="number-of-lessons">
