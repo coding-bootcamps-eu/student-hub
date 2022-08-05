@@ -2,12 +2,7 @@
 export const bootcampDays = 65;
 
 // Current classes
-export const classNames = [
-  "2022-04-19",
-  "2022-05-17",
-  "2022-06-21",
-  "2022-07-19",
-];
+export const classNames = ["2022-05-17", "2022-06-21", "2022-07-19"];
 
 export const defaultSchedule = [
   { topic: "Onboarding", days: 1 },
@@ -23,31 +18,6 @@ export const defaultSchedule = [
   { topic: "From Objects to Classes", days: 1 },
   { topic: "Checkpoint Coding Foundation", days: 1 },
   { topic: "Web App Basics", days: 5 },
-  { topic: "Basic State Management", days: 2 },
-  { topic: "Checkpoint Web App Basics", days: 1 },
-  { topic: "Fetch and Http Requests", days: 2 },
-  { topic: "Intro to Node.js and NPM", days: 2 },
-  { topic: "Introduction to Restful APIs", days: 3 },
-  { topic: "Checkpoint Restful Backends", days: 1 },
-  { topic: "Testing", days: 4 },
-  { topic: "Vue.js", days: 10 },
-  { topic: "Checkpoint Vue.js", days: 1 },
-];
-
-export const schedule202204 = [
-  { topic: "Onboarding", days: 1 },
-  { topic: "Your Frontend Developer Setup", days: 2 },
-  { topic: "First Steps with Git", days: 1 },
-  { topic: "HTML Foundation", days: 2 },
-  { topic: "CSS Foundation", days: 4 },
-  { topic: "Advanced CSS", days: 4 },
-  { topic: "Next Steps with Git", days: 1 },
-  { topic: "Checkpoint Web Dev Foundation", days: 1 },
-  { topic: "Introduction to Programming with p5", days: 5 },
-  { topic: "Solving Problems with JavaScript", days: 4 },
-  { topic: "From Objects to Classes", days: 1 },
-  { topic: "Checkpoint Coding Foundation", days: 1 },
-  { topic: "Web App Basics", days: 6 },
   { topic: "Basic State Management", days: 2 },
   { topic: "Checkpoint Web App Basics", days: 1 },
   { topic: "Fetch and Http Requests", days: 2 },
@@ -84,9 +54,33 @@ export const schedule202205 = [
   { topic: "Checkpoint Vue.js", days: 1 },
 ];
 
+export const schedule202206 = [
+  { topic: "Onboarding", days: 1 },
+  { topic: "Your Frontend Developer Setup", days: 2 },
+  { topic: "First Steps with Git", days: 1 },
+  { topic: "HTML Foundation", days: 2 },
+  { topic: "CSS Foundation", days: 4 },
+  { topic: "Advanced CSS", days: 4 },
+  { topic: "Next Steps with Git", days: 1 },
+  { topic: "Checkpoint Web Dev Foundation", days: 1 },
+  { topic: "Introduction to Programming with p5", days: 5 },
+  { topic: "Solving Problems with JavaScript", days: 6 },
+  { topic: "From Objects to Classes", days: 1 },
+  { topic: "Checkpoint Coding Foundation", days: 1 },
+  { topic: "Web App Basics", days: 5 },
+  { topic: "Basic State Management", days: 2 },
+  { topic: "Checkpoint Web App Basics", days: 1 },
+  { topic: "Fetch and Http Requests", days: 2 },
+  { topic: "Intro to Node.js and NPM", days: 2 },
+  { topic: "Introduction to Restful APIs", days: 3 },
+  { topic: "Checkpoint Restful Backends", days: 1 },
+  { topic: "Testing", days: 4 },
+  { topic: "Vue.js", days: 10 },
+  { topic: "Checkpoint Vue.js", days: 1 },
+];
 export const classSchedules = {
-  "2022-04": schedule202204,
   "2022-05": schedule202205,
+  "2022-06": schedule202206,
 };
 
 export function getClassSchedule(className, generalSchedule, classSchedules) {
