@@ -41,6 +41,8 @@ export default createStore({
         state.role = userDetails.role;
         state.className = userDetails.className;
         state.fulltime = userDetails.fulltime;
+        state.githubProfileUrl = userDetails.githubProfileUrl;
+        state.email = userDetails.email;
 
         if (state.className) {
           const startDate = classNames.find((className) =>
@@ -114,6 +116,8 @@ export default createStore({
     isGuest: (state) =>
       state.role === null || state.role === undefined || state.role === "guest",
     isStudent: (state) => state.role === "student",
+    isPartTimeStudent: (state) =>
+      state.role === "student" && state.fulltime === false,
     isTeacher: (state) => state.role === "teacher",
     hasPermissions: (state) => state.role !== null && state.role !== undefined,
     isLoggedIn: (state) => state.isLoggedIn,

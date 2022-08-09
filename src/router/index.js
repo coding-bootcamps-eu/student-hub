@@ -5,6 +5,7 @@ import Lobby from "../views/Lobby.vue";
 import Timer from "../views/Timer.vue";
 import Schedule from "../views/Schedule.vue";
 import Meetings from "../views/Meetings.vue";
+import OneOnOne from "../views/OneOnOne.vue";
 import Slides from "../views/Slides.vue";
 import Students from "../views/Students.vue";
 import Admin from "../views/Admin.vue";
@@ -82,6 +83,11 @@ const routes = [
     path: "/meetings",
     name: "Meetings",
     component: Meetings,
+  },
+  {
+    path: "/1on1",
+    name: "1on1",
+    component: OneOnOne,
   },
   {
     path: "/admin",
