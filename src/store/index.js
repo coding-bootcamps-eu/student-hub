@@ -118,6 +118,8 @@ export default createStore({
     isStudent: (state) => state.role === "student",
     isPartTimeStudent: (state) =>
       state.role === "student" && state.fulltime === false,
+    isFullTimeStudent: (state) =>
+      state.role === "student" && state.fulltime === true,
     isTeacher: (state) => state.role === "teacher",
     hasPermissions: (state) => state.role !== null && state.role !== undefined,
     isLoggedIn: (state) => state.isLoggedIn,
