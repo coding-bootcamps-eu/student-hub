@@ -8,9 +8,7 @@
   <div>
     <div
       v-if="
-        (this.$store.getters.isPartTimeStudent &&
-          this.$store.getters.isPartTimeStudent) ||
-        this.$store.getters.isTeacher
+        this.$store.getters.isPartTimeStudent || this.$store.getters.isTeacher
       "
     >
       <h3 v-if="this.$store.getters.isTeacher">Part Time</h3>
@@ -20,9 +18,7 @@
     </div>
     <div
       v-if="
-        (this.$store.getters.isPartTimeStudent &&
-          !this.$store.getters.isPartTimeStudent) ||
-        this.$store.getters.isTeacher
+        this.$store.getters.isFullTimeStudent || this.$store.getters.isTeacher
       "
     >
       <h3 v-if="this.$store.getters.isTeacher">Full Time</h3>
