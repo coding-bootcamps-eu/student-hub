@@ -2,39 +2,9 @@
 export const bootcampDays = 65;
 
 // Current classes
-export const classNames = [
-  "2022-05-17",
-  "2022-06-21",
-  "2022-07-19",
-  "2022-08-16",
-];
+export const classNames = ["2022-06-21", "2022-07-19", "2022-08-16"];
 
 export const defaultSchedule = [
-  { topic: "Onboarding", days: 1 },
-  { topic: "Your Frontend Developer Setup", days: 2 },
-  { topic: "First Steps with Git", days: 1 },
-  { topic: "HTML Foundation", days: 2 },
-  { topic: "CSS Foundation", days: 4 },
-  { topic: "Advanced CSS", days: 4 },
-  { topic: "Next Steps with Git", days: 1 },
-  { topic: "Recap Day", days: 1 },
-  { topic: "Introduction to Programming with p5", days: 5 },
-  { topic: "Solving Problems with JavaScript", days: 4 },
-  { topic: "From Objects to Classes", days: 1 },
-  { topic: "Recap Day", days: 1 },
-  { topic: "Web App Basics", days: 5 },
-  { topic: "Basic State Management", days: 2 },
-  { topic: "Recap Day", days: 1 },
-  { topic: "Fetch and Http Requests", days: 2 },
-  { topic: "Intro to Node.js and NPM", days: 2 },
-  { topic: "Introduction to Restful APIs", days: 3 },
-  { topic: "Recap Day", days: 1 },
-  { topic: "Testing", days: 4 },
-  { topic: "Vue.js", days: 10 },
-  { topic: "Recap Day", days: 1 },
-];
-
-export const schedule202205 = [
   { topic: "Onboarding", days: 1 },
   { topic: "Your Frontend Developer Setup", days: 2 },
   { topic: "First Steps with Git", days: 1 },
@@ -79,13 +49,38 @@ export const schedule202206 = [
   { topic: "Intro to Node.js and NPM", days: 2 },
   { topic: "Introduction to Restful APIs", days: 3 },
   { topic: "Recap Day", days: 1 },
+  { topic: "Vue.js", days: 10 },
+  { topic: "Recap Day", days: 1 },
+];
+
+export const schedule202207 = [
+  { topic: "Onboarding", days: 1 },
+  { topic: "Your Frontend Developer Setup", days: 2 },
+  { topic: "First Steps with Git", days: 1 },
+  { topic: "HTML Foundation", days: 2 },
+  { topic: "CSS Foundation", days: 4 },
+  { topic: "Advanced CSS", days: 4 },
+  { topic: "Next Steps with Git", days: 1 },
+  { topic: "Recap Day", days: 1 },
+  { topic: "Introduction to Programming with p5", days: 5 },
+  { topic: "Solving Problems with JavaScript", days: 4 },
+  { topic: "From Objects to Classes", days: 1 },
+  { topic: "Recap Day", days: 1 },
+  { topic: "Web App Basics", days: 5 },
+  { topic: "Basic State Management", days: 4 },
+  { topic: "Recap Day", days: 1 },
+  { topic: "Fetch and Http Requests", days: 2 },
+  { topic: "Intro to Node.js and NPM", days: 2 },
+  { topic: "Introduction to Restful APIs", days: 3 },
+  { topic: "Recap Day", days: 1 },
   { topic: "Testing", days: 4 },
   { topic: "Vue.js", days: 10 },
   { topic: "Recap Day", days: 1 },
 ];
+
 export const classSchedules = {
-  "2022-05": schedule202205,
   "2022-06": schedule202206,
+  "2022-07": schedule202207,
 };
 
 export function getClassSchedule(className, generalSchedule, classSchedules) {
