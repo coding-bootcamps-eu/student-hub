@@ -113,6 +113,12 @@ export default createStore({
   },
   modules: {},
   getters: {
+    canUseLogBook: (state, getters) => {
+      if (getters.isTeacher) {
+        return true;
+      }
+      return state.fulltime === true && state.className === "2022-09";
+    },
     isGuest: (state) =>
       state.role === null || state.role === undefined || state.role === "guest",
     isStudent: (state) => state.role === "student",

@@ -2,7 +2,12 @@
 export const bootcampDays = 65;
 
 // Current classes
-export const classNames = ["2022-06-21", "2022-07-19", "2022-08-16"];
+export const classNames = [
+  "2022-06-21",
+  "2022-07-19",
+  "2022-08-16",
+  "2022-09-20",
+];
 
 export const defaultSchedule = [
   { topic: "Onboarding", days: 1 },
