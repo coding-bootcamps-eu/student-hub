@@ -1,31 +1,10 @@
+import { scheduleDetails } from "./schedule-details";
+
 // Number of days in  fulltime bootcamp
 export const bootcampDays = 65;
 
 // Current classes
 export const classNames = ["2022-07-19", "2022-08-16", "2022-09-20"];
-
-// const topics = {
-//   "Your Frontend Developer Setup": {
-//     title: "Your Frontend Developer Setup",
-//     classRoomLink:
-//       "https://classroom.coding-bootcamps.eu/products/web-dev-foundation/categories/2149069953",
-//     gitHubLink:
-//       "https://github.com/coding-bootcamps-eu/web-dev-foundation/tree/main/developer-setup",
-//     slidesLink:
-//       "https://docs.google.com/presentation/d/1MgywvbSmj7TGK4zSdQDSAg1reqlp9K__tgJEkXlTs-8",
-//     days: 2,
-//   },
-//   "First Steps with Git": {
-//     title: "First Steps with Git",
-//     classRoomLink:
-//       "https://classroom.coding-bootcamps.eu/products/web-dev-foundation/categories/2149061929",
-//     gitHubLink:
-//       "https://github.com/coding-bootcamps-eu/web-dev-foundation/tree/main/first-steps-with-git",
-//     slidesLink:
-//       "https://docs.google.com/presentation/d/1-PaZptKth8AEABs4wyTCjcLZ8FcV14o4leRMkS_9mCI",
-//     days: 1,
-//   },
-// };
 
 export const defaultSchedule = [
   { topic: "Onboarding", days: 1 },
@@ -119,6 +98,11 @@ const holidays = [
   "2022-12-26",
 ];
 
+const getDetailedTopic = function (topic) {
+  const dTopic = scheduleDetails[topic];
+  return dTopic;
+};
+
 export const getDailyClassGoals = () => {
   const classGoals = [];
   classNames.forEach((className) => {
@@ -192,6 +176,7 @@ export const calculateSchedule = (startDate, className) => {
         dayOfTopic: i + 1,
         totalTopicDays: topic.days,
         dayInSchedule: dayInSchedule,
+        details: getDetailedTopic(topic.topic),
       };
 
       if (calculateDates) {
