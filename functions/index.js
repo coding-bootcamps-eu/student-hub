@@ -2,7 +2,11 @@ const functions = require("firebase-functions");
 const { google } = require("googleapis");
 const express = require("express");
 const cors = require("cors");
+const admin = require("firebase-admin");
 const { getTodaysMeetings } = require("./meetings/meetings");
+const { info } = require("firebase-functions/lib/logger");
+
+admin.initializeApp();
 
 // Express REST api with cors (cross origin requests)
 const restApi = express();
@@ -37,3 +41,30 @@ exports.studenthub = functions
   })
   .region("europe-west3")
   .https.onRequest(restApi);
+
+// Todo: export to own file
+exports.setUserClaimsOnUserCreate = functions
+  .region("europe-west3")
+  .firestore.document("all-users/{uid}")
+  .onCreate(updateRoleInUserClaims);
+
+exports.setUserClaimsOnUserUpdate = functions
+  .region("europe-west3")
+  .firestore.document("all-users/{uid}")
+  .onUpdate(updateRoleInUserClaims);
+
+function updateRoleInUserClaims(change, context) {
+  const uid = context.params.uid;
+  const role = change.after.data()["role"];
+
+  admin
+    .auth()
+    .setCustomUserClaims(uid, {
+      role: role,
+    })
+    .then(() => {
+      info(`Updated role for UID "${uid}" to "${role}"`);
+    });
+
+  return null;
+}
