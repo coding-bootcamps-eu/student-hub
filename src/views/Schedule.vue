@@ -35,15 +35,24 @@
           </p>
           <div v-if="day.details" class="schedule-day__details">
             <a
+              v-if="day.details.classRoomLink"
               target="_blank"
               rel="noreferrer"
               :href="day.details.classRoomLink"
               >Videos</a
             >&nbsp;
-            <a target="_blank" rel="noreferrer" :href="day.details.gitHubLink"
+            <a
+              v-if="day.details.gitHubLink"
+              target="_blank"
+              rel="noreferrer"
+              :href="day.details.gitHubLink"
               >Tasks</a
             >&nbsp;
-            <a target="_blank" rel="noreferrer" :href="day.details.slidesLink"
+            <a
+              v-if="day.details.slidesLink"
+              target="_blank"
+              rel="noreferrer"
+              :href="day.details.slidesLink"
               >Slides</a
             >&nbsp;
           </div>
