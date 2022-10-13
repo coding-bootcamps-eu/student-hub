@@ -1,0 +1,46 @@
+rules_version = '2';
+service cloud.firestore {
+  
+  match /databases/{database}/documents {
+    // Disable read / write by default
+    match /{document=**} {
+      allow read, write: if false;
+    }
+    
+    // Users
+    match /all-users/{uid} {
+      // user document can be created without any permissions after signup
+      allow create, list: if request.auth != null;
+      
+      // users can read there own user document
+      // if: it is their own document (read own doc during login)
+      // or: they have permissions (read all other users)
+      allow read: if canAccessOwnUserDocument(uid) || hasPermissions();  
+      allow update, write, delete: if canAccessOwnUserDocument(uid) || isAdmin();
+    }
+    
+    // Zoom Recordings
+    match /zoom-recordings/{document=**} {
+      allow read: if hasPermissions();
+    }
+  }
+  
+  function hasPermissions() {
+  	return 
+    	request.auth.uid != null 
+    	&& (request.auth.token.role == "teacher" || request.auth.token.role == "student");
+  }
+  
+  function isAdmin() {
+  	return 
+    	request.auth.uid != null 
+    	&& request.auth.token.role == "teacher";
+  }
+  
+  function canAccessOwnUserDocument(requestedDocumentId) {
+    return
+    	request.auth.uid != null 
+    	&& (request.auth.uid == requestedDocumentId);
+  }
+}
+

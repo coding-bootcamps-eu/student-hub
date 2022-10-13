@@ -1,1 +1,11 @@
-{}
+{
+  "functions": {
+    "source": "functions"
+  },
+  "firestore": {
+    "rules": "firestore.rules",
+    "indexes": "firestore.indexes.json",
+    "host": "localhost",
+    "port": 8000
+  }
+}

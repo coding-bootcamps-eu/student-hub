@@ -4,7 +4,7 @@
     <p class="page-heading__subtitle">Join in and learn</p>
   </header>
   <div>
-    <ol class="meetings">
+    <ol class="meetings" v-if="!error">
       <li v-for="meeting in meetings" v-bind:key="meeting.id" class="meeting">
         {{ formatDate(meeting.start.dateTime) }} -
         {{ formatDate(meeting.end.dateTime) }}
@@ -19,6 +19,7 @@
         >
       </li>
     </ol>
+    <p v-if="error">{{ error }}</p>
   </div>
 </template>
 <script>
@@ -30,17 +31,32 @@ export default {
   data: () => {
     return {
       meetings: [],
+      error: null,
     };
   },
   created() {
-    fetch(`${firebaseFunctionsPrefix}/studenthub/meetings/today`)
-      .then((res) => res.json())
+    console.log(`${firebaseFunctionsPrefix}/studenthub/meetings/today`);
+    fetch(`${firebaseFunctionsPrefix}/studenthub/meetings/today`, {
+      headers: {
+        Authorization: "Bearer " + this.$store.getters.accessToken,
+      },
+    })
+      .then((res) => {
+        if (res.ok) {
+          this.error = null;
+          return res.json();
+        } else {
+          this.error = "Could not load meetings";
+        }
+      })
       .then((meetings) => {
-        this.meetings = meetings.map((meeting) => {
-          meeting.start.dateTime = new Date(meeting.start.dateTime);
-          meeting.end.dateTime = new Date(meeting.end.dateTime);
-          return meeting;
-        });
+        if (meetings) {
+          this.meetings = meetings.map((meeting) => {
+            meeting.start.dateTime = new Date(meeting.start.dateTime);
+            meeting.end.dateTime = new Date(meeting.end.dateTime);
+            return meeting;
+          });
+        }
       });
   },
   methods: {

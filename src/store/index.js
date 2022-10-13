@@ -113,6 +113,12 @@ export default createStore({
   },
   modules: {},
   getters: {
+    accessToken: (state) => {
+      if (state.user) {
+        return state.user.auth.currentUser.accessToken;
+      }
+      return "";
+    },
     canUseLogBook: (state, getters) => {
       if (getters.isTeacher) {
         return true;
