@@ -1,31 +1,10 @@
+import { scheduleDetails } from "./schedule-details";
+
 // Number of days in  fulltime bootcamp
 export const bootcampDays = 65;
 
 // Current classes
 export const classNames = ["2022-07-19", "2022-08-16", "2022-09-20"];
-
-// const topics = {
-//   "Your Frontend Developer Setup": {
-//     title: "Your Frontend Developer Setup",
-//     classRoomLink:
-//       "https://classroom.coding-bootcamps.eu/products/web-dev-foundation/categories/2149069953",
-//     gitHubLink:
-//       "https://github.com/coding-bootcamps-eu/web-dev-foundation/tree/main/developer-setup",
-//     slidesLink:
-//       "https://docs.google.com/presentation/d/1MgywvbSmj7TGK4zSdQDSAg1reqlp9K__tgJEkXlTs-8",
-//     days: 2,
-//   },
-//   "First Steps with Git": {
-//     title: "First Steps with Git",
-//     classRoomLink:
-//       "https://classroom.coding-bootcamps.eu/products/web-dev-foundation/categories/2149061929",
-//     gitHubLink:
-//       "https://github.com/coding-bootcamps-eu/web-dev-foundation/tree/main/first-steps-with-git",
-//     slidesLink:
-//       "https://docs.google.com/presentation/d/1-PaZptKth8AEABs4wyTCjcLZ8FcV14o4leRMkS_9mCI",
-//     days: 1,
-//   },
-// };
 
 export const defaultSchedule = [
   { topic: "Onboarding", days: 1 },
@@ -98,14 +77,6 @@ const specialDays = {
 
 // TODO: Use library for that
 const holidays = [
-  "2021-12-24",
-  "2021-12-25",
-  "2021-12-26",
-  "2021-12-27",
-  "2021-12-28",
-  "2021-12-29",
-  "2021-12-30",
-  "2021-12-31",
   "2022-01-01",
   "2022-04-15",
   "2022-04-18",
@@ -115,9 +86,26 @@ const holidays = [
   "2022-06-16",
   "2022-10-03",
   "2022-11-01",
+  "2022-12-23",
   "2022-12-25",
   "2022-12-26",
+  "2022-12-27",
+  "2022-12-28",
+  "2022-12-29",
+  "2022-12-30",
+  "2022-12-31",
+  "2023-01-01",
+  "2023-01-02",
+  "2023-01-03",
+  "2023-01-04",
+  "2023-01-05",
+  "2023-01-06",
 ];
+
+const getDetailedTopic = function (topic) {
+  const dTopic = scheduleDetails[topic];
+  return dTopic;
+};
 
 export const getDailyClassGoals = () => {
   const classGoals = [];
@@ -192,6 +180,7 @@ export const calculateSchedule = (startDate, className) => {
         dayOfTopic: i + 1,
         totalTopicDays: topic.days,
         dayInSchedule: dayInSchedule,
+        details: getDetailedTopic(topic.topic),
       };
 
       if (calculateDates) {

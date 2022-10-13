@@ -15,6 +15,9 @@
           {{ className.substring(0, 7) }}
         </option>
       </select>
+      &nbsp;
+      <input type="checkbox" checked name="" id="show-today" />
+      <label for="show-today">Show only schedule for Today</label>
 
       <ul>
         <li
@@ -23,9 +26,36 @@
           class="schedule-day"
           :class="classesForDay(day.date)"
         >
-          {{ formatDate(day.date) }}: {{ day.topic }} ({{ day.dayOfTopic }}/{{
-            day.totalTopicDays
-          }})
+          <p class="schedule-day__date">{{ formatDate(day.date) }}</p>
+          <p class="schedule-day__topic">
+            {{ day.topic }}
+            <span v-if="day.totalTopicDays > 1"
+              >(Day {{ day.dayOfTopic }} of {{ day.totalTopicDays }})</span
+            >
+          </p>
+          <div v-if="day.details" class="schedule-day__details">
+            <a
+              v-if="day.details.classRoomLink"
+              target="_blank"
+              rel="noreferrer"
+              :href="day.details.classRoomLink"
+              >Videos</a
+            >&nbsp;
+            <a
+              v-if="day.details.gitHubLink"
+              target="_blank"
+              rel="noreferrer"
+              :href="day.details.gitHubLink"
+              >Tasks</a
+            >&nbsp;
+            <a
+              v-if="day.details.slidesLink"
+              target="_blank"
+              rel="noreferrer"
+              :href="day.details.slidesLink"
+              >Slides</a
+            >&nbsp;
+          </div>
         </li>
       </ul>
     </div>
@@ -88,19 +118,46 @@ export default {
 };
 </script>
 
-<style lang="css">
+<style lang="css" scoped>
+#show-today:checked ~ ul > .past,
+#show-today:checked ~ ul > .future {
+  display: none;
+}
+
+ul {
+  list-style-type: none;
+  padding: 0;
+}
+
+li + li {
+  margin-top: 1rem;
+}
+
+.schedule-day__date {
+  font-weight: 700;
+  margin: 0;
+}
+
+.schedule-day__topic {
+  margin: 0;
+}
+
 .past {
   color: #555;
 }
 
 .today {
-  margin: 1rem 0;
+  margin: 3rem 0;
   color: black;
-  font-weight: 800;
-  font-size: 120%;
+  font-size: 150%;
 }
 
 .future {
   color: #000;
+}
+
+a {
+  color: blue;
+  text-decoration: underline;
 }
 </style>
