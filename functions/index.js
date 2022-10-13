@@ -2,7 +2,11 @@ const functions = require("firebase-functions");
 const { google } = require("googleapis");
 const express = require("express");
 const cors = require("cors");
+const admin = require("firebase-admin");
 const { getTodaysMeetings } = require("./meetings/meetings");
+const { info } = require("firebase-functions/lib/logger");
+
+admin.initializeApp();
 
 // Express REST api with cors (cross origin requests)
 const restApi = express();
@@ -20,12 +24,27 @@ const calendarApi = google.calendar("v3");
 
 restApi.get("/meetings/today", async (req, res) => {
   try {
-    const meetings = await getTodaysMeetings(
-      calendarApi,
-      calendarId,
-      serviceAccountAuth
-    );
-    res.send(meetings);
+    if (req.get("Authorization")) {
+      const tokenId = req.get("Authorization").split("Bearer ")[1];
+      const decoded = await admin.auth().verifyIdToken(tokenId);
+      const user = await admin.auth().getUser(decoded.uid);
+      if (
+        user.customClaims &&
+        (user.customClaims.role === "teacher" ||
+          user.customClaims.role === "student")
+      ) {
+        console.log(user.customClaims);
+
+        const meetings = await getTodaysMeetings(
+          calendarApi,
+          calendarId,
+          serviceAccountAuth
+        );
+        res.send(meetings);
+      }
+    } else {
+      res.status(403).send(new Error("Not authorized"));
+    }
   } catch (err) {
     res.status(500).send(err);
   }
@@ -37,3 +56,30 @@ exports.studenthub = functions
   })
   .region("europe-west3")
   .https.onRequest(restApi);
+
+// Todo: export to own file
+exports.setUserClaimsOnUserCreate = functions
+  .region("europe-west3")
+  .firestore.document("all-users/{uid}")
+  .onCreate(updateRoleInUserClaims);
+
+exports.setUserClaimsOnUserUpdate = functions
+  .region("europe-west3")
+  .firestore.document("all-users/{uid}")
+  .onUpdate(updateRoleInUserClaims);
+
+function updateRoleInUserClaims(change, context) {
+  const uid = context.params.uid;
+  const role = change.after.data()["role"];
+
+  admin
+    .auth()
+    .setCustomUserClaims(uid, {
+      role: role,
+    })
+    .then(() => {
+      info(`Updated role for UID "${uid}" to "${role}"`);
+    });
+
+  return null;
+}

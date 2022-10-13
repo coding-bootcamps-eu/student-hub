@@ -95,22 +95,18 @@ export const loadUserDetails = async (user) => {
  * @returns boolean
  */
 export async function doesUserRecordExist(uid) {
-  // Check if document exists with documentId === uid
-  const docRef = doc(db, "all-users", uid);
-  const userDoc = await getDoc(docRef);
-  if (userDoc.exists()) {
-    return true;
+  try {
+    // Check if document exists with documentId === uid
+    const docRef = doc(db, "all-users", uid);
+    const userDoc = await getDoc(docRef);
+    if (userDoc.exists()) {
+      return true;
+    }
+  } catch (err) {
+    console.error("Error while searching for user document in firestore", err);
   }
 
-  // Fallback Behavior: find documents where uid === uid
-  const docs = await getDocs(
-    query(collection(db, "all-users"), where("uid", "==", uid))
-  );
-  if (docs.size === 0) {
-    return false;
-  } else {
-    return true;
-  }
+  return false;
 }
 
 /**
