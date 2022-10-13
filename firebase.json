@@ -4,6 +4,8 @@
   },
   "firestore": {
     "rules": "firestore.rules",
-    "indexes": "firestore.indexes.json"
+    "indexes": "firestore.indexes.json",
+    "host": "localhost",
+    "port": 8000
   }
 }

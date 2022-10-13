@@ -24,12 +24,27 @@ const calendarApi = google.calendar("v3");
 
 restApi.get("/meetings/today", async (req, res) => {
   try {
-    const meetings = await getTodaysMeetings(
-      calendarApi,
-      calendarId,
-      serviceAccountAuth
-    );
-    res.send(meetings);
+    if (req.get("Authorization")) {
+      const tokenId = req.get("Authorization").split("Bearer ")[1];
+      const decoded = await admin.auth().verifyIdToken(tokenId);
+      const user = await admin.auth().getUser(decoded.uid);
+      if (
+        user.customClaims &&
+        (user.customClaims.role === "teacher" ||
+          user.customClaims.role === "student")
+      ) {
+        console.log(user.customClaims);
+
+        const meetings = await getTodaysMeetings(
+          calendarApi,
+          calendarId,
+          serviceAccountAuth
+        );
+        res.send(meetings);
+      }
+    } else {
+      res.status(403).send(new Error("Not authorized"));
+    }
   } catch (err) {
     res.status(500).send(err);
   }
