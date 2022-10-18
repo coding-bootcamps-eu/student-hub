@@ -12,28 +12,33 @@
         class="home_daily-goal"
       >
         <h3>Your personal goal for today:</h3>
-        <p>{{ today.title }} {{ currentStand }}</p>
-        <a
-          v-if="today.classRoomLink"
-          :href="today.classRoomLink"
-          target="_blank"
-          class="link-today"
-          >Videos</a
-        >&nbsp;
-        <a
-          v-if="today.gitHubLink"
-          :href="today.gitHubLink"
-          target="_blank"
-          class="link-today"
-          >Tasks</a
-        >&nbsp;
-        <a
-          v-if="today.slidesLink"
-          :href="today.slidesLink"
-          target="_blank"
-          class="link-today"
-          >Slides</a
-        >&nbsp;
+        <div v-if="student">
+          <p>{{ today.title }} {{ currentStand }}</p>
+          <a
+            v-if="today.classRoomLink"
+            :href="today.classRoomLink"
+            target="_blank"
+            class="link-today"
+            >Videos</a
+          >&nbsp;
+          <a
+            v-if="today.gitHubLink"
+            :href="today.gitHubLink"
+            target="_blank"
+            class="link-today"
+            >Tasks</a
+          >&nbsp;
+          <a
+            v-if="today.slidesLink"
+            :href="today.slidesLink"
+            target="_blank"
+            class="link-today"
+            >Slides</a
+          >&nbsp;
+        </div>
+        <div v-else>
+          <p>Your bootcamp did not start yet or is already over :-)</p>
+        </div>
       </section>
       <section class="home__class-goals" v-if="canShowClassGoals">
         <h3>Class goals for today</h3>
@@ -204,10 +209,6 @@ export default {
       );
     },
     currentStand() {
-      if (!this.student) {
-        return "Your bootcamp did not start yet or is already over :-)";
-      }
-
       return `${this.today.day}/${this.today.days}`;
     },
     classGoals() {
