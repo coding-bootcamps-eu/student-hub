@@ -12,7 +12,28 @@
         class="home_daily-goal"
       >
         <h3>Your personal goal for today:</h3>
-        <p>{{ todaysGoal }}</p>
+        <p>{{ today.title }} {{ currentStand }}</p>
+        <a
+          v-if="today.classRoomLink"
+          :href="today.classRoomLink"
+          target="_blank"
+          class="link-today"
+          >Videos</a
+        >&nbsp;
+        <a
+          v-if="today.gitHubLink"
+          :href="today.gitHubLink"
+          target="_blank"
+          class="link-today"
+          >Tasks</a
+        >&nbsp;
+        <a
+          v-if="today.slidesLink"
+          :href="today.slidesLink"
+          target="_blank"
+          class="link-today"
+          >Slides</a
+        >&nbsp;
       </section>
       <section class="home__class-goals" v-if="canShowClassGoals">
         <h3>Class goals for today</h3>
@@ -161,13 +182,19 @@ import {
   calculateSchedule,
   getDailyClassGoals,
 } from "../schedule/schedule";
+import { scheduleDetails } from "../schedule/schedule-details";
 
 export default {
   name: "Home",
   data: () => {
-    return {};
+    return {
+      today: {},
+      student: true,
+    };
   },
-  created: () => {},
+  created() {
+    this.getScheduleDetailsToday();
+  },
   computed: {
     canShowClassGoals() {
       return (
@@ -176,7 +203,19 @@ export default {
         this.$store.getters.isTeacher
       );
     },
-    todaysGoal() {
+    currentStand() {
+      if (!this.student) {
+        return "Your bootcamp did not start yet or is already over :-)";
+      }
+
+      return `${this.today.day}/${this.today.days}`;
+    },
+    classGoals() {
+      return getDailyClassGoals();
+    },
+  },
+  methods: {
+    getScheduleDetailsToday() {
       let studentStartDate = new Date(this.$store.state.startDate);
       let today = new Date();
       const workingDays = calculateWorkingDaysSinceCampStart(
@@ -188,18 +227,14 @@ export default {
         this.$store.state.className
       );
       const goal = schedule[workingDays - 1];
-
-      if (goal !== undefined) {
-        return `Day ${goal.dayOfTopic}/${goal.totalTopicDays} of "${goal.topic}"`;
-      } else {
-        return `Your bootcamp did not start yet or is already over :-)`;
+      if (goal === undefined) {
+        this.student = false;
+        return;
       }
-    },
-    classGoals() {
-      return getDailyClassGoals();
+      this.today = scheduleDetails[goal.topic];
+      this.today.day = goal.dayOfTopic;
     },
   },
-  methods: {},
 };
 </script>
 
@@ -261,5 +296,10 @@ export default {
 
 .home__link:hover > svg {
   color: rgba(242, 242, 242, 0.57);
+}
+
+.link-today {
+  color: blue;
+  text-decoration: underline;
 }
 </style>
