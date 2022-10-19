@@ -12,32 +12,30 @@
         class="home_daily-goal"
       >
         <h3>Your personal goal for today:</h3>
-        <div v-if="student">
-          <p>{{ today.title }} {{ currentStand }}</p>
+
+        <p>{{ getCurrentGoal }}</p>
+        <div v-if="hasDetails">
           <a
-            v-if="today.classRoomLink"
-            :href="today.classRoomLink"
+            v-if="goal.details.classRoomLink"
+            :href="goal.details.classRoomLink"
             target="_blank"
             class="link-today"
             >Videos</a
           >&nbsp;
           <a
-            v-if="today.gitHubLink"
-            :href="today.gitHubLink"
+            v-if="goal.details.gitHubLink"
+            :href="goal.details.gitHubLink"
             target="_blank"
             class="link-today"
             >Tasks</a
           >&nbsp;
           <a
-            v-if="today.slidesLink"
-            :href="today.slidesLink"
+            v-if="goal.details.slidesLink"
+            :href="goal.details.slidesLink"
             target="_blank"
             class="link-today"
             >Slides</a
           >&nbsp;
-        </div>
-        <div v-else>
-          <p>Your bootcamp did not start yet or is already over :-)</p>
         </div>
       </section>
       <section class="home__class-goals" v-if="canShowClassGoals">
@@ -187,14 +185,12 @@ import {
   calculateSchedule,
   getDailyClassGoals,
 } from "../schedule/schedule";
-import { scheduleDetails } from "../schedule/schedule-details";
 
 export default {
   name: "Home",
   data: () => {
     return {
-      today: {},
-      student: true,
+      goal: {},
     };
   },
   created() {
@@ -208,8 +204,11 @@ export default {
         this.$store.getters.isTeacher
       );
     },
-    currentStand() {
-      return `${this.today.day}/${this.today.days}`;
+    getCurrentGoal() {
+      return `${this.goal.topic} ${this.goal.dayOfTopic}/${this.goal.totalTopicDays}`;
+    },
+    hasDetails() {
+      return this.goal.details !== undefined;
     },
     classGoals() {
       return getDailyClassGoals();
@@ -227,13 +226,7 @@ export default {
         studentStartDate,
         this.$store.state.className
       );
-      const goal = schedule[workingDays - 1];
-      if (goal === undefined) {
-        this.student = false;
-        return;
-      }
-      this.today = scheduleDetails[goal.topic];
-      this.today.day = goal.dayOfTopic;
+      this.goal = schedule[workingDays - 1];
     },
   },
 };
