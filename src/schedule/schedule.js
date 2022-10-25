@@ -4,7 +4,12 @@ import { scheduleDetails } from "./schedule-details";
 export const bootcampDays = 65;
 
 // Current classes
-export const classNames = ["2022-07-19", "2022-08-16", "2022-09-20"];
+export const classNames = [
+  "2022-07-19",
+  "2022-08-16",
+  "2022-09-20",
+  "2022-10-25",
+];
 
 export const defaultSchedule = [
   { topic: "Onboarding", days: 1 },
@@ -16,7 +21,7 @@ export const defaultSchedule = [
   { topic: "Next Steps with Git", days: 1 },
   { topic: "Recap Day", days: 1 },
   { topic: "Introduction to Programming", days: 5 },
-  { topic: "Solving Problems with JavaScript", days: 4 },
+  { topic: "Solving Problems with JavaScript", days: 5 },
   { topic: "From Objects to Classes", days: 1 },
   { topic: "Recap Day", days: 1 },
   { topic: "Web App Basics", days: 5 },
@@ -139,7 +144,6 @@ const holidays = [
   "2022-06-06",
   "2022-06-16",
   "2022-10-03",
-  "2022-11-01",
   "2022-12-23",
   "2022-12-25",
   "2022-12-26",
