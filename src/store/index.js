@@ -123,7 +123,10 @@ export default createStore({
       if (getters.isTeacher) {
         return true;
       }
-      return state.fulltime === true && state.className === "2022-09";
+      return (
+        state.fulltime === true &&
+        ["2022-09", "2022-10"].includes(state.className)
+      );
     },
     isGuest: (state) =>
       state.role === null || state.role === undefined || state.role === "guest",
