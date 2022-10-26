@@ -52,9 +52,51 @@
       </ul>
     </section>
     <section class="students">
+      <form class="students-filter">
+        <div>
+          <label for="class-name">Show students from class</label>&nbsp;<select
+            name=""
+            id="class-name"
+            v-model="classNameFilter"
+          >
+            <option value="all">All</option>
+            <option
+              :value="className"
+              v-for="className of classNames"
+              :key="className"
+            >
+              {{ className }}
+            </option>
+          </select>
+        </div>
+        <div>
+          <input
+            type="radio"
+            id="time-model-all"
+            value="all"
+            v-model="timeModelFilter"
+          />
+          <label for="time-model-all">All time models</label>
+          <input
+            type="radio"
+            id="time-model-fulltime"
+            value="fulltime"
+            v-model="timeModelFilter"
+          />
+          <label for="time-model-fulltime">Full time</label>
+          <input
+            type="radio"
+            id="time-model-parttime"
+            value="parttime"
+            v-model="timeModelFilter"
+          />
+          <label for="time-model-parttime">Part time</label>
+        </div>
+      </form>
+      <p>There are {{ filteredStudents.length }} students 🎉</p>
       <ul class="students-list">
         <li
-          v-for="student in students"
+          v-for="student in filteredStudents"
           :key="student.uid"
           class="student-list__item"
         >
@@ -83,6 +125,9 @@ import {
 } from "firebase/firestore";
 import { db } from "../firebase";
 
+const defaultClassNameFilter = "all";
+const defaultTimeModelFilter = "all";
+
 export default {
   name: "Students",
   created() {
@@ -90,6 +135,8 @@ export default {
   },
   data() {
     return {
+      timeModelFilter: defaultTimeModelFilter,
+      classNameFilter: defaultClassNameFilter,
       students: [],
       studentsWrongMetaData: [],
       showStudentsWithWrongMetaData: false,
@@ -142,7 +189,41 @@ export default {
     },
   },
   watch: {},
-  computed: {},
+  computed: {
+    classNames() {
+      const classNames = this.students
+        .map((s) => s.className)
+        .filter((c) => c && c.length > 0);
+
+      classNames.sort();
+
+      return new Set(classNames);
+    },
+    filteredStudents() {
+      if (
+        this.classNameFilter === defaultClassNameFilter &&
+        this.timeModelFilter === defaultTimeModelFilter
+      ) {
+        return this.students;
+      } else {
+        return this.students.filter((s) => {
+          let classFilterPassed = true;
+          let timeModelFilterPassed = true;
+
+          classFilterPassed =
+            this.classNameFilter === defaultClassNameFilter ||
+            s.className === this.classNameFilter;
+
+          if (this.timeModelFilter !== defaultTimeModelFilter) {
+            const requiredTimeModelState = this.timeModelFilter === "fulltime";
+            timeModelFilterPassed = s.fulltime === requiredTimeModelState;
+          }
+
+          return classFilterPassed && timeModelFilterPassed;
+        });
+      }
+    },
+  },
 };
 </script>
 
@@ -161,6 +242,10 @@ export default {
 
 .students-wrong-meta-data {
   margin-bottom: 4rem;
+}
+
+.students-filter > * + * {
+  margin-top: 1rem;
 }
 
 .students-list {
