@@ -4,13 +4,8 @@
     <p class="page-heading__subtitle">Join in and learn</p>
   </header>
   <div v-if="meetings.length === 0" class="loading__wrapper">
-    <div class="lds-ring">
-      <div></div>
-      <div></div>
-      <div></div>
-      <div></div>
-    </div>
-    <p>getting dates..</p>
+    <img src="@/assets/ferdi.png" alt="ferdi" class="loading__ferdi" />
+    <p>Ferdi is getting your dates..</p>
   </div>
   <div>
     <ol class="meetings" v-if="!error">
@@ -102,39 +97,16 @@ a {
   align-items: center;
 }
 
-.lds-ring {
-  display: inline-block;
-  position: relative;
-  width: 80px;
-  height: 80px;
+.loading__ferdi {
+  animation: loading__ferdi 5s infinite linear;
 }
-.lds-ring div {
-  box-sizing: border-box;
-  display: block;
-  position: absolute;
-  width: 64px;
-  height: 64px;
-  margin: 8px;
-  border: 8px solid #262626;
-  border-radius: 50%;
-  animation: lds-ring 1.2s cubic-bezier(0.5, 0, 0.5, 1) infinite;
-  border-color: #262626 transparent transparent transparent;
-}
-.lds-ring div:nth-child(1) {
-  animation-delay: -0.45s;
-}
-.lds-ring div:nth-child(2) {
-  animation-delay: -0.3s;
-}
-.lds-ring div:nth-child(3) {
-  animation-delay: -0.15s;
-}
-@keyframes lds-ring {
-  0% {
+
+@keyframes loading__ferdi {
+  from {
     transform: rotate(0deg);
   }
-  100% {
-    transform: rotate(360deg);
+  to {
+    transform: rotate(359deg);
   }
 }
 </style>
