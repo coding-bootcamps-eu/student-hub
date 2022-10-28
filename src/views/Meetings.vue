@@ -48,50 +48,45 @@ export default {
     return {
       meetings: [],
       error: null,
-      availableTrainers: [
-        {
-          name: "Nico",
+      trainerInfos: {
+        "nico.koenig@coding-bootcamps.eu": {
           picture: "img/trainers/nico_profile_pic.png",
           alt: "Nico",
-          id: "1",
         },
-        {
-          name: "Ferdinand",
+        "ferdinand.niemann@coding-bootcamps.eu": {
           picture: "img/trainers/ferdi_profile_pic.png",
-          alt: "Ferdinand",
-          id: "2",
+          alt: "Ferdi",
         },
-        {
-          name: "Sarah",
+        "sarah.maerdian@coding-bootcamps.eu": {
           picture: "img/trainers/sarah_profile_pic.png",
           alt: "Sarah",
-          id: "3",
         },
-        {
-          name: "Joe",
+        "joe.gregory@coding-bootcamps.eu": {
           picture: "img/trainers/joe_profile_pic.png",
           alt: "Joe",
-          id: "4",
         },
-        {
-          name: "Robin",
+        "robin.boehm@coding-bootcamps.eu": {
           picture: "img/trainers/robin_profile_pic.png",
           alt: "Robin",
-          id: "5",
         },
-        {
-          name: "Mareike",
+        "mareike.kirch@coding-bootcamps.eu": {
           picture: "img/trainers/mareike_profile_pic.png",
           alt: "Mareike",
-          id: "6",
         },
-        {
-          name: "Nobody",
+        nobody: {
           picture: "img/trainers/question_mark.png",
           alt: "Nobody",
-          id: "X",
         },
-      ],
+        //TODO: Insert fitting Images to the following keys:
+        Mittagspause: {
+          picture: "img/trainers/question_mark.png",
+          alt: "Nobody",
+        },
+        Wochenabschluss: {
+          picture: "img/trainers/question_mark.png",
+          alt: "Nobody",
+        },
+      },
     };
   },
   created() {
@@ -117,12 +112,10 @@ export default {
             meeting.start.dateTime = new Date(meeting.start.dateTime);
             meeting.end.dateTime = new Date(meeting.end.dateTime);
             meeting.trainers = this.filterForTrainers(meeting);
-            console.log(meeting.trainers);
             return meeting;
           });
         }
-      })
-      .then(() => console.log(this.meetings));
+      });
   },
   methods: {
     formatDate(d) {
@@ -134,51 +127,19 @@ export default {
     },
 
     filterForTrainers(meeting) {
-      //TODO: Refactor code. Ex.: Filter for attendee-emails with *@coding-bootcamps.eu and take the *-part as Trainer
-      //TODO: Create trainer objects with profile pics? Or fetch them from the google account
-      //TODO: Longterm: Fetch trainers from CBE trainer list and also fetch profile pics
-      //TODO: Swap Images of "Mittagspause" and "Daily Checkout" for fitting img
-      const trainers = [];
-      const attendeeArray = meeting.attendees;
+      const attendeeArray = meeting.attendees || [];
+      let trainers = attendeeArray
+        .filter((a) => a.email.includes("@coding-bootcamps.eu")) // Array (0 - n)
+        .map((t) => this.trainerInfos[t.email]);
 
-      if (Array.isArray(attendeeArray)) {
-        attendeeArray.forEach((attendee) => {
-          if (attendee.email === "nico.koenig@coding-bootcamps.eu") {
-            trainers.push(
-              this.availableTrainers.find((trainer) => trainer.id === "1")
-            );
-          } else if (
-            attendee.email === "ferdinand.niemann@coding-bootcamps.eu"
-          ) {
-            trainers.push(
-              this.availableTrainers.find((trainer) => trainer.id === "2")
-            );
-          } else if (attendee.email === "sarah.maerdian@coding-bootcamps.eu") {
-            trainers.push(
-              this.availableTrainers.find((trainer) => trainer.id === "3")
-            );
-          } else if (attendee.email === "joe.gregory@coding-bootcamps.eu") {
-            trainers.push(
-              this.availableTrainers.find((trainer) => trainer.id === "4")
-            );
-          } else if (attendee.email === "robin.boehm@coding-bootcamps.eu") {
-            trainers.push(
-              this.availableTrainers.find((trainer) => trainer.id === "5")
-            );
-          } else if (attendee.email === "mareike.kirch@coding-bootcamps.eu") {
-            trainers.push(
-              this.availableTrainers.find((trainer) => trainer.id === "6")
-            );
-          } else if (trainers.length === 0) {
-            trainers.push(
-              this.availableTrainers.find((trainer) => trainer.id === "X")
-            );
-          }
-        });
+      if (trainers.length === 0) {
+        trainers.push(this.trainerInfos["nobody"]);
       }
+
       return trainers;
     },
   },
+
   computed: {},
 };
 </script>
