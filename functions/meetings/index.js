@@ -3,7 +3,7 @@ const { google } = require("googleapis");
 const express = require("express");
 const cors = require("cors");
 const admin = require("firebase-admin");
-const { getTodaysMeetings } = require("./meetings");
+const { getTodaysMeetings, getMeetingsForWeek } = require("./meetings");
 
 // Express REST api with cors (cross origin requests)
 const restApi = express();
@@ -36,6 +36,37 @@ restApi.get("/meetings/today", async (req, res) => {
           calendarApi,
           calendarId,
           serviceAccountAuth
+        );
+        res.send(meetings);
+      }
+    } else {
+      res.status(403).send(new Error("Not authorized"));
+    }
+  } catch (err) {
+    res.status(500).send(err);
+  }
+});
+
+restApi.get("/meetings/week", async (req, res) => {
+  try {
+    if (req.get("Authorization")) {
+      const tokenId = req.get("Authorization").split("Bearer ")[1];
+      const decoded = await admin.auth().verifyIdToken(tokenId);
+      const user = await admin.auth().getUser(decoded.uid);
+      if (
+        user.customClaims &&
+        (user.customClaims.role === "teacher" ||
+          user.customClaims.role === "student")
+      ) {
+        const year = parseInt(req.query["year"]);
+        const week = parseInt(req.query["week"]);
+
+        const meetings = await getMeetingsForWeek(
+          calendarApi,
+          calendarId,
+          serviceAccountAuth,
+          year,
+          week
         );
         res.send(meetings);
       }

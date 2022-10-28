@@ -36,11 +36,14 @@ export default {
   },
   created() {
     console.log(`${firebaseFunctionsPrefix}/studenthub/meetings/today`);
-    fetch(`${firebaseFunctionsPrefix}/studenthub/meetings/today`, {
-      headers: {
-        Authorization: "Bearer " + this.$store.getters.accessToken,
-      },
-    })
+    fetch(
+      `${firebaseFunctionsPrefix}/studenthub/meetings/week?year=2022&week=43`,
+      {
+        headers: {
+          Authorization: "Bearer " + this.$store.getters.accessToken,
+        },
+      }
+    )
       .then((res) => {
         if (res.ok) {
           this.error = null;
