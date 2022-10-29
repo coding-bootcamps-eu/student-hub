@@ -13,7 +13,7 @@
       >
         <h3>Your personal goal for today:</h3>
 
-        <p>{{ getCurrentGoal }}</p>
+        <p>{{ currentGoal }}</p>
         <div v-if="hasDetails">
           <a
             v-if="goal.details.classRoomLink"
@@ -204,7 +204,7 @@ export default {
         this.$store.getters.isTeacher
       );
     },
-    getCurrentGoal() {
+    currentGoal() {
       return `${this.goal.topic} ${this.goal.dayOfTopic}/${this.goal.totalTopicDays}`;
     },
     hasDetails() {
