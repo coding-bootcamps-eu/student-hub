@@ -103,7 +103,6 @@ export default {
           picture: "img/trainers/question_mark.png",
           alt: "Nobody",
         },
-        //TODO: Insert fitting Images to the following keys:
         "trainers@coding-bootcamps.eu": {
           picture: "img/trainers/question_mark.png",
           alt: "Trainers",
@@ -131,15 +130,13 @@ export default {
     },
   },
   created() {
-    // TODO: Implement weekly overview
-    // /week?year=2022&week=43
-    // For meetings today: (`${firebaseFunctionsPrefix}/studenthub/meetings/today`);
     this.setCurrentCalendarWeek();
     this.setCurrentYear();
     this.getMeetingData(this.currentCalendarWeek, this.currentYear);
   },
   methods: {
     getMeetingData(week, year) {
+      // For meetings today: (`${firebaseFunctionsPrefix}/studenthub/meetings/today`);
       fetch(
         `${firebaseFunctionsPrefix}/studenthub/meetings/week?year=${year}&week=${week}`,
         {
@@ -169,6 +166,7 @@ export default {
         });
     },
 
+    //TODO: Create own version of the method to get the current calendar week
     setCurrentCalendarWeek() {
       let date = new Date();
       date.setHours(0);
@@ -217,13 +215,9 @@ export default {
         meeting.summary === "Daily Checkin"
       ) {
         trainers.push(this.trainerInfos["Together"]);
-      }
-
-      if (meeting.summary === "Mittagspause") {
+      } else if (meeting.summary === "Mittagspause") {
         trainers.push(this.trainerInfos["Mittagspause"]);
-      }
-
-      if (trainers.length === 0) {
+      } else if (trainers.length === 0) {
         trainers.push(this.trainerInfos["nobody"]);
       }
 
