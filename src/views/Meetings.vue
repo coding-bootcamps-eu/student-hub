@@ -3,11 +3,11 @@
     <h2 class="page-heading__title">Meetings</h2>
     <p class="page-heading__subtitle">Join in and learn</p>
   </header>
-  <div v-if="meetings.length === 0" class="loading__wrapper">
+  <div v-if="isLoading" class="loading__wrapper">
     <img src="@/assets/ferdi.png" alt="ferdi" class="loading__ferdi" />
     <p>Ferdi is getting your dates..</p>
   </div>
-  <div>
+  <div v-if="!isLoading">
     <div class="week-input__wrapper">
       <label for="week" class="week-input__label">Choose a week</label>
       <input
@@ -16,10 +16,8 @@
         min="2022-W01"
         v-model="inputWeek"
         class="week-input__select"
+        @change="getMeetings()"
       />
-      <button @click="getMeetings()" class="week-input__button">
-        Get Meetings
-      </button>
     </div>
     <ol class="meetings" v-if="!error">
       <div v-for="weekday in weekdays" :key="weekday" class="meetings__weekday">
@@ -73,6 +71,7 @@ export default {
       currentYear: "",
       weekdays: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"],
       inputWeek: "",
+      isLoading: true,
       error: null,
       trainerInfos: {
         "nico.koenig@coding-bootcamps.eu": {
@@ -137,6 +136,7 @@ export default {
   methods: {
     getMeetingData(week, year) {
       // For meetings today: (`${firebaseFunctionsPrefix}/studenthub/meetings/today`);
+      this.isLoading = true;
       fetch(
         `${firebaseFunctionsPrefix}/studenthub/meetings/week?year=${year}&week=${week}`,
         {
@@ -162,6 +162,7 @@ export default {
               meeting.weekday = this.getWeekday(meeting);
               return meeting;
             });
+            this.isLoading = false;
           }
         });
     },
