@@ -131,6 +131,11 @@ export default {
   created() {
     this.setCurrentCalendarWeek();
     this.setCurrentYear();
+
+    // TODO: Change this code
+    this.inputWeek =
+      this.currentYear.toString() + "-W" + this.currentCalendarWeek.toString();
+
     this.getMeetingData(this.currentCalendarWeek, this.currentYear);
   },
   methods: {
