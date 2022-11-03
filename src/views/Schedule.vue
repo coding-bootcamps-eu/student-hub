@@ -124,6 +124,10 @@ export default {
   display: none;
 }
 
+#show-today:checked ~ ul > .today {
+  display: initial;
+}
+
 ul {
   list-style-type: none;
   padding: 0;
