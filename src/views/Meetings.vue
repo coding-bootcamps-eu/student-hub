@@ -4,8 +4,7 @@
     <p class="page-heading__subtitle">Join in and learn</p>
   </header>
   <div v-if="isLoading" class="loading__wrapper">
-    <img src="@/assets/ferdi.png" alt="ferdi" class="loading__ferdi" />
-    <p>Ferdi is getting your dates..</p>
+    <p>Loading meetings...</p>
   </div>
   <div v-if="!isLoading">
     <div class="week-input__wrapper">
