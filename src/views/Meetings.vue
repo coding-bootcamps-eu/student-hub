@@ -44,7 +44,7 @@
             </div>
           </div>
           <a
-            v-if="meeting.location"
+            v-if="meeting.location && meeting.location.includes('zoom')"
             :href="meeting.location"
             target="_blank"
             rel="noopener noreferrer"
