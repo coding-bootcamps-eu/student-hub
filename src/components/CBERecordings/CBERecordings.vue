@@ -14,7 +14,9 @@
     >
       <option value="">Last Recordings</option>
       <option value="Live-Session Coaching">Coaching</option>
+      <option value="Wochenabschluss">Wochenabschluss</option>
       <option value="Live-Session Teilzeit">Live-Session Teilzeit</option>
+      <option value="Live-Session Class 2022 Oktober">Oktober 2022</option>
       <option value="Live-Session Class 2022 September">September 2022</option>
       <option value="Live-Session Class 2022 August">August 2022</option>
       <option value="Live-Session Class 2022 Juli">Juli 2022</option>
