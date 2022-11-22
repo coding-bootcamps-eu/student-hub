@@ -81,9 +81,12 @@ export default {
   created() {
     this.classes = classNames;
     if (this.$store.state.className) {
-      this.selectedClass = classNames.filter((c) =>
+      const selectedClass = classNames.filter((c) =>
         c.startsWith(this.$store.state.className)
       )[0];
+      if (selectedClass === undefined) {
+        this.selectedClass = this.classes[0];
+      }
     } else {
       this.selectedClass = this.classes[0];
     }
@@ -103,7 +106,10 @@ export default {
   },
   computed: {
     scheduleHeading() {
-      return "Schedule of Class " + this.selectedClass.substring(0, 7);
+      if (this.selectedClass) {
+        return "Schedule of Class " + this.selectedClass.substring(0, 7);
+      }
+      return "Schedule";
     },
     daysInBootcamp() {
       let studentStartDate = new Date(this.$store.state.startDate);
