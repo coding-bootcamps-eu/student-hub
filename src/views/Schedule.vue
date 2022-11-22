@@ -86,6 +86,8 @@ export default {
       )[0];
       if (selectedClass === undefined) {
         this.selectedClass = this.classes[0];
+      } else {
+        this.selectedClass = selectedClass;
       }
     } else {
       this.selectedClass = this.classes[0];
