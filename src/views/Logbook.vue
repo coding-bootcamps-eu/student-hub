@@ -73,6 +73,38 @@
         >
       </li>
     </ul>
+    <h3 v-if="this.$store.getters.isTeacher">Oktober 2022</h3>
+    <ul
+      v-if="
+        this.$store.getters.isTeacher ||
+        this.$store.state.className === '2022-11'
+      "
+    >
+      <li>
+        <a
+          href="https://forms.gle/hHwtUYpyb8KGdFbS6"
+          target="_blank"
+          rel="noopener noreferrer"
+          >Logbook Checkin</a
+        >
+      </li>
+      <li>
+        <a
+          href="https://forms.gle/Xutt7GtqGpjbNGGD9"
+          target="_blank"
+          rel="noopener noreferrer"
+          >Logbook Live-Session</a
+        >
+      </li>
+      <li>
+        <a
+          href="https://forms.gle/hEAE1P9oyxsefqLp6"
+          target="_blank"
+          rel="noopener noreferrer"
+          >Logbook Checkout</a
+        >
+      </li>
+    </ul>
   </div>
   <div v-else>
     <p>Du hast leider keine Berechtigung für das Logbook.</p>

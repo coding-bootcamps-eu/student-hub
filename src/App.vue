@@ -71,7 +71,7 @@
               <router-link to="/recordings">Recordings</router-link>
             </li>
             <li class="header__nav-item">
-              <router-link to="/timer">Timer</router-link>
+              <router-link to="/logbook">Logbook</router-link>
             </li>
             <li class="header__nav-item">
               <router-link to="/students">Students</router-link>
