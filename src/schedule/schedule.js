@@ -51,8 +51,8 @@ export const schedule202209 = [
   { topic: "Intro to Node.js and NPM", days: 1 },
   { topic: "Introduction to Restful APIs", days: 3 },
   { topic: "Recap Day", days: 1 },
-  { topic: "Testing", days: 4 },
-  { topic: "Vue.js", days: 10 },
+  { topic: "Testing", days: 3 },
+  { topic: "Vue.js", days: 9 },
   { topic: "Recap Day", days: 1 },
 ];
 
@@ -129,6 +129,23 @@ export const getDailyClassGoals = () => {
   });
 
   return classGoals;
+};
+
+export const calculateStaticSchedule = () => {
+  const staticSchedule = [];
+  for (let topic of defaultSchedule) {
+    topic = Object.assign(topic, {});
+    topic.details = getDetailedTopic(topic.topic);
+    topic.totalTopicDays = topic.days;
+    if (topic.topic === "Onboarding") {
+      delete topic.days;
+      delete topic.totalTopicDays;
+    }
+    if (topic.topic !== "Recap Day") {
+      staticSchedule.push(topic);
+    }
+  }
+  return staticSchedule;
 };
 
 /**

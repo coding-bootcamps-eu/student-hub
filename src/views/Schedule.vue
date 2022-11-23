@@ -12,13 +12,24 @@
           :key="className"
           :value="className"
         >
-          {{ className.substring(0, 7) }}
+          {{
+            className === partTimeClassName
+              ? partTimeClassName
+              : className.substring(0, 7)
+          }}
         </option>
       </select>
       &nbsp;
-      <input type="checkbox" checked name="" id="show-today" />
-      <label for="show-today">Show only schedule for Today</label>
-
+      <input
+        type="checkbox"
+        checked
+        name=""
+        id="show-today"
+        v-if="!partTimeScheduleSelected"
+      />
+      <label for="show-today" v-if="!partTimeScheduleSelected"
+        >Show only schedule for Today</label
+      >
       <ul>
         <li
           v-for="day in schedule"
@@ -26,13 +37,19 @@
           class="schedule-day"
           :class="classesForDay(day.date)"
         >
-          <p class="schedule-day__date">{{ formatDate(day.date) }}</p>
+          <p class="schedule-day__date" v-if="!partTimeScheduleSelected">
+            {{ formatDate(day.date) }}
+          </p>
           <p class="schedule-day__topic">
             {{ day.topic }}
-            <span v-if="day.totalTopicDays > 1"
+            <span v-if="partTimeScheduleSelected && day.totalTopicDays"
+              >({{ day.totalTopicDays * 8 }} Hours)</span
+            >
+            <span v-if="day.totalTopicDays > 1 && !partTimeScheduleSelected"
               >(Day {{ day.dayOfTopic }} of {{ day.totalTopicDays }})</span
             >
           </p>
+
           <div v-if="day.details" class="schedule-day__details">
             <a
               v-if="day.details.classRoomLink"
@@ -40,14 +57,14 @@
               rel="noreferrer"
               :href="day.details.classRoomLink"
               >Videos</a
-            >&nbsp;
+            >
             <a
               v-if="day.details.gitHubLink"
               target="_blank"
               rel="noreferrer"
               :href="day.details.gitHubLink"
               >Tasks</a
-            >&nbsp;
+            >
             <a
               v-if="day.details.slidesLink"
               target="_blank"
@@ -68,18 +85,20 @@ import {
   formatDate,
   normalizeDate,
   classNames,
+  calculateStaticSchedule,
 } from "../schedule/schedule";
 
 export default {
   name: "Schedule",
   data: () => {
     return {
+      partTimeClassName: "Teilzeit",
       selectedClass: undefined,
       classes: [],
     };
   },
   created() {
-    this.classes = classNames;
+    this.classes = ["Teilzeit", ...classNames];
     if (this.$store.state.className) {
       const selectedClass = classNames.filter((c) =>
         c.startsWith(this.$store.state.className)
@@ -98,15 +117,26 @@ export default {
       return formatDate(d);
     },
     classesForDay(date) {
-      const today = normalizeDate(new Date());
-      return {
-        past: date < today,
-        today: formatDate(date) === formatDate(today),
-        future: date > today,
-      };
+      if (this.partTimeScheduleSelected) {
+        return {
+          past: false,
+          today: false,
+          future: true,
+        };
+      } else {
+        const today = normalizeDate(new Date());
+        return {
+          past: date < today,
+          today: formatDate(date) === formatDate(today),
+          future: date > today,
+        };
+      }
     },
   },
   computed: {
+    partTimeScheduleSelected() {
+      return this.selectedClass === this.partTimeClassName;
+    },
     scheduleHeading() {
       if (this.selectedClass) {
         return "Schedule of Class " + this.selectedClass.substring(0, 7);
@@ -120,7 +150,11 @@ export default {
     },
     schedule() {
       const className = this.selectedClass.substring(0, 7);
-      return calculateSchedule(new Date(this.selectedClass), className);
+      if (this.partTimeScheduleSelected) {
+        return calculateStaticSchedule();
+      } else {
+        return calculateSchedule(new Date(this.selectedClass), className);
+      }
     },
   },
 };
@@ -171,5 +205,9 @@ li + li {
 a {
   color: blue;
   text-decoration: underline;
+}
+
+a + a {
+  padding-left: 0.25rem;
 }
 </style>
