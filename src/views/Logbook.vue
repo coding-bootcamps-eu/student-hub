@@ -73,7 +73,7 @@
         >
       </li>
     </ul>
-    <h3 v-if="this.$store.getters.isTeacher">Oktober 2022</h3>
+    <h3 v-if="this.$store.getters.isTeacher">November 2022</h3>
     <ul
       v-if="
         this.$store.getters.isTeacher ||
