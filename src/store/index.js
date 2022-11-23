@@ -125,7 +125,7 @@ export default createStore({
       }
       return (
         state.fulltime === true &&
-        ["2022-09", "2022-10"].includes(state.className)
+        ["2022-09", "2022-10", "2022-11"].includes(state.className)
       );
     },
     isGuest: (state) =>
