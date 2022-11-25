@@ -1,4 +1,8 @@
 export const scheduleDetails = {
+  Onboarding: {
+    slidesLink:
+      "https://docs.google.com/presentation/d/18HPGHTFBhLzMcALdrfv_zf4RZSz3KwGYzArzLzs9KMg",
+  },
   "Your Frontend Developer Setup": {
     title: "Your Frontend Developer Setup",
     classRoomLink:
