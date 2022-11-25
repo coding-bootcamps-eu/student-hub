@@ -134,7 +134,7 @@ export const getDailyClassGoals = () => {
 export const calculateStaticSchedule = () => {
   const staticSchedule = [];
   for (let topic of defaultSchedule) {
-    topic = Object.assign(topic, {});
+    topic = Object.assign({}, topic);
     topic.details = getDetailedTopic(topic.topic);
     topic.totalTopicDays = topic.days;
     if (topic.topic === "Onboarding") {

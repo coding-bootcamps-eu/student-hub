@@ -138,8 +138,10 @@ export default {
       return this.selectedClass === this.partTimeClassName;
     },
     scheduleHeading() {
-      if (this.selectedClass) {
+      if (this.selectedClass && this.selectedClass !== this.partTimeClassName) {
         return "Schedule of Class " + this.selectedClass.substring(0, 7);
+      } else if (this.selectedClass === this.partTimeClassName) {
+        return "Schedule for Part Time";
       }
       return "Schedule";
     },
