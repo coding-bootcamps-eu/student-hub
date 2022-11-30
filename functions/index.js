@@ -1,19 +1,19 @@
 const admin = require("firebase-admin");
 const { studenthubApi } = require("./meetings");
+const { zoomApi } = require("./zoom/zoom");
 const {
   setUserClaimsOnUserCreate,
   setUserClaimsOnUserUpdate,
 } = require("./user-claims");
-const { zoomApi } = require("./zoom/zoom");
 
 admin.initializeApp();
 
 // student hub api
 exports.studenthub = studenthubApi;
 
+// Zoom Api
+exports.zoom = zoomApi;
+
 // User Claims
 exports.setUserClaimsOnUserCreate = setUserClaimsOnUserCreate;
 exports.setUserClaimsOnUserUpdate = setUserClaimsOnUserUpdate;
-
-// Zoom Api
-exports.zoomMeetings = zoomApi;
