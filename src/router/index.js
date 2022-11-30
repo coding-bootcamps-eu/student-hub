@@ -5,6 +5,7 @@ import Lobby from "../views/Lobby.vue";
 import Timer from "../views/Timer.vue";
 import Schedule from "../views/Schedule.vue";
 import Meetings from "../views/Meetings.vue";
+import Zoom from "../views/Zoom.vue";
 import OneOnOne from "../views/OneOnOne.vue";
 import Logbook from "../views/Logbook.vue";
 import Slides from "../views/Slides.vue";
@@ -84,6 +85,11 @@ const routes = [
     path: "/meetings",
     name: "Meetings",
     component: Meetings,
+  },
+  {
+    path: "/zoom",
+    name: "Zoom Rooms",
+    component: Zoom,
   },
   {
     path: "/1on1",

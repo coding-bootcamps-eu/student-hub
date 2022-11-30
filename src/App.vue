@@ -77,6 +77,9 @@
               <router-link to="/students">Students</router-link>
             </li>
             <li class="header__nav-item">
+              <router-link to="/zoom">Zoom Rooms</router-link>
+            </li>
+            <li class="header__nav-item">
               <router-link to="/slides">Slides</router-link>
             </li>
           </template>
