@@ -5,31 +5,31 @@
       Movie Time - watch the live sessions again
     </p>
 
-    <label for="name">Select a Class:</label
-    ><select
-      class="select__classes"
-      name="classes"
-      @change="loadSelectedClass"
-      v-model="key"
-    >
-      <option value="">Last Recordings</option>
-      <option value="Live-Session Coaching">Coaching</option>
-      <option value="Wochenabschluss">Wochenabschluss</option>
-      <option value="Live-Session Teilzeit">Live-Session Teilzeit</option>
-      <option value="Live-Session Class 2022 November">November 2022</option>
-      <option value="Live-Session Class 2022 Oktober">Oktober 2022</option>
-      <option value="Live-Session Class 2022 September">September 2022</option>
-    </select>
-
-    <div class="number-of-lessons">
-      <template v-if="key">
-        <h3>Found Lesson Recordings</h3>
-        <h3>{{ this.filteredRecordings.length }}</h3>
-      </template>
-      <template v-else>
-        <h3>Last Lesson Recordings</h3>
-        <h3>{{ this.lastestRecordings.length }}</h3>
-      </template>
+    <div class="recording-filter">
+      <label for="name">Class:</label
+      ><select
+        class="select__classes"
+        name="classes"
+        @change="loadSelectedClass"
+        v-model="key"
+      >
+        <option value="">Last Recordings</option>
+        <option value="Live-Session Coaching">Coaching</option>
+        <option value="Wochenabschluss">Wochenabschluss</option>
+        <option value="Live-Session Teilzeit">Live-Session Teilzeit</option>
+        <option value="Live-Session Class 2022 November">November 2022</option>
+        <option value="Live-Session Class 2022 Oktober">Oktober 2022</option>
+        <option value="Live-Session Class 2022 September">
+          September 2022
+        </option>
+      </select>
+      <label for="name">Topic:</label
+      ><select class="select__classes" name="classes" v-model="selectedTopic">
+        <option value="">Any Topic</option>
+        <option v-for="topic in scheduleTopics" :value="topic" :key="topic">
+          {{ topic }}
+        </option>
+      </select>
     </div>
 
     <article
@@ -42,6 +42,36 @@
           <p class="recording__date-time-headings">Title:</p>
           <p class="recording__date-time-text">
             {{ recording.recordingData.topic }}
+          </p>
+        </div>
+
+        <div class="recording__title">
+          <p class="recording__date-time-headings">Topic:</p>
+          <p
+            class="recording__date-time-text"
+            v-if="this.$store.getters.isTeacher"
+          >
+            <select
+              name="scheduleTopic"
+              id=""
+              v-model="recording.recordingData.scheduleTopic"
+              @input="updateRecordingTopic(recording, $event.target.value)"
+            >
+              <option value="-">-</option>
+              <option
+                v-for="topic in scheduleTopics"
+                :value="topic"
+                :key="topic"
+              >
+                {{ topic }}
+              </option>
+            </select>
+          </p>
+          <p
+            class="recording__date-time-text"
+            v-if="this.$store.getters.isStudent"
+          >
+            {{ recording.recordingData.scheduleTopic }}
           </p>
         </div>
 
@@ -102,7 +132,9 @@ import {
   collection,
   getDocs,
   where,
+  updateDoc,
 } from "firebase/firestore";
+import { defaultSchedule } from "../../schedule/schedule";
 
 export default {
   name: "CBERecordings",
@@ -111,6 +143,7 @@ export default {
       lastestRecordings: [],
       filteredRecordings: [],
       key: "",
+      selectedTopic: "",
     };
   },
 
@@ -120,14 +153,33 @@ export default {
   },
   computed: {
     recordings() {
+      let recordings = [];
       if (this.key === "") {
-        return this.lastestRecordings;
+        recordings = this.lastestRecordings;
       } else {
-        return this.filteredRecordings;
+        recordings = this.filteredRecordings;
       }
+
+      if (this.selectedTopic !== "") {
+        recordings = recordings.filter(
+          (r) => r.recordingData.scheduleTopic === this.selectedTopic
+        );
+      }
+
+      return recordings;
+    },
+    scheduleTopics() {
+      // Set is used to remove duplicates
+      return new Set(defaultSchedule.map((d) => d.topic));
     },
   },
   methods: {
+    async updateRecordingTopic(recording, scheduleTopic) {
+      const data = recording.doc.data();
+      data.scheduleTopic = scheduleTopic;
+
+      await updateDoc(recording.doc.ref, data);
+    },
     async loadLastestRecordings() {
       const queryResult = await getDocs(
         query(
@@ -154,6 +206,7 @@ export default {
 
         // add to dom array
         this.saveRecordings(
+          doc,
           latestRecordings,
           doc.id,
           recordingDate,
@@ -163,7 +216,8 @@ export default {
           surl,
           doc.data().topic,
           doc.data()["video-files-download-url"],
-          doc.data().videoFilesDownloadUrl
+          doc.data().videoFilesDownloadUrl,
+          doc.data().scheduleTopic
         );
       });
       this.lastestRecordings = latestRecordings;
@@ -191,6 +245,7 @@ export default {
         this.urlIncludesComma(doc.data().shareUrl, surl);
 
         this.saveRecordings(
+          doc,
           filteredRecordings,
           doc.id,
           recordingDate,
@@ -200,13 +255,15 @@ export default {
           surl,
           doc.data().topic,
           doc.data()["video-files-download-url"],
-          doc.data().videoFilesDownloadUrl
+          doc.data().videoFilesDownloadUrl,
+          doc.data().scheduleTopic
         );
       });
       this.filteredRecordings = filteredRecordings;
       this.sortArrayDate(this.filteredRecordings);
     },
     saveRecordings(
+      doc,
       elem,
       id,
       date,
@@ -216,9 +273,11 @@ export default {
       share,
       topic,
       vFilesDownOne,
-      vFilesDownTwo
+      vFilesDownTwo,
+      scheduleTopic
     ) {
       elem.push({
+        doc: doc,
         recordingKey: id,
         recordingData: {
           date: date,
@@ -228,6 +287,7 @@ export default {
           shareUrl: share,
           topic: topic,
           videoFilesDownloadUrl: vFilesDownOne || vFilesDownTwo,
+          scheduleTopic: scheduleTopic,
         },
       });
     },
@@ -293,7 +353,6 @@ h3 {
   border-radius: 0.25rem;
   background-color: transparent;
   padding: 0.25rem 0.5rem;
-  margin: 1rem;
 }
 .number-of-lessons {
   display: flex;
@@ -349,5 +408,13 @@ h3 {
   text-align: center;
   margin-top: 2rem;
   margin-right: 1rem;
+}
+
+.recording-filter {
+  display: grid;
+  grid-template-columns: min-content min-content;
+  align-items: center;
+  grid-gap: 1rem 0.5rem;
+  margin-bottom: 2rem;
 }
 </style>
