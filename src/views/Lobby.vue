@@ -251,7 +251,7 @@ export default {
 
 .home__nav {
   display: grid;
-  grid-template-columns: min-content min-content;
+  grid-template-columns: 1fr 1fr 1fr;
   grid-gap: 1rem;
   justify-content: center;
 }
