@@ -105,6 +105,37 @@
         >
       </li>
     </ul>
+    <ul
+      v-if="
+        this.$store.getters.isTeacher ||
+        this.$store.state.className === '2023-01'
+      "
+    >
+      <li>
+        <a
+          href="https://forms.gle/yKerLHZs79LyHz386"
+          target="_blank"
+          rel="noopener noreferrer"
+          >Logbook Checkin</a
+        >
+      </li>
+      <li>
+        <a
+          href="https://forms.gle/bM2ujdhgqshrwvu1A"
+          target="_blank"
+          rel="noopener noreferrer"
+          >Logbook Live-Session</a
+        >
+      </li>
+      <li>
+        <a
+          href="https://forms.gle/567786qvN1eKd3jA6"
+          target="_blank"
+          rel="noopener noreferrer"
+          >Logbook Checkout</a
+        >
+      </li>
+    </ul>
   </div>
   <div v-else>
     <p>Du hast leider keine Berechtigung für das Logbook.</p>
