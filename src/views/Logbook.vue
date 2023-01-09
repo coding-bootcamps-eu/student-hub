@@ -105,6 +105,7 @@
         >
       </li>
     </ul>
+    <h3 v-if="this.$store.getters.isTeacher">Januar 2023</h3>
     <ul
       v-if="
         this.$store.getters.isTeacher ||
