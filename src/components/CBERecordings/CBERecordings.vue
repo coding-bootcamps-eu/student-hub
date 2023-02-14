@@ -24,7 +24,7 @@
         <option value="Live-Session Class 2022 September">
           September 2022
         </option>
-        <option value="Live Session Alumni">Alumni Session</option>
+        <option value="Live-Session Alumni">Alumni Session</option>
       </select>
       <label for="name">Topic:</label
       ><select class="select__classes" name="classes" v-model="selectedTopic">
