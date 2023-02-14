@@ -6,8 +6,8 @@
     </p>
 
     <div class="recording-filter">
-      <label for="name">Class:</label
-      ><select
+      <label for="name">Class:</label>
+      <select
         class="select__classes"
         name="classes"
         @change="loadSelectedClass"
@@ -17,6 +17,7 @@
         <option value="Live-Session Coaching">Coaching</option>
         <option value="Wochenabschluss">Wochenabschluss</option>
         <option value="Live-Session Teilzeit">Live-Session Teilzeit</option>
+        <option value="Live Session Class 2023 Februar">Februar 2023</option>
         <option value="Live-Session Class 2023 Januar">Januar 2023</option>
         <option value="Live-Session Class 2022 November">November 2022</option>
         <option value="Live-Session Class 2022 Oktober">Oktober 2022</option>
@@ -106,8 +107,8 @@
       </section>
     </article>
     <div class="to-top">
-      <a class="to-top" href="#"
-        ><svg
+      <a class="to-top" href="#">
+        <svg
           xmlns="http://www.w3.org/2000/svg"
           width="36"
           height="36"
@@ -118,8 +119,9 @@
           <path
             fill-rule="evenodd"
             d="M1 8a7 7 0 1 0 14 0A7 7 0 0 0 1 8zm15 0A8 8 0 1 1 0 8a8 8 0 0 1 16 0zm-7.5 3.5a.5.5 0 0 1-1 0V5.707L5.354 7.854a.5.5 0 1 1-.708-.708l3-3a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1-.708.708L8.5 5.707V11.5z"
-          /></svg
-      ></a>
+          />
+        </svg>
+      </a>
     </div>
   </section>
 </template>
