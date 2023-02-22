@@ -70,6 +70,15 @@ export const scheduleDetails = {
     slidesLink: "",
     days: 1,
   },
+  "Introduction to Programming with JavaScript": {
+    title: "Introduction to Programming with JavaScript",
+    classRoomLink:
+      "https://classroom.coding-bootcamps.eu/products/coding-foundation/categories/2152213077",
+    gitHubLink:
+      "https://github.com/coding-bootcamps-eu/introduction-to-programming-in-js/tree/main/tasks",
+    slidesLink:
+      "https://docs.google.com/presentation/d/1HrZdtcFRgcWFcH2X8_1RM7mtxk9HmOicjSyJktWoVbo/edit#slide=id.g75b8156060_0_0",
+  },
   "Introduction to Programming with p5": {
     title: "Introduction to Programming with p5",
     classRoomLink:
