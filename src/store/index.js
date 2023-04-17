@@ -119,15 +119,6 @@ export default createStore({
       }
       return "";
     },
-    canUseLogBook: (state, getters) => {
-      if (getters.isTeacher) {
-        return true;
-      }
-      return (
-        state.fulltime === true &&
-        ["2022-09", "2022-10", "2022-11", "2023-01"].includes(state.className)
-      );
-    },
     isGuest: (state) =>
       state.role === null || state.role === undefined || state.role === "guest",
     isStudent: (state) => state.role === "student",

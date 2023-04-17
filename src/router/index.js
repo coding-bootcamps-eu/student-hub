@@ -7,7 +7,6 @@ import Schedule from "../views/Schedule.vue";
 import Meetings from "../views/Meetings.vue";
 import Zoom from "../views/Zoom.vue";
 import OneOnOne from "../views/OneOnOne.vue";
-import Logbook from "../views/Logbook.vue";
 import Slides from "../views/Slides.vue";
 import Students from "../views/Students.vue";
 import Admin from "../views/Admin.vue";
@@ -95,11 +94,6 @@ const routes = [
     path: "/1on1",
     name: "1on1",
     component: OneOnOne,
-  },
-  {
-    path: "/logbook",
-    name: "logbook",
-    component: Logbook,
   },
   {
     path: "/admin",
