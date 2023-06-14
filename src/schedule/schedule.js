@@ -49,6 +49,8 @@ const specialDays = {
   "2022-10-28": "Agile Workshop",
   "2023-02-23": "Agile Workshop",
   "2023-02-24": "Agile Workshop",
+  "2023-05-31": "Agile Workshop",
+  "2023-06-01": "Agile Workshop",
 };
 
 // TODO: Use library for that
@@ -86,6 +88,9 @@ const holidays = [
   "2023-10-03",
   "2023-12-25",
   "2023-12-26",
+  "2023-12-27",
+  "2023-12-28",
+  "2023-12-29",
 ];
 
 const getDetailedTopic = function (topic) {
