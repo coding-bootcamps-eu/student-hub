@@ -20,8 +20,7 @@
         <option value="Live-Session Class 2023 Mai">Mai 2023</option>
         <option value="Live-Session Class 2023 April">April 2023</option>
         <option value="Live-Session Class 2023 März">März 2023</option>
-        <option value="Live-Session Class 2023 Februar">Februar 2023</option>
-        <option value="Live-Session Alumni">Alumni Session</option>
+        <option value="Abschlusspräsentation">Abschlusspräsentation</option>
       </select>
       <label for="name">Topic:</label
       ><select class="select__classes" name="classes" v-model="selectedTopic">
