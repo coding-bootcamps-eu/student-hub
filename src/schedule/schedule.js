@@ -167,7 +167,11 @@ export const calculateSchedule = (startDate, className) => {
     for (let i = 0; i < topic.days; i++) {
       dayInSchedule++;
 
-      if (calculateDates && specialDays[formatDate(startDate)]) {
+      if (
+        calculateDates &&
+        specialDays[formatDate(startDate)] &&
+        className !== "2023-04"
+      ) {
         do {
           const specialDay = specialDays[formatDate(startDate)];
           const dailyTopic = {
