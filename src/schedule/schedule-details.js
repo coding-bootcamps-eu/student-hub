@@ -190,15 +190,25 @@ export const scheduleDetails = {
       "https://docs.google.com/presentation/d/12nai3Z0juEk6m3SSExq9umoVn-Ub8wYpbEh6Sf_iQfo",
     days: 4,
   },
-  "Vue.js": {
-    title: "Vue.js",
+  "Vue.js Basics": {
+    title: "Vue.js Basics",
     classRoomLink:
-      "https://classroom.coding-bootcamps.eu/products/webapps-with-vuejs",
+      "https://classroom.coding-bootcamps.eu/products/webapps-with-vuejs/categories/2149606758",
     gitHubLink:
       "https://github.com/coding-bootcamps-eu/web-apps-with-vuejs/tree/main/katas",
     slidesLink:
       "https://docs.google.com/presentation/d/16fXnSNeVMWUvHmv24SwoO4rKDG_1dWUem4UJ7UKVduw",
-    days: 10,
+    days: 5,
+  },
+  "Vue.js Single Page Applications": {
+    title: "Vue.js Single Page Applications",
+    classRoomLink:
+      "https://classroom.coding-bootcamps.eu/products/webapps-with-vuejs/categories/2149606795",
+    gitHubLink:
+      "https://github.com/coding-bootcamps-eu/web-apps-with-vuejs/tree/main/katas",
+    slidesLink:
+      "https://docs.google.com/presentation/d/13Q8C--3NGFnqZYgk3BjwdXLLEpR_zaSMuC-yPkhIr_w/edit",
+    days: 5,
   },
   "Recap Day Vue.js": {
     title: "Recap Day",

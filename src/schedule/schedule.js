@@ -27,7 +27,8 @@ export const defaultSchedule = [
   { topic: "Introduction to Restful APIs", days: 3 },
   { topic: "Recap Day", days: 1 },
   { topic: "Testing", days: 4 },
-  { topic: "Vue.js", days: 10 },
+  { topic: "Vue.js Basics", days: 5 },
+  { topic: "Vue.js Single Page Applications", days: 5 },
 ];
 
 export const classSchedules = {};
