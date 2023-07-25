@@ -52,6 +52,8 @@ const specialDays = {
   "2023-02-24": "Agile Workshop",
   "2023-05-31": "Agile Workshop",
   "2023-06-01": "Agile Workshop",
+  "2023-08-31": "Agile Workshop",
+  "2023-09-01": "Agile Workshop",
 };
 
 // TODO: Use library for that
