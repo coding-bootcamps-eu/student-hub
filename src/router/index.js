@@ -11,6 +11,7 @@ import Slides from "../views/Slides.vue";
 import Students from "../views/Students.vue";
 import Admin from "../views/Admin.vue";
 import store from "../store";
+import Support from "../views/Support.vue";
 
 import { onAuthStateInit } from "../firebase";
 
@@ -102,6 +103,11 @@ const routes = [
     meta: {
       teacher: true,
     },
+  },
+  {
+    path: "/support",
+    name: "Support",
+    component: Support,
   },
 ];
 

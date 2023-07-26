@@ -17,6 +17,8 @@
         <option value="Live-Session Coaching">Coaching</option>
         <option value="Wochenabschluss">Wochenabschluss</option>
         <option value="Live-Session Teilzeit">Live-Session Teilzeit</option>
+        <option value="Live-Session Class 2023 März">März 2023</option>
+        <option value="Live-Session Class 2023 April">April 2023</option>
         <option value="Live-Session Class 2023 Mai">Mai 2023</option>
         <option value="Live-Session Class 2023 Juni">Juni 2023</option>
         <option value="Live-Session Class 2023 Juli">Juli 2023</option>
