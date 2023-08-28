@@ -22,6 +22,7 @@
         <option value="Live-Session Class 2023 Mai">Mai 2023</option>
         <option value="Live-Session Class 2023 Juni">Juni 2023</option>
         <option value="Live-Session Class 2023 Juli">Juli 2023</option>
+        <option value="Live-Session Class 2023 August">August 2023</option>
         <option value="Abschlusspräsentation">Abschlusspräsentation</option>
       </select>
       <label for="name">Topic:</label
