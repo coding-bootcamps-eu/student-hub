@@ -5,20 +5,26 @@
   </header>
   <div class="schedule">
     <div>
-      <label for="selected-class">Selected Class</label>&nbsp;
-      <select name="" id="selected-class" v-model="selectedClass">
-        <option
-          v-for="className in classes"
-          :key="className"
-          :value="className"
-        >
-          {{
-            className === partTimeClassName
-              ? partTimeClassName
-              : className.substring(0, 7)
-          }}
-        </option>
-      </select>
+      <p>Select a class to see its schedule:</p>
+      <form class="tabs">
+        <div class="tab-wrapper" v-for="className in classes" :key="className">
+          <input
+            type="radio"
+            :id="className"
+            name="class-tab"
+            :value="className"
+            v-model="selectedClass"
+            @change="saveSelectedClass"
+          />
+          <label :for="className">
+            {{
+              className === partTimeClassName
+                ? partTimeClassName
+                : className.substring(0, 7)
+            }}
+          </label>
+        </div>
+      </form>
       &nbsp;
       <input
         type="checkbox"
@@ -93,7 +99,7 @@ export default {
   data: () => {
     return {
       partTimeClassName: "Teilzeit",
-      selectedClass: undefined,
+      selectedClass: localStorage.getItem("selectedClass") || undefined,
       classes: [],
     };
   },
@@ -113,6 +119,9 @@ export default {
     }
   },
   methods: {
+    saveSelectedClass() {
+      localStorage.setItem("selectedClass", this.selectedClass);
+    },
     formatDate(d) {
       return formatDate(d);
     },
@@ -163,6 +172,40 @@ export default {
 </script>
 
 <style lang="css" scoped>
+.tabs {
+  margin-block: 1rem;
+
+  display: flex;
+  gap: 1rem;
+}
+
+.tab-wrapper input[type="radio"] {
+  all: unset;
+  position: absolute;
+}
+
+.tab-wrapper label {
+  cursor: pointer;
+
+  border: 2px solid black;
+  border-radius: 4px;
+  padding: 0.25rem 0.75rem;
+}
+
+.tab-wrapper input:checked + label {
+  background-color: #262626;
+  color: white;
+}
+
+.tab-wrapper input:focus + label {
+  outline: 2px solid #999999;
+  outline-offset: 2px;
+}
+
+.tab-wrapper input:hover + label {
+  background-color: #999;
+}
+
 #show-today:checked ~ ul > .past,
 #show-today:checked ~ ul > .future {
   display: none;
