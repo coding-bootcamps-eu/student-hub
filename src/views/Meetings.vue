@@ -3,7 +3,12 @@
     <h2 class="page-heading__title">Meetings</h2>
     <p class="page-heading__subtitle">Join in and learn</p>
   </header>
-  <div v-if="isLoading" class="loading__wrapper">
+  <p>
+    Sorry but this service is currently not available. Please check your
+    calendar for zoom links or ask us if you need any help.
+  </p>
+  <!-- SEE https://app.asana.com/0/1205379464030313/1205601215812002
+    <div v-if="isLoading" class="loading__wrapper">
     <p>Loading meetings...</p>
   </div>
   <div v-if="!isLoading">
@@ -55,6 +60,7 @@
     </ol>
     <p v-if="error">{{ error }}</p>
   </div>
+  -->
 </template>
 
 <script>
