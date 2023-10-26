@@ -4,7 +4,7 @@ import { scheduleDetails } from "./schedule-details";
 export const bootcampDays = 65;
 
 // Current classes
-export const classNames = ["2023-07-25", "2023-08-29", "2023-09-26"];
+export const classNames = ["2023-08-29", "2023-09-26", "2023-10-26"];
 
 export const defaultSchedule = [
   { topic: "Onboarding", days: 1 },
