@@ -42,6 +42,24 @@ export default {
       isLoading: false,
       meetings: [
         {
+          uuid: "759783c4-25f6-46b6-9cac-48185e97d99f",
+          className: "Oktober 2023",
+          meetings: [
+            {
+              uuid: "435fdcca-08ae-4276-8da7-abaef82c6950",
+              join_url:
+                "https://us06web.zoom.us/j/84510144317?pwd=N2M2d0tKVm53VEo1YzY1ZVVMZlludz09",
+              topic: "Live-Session (Recording)",
+            },
+            {
+              uuid: "c05db3fc-3b7a-49a8-ad59-6e258f4e6c29",
+              join_url:
+                "https://us06web.zoom.us/j/83305436865?pwd=eE1MOWFZbWVrYnQ3aGxNSThUc1cxdz09 ",
+              topic: "General Classroom (Without Recording)",
+            },
+          ],
+        },
+        {
           uuid: "9699d5b2-b139-4dc2-af28-8914ca5d8dfr",
           className: "September 2023",
           meetings: [
@@ -73,24 +91,6 @@ export default {
               uuid: "98a38579-c728-41b8-85a2-e39e48f360a4",
               join_url:
                 "https://us06web.zoom.us/j/82351898270?pwd=aGN6WmNJL1hkUjlSY3dzR3RuTzR2QT09",
-              topic: "General Classroom (Without Recording)",
-            },
-          ],
-        },
-        {
-          uuid: "759783c4-25f6-46b6-9cac-48185e97d99f",
-          className: "Juli 2023",
-          meetings: [
-            {
-              uuid: "435fdcca-08ae-4276-8da7-abaef82c6950",
-              join_url:
-                "https://us06web.zoom.us/j/84510144317?pwd=N2M2d0tKVm53VEo1YzY1ZVVMZlludz09",
-              topic: "Live-Session (Recording)",
-            },
-            {
-              uuid: "c05db3fc-3b7a-49a8-ad59-6e258f4e6c29",
-              join_url:
-                "https://us06web.zoom.us/j/83305436865?pwd=eE1MOWFZbWVrYnQ3aGxNSThUc1cxdz09 ",
               topic: "General Classroom (Without Recording)",
             },
           ],
