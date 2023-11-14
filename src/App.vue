@@ -79,6 +79,13 @@
             <li class="header__nav-item">
               <router-link to="/slides">Slides</router-link>
             </li>
+            <li class="header__nav-item">
+              <a
+                href="https://form.asana.com/?k=msqPDRYEAxA8uspT_xcYbw&d=1181024715195521"
+                target="_blank"
+                >Report absence</a
+              >
+            </li>
           </template>
           <li class="header__nav-item">
             <router-link to="/logout">Logout</router-link>
