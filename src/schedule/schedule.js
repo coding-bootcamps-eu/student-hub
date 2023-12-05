@@ -4,7 +4,7 @@ import { scheduleDetails } from "./schedule-details";
 export const bootcampDays = 65;
 
 // Current classes
-export const classNames = ["2023-08-29", "2023-09-26", "2023-10-26"];
+export const classNames = ["2023-09-26", "2023-10-26", "2023-12-05"];
 
 export const defaultSchedule = [
   { topic: "Onboarding", days: 1 },
@@ -54,6 +54,8 @@ const specialDays = {
   "2023-06-01": "Agile Workshop",
   "2023-08-31": "Agile Workshop",
   "2023-09-01": "Agile Workshop",
+  "2023-12-07": "Agile Workshop",
+  "2023-12-08": "Agile Workshop"
 };
 
 // TODO: Use library for that
