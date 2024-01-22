@@ -26,6 +26,7 @@
         </option>
         <option value="Live-Session Class 2023 Oktober">Oktober 2023</option>
         <option value="Live-Session Class 2023 Dezember">Dezember 2023</option>
+        <option value="Live-Session Class 2024 Januar">Januar 2024</option>
         <option value="Live-Session Teilzeit">Live-Session Teilzeit</option>
         <option value="Abschlusspräsentation">Abschlusspräsentation</option>
       </select>
