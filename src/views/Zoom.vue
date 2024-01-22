@@ -33,8 +33,6 @@
 </template>
 
 <script>
-import { firebaseFunctionsPrefix } from "../firebase";
-
 export default {
   name: "Zoom",
   data: () => {
