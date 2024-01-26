@@ -433,7 +433,15 @@
         href="https://docs.google.com/presentation/d/16fXnSNeVMWUvHmv24SwoO4rKDG_1dWUem4UJ7UKVduw"
         target="_blank"
         rel="nofollow"
-        >Vue Basics</a
+        >Vue Basics (Block 1)</a
+      >
+    </div>
+    <div class="link-block">
+      <a
+        href="https://docs.google.com/presentation/d/13Q8C--3NGFnqZYgk3BjwdXLLEpR_zaSMuC-yPkhIr_w"
+        target="_blank"
+        rel="nofollow"
+        >Vue Single Page Applications (Block 2)</a
       >
     </div>
   </li>
