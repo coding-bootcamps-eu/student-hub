@@ -53,15 +53,6 @@ export const scheduleDetails = {
       "https://docs.google.com/presentation/d/1K0CbUdITLRgG7NlqqC1yXKdNfRjA3gQAdEI8VRBEVKQ",
     days: 4,
   },
-  "Next Steps with Git": {
-    title: "Next Steps with Git",
-    classRoomLink:
-      "https://classroom.coding-bootcamps.eu/products/web-dev-foundation/categories/2149114839",
-    gitHubLink: "",
-    slidesLink:
-      "https://docs.google.com/presentation/d/1iTOCNw9hHCytLA6BE_BidURMVbkG7suCdrkp-Gtu5Eg",
-    days: 1,
-  },
   "Recap Day Web Dev Foundation": {
     title: "Recap Day",
     classRoomLink: "",
@@ -78,6 +69,7 @@ export const scheduleDetails = {
       "https://github.com/coding-bootcamps-eu/introduction-to-programming-in-js/tree/main/tasks",
     slidesLink:
       "https://docs.google.com/presentation/d/1HrZdtcFRgcWFcH2X8_1RM7mtxk9HmOicjSyJktWoVbo/edit#slide=id.g75b8156060_0_0",
+    days: 5,
   },
   "Introduction to Programming with p5": {
     title: "Introduction to Programming with p5",
@@ -97,16 +89,7 @@ export const scheduleDetails = {
       "https://github.com/coding-bootcamps-eu/coding-foundation/blob/main/solving-problems-with-javascript/01-solve-katas-on-codewars.md",
     slidesLink:
       "https://docs.google.com/presentation/d/1BoHnEwILVQOSAFEi_y6ZDI-oCEozLfCdlHnrVmySYx0",
-    days: 4,
-  },
-  "From Objects to Classes": {
-    title: "From Objects to Classes",
-    classRoomLink:
-      "https://classroom.coding-bootcamps.eu/products/coding-foundation/categories/2149346393",
-    gitHubLink: "",
-    slidesLink:
-      "https://docs.google.com/presentation/d/1bzsTYJZsV4PpE6S0qriK1BEV2oTV6oXc105rXFLoPDQ",
-    days: 1,
+    days: 5,
   },
   "Recap Day Coding Foundation": {
     title: "Recap Day",
@@ -188,7 +171,7 @@ export const scheduleDetails = {
       "https://github.com/coding-bootcamps-eu/testing-and-refactoring",
     slidesLink:
       "https://docs.google.com/presentation/d/12nai3Z0juEk6m3SSExq9umoVn-Ub8wYpbEh6Sf_iQfo",
-    days: 4,
+    days: 2,
   },
   "Vue.js Basics": {
     title: "Vue.js Basics",
