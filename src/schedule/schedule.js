@@ -9,15 +9,13 @@ export const classNames = ["2023-10-26", "2023-12-05", "2024-01-23"];
 export const defaultSchedule = [
   { topic: "Onboarding", days: 1 },
   { topic: "Your Frontend Developer Setup", days: 1 },
-  { topic: "First Steps with Git", days: 2 },
+  { topic: "First Steps with Git", days: 1 },
   { topic: "HTML Foundation", days: 2 },
   { topic: "CSS Foundation", days: 4 },
   { topic: "Advanced CSS", days: 4 },
-  { topic: "Next Steps with Git", days: 1 },
   { topic: "Recap Day", days: 1 },
   { topic: "Introduction to Programming with JavaScript", days: 5 },
   { topic: "Solving Problems with JavaScript", days: 5 },
-  { topic: "From Objects to Classes", days: 1 },
   { topic: "Recap Day", days: 1 },
   { topic: "Web App Basics", days: 5 },
   { topic: "Basic State Management", days: 2 },
@@ -26,7 +24,7 @@ export const defaultSchedule = [
   { topic: "Intro to Node.js and NPM", days: 1 },
   { topic: "Introduction to Restful APIs", days: 3 },
   { topic: "Recap Day", days: 1 },
-  { topic: "Testing", days: 4 },
+  { topic: "Testing", days: 2 },
   { topic: "Vue.js Basics", days: 5 },
   { topic: "Vue.js Single Page Applications", days: 5 },
 ];
@@ -56,6 +54,8 @@ const specialDays = {
   "2023-09-01": "Agile Workshop",
   "2023-12-07": "Agile Workshop",
   "2023-12-08": "Agile Workshop",
+  "2024-04-04": "Agile Workshop",
+  "2024-04-05": "Agile Workshop",
 };
 
 // TODO: Use library for that
