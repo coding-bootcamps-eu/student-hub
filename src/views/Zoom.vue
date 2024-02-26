@@ -59,7 +59,7 @@ export default {
         },
         {
           uuid: "759783c4-25f6-46b6-9cac-48185e97d99f",
-          className: "Oktober 2023",
+          className: "Februar 2024",
           meetings: [
             {
               uuid: "435fdcca-08ae-4276-8da7-abaef82c6950",
