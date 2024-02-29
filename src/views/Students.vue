@@ -97,17 +97,29 @@
       <ul class="students-list">
         <li
           v-for="student in filteredStudents"
-          :key="student.uid"
+          :key="student.data.uid"
           class="student-list__item"
         >
-          <img :src="student.githubProfileUrl + '.png'" alt="" />
-          <span>{{ student.githubName }}</span>
+          <img :src="student.data.githubProfileUrl + '.png'" alt="" />
+          <span>{{ student.data.githubName }}</span>
           <a
-            :href="student.githubProfileUrl"
+            :href="student.data.githubProfileUrl"
             target="_blank"
             rel="noopener noreferrer"
-            >{{ student.githubProfileUrl }}</a
+            >{{ student.data.githubProfileUrl }}</a
           >
+          <form v-if="this.$store.getters.isTeacher">
+            <select
+              :name="student.data.uid + 'role'"
+              :id="student.data.uid"
+              v-model="student.data.role"
+            >
+              <option v-for="role of roles" :value="role" :key="role">
+                {{ role }}
+              </option>
+            </select>
+            <button @click="updateUser(student)">Update User</button>
+          </form>
         </li>
       </ul>
     </section>
@@ -140,11 +152,13 @@ export default {
       students: [],
       studentsWrongMetaData: [],
       showStudentsWithWrongMetaData: false,
+      roles: ["guest", "student", "teacher"],
     };
   },
   methods: {
     async updateUser(userObj) {
       const { data, doc } = userObj;
+      console.log(userObj);
       await updateDoc(doc.ref, data);
     },
 
@@ -183,7 +197,11 @@ export default {
             doc: studentDoc,
           });
         } else {
-          this.students.push(studentData);
+          this.students.push({
+            data: studentData,
+            doc: studentDoc,
+          });
+          console.log(studentData);
         }
       });
     },
@@ -192,7 +210,7 @@ export default {
   computed: {
     classNames() {
       const classNames = this.students
-        .map((s) => s.className)
+        .map((s) => s.data.className)
         .filter((c) => c && c.length > 0);
 
       classNames.sort();
@@ -212,11 +230,11 @@ export default {
 
           classFilterPassed =
             this.classNameFilter === defaultClassNameFilter ||
-            s.className === this.classNameFilter;
+            s.data.className === this.classNameFilter;
 
           if (this.timeModelFilter !== defaultTimeModelFilter) {
             const requiredTimeModelState = this.timeModelFilter === "fulltime";
-            timeModelFilterPassed = s.fulltime === requiredTimeModelState;
+            timeModelFilterPassed = s.data.fulltime === requiredTimeModelState;
           }
 
           return classFilterPassed && timeModelFilterPassed;
