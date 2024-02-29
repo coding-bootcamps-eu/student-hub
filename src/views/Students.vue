@@ -118,7 +118,7 @@
                 {{ role }}
               </option>
             </select>
-            <button @click="updateUser(student)">Update User</button>
+            <button @click.prevent="updateUser(student)">Update User</button>
           </form>
         </li>
       </ul>
