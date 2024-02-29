@@ -6,8 +6,7 @@
     </header>
     <section
       class="students-wrong-meta-data"
-      v-if="this.$store.getters.isTeacher"
-    >
+      v-if="this.$store.getters.isTeacher">
       <h3>
         Missing Permissions and Meta Data ({{ studentsWrongMetaData.length }})
       </h3>
@@ -15,14 +14,12 @@
       ><input
         id="hide-wrong-meta"
         type="checkbox"
-        v-model="showStudentsWithWrongMetaData"
-      />
+        v-model="showStudentsWithWrongMetaData" />
       <ul class="students-list" v-if="showStudentsWithWrongMetaData">
         <li
           v-for="student in studentsWrongMetaData"
           :key="student.data.uid"
-          class="student-list__item"
-        >
+          class="student-list__item">
           <img :src="student.data.githubProfileUrl + '.png'" alt="" />
           <span>{{ student.data.githubName }}</span>
           <a
@@ -57,14 +54,12 @@
           <label for="class-name">Show students from class</label>&nbsp;<select
             name=""
             id="class-name"
-            v-model="classNameFilter"
-          >
+            v-model="classNameFilter">
             <option value="all">All</option>
             <option
               :value="className"
               v-for="className of classNames"
-              :key="className"
-            >
+              :key="className">
               {{ className }}
             </option>
           </select>
@@ -74,22 +69,19 @@
             type="radio"
             id="time-model-all"
             value="all"
-            v-model="timeModelFilter"
-          />
+            v-model="timeModelFilter" />
           <label for="time-model-all">All time models</label>
           <input
             type="radio"
             id="time-model-fulltime"
             value="fulltime"
-            v-model="timeModelFilter"
-          />
+            v-model="timeModelFilter" />
           <label for="time-model-fulltime">Full time</label>
           <input
             type="radio"
             id="time-model-parttime"
             value="parttime"
-            v-model="timeModelFilter"
-          />
+            v-model="timeModelFilter" />
           <label for="time-model-parttime">Part time</label>
         </div>
       </form>
@@ -97,17 +89,27 @@
       <ul class="students-list">
         <li
           v-for="student in filteredStudents"
-          :key="student.uid"
-          class="student-list__item"
-        >
-          <img :src="student.githubProfileUrl + '.png'" alt="" />
-          <span>{{ student.githubName }}</span>
+          :key="student.data.uid"
+          class="student-list__item">
+          <img :src="student.data.githubProfileUrl + '.png'" alt="" />
+          <span>{{ student.data.githubName }}</span>
           <a
-            :href="student.githubProfileUrl"
+            :href="student.data.githubProfileUrl"
             target="_blank"
             rel="noopener noreferrer"
-            >{{ student.githubProfileUrl }}</a
+            >{{ student.data.githubProfileUrl }}</a
           >
+          <form v-if="this.$store.getters.isTeacher">
+            <select
+              :name="student.data.uid + 'role'"
+              :id="student.data.uid"
+              v-model="student.data.role">
+              <option v-for="role of roles" :value="role" :key="role">
+                {{ role }}
+              </option>
+            </select>
+            <button @click="updateUser(student)">Update User</button>
+          </form>
         </li>
       </ul>
     </section>
@@ -140,11 +142,13 @@ export default {
       students: [],
       studentsWrongMetaData: [],
       showStudentsWithWrongMetaData: false,
+      roles: ["guest", "student", "teacher"],
     };
   },
   methods: {
     async updateUser(userObj) {
       const { data, doc } = userObj;
+      console.log(userObj);
       await updateDoc(doc.ref, data);
     },
 
@@ -183,7 +187,11 @@ export default {
             doc: studentDoc,
           });
         } else {
-          this.students.push(studentData);
+          this.students.push({
+            data: studentData,
+            doc: studentDoc,
+          });
+          console.log(studentData);
         }
       });
     },
@@ -192,7 +200,7 @@ export default {
   computed: {
     classNames() {
       const classNames = this.students
-        .map((s) => s.className)
+        .map((s) => s.data.className)
         .filter((c) => c && c.length > 0);
 
       classNames.sort();
@@ -212,11 +220,11 @@ export default {
 
           classFilterPassed =
             this.classNameFilter === defaultClassNameFilter ||
-            s.className === this.classNameFilter;
+            s.data.className === this.classNameFilter;
 
           if (this.timeModelFilter !== defaultTimeModelFilter) {
             const requiredTimeModelState = this.timeModelFilter === "fulltime";
-            timeModelFilterPassed = s.fulltime === requiredTimeModelState;
+            timeModelFilterPassed = s.data.fulltime === requiredTimeModelState;
           }
 
           return classFilterPassed && timeModelFilterPassed;
