@@ -2,16 +2,13 @@ import { createRouter, createWebHistory } from "vue-router";
 import Login from "../views/Login.vue";
 import Guest from "../views/Guest.vue";
 import Lobby from "../views/Lobby.vue";
-import Timer from "../views/Timer.vue";
 import Schedule from "../views/Schedule.vue";
 import Meetings from "../views/Meetings.vue";
 import Zoom from "../views/Zoom.vue";
-import OneOnOne from "../views/OneOnOne.vue";
 import Slides from "../views/Slides.vue";
 import Students from "../views/Students.vue";
 import Admin from "../views/Admin.vue";
 import store from "../store";
-import Support from "../views/Support.vue";
 
 import { onAuthStateInit } from "../firebase";
 
@@ -50,21 +47,10 @@ const routes = [
       import(/* webpackChunkName: "loggedout" */ "../views/Logout.vue"),
   },
   {
-    path: "/about",
-    name: "About",
-    component: () =>
-      import(/* webpackChunkName: "about" */ "../views/About.vue"),
-  },
-  {
     path: "/recordings",
     name: "Recordings",
     component: () =>
       import(/* webpackChunkName: "recordings" */ "../views/Recordings.vue"),
-  },
-  {
-    path: "/timer",
-    name: "Timer",
-    component: Timer,
   },
   {
     path: "/students",
@@ -92,22 +78,12 @@ const routes = [
     component: Zoom,
   },
   {
-    path: "/1on1",
-    name: "1on1",
-    component: OneOnOne,
-  },
-  {
     path: "/admin",
     name: "Admin",
     component: Admin,
     meta: {
       teacher: true,
     },
-  },
-  {
-    path: "/support",
-    name: "Support",
-    component: Support,
   },
 ];
 
