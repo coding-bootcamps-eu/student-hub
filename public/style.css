@@ -8,9 +8,9 @@
   --radius-outer: 0.25rem;
   --radius-inner: calc(var(--radius-outer) / 3);
 
-  --clr-accent: hsl(0, 0%, 0%);
-  --clr-accent-light: hsl(0, 0%, 90%);
-  --clr-accent-dark: black;
+  --clr-accent: hsl(268, 75%, 44%);
+  --clr-accent-light: hsl(268, 75%, 90%);
+  --clr-accent-dark: hsl(268, 75%, 25%);
   --clr-white: white;
 }
 
