@@ -10,10 +10,17 @@
         id="show-students"
         value="students"
         :checked="showStudents"
+        class="tab"
       />
-      <label for="show-students">Students</label>
-      <input type="radio" name="students" id="show-guests" value="guests" />
-      <label for="show-guests">Guests</label>
+      <label for="show-students" class="tab-text">Students</label>
+      <input
+        type="radio"
+        name="students"
+        id="show-guests"
+        value="guests"
+        class="tab"
+      />
+      <label for="show-guests" class="tab-text">Guests</label>
     </form>
     <section
       class="students-wrong-meta-data"
@@ -81,22 +88,25 @@
             id="time-model-all"
             value="all"
             v-model="timeModelFilter"
+            class="tab"
           />
-          <label for="time-model-all">All time models</label>
+          <label for="time-model-all" class="tab-text">All time models</label>
           <input
             type="radio"
             id="time-model-fulltime"
             value="fulltime"
             v-model="timeModelFilter"
+            class="tab"
           />
-          <label for="time-model-fulltime">Full time</label>
+          <label for="time-model-fulltime" class="tab-text">Full time</label>
           <input
             type="radio"
             id="time-model-parttime"
             value="parttime"
             v-model="timeModelFilter"
+            class="tab"
           />
-          <label for="time-model-parttime">Part time</label>
+          <label for="time-model-parttime" class="tab-text">Part time</label>
         </div>
       </form>
       <p>There are {{ filteredStudents.length }} students 🎉</p>
@@ -395,32 +405,10 @@ export default {
   gap: 1rem;
 }
 
-.view-form__wrapper input[type="radio"] {
-  all: unset;
-  position: absolute;
-}
-
-.view-form__wrapper label {
-  color: var(--clr-accent);
-  text-decoration: underline;
-  text-decoration-thickness: 1px;
-  text-underline-offset: 0.25rem;
-  text-decoration-color: transparent;
-}
-
-.view-form__wrapper input[type="radio"]:checked + label {
-  text-decoration-color: var(--clr-accent);
-}
 .missing-meta-form {
   display: grid;
   grid-template-columns: min-content 1fr;
   grid-gap: 0.5rem;
-}
-
-.missing-meta-form > pre,
-.missing-meta-form > button {
-  grid-column-start: 1;
-  grid-column-end: 3;
 }
 
 .students-wrong-meta-data {
@@ -457,23 +445,6 @@ export default {
 
   display: flex;
   gap: 1rem;
-}
-
-.time-models__wrapper > input[type="radio"] {
-  all: unset;
-  position: absolute;
-}
-
-.time-models__wrapper label {
-  color: var(--clr-accent);
-  text-decoration: underline;
-  text-decoration-thickness: 1px;
-  text-decoration-color: transparent;
-  text-underline-offset: 0.25rem;
-}
-
-.time-models__wrapper > input[type="radio"]:checked + label {
-  text-decoration-color: var(--clr-accent);
 }
 
 .students-list {
