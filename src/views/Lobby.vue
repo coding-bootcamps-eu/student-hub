@@ -7,29 +7,6 @@
       </p>
     </header>
     <div class="home">
-      <section
-        v-if="this.$store.getters.canShowDailyGoal"
-        class="home_daily-goal"
-      >
-        <h3>Your personal goal for today:</h3>
-        <p>{{ todaysGoal }}</p>
-      </section>
-      <section class="home__class-goals" v-if="canShowClassGoals">
-        <h3>Class goals for today</h3>
-        <ul class="home__class-goals-list">
-          <li v-for="classGoal in classGoals" :key="classGoal.className">
-            <span class="class-goal__class"
-              >Class {{ classGoal.className }}:
-            </span>
-            <span>
-              {{ classGoal.goal.topic }}
-              {{
-                classGoal.goal.dayOfTopic + "/" + classGoal.goal.totalTopicDays
-              }}
-            </span>
-          </li>
-        </ul>
-      </section>
       <nav class="home__nav">
         <a
           class="home__link"
@@ -53,11 +30,7 @@
 
           <span class="home__link-text">Report absence</span>
         </a>
-        <router-link
-          class="home__link"
-          to="/schedule"
-          v-if="this.$store.getters.canShowSchedule"
-        >
+        <router-link class="home__link" to="/schedule">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             fill="currentColor"
@@ -160,75 +133,14 @@
 </template>
 
 <script>
-import {
-  calculateWorkingDaysSinceCampStart,
-  calculateSchedule,
-  getDailyClassGoals,
-} from "../schedule/schedule";
-
 export default {
   name: "Home",
-  data: () => {
-    return {};
-  },
-  created: () => {},
-  computed: {
-    canShowClassGoals() {
-      return (
-        (this.$store.getters.isStudent &&
-          this.$store.state.fulltime === false) ||
-        this.$store.getters.isTeacher
-      );
-    },
-    todaysGoal() {
-      let studentStartDate = new Date(this.$store.state.startDate);
-      let today = new Date();
-      const workingDays = calculateWorkingDaysSinceCampStart(
-        studentStartDate,
-        today
-      );
-      const schedule = calculateSchedule(
-        studentStartDate,
-        this.$store.state.className
-      );
-      const goal = schedule[workingDays - 1];
-
-      if (goal !== undefined) {
-        return `Day ${goal.dayOfTopic}/${goal.totalTopicDays} of "${goal.topic}"`;
-      } else {
-        return `Your bootcamp did not start yet or is already over :-)`;
-      }
-    },
-    classGoals() {
-      return getDailyClassGoals();
-    },
-  },
-  methods: {},
 };
 </script>
 
 <style lang="css">
 .home {
   margin-top: 4rem;
-}
-
-.home__class-goals {
-  text-align: center;
-  margin-bottom: 3rem;
-}
-
-.home__class-goals-list {
-  list-style-type: none;
-  padding: 0;
-}
-
-.class-goal__class {
-  font-weight: 800;
-}
-
-.home_daily-goal {
-  text-align: center;
-  margin-bottom: 3rem;
 }
 
 .home__nav {

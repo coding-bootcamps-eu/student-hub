@@ -2,26 +2,30 @@
   <section>
     <form
       class="view-form__wrapper"
-      @change="showStudents = $event.target.value === 'students'">
+      @change="showStudents = $event.target.value === 'students'"
+    >
       <input
         type="radio"
         name="students"
         id="show-students"
         value="students"
-        :checked="showStudents" />
+        :checked="showStudents"
+      />
       <label for="show-students">Students</label>
       <input type="radio" name="students" id="show-guests" value="guests" />
       <label for="show-guests">Guests</label>
     </form>
     <section
       class="students-wrong-meta-data"
-      v-if="this.$store.getters.isTeacher && showStudents === false">
+      v-if="this.$store.getters.isTeacher && showStudents === false"
+    >
       <h3>Guests ({{ guests.length }})</h3>
       <ul class="students-list">
         <li
           v-for="user in guests"
           :key="user.data.uid"
-          class="student-list__item">
+          class="student-list__item"
+        >
           <span>{{ user.data.githubName }}</span>
           <a
             :href="user.data.githubProfileUrl"
@@ -54,7 +58,8 @@
         type="search"
         name="search-students"
         id="search-students"
-        v-model="searchQuery" />
+        v-model="searchQuery"
+      />
       <form class="students-filter">
         <div>
           <label for="class-name" style="position: absolute; font-size: 0"
@@ -64,7 +69,8 @@
             <option
               :value="className"
               v-for="className of classNames"
-              :key="className">
+              :key="className"
+            >
               {{ className }}
             </option>
           </select>
@@ -74,19 +80,22 @@
             type="radio"
             id="time-model-all"
             value="all"
-            v-model="timeModelFilter" />
+            v-model="timeModelFilter"
+          />
           <label for="time-model-all">All time models</label>
           <input
             type="radio"
             id="time-model-fulltime"
             value="fulltime"
-            v-model="timeModelFilter" />
+            v-model="timeModelFilter"
+          />
           <label for="time-model-fulltime">Full time</label>
           <input
             type="radio"
             id="time-model-parttime"
             value="parttime"
-            v-model="timeModelFilter" />
+            v-model="timeModelFilter"
+          />
           <label for="time-model-parttime">Part time</label>
         </div>
       </form>
@@ -95,16 +104,19 @@
         <li
           v-for="student in filteredStudents"
           :key="student.data.uid"
-          class="student-list__item">
+          class="student-list__item"
+        >
           <form
             v-if="this.$store.getters.isTeacher"
-            @input="editStudent(student)">
+            @input="editStudent(student)"
+          >
             <div class="name">
               <input
                 type="checkbox"
                 name="toggle-edit"
                 :id="'toggle-edit' + student.data.uid"
-                v-model="student.editMode" />
+                v-model="student.editMode"
+              />
               <label :for="'toggle-edit' + student.data.uid">
                 <span style="position: absolute; font-size: 0">
                   Edit Name
@@ -115,12 +127,15 @@
                   height="16"
                   fill="currentColor"
                   class="bi bi-pencil-square"
-                  viewBox="0 0 16 16">
+                  viewBox="0 0 16 16"
+                >
                   <path
-                    d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z" />
+                    d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"
+                  />
                   <path
                     fill-rule="evenodd"
-                    d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5z" />
+                    d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5z"
+                  />
                 </svg>
               </label>
               <span v-if="!student.editMode" class="student__name">{{
@@ -131,7 +146,8 @@
                 name="student-name"
                 :id="'student-name' + student.uid"
                 v-model="student.data.githubName"
-                v-show="student.editMode" />
+                v-show="student.editMode"
+              />
             </div>
             <div class="role__wrapper">
               <div class="role__item" v-for="role of roles" :key="role">
@@ -140,7 +156,8 @@
                   :name="'role' + student.data.uid"
                   :id="role + student.data.uid"
                   :checked="role === student.data.role"
-                  @change="changeRole(student, role)" />
+                  @change="changeRole(student, role)"
+                />
                 <label :for="role + student.data.uid" class="role-tab">{{
                   role
                 }}</label>
@@ -149,7 +166,8 @@
             <button
               :disabled="student.isEdited !== true"
               @click.prevent="updateUser(student)"
-              class="btn-update">
+              class="btn-update"
+            >
               Update User
             </button>
           </form>
@@ -164,9 +182,11 @@
                 height="16"
                 fill="currentColor"
                 class="bi bi-github"
-                viewBox="0 0 16 16">
+                viewBox="0 0 16 16"
+              >
                 <path
-                  d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27s1.36.09 2 .27c1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0 0 16 8c0-4.42-3.58-8-8-8" />
+                  d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27s1.36.09 2 .27c1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0 0 16 8c0-4.42-3.58-8-8-8"
+                />
               </svg>
               {{ getShortLink(student.data.githubProfileUrl) }}</a
             >
@@ -178,7 +198,8 @@
     <button
       class="btn-update btn-update-all"
       @click.prevent="updateMultipleUsers"
-      v-if="editedStudents.length > 1">
+      v-if="editedStudents.length > 1"
+    >
       Update All
     </button>
   </section>

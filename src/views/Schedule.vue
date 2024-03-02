@@ -1,7 +1,6 @@
 <template>
   <header class="page-heading">
     <h2 class="page-heading__title">Schedule</h2>
-    <p class="page-heading__subtitle">{{ scheduleHeading }}</p>
   </header>
   <div class="schedule">
     <div>
@@ -14,164 +13,86 @@
             name="class-tab"
             :value="className"
             v-model="selectedClass"
-            @change="saveSelectedClass"
           />
           <label :for="className">
-            {{
-              className === partTimeClassName
-                ? partTimeClassName
-                : className.substring(0, 7)
-            }}
+            {{ className }}
           </label>
         </div>
       </form>
-      &nbsp;
-      <input
-        type="checkbox"
-        checked
-        name=""
-        id="show-today"
-        v-if="!partTimeScheduleSelected"
-      />
-      <label for="show-today" v-if="!partTimeScheduleSelected"
-        >Show only schedule for Today</label
-      >
-      <ul>
-        <li
-          v-for="day in schedule"
-          :key="day.dayInSchedule"
-          class="schedule-day"
-          :class="classesForDay(day.date)"
-        >
-          <p class="schedule-day__date" v-if="!partTimeScheduleSelected">
-            {{ formatDate(day.date) }}
-          </p>
-          <p class="schedule-day__topic">
-            {{ day.topic }}
-            <span v-if="partTimeScheduleSelected && day.totalTopicDays"
-              >({{ day.totalTopicDays * 8 }} Hours)</span
-            >
-            <span v-if="day.totalTopicDays > 1 && !partTimeScheduleSelected"
-              >(Day {{ day.dayOfTopic }} of {{ day.totalTopicDays }})</span
-            >
-          </p>
-
-          <div v-if="day.details" class="schedule-day__details">
-            <a
-              v-if="day.details.classRoomLink"
-              target="_blank"
-              rel="noreferrer"
-              :href="day.details.classRoomLink"
-              >Videos</a
-            >
-            <a
-              v-if="day.details.gitHubLink"
-              target="_blank"
-              rel="noreferrer"
-              :href="day.details.gitHubLink"
-              >Tasks</a
-            >
-            <a
-              v-if="day.details.slidesLink"
-              target="_blank"
-              rel="noreferrer"
-              :href="day.details.slidesLink"
-              >Slides</a
-            >&nbsp;
-          </div>
-        </li>
-      </ul>
     </div>
+    <ul class="schedule-list">
+      <li
+        class="module-card"
+        v-for="module in selectedSchedule"
+        :key="module.title"
+      >
+        <h3 class="module-title">{{ module.title }}</h3>
+        <p class="module-length">Length: {{ module.length }}</p>
+        <ul class="categories">
+          <li
+            class="category"
+            v-for="category of module.categories"
+            :key="category"
+          >
+            <p class="category-title">{{ category.title }}</p>
+            <div class="category-links">
+              <a
+                :href="category.videos"
+                v-if="category.videos"
+                class="category-link"
+                >Videos</a
+              >
+              <a
+                :href="category.tasks"
+                v-if="category.tasks"
+                class="category-link"
+                >Tasks</a
+              >
+              <a
+                :href="category.slides"
+                v-if="category.slides"
+                class="category-link"
+                >Slides</a
+              >
+            </div>
+          </li>
+        </ul>
+      </li>
+    </ul>
   </div>
 </template>
 <script>
-import {
-  calculateWorkingDaysSinceCampStart,
-  calculateSchedule,
-  formatDate,
-  normalizeDate,
-  classNames,
-  calculateStaticSchedule,
-} from "../schedule/schedule";
-
+import { fullTimeSchedule, partTimeSchedule } from "../schedule/schedule.js";
 export default {
   name: "Schedule",
-  data: () => {
+  data() {
     return {
-      partTimeClassName: "Teilzeit",
-      selectedClass: localStorage.getItem("selectedClass") || undefined,
-      classes: [],
+      selectedClass: "Vollzeit",
+      classes: ["Vollzeit", "Teilzeit"],
+      fullTimeSchedule: fullTimeSchedule,
+      partTimeSchedule: partTimeSchedule,
     };
   },
   created() {
-    this.classes = ["Teilzeit", ...classNames];
-    if (this.$store.state.className) {
-      const selectedClass = classNames.filter((c) =>
-        c.startsWith(this.$store.state.className)
-      )[0];
-      if (selectedClass === undefined) {
-        this.selectedClass = this.classes[0];
-      } else {
-        this.selectedClass = selectedClass;
-      }
+    if (this.$store.state.isFullTimeStudent) {
+      this.selectedClass = "Vollzeit";
     } else {
-      this.selectedClass = this.classes[0];
+      this.selectedClass = "Teilzeit";
     }
   },
-  methods: {
-    saveSelectedClass() {
-      localStorage.setItem("selectedClass", this.selectedClass);
-    },
-    formatDate(d) {
-      return formatDate(d);
-    },
-    classesForDay(date) {
-      if (this.partTimeScheduleSelected) {
-        return {
-          past: false,
-          today: false,
-          future: true,
-        };
-      } else {
-        const today = normalizeDate(new Date());
-        return {
-          past: date < today,
-          today: formatDate(date) === formatDate(today),
-          future: date > today,
-        };
-      }
-    },
-  },
   computed: {
-    partTimeScheduleSelected() {
-      return this.selectedClass === this.partTimeClassName;
-    },
-    scheduleHeading() {
-      if (this.selectedClass && this.selectedClass !== this.partTimeClassName) {
-        return "Schedule of Class " + this.selectedClass.substring(0, 7);
-      } else if (this.selectedClass === this.partTimeClassName) {
-        return "Schedule for Part Time";
-      }
-      return "Schedule";
-    },
-    daysInBootcamp() {
-      let studentStartDate = new Date(this.$store.state.startDate);
-      let today = new Date();
-      return calculateWorkingDaysSinceCampStart(studentStartDate, today);
-    },
-    schedule() {
-      const className = this.selectedClass.substring(0, 7);
-      if (this.partTimeScheduleSelected) {
-        return calculateStaticSchedule();
+    selectedSchedule() {
+      if (this.selectedClass === "Teilzeit") {
+        return this.partTimeSchedule;
       } else {
-        return calculateSchedule(new Date(this.selectedClass), className);
+        return this.fullTimeSchedule;
       }
     },
   },
 };
 </script>
 
-<style lang="css" scoped>
+<style scoped>
 .tabs {
   margin-block: 1rem;
 
@@ -206,53 +127,61 @@ export default {
   background-color: #999;
 }
 
-#show-today:checked ~ ul > .past,
-#show-today:checked ~ ul > .future {
-  display: none;
-}
-
-#show-today:checked ~ ul > .today {
-  display: initial;
-}
-
-ul {
+.schedule-list {
   list-style-type: none;
   padding: 0;
+
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
 }
 
-li + li {
-  margin-top: 1rem;
+.module-card {
+  background-color: var(--clr-accent);
+  color: white;
+
+  padding: 1rem;
 }
 
-.schedule-day__date {
-  font-weight: 700;
+.module-card * {
   margin: 0;
 }
 
-.schedule-day__topic {
-  margin: 0;
+.categories {
+  list-style-type: none;
+
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+
+  margin-block: 1rem;
+  padding-left: 0;
 }
 
-.past {
-  color: #555;
+.category {
+  background-color: var(--clr-accent-light);
+
+  padding: 0.5rem;
 }
 
-.today {
-  margin: 3rem 0;
+.category-title {
+  color: var(--clr-accent);
+  font-size: 115%;
+  font-weight: 600;
+  margin-bottom: 1.5rem;
+}
+
+.category-links {
+  display: flex;
+  gap: 1rem;
+}
+
+.category-link {
+  font-size: 85%;
   color: black;
-  font-size: 150%;
-}
 
-.future {
-  color: #000;
-}
-
-a {
-  color: blue;
   text-decoration: underline;
-}
-
-a + a {
-  padding-left: 0.25rem;
+  text-underline-offset: 0.25rem;
+  text-decoration-thickness: 1px;
 }
 </style>
