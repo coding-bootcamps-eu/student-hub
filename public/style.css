@@ -39,10 +39,6 @@ h6 {
   font-family: "Montserrat", sans-serif;
 }
 
-.page-heading {
-  margin-bottom: 3rem;
-}
-
 .page-heading__title {
   margin-bottom: 0;
   color: #262626;
@@ -51,4 +47,22 @@ h6 {
 .page-heading__subtitle {
   margin: 0;
   color: #999999;
+}
+
+input[type="radio"].tab {
+  all: unset;
+  position: absolute;
+}
+
+label.tab-text {
+  color: var(--clr-accent);
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 0.25rem;
+  text-decoration-color: transparent;
+  cursor: pointer;
+}
+
+input[type="radio"].tab:checked + label.tab-text {
+  text-decoration-color: var(--clr-accent);
 }
