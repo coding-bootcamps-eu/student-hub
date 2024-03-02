@@ -1,311 +1,367 @@
-import { scheduleDetails } from "./schedule-details";
-
-// Number of days in  fulltime bootcamp
-export const bootcampDays = 65;
-
-// Current classes
-export const classNames = ["2023-12-05", "2024-01-23", "2024-02-27"];
-
-export const defaultSchedule = [
-  { topic: "Onboarding", days: 1 },
-  { topic: "Your Frontend Developer Setup", days: 1 },
-  { topic: "First Steps with Git", days: 1 },
-  { topic: "HTML Foundation", days: 2 },
-  { topic: "CSS Foundation", days: 4 },
-  { topic: "Advanced CSS", days: 4 },
-  { topic: "Recap Day", days: 1 },
-  { topic: "Introduction to Programming with JavaScript", days: 5 },
-  { topic: "Solving Problems with JavaScript", days: 5 },
-  { topic: "Recap Day", days: 1 },
-  { topic: "Web App Basics", days: 5 },
-  { topic: "Basic State Management", days: 2 },
-  { topic: "Recap Day", days: 1 },
-  { topic: "Fetch and Http Requests", days: 2 },
-  { topic: "Intro to Node.js and NPM", days: 1 },
-  { topic: "Introduction to Restful APIs", days: 3 },
-  { topic: "Recap Day", days: 1 },
-  { topic: "Testing", days: 2 },
-  { topic: "Vue.js Basics", days: 5 },
-  { topic: "Vue.js Single Page Applications", days: 5 },
+export const fullTimeSchedule = [
+  {
+    title: "Web Dev Foundation",
+    length: "2 Weeks",
+    categories: [
+      {
+        title: "Onboarding",
+        slides:
+          "https://docs.google.com/presentation/d/18HPGHTFBhLzMcALdrfv_zf4RZSz3KwGYzArzLzs9KMg",
+      },
+      {
+        title: "Your Frontend Developer Setup",
+        videos:
+          "https://classroom.coding-bootcamps.eu/products/web-dev-foundation/categories/2149069953",
+        tasks:
+          "https://github.com/coding-bootcamps-eu/web-dev-foundation/tree/main/developer-setup",
+        slides:
+          "https://docs.google.com/presentation/d/1MgywvbSmj7TGK4zSdQDSAg1reqlp9K__tgJEkXlTs-8",
+      },
+      {
+        title: "First Steps With Git",
+        videos:
+          "https://classroom.coding-bootcamps.eu/products/web-dev-foundation/categories/2149061929",
+        tasks:
+          "https://github.com/coding-bootcamps-eu/web-dev-foundation/tree/main/first-steps-with-git",
+        slides:
+          "https://docs.google.com/presentation/d/1-PaZptKth8AEABs4wyTCjcLZ8FcV14o4leRMkS_9mCI",
+      },
+      {
+        title: "HTML Foundation",
+        videos:
+          "https://classroom.coding-bootcamps.eu/products/web-dev-foundation/categories/2148963091",
+        tasks:
+          "https://github.com/coding-bootcamps-eu/web-dev-foundation/tree/main/html-foundation",
+        slides:
+          "https://docs.google.com/presentation/d/1wG3SoVjLjX-EFf0Nho_d1pP786muJ4cDXt0DJt3QCSk",
+      },
+      {
+        title: "CSS Foundation",
+        videos:
+          "https://classroom.coding-bootcamps.eu/products/web-dev-foundation/categories/2148439489",
+        tasks:
+          "https://github.com/coding-bootcamps-eu/web-dev-foundation/tree/main/css-foundation",
+        slides:
+          "https://docs.google.com/presentation/d/1zFr2nDVndzVRG-alTnwAieifHYblnIkuLKDYdghvRoc",
+      },
+      {
+        title: "Advanced CSS",
+        videos:
+          "https://classroom.coding-bootcamps.eu/products/web-dev-foundation/categories/2149042336",
+        tasks:
+          "https://github.com/coding-bootcamps-eu/web-dev-foundation/tree/main/advanced-css",
+        slides:
+          "https://docs.google.com/presentation/d/1K0CbUdITLRgG7NlqqC1yXKdNfRjA3gQAdEI8VRBEVKQ",
+      },
+    ],
+  },
+  {
+    title: "Coding Foundation",
+    length: "2 weeks",
+    categories: [
+      {
+        title: "Introduction to Programming with JavaScript",
+        videos:
+          "https://classroom.coding-bootcamps.eu/products/coding-foundation/categories/2152213077",
+        tasks:
+          "https://github.com/coding-bootcamps-eu/introduction-to-programming-in-js/tree/main/tasks",
+        slides:
+          "https://docs.google.com/presentation/d/1HrZdtcFRgcWFcH2X8_1RM7mtxk9HmOicjSyJktWoVbo/edit#slide=id.g75b8156060_0_0",
+      },
+      {
+        title: "Solving Problems with JavaScript",
+        videos:
+          "https://classroom.coding-bootcamps.eu/products/coding-foundation/categories/2149242930",
+        tasks:
+          "https://github.com/coding-bootcamps-eu/coding-foundation/blob/main/solving-problems-with-javascript/01-solve-katas-on-codewars.md",
+        slides:
+          "https://docs.google.com/presentation/d/1BoHnEwILVQOSAFEi_y6ZDI-oCEozLfCdlHnrVmySYx0",
+      },
+    ],
+  },
+  {
+    title: "Web Apps Foundation",
+    length: "2 weeks",
+    categories: [
+      {
+        title: "Wep App Basics",
+        videos:
+          "https://classroom.coding-bootcamps.eu/products/web-apps-foundation/categories/2149381295",
+        tasks:
+          "https://github.com/coding-bootcamps-eu/web-apps-foundation/tree/main/web-app-basics",
+        slides:
+          "https://docs.google.com/presentation/d/1uD4eFnXEOkJOTPgzSQNdMepNH7N8swBJH5JvLNsnpgs",
+      },
+      {
+        title: "Basic State Management",
+        videos:
+          "https://classroom.coding-bootcamps.eu/products/web-apps-foundation/categories/2149502364",
+        tasks:
+          "https://github.com/coding-bootcamps-eu/web-apps-foundation/tree/main/state-management",
+        slides:
+          "https://docs.google.com/presentation/d/1gx71PtMmQ_7qGm9JQE5YNquAmdewyFriNiOyJSS1ZcY",
+      },
+    ],
+  },
+  {
+    title: "RESTful Backends",
+    length: "1 week",
+    categories: [
+      {
+        title: "Fetch and HTTP Requests",
+        videos:
+          "https://classroom.coding-bootcamps.eu/products/restful-backends/categories/2149521248",
+        tasks:
+          "https://github.com/coding-bootcamps-eu/restful-backends/tree/main/fetch-api-and-http",
+        slides:
+          "https://docs.google.com/presentation/d/1TrjUk7nu9qUTmvqlRl-KoqM5dtf9dc8H5cfQ3SncesE",
+      },
+      {
+        title: "Intro to Node.js and NPM",
+        videos:
+          "https://classroom.coding-bootcamps.eu/products/restful-backends/categories/2149867723",
+        tasks:
+          "https://github.com/coding-bootcamps-eu/restful-backends/tree/main/introduction-to-node-js",
+        slides:
+          "https://docs.google.com/presentation/d/1OSK3dDMifzDmis497pd0asm52wcfcQ1ipUeFDHrz2hY",
+      },
+      {
+        title: "Introduction to RESTful APIs",
+        videos:
+          "https://classroom.coding-bootcamps.eu/products/restful-backends/categories/2149867725",
+        tasks: "https://github.com/coding-bootcamps-eu/restful-backends",
+        slides:
+          "https://docs.google.com/presentation/d/1FFpnTozAK3zMm7_5T1Qp45YYRNTzPo2OsS72KsF2x4A",
+      },
+    ],
+  },
+  {
+    title: "Testing",
+    length: "2 Days",
+    categories: [
+      {
+        title: "Intro to Software Testing",
+        videos:
+          "https://classroom.coding-bootcamps.eu/products/refactoring-and-testing/categories/2150583997",
+        slides:
+          "https://docs.google.com/presentation/d/12nai3Z0juEk6m3SSExq9umoVn-Ub8wYpbEh6Sf_iQfo",
+      },
+      {
+        title: "E2E Testing with Cypress",
+        videos:
+          "https://classroom.coding-bootcamps.eu/products/refactoring-and-testing",
+        tasks: "https://github.com/coding-bootcamps-eu/testing-and-refactoring",
+        slides:
+          "https://docs.google.com/presentation/d/12nai3Z0juEk6m3SSExq9umoVn-Ub8wYpbEh6Sf_iQfo",
+      },
+    ],
+  },
+  {
+    title: "Web Apps with Vue.js",
+    length: "2 weeks",
+    categories: [
+      {
+        title: "Vue Basics",
+        videos:
+          "https://classroom.coding-bootcamps.eu/products/webapps-with-vuejs/categories/2149606758",
+        tasks:
+          "https://github.com/coding-bootcamps-eu/web-apps-with-vuejs/tree/main/katas",
+        slides:
+          "https://docs.google.com/presentation/d/16fXnSNeVMWUvHmv24SwoO4rKDG_1dWUem4UJ7UKVduw",
+      },
+      {
+        title: "Vue.js Single Page Applications",
+        videos:
+          "https://classroom.coding-bootcamps.eu/products/webapps-with-vuejs/categories/2149606795",
+        tasks:
+          "https://github.com/coding-bootcamps-eu/web-apps-with-vuejs/tree/main/katas",
+        slides:
+          "https://docs.google.com/presentation/d/13Q8C--3NGFnqZYgk3BjwdXLLEpR_zaSMuC-yPkhIr_w/edit",
+      },
+    ],
+  },
 ];
 
-export const classSchedules = {};
-
-export function getClassSchedule(className, generalSchedule, classSchedules) {
-  if (Object.keys(classSchedules).includes(className)) {
-    return classSchedules[className];
-  } else {
-    return generalSchedule;
-  }
-}
-
-const specialDays = {
-  "2022-05-11": "Next Steps Messe",
-  "2022-05-12": "Agile Workshop",
-  "2022-08-04": "Agile Workshop",
-  "2022-08-05": "Agile Workshop",
-  "2022-10-27": "Agile Workshop",
-  "2022-10-28": "Agile Workshop",
-  "2023-02-23": "Agile Workshop",
-  "2023-02-24": "Agile Workshop",
-  "2023-05-31": "Agile Workshop",
-  "2023-06-01": "Agile Workshop",
-  "2023-08-31": "Agile Workshop",
-  "2023-09-01": "Agile Workshop",
-  "2023-12-07": "Agile Workshop",
-  "2023-12-08": "Agile Workshop",
-  "2024-04-04": "Agile Workshop",
-  "2024-04-05": "Agile Workshop",
-};
-
-// TODO: Use library for that
-const holidays = [
-  "2022-01-01",
-  "2022-04-15",
-  "2022-04-18",
-  "2022-05-01",
-  "2022-05-26",
-  "2022-06-06",
-  "2022-06-16",
-  "2022-10-03",
-  "2022-12-23",
-  "2022-12-25",
-  "2022-12-26",
-  "2022-12-27",
-  "2022-12-28",
-  "2022-12-29",
-  "2022-12-30",
-  "2022-12-31",
-  "2023-01-01",
-  "2023-01-02",
-  "2023-01-03",
-  "2023-01-04",
-  "2023-01-05",
-  "2023-01-06",
-  "2023-03-08",
-  "2023-04-07",
-  "2023-04-09",
-  "2023-04-10",
-  "2023-05-01",
-  "2023-05-18",
-  "2023-05-29",
-  "2023-06-08",
-  "2023-10-03",
-  "2023-10-31",
-  "2023-11-01",
-  "2023-12-25",
-  "2023-12-26",
-  "2023-12-27",
-  "2023-12-28",
-  "2023-12-29",
-  "2024-01-01",
-  "2024-01-02",
-  "2024-01-03",
-  "2024-01-04",
-  "2024-01-05",
-  "2024-03-29",
-  "2024-04-01",
-  "2024-05-01",
-  "2024-05-09",
-  "2024-05-20",
-  "2024-05-30",
-  "2024-10-03",
-  "2024-10-31",
-  "2024-11-01",
-  "2024-12-24",
-  "2024-12-25",
-  "2024-12-26",
-  "2024-12-27",
-  "2024-12-30",
-  "2024-12-31",
-  "2025-01-01",
-  "2025-01-02",
-  "2025-01-03",
+export const partTimeSchedule = [
+  {
+    title: "Web Dev Foundation",
+    length: "6 Weeks",
+    categories: [
+      {
+        title: "Onboarding",
+        slides:
+          "https://docs.google.com/presentation/d/18HPGHTFBhLzMcALdrfv_zf4RZSz3KwGYzArzLzs9KMg",
+      },
+      {
+        title: "Your Frontend Developer Setup",
+        videos:
+          "https://classroom.coding-bootcamps.eu/products/web-dev-foundation/categories/2149069953",
+        tasks:
+          "https://github.com/coding-bootcamps-eu/web-dev-foundation/tree/main/developer-setup",
+        slides:
+          "https://docs.google.com/presentation/d/1MgywvbSmj7TGK4zSdQDSAg1reqlp9K__tgJEkXlTs-8",
+      },
+      {
+        title: "First Steps With Git",
+        videos:
+          "https://classroom.coding-bootcamps.eu/products/web-dev-foundation/categories/2149061929",
+        tasks:
+          "https://github.com/coding-bootcamps-eu/web-dev-foundation/tree/main/first-steps-with-git",
+        slides:
+          "https://docs.google.com/presentation/d/1-PaZptKth8AEABs4wyTCjcLZ8FcV14o4leRMkS_9mCI",
+      },
+      {
+        title: "HTML Foundation",
+        videos:
+          "https://classroom.coding-bootcamps.eu/products/web-dev-foundation/categories/2148963091",
+        tasks:
+          "https://github.com/coding-bootcamps-eu/web-dev-foundation/tree/main/html-foundation",
+        slides:
+          "https://docs.google.com/presentation/d/1wG3SoVjLjX-EFf0Nho_d1pP786muJ4cDXt0DJt3QCSk",
+      },
+      {
+        title: "CSS Foundation",
+        videos:
+          "https://classroom.coding-bootcamps.eu/products/web-dev-foundation/categories/2148439489",
+        tasks:
+          "https://github.com/coding-bootcamps-eu/web-dev-foundation/tree/main/css-foundation",
+        slides:
+          "https://docs.google.com/presentation/d/1zFr2nDVndzVRG-alTnwAieifHYblnIkuLKDYdghvRoc",
+      },
+      {
+        title: "Advanced CSS",
+        videos:
+          "https://classroom.coding-bootcamps.eu/products/web-dev-foundation/categories/2149042336",
+        tasks:
+          "https://github.com/coding-bootcamps-eu/web-dev-foundation/tree/main/advanced-css",
+        slides:
+          "https://docs.google.com/presentation/d/1K0CbUdITLRgG7NlqqC1yXKdNfRjA3gQAdEI8VRBEVKQ",
+      },
+    ],
+  },
+  {
+    title: "Coding Foundation",
+    length: "6 weeks",
+    categories: [
+      {
+        title: "Introduction to Programming with JavaScript",
+        videos:
+          "https://classroom.coding-bootcamps.eu/products/coding-foundation/categories/2152213077",
+        tasks:
+          "https://github.com/coding-bootcamps-eu/introduction-to-programming-in-js/tree/main/tasks",
+        slides:
+          "https://docs.google.com/presentation/d/1HrZdtcFRgcWFcH2X8_1RM7mtxk9HmOicjSyJktWoVbo/edit#slide=id.g75b8156060_0_0",
+      },
+      {
+        title: "Solving Problems with JavaScript",
+        videos:
+          "https://classroom.coding-bootcamps.eu/products/coding-foundation/categories/2149242930",
+        tasks:
+          "https://github.com/coding-bootcamps-eu/coding-foundation/blob/main/solving-problems-with-javascript/01-solve-katas-on-codewars.md",
+        slides:
+          "https://docs.google.com/presentation/d/1BoHnEwILVQOSAFEi_y6ZDI-oCEozLfCdlHnrVmySYx0",
+      },
+    ],
+  },
+  {
+    title: "Web Apps Foundation",
+    length: "6 weeks",
+    categories: [
+      {
+        title: "Wep App Basics",
+        videos:
+          "https://classroom.coding-bootcamps.eu/products/web-apps-foundation/categories/2149381295",
+        tasks:
+          "https://github.com/coding-bootcamps-eu/web-apps-foundation/tree/main/web-app-basics",
+        slides:
+          "https://docs.google.com/presentation/d/1uD4eFnXEOkJOTPgzSQNdMepNH7N8swBJH5JvLNsnpgs",
+      },
+      {
+        title: "Basic State Management",
+        videos:
+          "https://classroom.coding-bootcamps.eu/products/web-apps-foundation/categories/2149502364",
+        tasks:
+          "https://github.com/coding-bootcamps-eu/web-apps-foundation/tree/main/state-management",
+        slides:
+          "https://docs.google.com/presentation/d/1gx71PtMmQ_7qGm9JQE5YNquAmdewyFriNiOyJSS1ZcY",
+      },
+    ],
+  },
+  {
+    title: "RESTful Backends",
+    length: "3 week",
+    categories: [
+      {
+        title: "Fetch and HTTP Requests",
+        videos:
+          "https://classroom.coding-bootcamps.eu/products/restful-backends/categories/2149521248",
+        tasks:
+          "https://github.com/coding-bootcamps-eu/restful-backends/tree/main/fetch-api-and-http",
+        slides:
+          "https://docs.google.com/presentation/d/1TrjUk7nu9qUTmvqlRl-KoqM5dtf9dc8H5cfQ3SncesE",
+      },
+      {
+        title: "Intro to Node.js and NPM",
+        videos:
+          "https://classroom.coding-bootcamps.eu/products/restful-backends/categories/2149867723",
+        tasks:
+          "https://github.com/coding-bootcamps-eu/restful-backends/tree/main/introduction-to-node-js",
+        slides:
+          "https://docs.google.com/presentation/d/1OSK3dDMifzDmis497pd0asm52wcfcQ1ipUeFDHrz2hY",
+      },
+      {
+        title: "Introduction to RESTful APIs",
+        videos:
+          "https://classroom.coding-bootcamps.eu/products/restful-backends/categories/2149867725",
+        tasks: "https://github.com/coding-bootcamps-eu/restful-backends",
+        slides:
+          "https://docs.google.com/presentation/d/1FFpnTozAK3zMm7_5T1Qp45YYRNTzPo2OsS72KsF2x4A",
+      },
+    ],
+  },
+  {
+    title: "Testing",
+    length: "1 week",
+    categories: [
+      {
+        title: "Intro to Software Testing",
+        videos:
+          "https://classroom.coding-bootcamps.eu/products/refactoring-and-testing/categories/2150583997",
+        slides:
+          "https://docs.google.com/presentation/d/12nai3Z0juEk6m3SSExq9umoVn-Ub8wYpbEh6Sf_iQfo",
+      },
+      {
+        title: "E2E Testing with Cypress",
+        videos:
+          "https://classroom.coding-bootcamps.eu/products/refactoring-and-testing",
+        tasks: "https://github.com/coding-bootcamps-eu/testing-and-refactoring",
+        slides:
+          "https://docs.google.com/presentation/d/12nai3Z0juEk6m3SSExq9umoVn-Ub8wYpbEh6Sf_iQfo",
+      },
+    ],
+  },
+  {
+    title: "Web Apps with Vue.js",
+    length: "6 weeks",
+    categories: [
+      {
+        title: "Vue Basics",
+        videos:
+          "https://classroom.coding-bootcamps.eu/products/webapps-with-vuejs/categories/2149606758",
+        tasks:
+          "https://github.com/coding-bootcamps-eu/web-apps-with-vuejs/tree/main/katas",
+        slides:
+          "https://docs.google.com/presentation/d/16fXnSNeVMWUvHmv24SwoO4rKDG_1dWUem4UJ7UKVduw",
+      },
+      {
+        title: "Vue.js Single Page Applications",
+        videos:
+          "https://classroom.coding-bootcamps.eu/products/webapps-with-vuejs/categories/2149606795",
+        tasks:
+          "https://github.com/coding-bootcamps-eu/web-apps-with-vuejs/tree/main/katas",
+        slides:
+          "https://docs.google.com/presentation/d/13Q8C--3NGFnqZYgk3BjwdXLLEpR_zaSMuC-yPkhIr_w/edit",
+      },
+    ],
+  },
 ];
-
-const getDetailedTopic = function (topic) {
-  const dTopic = scheduleDetails[topic];
-  return dTopic;
-};
-
-export const getDailyClassGoals = () => {
-  const classGoals = [];
-  classNames.forEach((className) => {
-    let studentStartDate = new Date(className);
-    let today = new Date();
-    const workingDays = calculateWorkingDaysSinceCampStart(
-      studentStartDate,
-      today
-    );
-
-    if (className.length > 7) {
-      className = className.substring(0, 7);
-    }
-
-    if (workingDays <= bootcampDays && workingDays > 0) {
-      const schedule = calculateSchedule(studentStartDate, className);
-      classGoals.push({ className, goal: schedule[workingDays - 1] });
-    }
-  });
-
-  return classGoals;
-};
-
-export const calculateStaticSchedule = () => {
-  const staticSchedule = [];
-  for (let topic of defaultSchedule) {
-    topic = Object.assign({}, topic);
-    topic.details = getDetailedTopic(topic.topic);
-    topic.totalTopicDays = topic.days;
-    if (topic.topic === "Onboarding") {
-      delete topic.days;
-      delete topic.totalTopicDays;
-    }
-    if (topic.topic !== "Recap Day") {
-      staticSchedule.push(topic);
-    }
-  }
-  return staticSchedule;
-};
-
-/**
- * Calculate schedule
- * @param {*} startDate when passed the schedule includes a date for each day
- * @returns array of daily topics
- */
-export const calculateSchedule = (startDate, className) => {
-  const calculateDates = startDate !== undefined && startDate !== null;
-
-  let schedule = defaultSchedule;
-  if (className) {
-    schedule = getClassSchedule(className, defaultSchedule, classSchedules);
-  }
-
-  const getNextWorkingDay = () => {
-    startDate.setDate(startDate.getDate() + 1);
-    while (!isWorkingDay(startDate)) {
-      startDate.setDate(startDate.getDate() + 1);
-    }
-  };
-
-  if (calculateDates) {
-    startDate = normalizeDate(startDate);
-  }
-  const dailyTopics = [];
-  let dayInSchedule = 0;
-  schedule.forEach((topic) => {
-    for (let i = 0; i < topic.days; i++) {
-      dayInSchedule++;
-
-      if (
-        calculateDates &&
-        specialDays[formatDate(startDate)] &&
-        className !== "2023-04"
-      ) {
-        do {
-          const specialDay = specialDays[formatDate(startDate)];
-          const dailyTopic = {
-            topic: specialDay,
-            dayOfTopic: 1,
-            totalTopicDays: 1,
-            dayInSchedule: dayInSchedule,
-            date: new Date(startDate),
-          };
-          dailyTopics.push(dailyTopic);
-          getNextWorkingDay();
-          dayInSchedule++;
-        } while (specialDays[formatDate(startDate)]);
-      }
-
-      const dailyTopic = {
-        topic: topic.topic,
-        dayOfTopic: i + 1,
-        totalTopicDays: topic.days,
-        dayInSchedule: dayInSchedule,
-        details: getDetailedTopic(topic.topic),
-      };
-
-      if (calculateDates) {
-        dailyTopic.date = new Date(startDate);
-      }
-
-      dailyTopics.push(dailyTopic);
-
-      if (calculateDates) {
-        getNextWorkingDay();
-      }
-    }
-  });
-
-  //Bonus Tage
-  const days = Object.keys(dailyTopics).length;
-  if (days < bootcampDays) {
-    const openDays = bootcampDays - days;
-    for (let i = 0; i < openDays; i++) {
-      dayInSchedule++;
-      const dailyTopic = {
-        topic: "Abschlussprojekt",
-        dayOfTopic: i + 1,
-        totalTopicDays: openDays,
-        dayInSchedule: dayInSchedule,
-      };
-
-      if (calculateDates) {
-        dailyTopic.date = new Date(startDate);
-      }
-
-      dailyTopics.push(dailyTopic);
-
-      if (calculateDates) {
-        getNextWorkingDay();
-      }
-    }
-  }
-
-  return dailyTopics;
-};
-
-// Calculate the number of working days for a
-// specific bootcamp start date and a current date
-export const calculateWorkingDaysSinceCampStart = (startDate, calledDate) => {
-  startDate = normalizeDate(startDate);
-  calledDate = normalizeDate(calledDate);
-  let workingDays = 0;
-
-  while (startDate <= calledDate) {
-    if (isWorkingDay(startDate)) {
-      workingDays++;
-    }
-    startDate.setDate(startDate.getDate() + 1);
-  }
-  return workingDays;
-};
-
-export const normalizeDate = (d) => {
-  const dd = String(d.getDate()).padStart(2, "0");
-  const mm = String(d.getMonth() + 1).padStart(2, "0"); //January is 0!
-  const yyyy = d.getFullYear();
-  return new Date(yyyy + "-" + mm + "-" + dd);
-};
-
-export const formatDate = (d) => {
-  const dd = String(d.getDate()).padStart(2, "0");
-  const mm = String(d.getMonth() + 1).padStart(2, "0"); //January is 0!
-  const yyyy = d.getFullYear();
-  return yyyy + "-" + mm + "-" + dd;
-};
-
-export const formatTime = (d) => {
-  const hh = String(d.getHours()).padStart(2, "0");
-  const mm = String(d.getMinutes()).padStart(2, "0");
-
-  return hh + ":" + mm;
-};
-
-const isWorkingDay = (day) => {
-  return (
-    day.getDay() !== 0 &&
-    day.getDay() !== 6 &&
-    !holidays.includes(formatDate(day))
-  );
-};

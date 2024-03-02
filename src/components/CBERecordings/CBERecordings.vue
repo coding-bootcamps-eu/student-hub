@@ -135,7 +135,6 @@ import {
   where,
   updateDoc,
 } from "firebase/firestore";
-import { defaultSchedule } from "../../schedule/schedule";
 
 export default {
   name: "CBERecordings",
@@ -168,10 +167,6 @@ export default {
       }
 
       return recordings;
-    },
-    scheduleTopics() {
-      // Set is used to remove duplicates
-      return new Set(defaultSchedule.map((d) => d.topic));
     },
   },
   methods: {
