@@ -3,7 +3,6 @@ import Login from "../views/Login.vue";
 import Guest from "../views/Guest.vue";
 import Lobby from "../views/Lobby.vue";
 import Schedule from "../views/Schedule.vue";
-import Meetings from "../views/Meetings.vue";
 import Zoom from "../views/Zoom.vue";
 import Slides from "../views/Slides.vue";
 import Students from "../views/Students.vue";
@@ -66,11 +65,6 @@ const routes = [
     path: "/schedule",
     name: "Schedule",
     component: Schedule,
-  },
-  {
-    path: "/meetings",
-    name: "Meetings",
-    component: Meetings,
   },
   {
     path: "/zoom",
