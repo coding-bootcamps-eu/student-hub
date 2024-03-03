@@ -1,3 +1,4 @@
+/* GENERAL STYLINGS */
 *,
 *::before,
 **:after {
@@ -5,29 +6,46 @@
 }
 
 :root {
-  --radius-outer: 0.25rem;
+  --radius-outer: 0.5rem;
   --radius-inner: calc(var(--radius-outer) / 3);
 
   --clr-accent: hsl(268, 75%, 44%);
   --clr-accent-light: hsl(268, 75%, 90%);
   --clr-accent-dark: hsl(268, 75%, 25%);
+
+  --clr-background: hsl(268, 75%, 97%);
+  --clr-text: hsl(0, 0%, 17%);
+  --clr-text-lighter: hsl(0, 0%, 50%);
   --clr-white: white;
+
+  --ff-regular: "Source Sans Pro";
+  --ff-heading: "Montserrat";
 }
 
 html {
-  background-color: #ffffff;
+  background-color: var(--clr-background);
   font-family: "Source Sans Pro", sans-serif;
-  font-size: 16px;
-  min-height: 100%;
-  /* TODO: Add Media Query */
   scroll-behavior: smooth;
 }
 
 body {
-  max-width: 720px;
-  width: 100%;
   margin: 0 auto;
-  background-color: #e5e5e5;
+}
+
+#app {
+  display: grid;
+  grid-template-columns: 1rem 1fr 1rem;
+}
+
+.main-header,
+main,
+.main-footer {
+  grid-column: 2 / 3;
+}
+
+h1 {
+  color: var(--clr-accent);
+  font-size: 125%;
 }
 
 h1,
@@ -36,19 +54,120 @@ h3,
 h4,
 h5,
 h6 {
-  font-family: "Montserrat", sans-serif;
+  font-family: var(--ff-heading), sans-serif;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+ul,
+menu,
+p {
+  margin-block: 0;
+}
+
+nav > :is(menu, ul) {
+  list-style-type: none;
+
+  padding-left: 0;
+}
+
+label,
+button {
+  cursor: pointer;
+}
+
+/* MAIN HEADER */
+.main-header {
+  background-color: var(--clr-white);
+  box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px;
+
+  padding: 1rem;
+  border-radius: var(--radius-outer);
+  margin-block: 1rem;
+
+  display: grid;
+  grid-template-columns: 1fr auto;
+  align-items: center;
+
+  position: sticky;
+  top: 1rem;
+}
+
+.toggle-menu__handle {
+  all: unset;
+  position: absolute;
+}
+
+.toggle-menu__icon {
+  background-color: var(--clr-accent);
+  color: var(--clr-white);
+
+  width: 1.5rem;
+  padding: 0.25rem;
+  border-radius: var(--radius-inner);
+
+  position: absolute;
+  right: 1rem;
+  top: 1.5rem;
+}
+
+.header-nav__container {
+  grid-row: 2 / 3;
+  grid-column: 1 / -1;
+}
+
+.header-nav__list {
+  text-align: center;
+
+  padding-block: 2rem 0;
+
+  position: absolute;
+  top: -1000%;
+  justify-self: center;
+}
+
+.header-nav__list.shown {
+  position: static;
+  display: flex;
+
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.header-nav__list > * {
+  grid-column: 1 / -1;
+}
+
+.header-nav__item a {
+  color: var(--clr-accent);
+  font-size: 115%;
+  text-decoration: none;
+}
+
+/* PAGE HEADERS */
+.page-heading__container {
+  border-bottom: 1px solid var(--clr-accent);
+  padding-bottom: 1rem;
+  margin-bottom: 1rem;
+}
+
+.page-heading__container > * {
+  margin-block: 0;
 }
 
 .page-heading__title {
-  margin-bottom: 0;
-  color: #262626;
+  color: var(--clr-accent);
 }
 
 .page-heading__subtitle {
-  margin: 0;
-  color: #999999;
+  color: var(--clr-text-lighter);
 }
 
+/* TABS WITH UNDERLINE AS INDICATOR */
 input[type="radio"].tab {
   all: unset;
   position: absolute;
@@ -65,4 +184,61 @@ label.tab-text {
 
 input[type="radio"].tab:checked + label.tab-text {
   text-decoration-color: var(--clr-accent);
+}
+
+.sr-only {
+  font-size: 0;
+  position: absolute;
+}
+
+/* LARGE SCREENS */
+@media screen and (min-width: 768px) {
+  #app {
+    grid-template-columns: 2rem 1fr 2rem repeat(4, 1fr) 2rem;
+  }
+
+  .main-header {
+    grid-column: 2 / 3;
+
+    display: block;
+
+    align-self: start;
+  }
+
+  main,
+  .main-footer {
+    background-color: var(--clr-white);
+
+    padding: 1rem;
+    margin-block: 1rem;
+    border-radius: var(--radius-outer);
+
+    grid-column: 4 / -2;
+  }
+
+  .toggle-menu__icon,
+  .toggle-menu__handle {
+    display: none;
+  }
+
+  .header-nav__list,
+  .header-nav__list.shown {
+    text-align: left;
+
+    position: static !important;
+
+    display: flex;
+    flex-direction: column;
+  }
+
+  .header-nav__container a {
+    display: block;
+    padding: 0.5rem;
+    border-radius: var(--radius-inner);
+  }
+
+  .header-nav__container a.router-link-active {
+    background-color: var(--clr-accent);
+    color: white;
+  }
 }
