@@ -1,7 +1,7 @@
 <template>
   <header class="page-heading__container">
     <h2 class="page-heading__title">{{ title }}</h2>
-    <p class="page-heading__subtitle">{{ sub }}</p>
+    <p class="page-heading__subtitle" v-if="sub">{{ sub }}</p>
   </header>
 </template>
 <script>
