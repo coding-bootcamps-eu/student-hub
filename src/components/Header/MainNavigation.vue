@@ -49,9 +49,6 @@
             <router-link to="/schedule">Schedule</router-link>
           </li>
           <li class="header-nav__item">
-            <router-link to="/meetings">Meetings</router-link>
-          </li>
-          <li class="header-nav__item">
             <router-link to="/recordings">Recordings</router-link>
           </li>
           <li class="header-nav__item">
