@@ -56,10 +56,16 @@ body {
   --header-end: 3;
   --content-start: 2;
   --content-end: 3;
+  --inner-padding: 0;
 
   display: grid;
   grid-template-columns: var(--app-margin) 1fr var(--app-margin);
 }
+
+main {
+  padding: var(--inner-padding);
+}
+
 main,
 .main-footer {
   grid-column: var(--content-start) / var(--content-end);
@@ -121,6 +127,7 @@ button {
 
   position: sticky;
   top: var(--header-margin);
+  z-index: 10;
 }
 
 .toggle-menu__handle {
@@ -225,6 +232,26 @@ input[type="radio"].tab:checked + label.tab-text {
   color: var(--clr-white);
 }
 
+.btn {
+  --background: var(--clr-white);
+  --border-color: var(--clr-accent);
+  --color: var(--clr-accent);
+
+  font-family: inherit;
+  background-color: var(--background);
+  color: var(--color);
+  font-size: 100%;
+
+  padding: 0.5rem 1.5rem;
+  border: 2px solid var(--border-color);
+  border-radius: var(--radius-inner);
+}
+
+.btn-accent {
+  --background: var(--clr-accent);
+  --color: var(--clr-white);
+}
+
 .sr-only {
   font-size: 0;
   position: absolute;
@@ -239,6 +266,7 @@ input[type="radio"].tab:checked + label.tab-text {
     --header-end: 3;
     --content-start: 4;
     --content-end: -2;
+    --inner-padding: var(--s-large);
 
     grid-template-columns:
       var(--app-margin) 1fr var(--app-margin) repeat(3, 1fr)
@@ -258,6 +286,10 @@ input[type="radio"].tab:checked + label.tab-text {
     padding: var(--s-base);
     margin-block: var(--s-base);
     border-radius: var(--radius-outer);
+  }
+
+  main {
+    padding: var(--s-xl);
   }
 
   /* REMOVE TOGGLE FOR NAV ON DESKTOP */
