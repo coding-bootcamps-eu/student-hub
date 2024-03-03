@@ -14,12 +14,30 @@
   --clr-accent-dark: hsl(268, 75%, 25%);
 
   --clr-background: hsl(268, 75%, 97%);
+  --clr-background-accent-card: linear-gradient(
+    266deg,
+    hsl(268, 75%, 40%) 0%,
+    hsl(268, 75%, 44%) 50%,
+    hsl(268, 75%, 40%) 100%
+  );
   --clr-text: hsl(0, 0%, 17%);
   --clr-text-lighter: hsl(0, 0%, 50%);
   --clr-white: white;
 
   --ff-regular: "Source Sans Pro";
   --ff-heading: "Montserrat";
+
+  --s-base: 1rem;
+
+  --s-medium: calc(var(--s-base) * 1.5);
+  --s-large: calc(var(--s-base) * 2);
+  --s-xl: calc(var(--s-base) * 3);
+
+  --s-small: calc(var(--s-base) * 0.75);
+  --s-xs: calc(var(--s-base) * 0.5);
+  --s-xxs: calc(var(--s-base) * 0.25);
+
+  --card-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px;
 }
 
 html {
@@ -33,14 +51,18 @@ body {
 }
 
 #app {
-  display: grid;
-  grid-template-columns: 1rem 1fr 1rem;
-}
+  --app-margin: var(--s-base);
+  --header-start: 2;
+  --header-end: 3;
+  --content-start: 2;
+  --content-end: 3;
 
-.main-header,
+  display: grid;
+  grid-template-columns: var(--app-margin) 1fr var(--app-margin);
+}
 main,
 .main-footer {
-  grid-column: 2 / 3;
+  grid-column: var(--content-start) / var(--content-end);
 }
 
 h1 {
@@ -82,19 +104,23 @@ button {
 
 /* MAIN HEADER */
 .main-header {
-  background-color: var(--clr-white);
-  box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px;
+  --header-margin: var(--s-base);
 
-  padding: 1rem;
+  grid-column: var(--header-start) / var(--header-end);
+
+  background-color: var(--clr-white);
+  box-shadow: var(--card-shadow);
+
+  padding: var(--header-margin);
   border-radius: var(--radius-outer);
-  margin-block: 1rem;
+  margin-block: var(--header-margin);
 
   display: grid;
   grid-template-columns: 1fr auto;
   align-items: center;
 
   position: sticky;
-  top: 1rem;
+  top: var(--header-margin);
 }
 
 .toggle-menu__handle {
@@ -106,13 +132,13 @@ button {
   background-color: var(--clr-accent);
   color: var(--clr-white);
 
-  width: 1.5rem;
-  padding: 0.25rem;
+  width: var(--s-medium);
+  padding: var(--s-xxs);
   border-radius: var(--radius-inner);
 
   position: absolute;
-  right: 1rem;
-  top: 1.5rem;
+  right: var(--header-margin);
+  top: var(--s-medium);
 }
 
 .header-nav__container {
@@ -123,7 +149,7 @@ button {
 .header-nav__list {
   text-align: center;
 
-  padding-block: 2rem 0;
+  padding-block: var(--s-large) 0;
 
   position: absolute;
   top: -1000%;
@@ -151,8 +177,8 @@ button {
 /* PAGE HEADERS */
 .page-heading__container {
   border-bottom: 1px solid var(--clr-accent);
-  padding-bottom: 1rem;
-  margin-bottom: 1rem;
+  padding-bottom: var(--s-base);
+  margin-bottom: var(--s-base);
 }
 
 .page-heading__container > * {
@@ -177,13 +203,26 @@ label.tab-text {
   color: var(--clr-accent);
   text-decoration: underline;
   text-decoration-thickness: 1px;
-  text-underline-offset: 0.25rem;
+  text-underline-offset: var(--s-xxs);
   text-decoration-color: transparent;
   cursor: pointer;
 }
 
 input[type="radio"].tab:checked + label.tab-text {
   text-decoration-color: var(--clr-accent);
+}
+
+.card {
+  box-shadow: rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px;
+
+  padding: var(--s-base);
+  border-radius: var(--radius-outer);
+}
+
+.card-accent {
+  background: var(--clr-background-accent-card);
+
+  color: var(--clr-white);
 }
 
 .sr-only {
@@ -193,13 +232,20 @@ input[type="radio"].tab:checked + label.tab-text {
 
 /* LARGE SCREENS */
 @media screen and (min-width: 768px) {
+  /* GRID PAGE LAYOUT WITH HEADER AS SIDEBAR*/
   #app {
-    grid-template-columns: 2rem 1fr 2rem repeat(4, 1fr) 2rem;
+    --app-margin: 2rem;
+    --header-start: 2;
+    --header-end: 3;
+    --content-start: 4;
+    --content-end: -2;
+
+    grid-template-columns:
+      var(--app-margin) 1fr var(--app-margin) repeat(3, 1fr)
+      var(--app-margin);
   }
 
   .main-header {
-    grid-column: 2 / 3;
-
     display: block;
 
     align-self: start;
@@ -209,13 +255,12 @@ input[type="radio"].tab:checked + label.tab-text {
   .main-footer {
     background-color: var(--clr-white);
 
-    padding: 1rem;
-    margin-block: 1rem;
+    padding: var(--s-base);
+    margin-block: var(--s-base);
     border-radius: var(--radius-outer);
-
-    grid-column: 4 / -2;
   }
 
+  /* REMOVE TOGGLE FOR NAV ON DESKTOP */
   .toggle-menu__icon,
   .toggle-menu__handle {
     display: none;
@@ -232,20 +277,33 @@ input[type="radio"].tab:checked + label.tab-text {
   }
 
   .header-nav__item + .header-nav__item {
-    margin-top: 0.5rem;
+    margin-top: var(--s-xs);
   }
 
   .header-nav__container a {
     display: block;
-    padding: 0.5rem;
+    padding: var(--s-base) var(--s-xs);
     border-radius: var(--radius-inner);
   }
 
   .header-nav__container a:hover {
     background-color: var(--clr-accent-light);
   }
+
   .header-nav__container a.router-link-active {
     background-color: var(--clr-accent);
     color: white;
+  }
+
+  .card {
+    border-radius: var(--radius-inner);
+  }
+}
+
+@media screen and (min-width: 1200px) {
+  #app {
+    grid-template-columns:
+      var(--app-margin) 1fr var(--app-margin) repeat(4, 1fr)
+      var(--app-margin);
   }
 }
