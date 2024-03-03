@@ -231,12 +231,19 @@ input[type="radio"].tab:checked + label.tab-text {
     flex-direction: column;
   }
 
+  .header-nav__item + .header-nav__item {
+    margin-top: 0.5rem;
+  }
+
   .header-nav__container a {
     display: block;
     padding: 0.5rem;
     border-radius: var(--radius-inner);
   }
 
+  .header-nav__container a:hover {
+    background-color: var(--clr-accent-light);
+  }
   .header-nav__container a.router-link-active {
     background-color: var(--clr-accent);
     color: white;
