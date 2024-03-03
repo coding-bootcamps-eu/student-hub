@@ -1,34 +1,61 @@
 <template>
-  <header class="page-heading">
-    <h2 class="page-heading__title">Schedule</h2>
-  </header>
+  <PageHeader title="Schedule" />
   <div class="schedule">
-    <div>
-      <p>Select a class to see its schedule:</p>
-      <form class="tabs">
-        <div class="tab-wrapper" v-for="className in classes" :key="className">
-          <input
-            type="radio"
-            :id="className"
-            name="class-tab"
-            :value="className"
-            v-model="selectedClass"
-          />
-          <label :for="className">
-            {{ className }}
-          </label>
-        </div>
-      </form>
-    </div>
+    <form class="tabs__container">
+      <div class="tab-wrapper" v-for="className in classes" :key="className">
+        <input
+          type="radio"
+          :id="className"
+          name="class-tab"
+          :value="className"
+          v-model="selectedClass"
+          class="tab"
+          @change="selectedClass = className"
+        />
+        <label :for="className" class="tab-text">
+          {{ className }}
+        </label>
+      </div>
+    </form>
     <ul class="schedule-list">
       <li
-        class="module-card"
+        class="module-card card card-accent"
         v-for="module in selectedSchedule"
         :key="module.title"
       >
-        <h3 class="module-title">{{ module.title }}</h3>
-        <p class="module-length">Length: {{ module.length }}</p>
-        <ul class="categories">
+        <header class="module__header">
+          <div class="module__header-content">
+            <h3 class="module-title">{{ module.title }}</h3>
+            <p class="module-length">Length: {{ module.length }}</p>
+          </div>
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            fill="currentColor"
+            class="toggle-accordeon"
+            viewBox="0 0 16 16"
+            v-if="!module.isShown"
+            @click="module.isShown = !module.isShown"
+          >
+            <path
+              fill-rule="evenodd"
+              d="M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708"
+            />
+          </svg>
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            fill="currentColor"
+            class="toggle-accordeon"
+            viewBox="0 0 16 16"
+            v-if="module.isShown"
+            @click="module.isShown = !module.isShown"
+          >
+            <path
+              fill-rule="evenodd"
+              d="M7.646 4.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1-.708.708L8 5.707l-5.646 5.647a.5.5 0 0 1-.708-.708z"
+            />
+          </svg>
+        </header>
+        <ul class="categories" v-show="module.isShown">
           <li
             class="category"
             v-for="category of module.categories"
@@ -62,19 +89,24 @@
   </div>
 </template>
 <script>
+import PageHeader from "@/components/PageHeader.vue";
 import { fullTimeSchedule, partTimeSchedule } from "../schedule/schedule.js";
 export default {
   name: "Schedule",
+  components: {
+    PageHeader,
+  },
+
   data() {
     return {
-      selectedClass: "Vollzeit",
+      selectedClass: "",
       classes: ["Vollzeit", "Teilzeit"],
       fullTimeSchedule: fullTimeSchedule,
       partTimeSchedule: partTimeSchedule,
     };
   },
-  created() {
-    if (this.$store.state.isFullTimeStudent) {
+  mounted() {
+    if (this.$store.state.fulltime) {
       this.selectedClass = "Vollzeit";
     } else {
       this.selectedClass = "Teilzeit";
@@ -89,50 +121,34 @@ export default {
       }
     },
   },
+  methods: {
+    toggleAccordeon() {},
+  },
 };
 </script>
 
 <style scoped>
-.tabs {
+.schedule {
+  container-type: inline-size;
+  container-name: content;
+}
+
+.tabs__container {
   margin-block: 1rem;
 
   display: flex;
   gap: 1rem;
 }
 
-.tab-wrapper input[type="radio"] {
-  all: unset;
-  position: absolute;
-}
-
-.tab-wrapper label {
-  cursor: pointer;
-
-  border: 2px solid black;
-  border-radius: 4px;
-  padding: 0.25rem 0.75rem;
-}
-
-.tab-wrapper input:checked + label {
-  background-color: #262626;
-  color: white;
-}
-
-.tab-wrapper input:focus + label {
-  outline: 2px solid #999999;
-  outline-offset: 2px;
-}
-
-.tab-wrapper input:hover + label {
-  background-color: #999;
-}
-
 .schedule-list {
+  --columns: 1;
+
   list-style-type: none;
   padding: 0;
 
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: repeat(var(--columns), 1fr);
+  align-items: start;
   gap: 1rem;
 }
 
@@ -145,6 +161,16 @@ export default {
 
 .module-card * {
   margin: 0;
+}
+
+.module__header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.toggle-accordeon {
+  width: var(--s-medium);
 }
 
 .categories {
@@ -183,5 +209,11 @@ export default {
   text-decoration: underline;
   text-underline-offset: 0.25rem;
   text-decoration-thickness: 1px;
+}
+
+@container content (min-width: 768px) {
+  .schedule-list {
+    --columns: 2;
+  }
 }
 </style>
