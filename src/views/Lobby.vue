@@ -108,7 +108,12 @@ export default {
 
   padding: var(--s-base);
   margin-top: 0;
+
   border-radius: var(--radius-outer);
+}
+
+.page-heading:has(+ .lobby-grid__container) {
+  margin-block: 0 var(--s-base);
 }
 
 .layout-switcher__wrapper {
