@@ -42,17 +42,16 @@
           <li class="header-nav__item">
             <router-link to="/">Lobby</router-link>
           </li>
-          <li
-            class="header-nav__item"
-            v-if="this.$store.getters.canShowSchedule"
-          >
-            <router-link to="/schedule">Schedule</router-link>
+          <li v-if="isTeacher" class="header-nav__item-header"></li>
+          <li class="header-nav__item" v-if="isTeacher">
+            <router-link to="/students">Students</router-link>
           </li>
           <li class="header-nav__item">
             <router-link to="/recordings">Recordings</router-link>
           </li>
+          <li v-if="isTeacher" class="header-nav__item-header"></li>
           <li class="header-nav__item">
-            <router-link to="/students">Students</router-link>
+            <router-link to="/schedule">Schedule</router-link>
           </li>
           <li class="header-nav__item">
             <router-link to="/zoom">Zoom Rooms</router-link>
@@ -97,6 +96,10 @@ export default {
       return {
         shown: this.showNavigation,
       };
+    },
+
+    isTeacher() {
+      return this.$store.getters.isTeacher;
     },
   },
   watch: {
