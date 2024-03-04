@@ -22,13 +22,6 @@
         <option value="Live-Session Teilzeit">Live-Session Teilzeit</option>
         <option value="Abschlusspräsentation">Abschlusspräsentation</option>
       </select>
-      <label for="name">Topic:</label
-      ><select class="select__classes" name="classes" v-model="selectedTopic">
-        <option value="">Any Topic</option>
-        <option v-for="topic in scheduleTopics" :value="topic" :key="topic">
-          {{ topic }}
-        </option>
-      </select>
     </div>
     <article class="recordings__grid">
       <article
@@ -45,21 +38,6 @@
           <p class="recording__info-text timestamp">
             {{ recording.recordingData.date }},
             {{ recording.recordingData.time }}
-          </p>
-          <select
-            name="scheduleTopic"
-            id=""
-            v-model="recording.recordingData.scheduleTopic"
-            @input="updateRecordingTopic(recording, $event.target.value)"
-            v-if="this.$store.getters.isTeacher"
-          >
-            <option value="-">-</option>
-            <option v-for="topic in scheduleTopics" :value="topic" :key="topic">
-              {{ topic }}
-            </option>
-          </select>
-          <p class="topic" v-if="this.$store.getters.isStudent">
-            {{ recording.recordingData.scheduleTopic }}
           </p>
         </section>
         <section class="recording__download">
