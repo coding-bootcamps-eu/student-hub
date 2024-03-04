@@ -36,6 +36,7 @@
       class="toggle-menu__handle"
       v-model="showNavigation"
     />
+
     <menu class="header-nav__list" :class="isShown">
       <template v-if="isLoggedIn">
         <template v-if="!this.$store.getters.isGuest">
