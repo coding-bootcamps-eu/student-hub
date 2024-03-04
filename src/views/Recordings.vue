@@ -1,10 +1,10 @@
 <template>
-  <CBERecordings />
+  <RecordingsList />
 </template>
 <script>
-import CBERecordings from "../components/CBERecordings/CBERecordings.vue";
+import RecordingsList from "../components/RecordingsList.vue";
 export default {
   name: "LR-Main-View",
-  components: { CBERecordings },
+  components: { RecordingsList },
 };
 </script>

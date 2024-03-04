@@ -1,5 +1,5 @@
 <template>
-  <section>
+  <section class="content__container">
     <form
       class="view-form__wrapper"
       @change="showStudents = $event.target.value === 'students'"
@@ -26,7 +26,10 @@
       class="students-wrong-meta-data"
       v-if="this.$store.getters.isTeacher && showStudents === false"
     >
-      <h3>Guests ({{ guests.length }})</h3>
+      <PageHeader
+        class="page-header__container"
+        :title="'Guests: ' + guests.length"
+      />
       <ul class="students-list">
         <li
           v-for="user in guests"
@@ -61,6 +64,10 @@
       </ul>
     </section>
     <section class="students" v-if="showStudents">
+      <PageHeader
+        class="page-header__container"
+        :title="'Students: ' + filteredStudents.length"
+      />
       <input
         type="search"
         name="search-students"
@@ -109,12 +116,26 @@
           <label for="time-model-parttime" class="tab-text">Part time</label>
         </div>
       </form>
-      <p>There are {{ filteredStudents.length }} students 🎉</p>
+      <div class="bulk-edit__wrapper">
+        <button class="btn btn-accent" @click="startBulkEdit" v-if="!bulkEdit">
+          Bulk Edit
+        </button>
+        <button class="btn" @click="stopBulkEdit" v-if="bulkEdit">
+          Cancel Bulk Edit
+        </button>
+        <button
+          class="btn btn-accent"
+          @click.prevent="updateMultipleUsers"
+          v-if="isMultipleEditsMode"
+        >
+          Update All
+        </button>
+      </div>
       <ul class="students-list">
         <li
           v-for="student in filteredStudents"
           :key="student.data.uid"
-          class="student-list__item"
+          class="student-list__item card"
         >
           <form
             v-if="this.$store.getters.isTeacher"
@@ -133,10 +154,9 @@
                 </span>
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
-                  width="16"
-                  height="16"
                   fill="currentColor"
-                  class="bi bi-pencil-square"
+                  class="edit-icon"
+                  :class="{ active: student.editMode }"
                   viewBox="0 0 16 16"
                 >
                   <path
@@ -148,18 +168,16 @@
                   />
                 </svg>
               </label>
-              <span v-if="!student.editMode" class="student__name">{{
-                student.data.githubName
-              }}</span>
               <input
                 type="text"
                 name="student-name"
                 :id="'student-name' + student.uid"
+                class="edit-name"
                 v-model="student.data.githubName"
                 v-show="student.editMode"
               />
             </div>
-            <div class="role__wrapper">
+            <div class="role__wrapper" v-if="student.editMode">
               <div class="role__item" v-for="role of roles" :key="role">
                 <input
                   type="radio"
@@ -173,13 +191,12 @@
                 }}</label>
               </div>
             </div>
-            <button
-              :disabled="student.isEdited !== true"
-              @click.prevent="updateUser(student)"
-              class="btn-update"
-            >
-              Update User
-            </button>
+            <span v-if="!student.editMode" class="student__name">{{
+              student.data.githubName
+            }}</span>
+            <span v-if="!student.editMode" class="role-tab selected-role-tab">
+              {{ student.data.role }}
+            </span>
           </form>
           <div class="student__info">
             <a
@@ -202,20 +219,22 @@
             >
             <span class="class">{{ getClassName(student.data) }}</span>
           </div>
+          <button
+            :disabled="student.isEdited !== true"
+            @click.prevent="updateUser(student)"
+            v-if="student.editMode"
+            class="btn-update"
+          >
+            Update User
+          </button>
         </li>
       </ul>
     </section>
-    <button
-      class="btn-update btn-update-all"
-      @click.prevent="updateMultipleUsers"
-      v-if="editedStudents.length > 1"
-    >
-      Update All
-    </button>
   </section>
 </template>
 
 <script>
+import PageHeader from "@/components/PageHeader.vue";
 import {
   query,
   where,
@@ -234,6 +253,11 @@ export default {
   created() {
     this.loadStudents();
   },
+
+  components: {
+    PageHeader,
+  },
+
   data() {
     return {
       timeModelFilter: defaultTimeModelFilter,
@@ -244,9 +268,26 @@ export default {
       searchQuery: "",
       showStudents: true,
       editedStudents: [],
+      bulkEdit: false,
     };
   },
   methods: {
+    startBulkEdit() {
+      this.bulkEdit = true;
+
+      this.filteredStudents.forEach(function (student) {
+        student.editMode = true;
+      });
+    },
+
+    stopBulkEdit() {
+      this.bulkEdit = false;
+
+      this.filteredStudents.forEach(function (student) {
+        student.editMode = false;
+      });
+    },
+
     editStudent(student) {
       student.isEdited = true;
 
@@ -341,6 +382,9 @@ export default {
   },
   watch: {},
   computed: {
+    isMultipleEditsMode() {
+      return this.editedStudents.length > 1;
+    },
     classNames() {
       const classNames = this.students
         .map((s) => s.data.className)
@@ -399,10 +443,19 @@ export default {
 </script>
 
 <style scoped>
+.content__container {
+  container-type: inline-size;
+  container-name: content;
+}
+
 .view-form__wrapper {
   display: flex;
   align-items: center;
   gap: 1rem;
+}
+
+.page-header__container {
+  margin-block: var(--s-base);
 }
 
 .missing-meta-form {
@@ -411,18 +464,14 @@ export default {
   grid-gap: 0.5rem;
 }
 
-.students-wrong-meta-data {
-  margin-bottom: 4rem;
-}
-
 #search-students {
   font-size: 100%;
 
   width: 100%;
   border: 2px solid var(--clr-accent);
-  border-radius: 3rem;
+  border-radius: var(--radius-outer);
   padding: 0.5rem 1.5rem;
-  margin-block: 2rem;
+  margin-bottom: var(--s-large);
 }
 
 #class-name {
@@ -438,6 +487,8 @@ export default {
   background-color: var(--clr-accent-light);
 
   padding: 1rem;
+  margin-block: 1rem;
+  border-radius: var(--radius-inner);
 }
 
 .time-models__wrapper {
@@ -447,12 +498,24 @@ export default {
   gap: 1rem;
 }
 
+.bulk-edit__wrapper {
+  display: flex;
+  gap: var(--s-base);
+}
+
+.length {
+  margin-block: var(--s-base);
+}
+
 .students-list {
+  --columns: 1;
+
   padding: 0;
+  margin-block: var(--s-base);
 
   display: grid;
-  grid-template-columns: 1fr;
-  gap: 1rem;
+  grid-template-columns: repeat(var(--columns), 1fr);
+  gap: var(--s-large);
 }
 
 .student-list__item {
@@ -461,9 +524,42 @@ export default {
 
   list-style-type: none;
 
-  padding: 2rem;
+  padding: var(--s-large) var(--s-base);
   border: 1px solid var(--clr-accent);
   border-radius: var(--radius-outer);
+
+  position: relative;
+
+  overflow: hidden;
+}
+
+.edit-icon {
+  color: white;
+  background-color: var(--clr-accent);
+
+  width: var(--s-base);
+  padding: var(--s-small);
+  border-radius: 0 0 0 var(--radius-inner);
+
+  position: absolute;
+  top: 0;
+  right: 0;
+}
+
+.edit-icon.active {
+  background-color: var(--clr-white);
+  color: var(--clr-accent);
+}
+
+.edit-name {
+  all: unset;
+
+  color: var(--clr-accent);
+  font-size: 125%;
+  font-weight: 600;
+  font-family: inherit;
+
+  border-bottom: 1px solid var(--clr-accent);
 }
 
 .name {
@@ -495,18 +591,27 @@ export default {
   position: absolute;
 }
 
-.role__wrapper .role-tab {
+.role-tab {
   background-color: inherit;
   text-transform: capitalize;
+  color: var(--clr-text-lighter);
+  font-size: 75%;
 
   border: 1px solid var(--clr-accent);
   border-radius: var(--radius-inner);
   padding: 0.25rem 0.75rem;
 }
 
-.role__wrapper input[type="radio"]:checked + .role-tab {
-  background-color: var(--clr-accent-dark);
-  color: var(--clr-accent-light);
+.role__wrapper input[type="radio"]:checked + .role-tab,
+.selected-role-tab {
+  background-color: var(--clr-accent-light);
+  color: var(--clr-accent);
+}
+
+.selected-role-tab {
+  margin-block: var(--s-base);
+  display: block;
+  width: fit-content;
 }
 
 .btn-update {
@@ -562,9 +667,47 @@ export default {
   bottom: 1rem;
 }
 
-@media screen and (max-width: 768px) {
+@container content (min-width: 768px) {
+  #search-students {
+    border-radius: var(--radius-inner);
+  }
+
   .students-list {
-    grid-template-columns: 1fr;
+    --columns: 2;
+  }
+
+  .student-list__item {
+    border-radius: var(--radius-inner);
+  }
+
+  .role-tab {
+    font-size: 100%;
+  }
+}
+
+@media screen and (min-width: 768px) {
+  .view-form__wrapper {
+    background-color: var(--clr-accent);
+
+    padding: var(--inner-padding) calc(var(--inner-padding) * 1.5);
+    margin: calc(var(--inner-padding) * -1.5) calc(var(--inner-padding) * -1.5)
+      0 calc(var(--inner-padding) * -1.5);
+    border-radius: var(--radius-outer) var(--radius-outer) 0 0;
+
+    gap: var(--s-large);
+  }
+
+  .view-form__wrapper > .tab-text {
+    color: white;
+    font-size: 115%;
+  }
+
+  .view-form__wrapper > .tab:checked + .tab-text {
+    text-decoration-color: white;
+  }
+
+  .page-header__container {
+    margin-block: var(--s-large);
   }
 }
 </style>
