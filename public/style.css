@@ -181,6 +181,11 @@ button {
   text-decoration: none;
 }
 
+.header-nav__item-header {
+  margin-block: var(--s-xs);
+  border-top: 1px solid var(--clr-accent-light);
+}
+
 /* PAGE HEADERS */
 .page-heading__container {
   border-bottom: 1px solid var(--clr-accent);
