@@ -1,5 +1,5 @@
 <template>
-  <footer>
+  <footer class="main-footer">
     <div class="cbe__main-footer">
       <a href="https://www.instagram.com/codingbootcamps.eu/" target="_blank">
         <svg

@@ -1,9 +1,9 @@
 <template>
-  <section class="recording__container" id="recordings">
-    <h2 class="recording__container-heading">Recordings</h2>
-    <p class="recording__container-subheading">
-      Movie Time - watch the live sessions again
-    </p>
+  <section class="content-container">
+    <PageHeader
+      title="Recordings"
+      sub="Watch live sessions, coaching and more"
+    />
 
     <div class="recording-filter">
       <label for="name">Class:</label>
@@ -15,7 +15,6 @@
       >
         <option value="">Last Recordings</option>
         <option value="Live-Session Coaching">Coaching</option>
-        <option value="Wochenabschluss">Wochenabschluss</option>
         <option value="Live-Session Class 2023 Oktober">Oktober 2023</option>
         <option value="Live-Session Class 2023 Dezember">Dezember 2023</option>
         <option value="Live-Session Class 2024 Januar">Januar 2024</option>
@@ -31,78 +30,52 @@
         </option>
       </select>
     </div>
-
-    <article
-      class="recording__box"
-      v-for="recording in recordings"
-      :key="recording.recordingKey"
-    >
-      <section class="recording__data">
-        <div class="recording__title">
-          <p class="recording__date-time-headings">Title:</p>
-          <p class="recording__date-time-text">
-            {{ recording.recordingData.topic }}
+    <article class="recordings__grid">
+      <article
+        class="recording__card card card-accent"
+        v-for="recording in recordings"
+        :key="recording.recordingKey"
+      >
+        <section class="recording__data">
+          <div class="recording__title">
+            <p class="recording__info-text">
+              {{ recording.recordingData.topic }}
+            </p>
+          </div>
+          <p class="recording__info-text timestamp">
+            {{ recording.recordingData.date }},
+            {{ recording.recordingData.time }}
           </p>
-        </div>
-
-        <div class="recording__title">
-          <p class="recording__date-time-headings">Topic:</p>
-          <p
-            class="recording__date-time-text"
+          <select
+            name="scheduleTopic"
+            id=""
+            v-model="recording.recordingData.scheduleTopic"
+            @input="updateRecordingTopic(recording, $event.target.value)"
             v-if="this.$store.getters.isTeacher"
           >
-            <select
-              name="scheduleTopic"
-              id=""
-              v-model="recording.recordingData.scheduleTopic"
-              @input="updateRecordingTopic(recording, $event.target.value)"
-            >
-              <option value="-">-</option>
-              <option
-                v-for="topic in scheduleTopics"
-                :value="topic"
-                :key="topic"
-              >
-                {{ topic }}
-              </option>
-            </select>
-          </p>
-          <p
-            class="recording__date-time-text"
-            v-if="this.$store.getters.isStudent"
-          >
+            <option value="-">-</option>
+            <option v-for="topic in scheduleTopics" :value="topic" :key="topic">
+              {{ topic }}
+            </option>
+          </select>
+          <p class="topic" v-if="this.$store.getters.isStudent">
             {{ recording.recordingData.scheduleTopic }}
           </p>
-        </div>
-
-        <div class="recording__date-time">
-          <div class="recording__date">
-            <p class="recording__date-time-headings">Date:</p>
-            <p class="recording__date-time-text">
-              {{ recording.recordingData.date }}
-            </p>
-          </div>
-          <div class="recording__time">
-            <p class="recording__date-time-headings">Time:</p>
-            <p class="recording__date-time-text">
-              {{ recording.recordingData.time }}
-            </p>
-          </div>
-        </div>
-      </section>
-      <section class="recording__download">
-        <a
-          target="_blank"
-          :href="recording.recordingData.shareUrl"
-          class="recording__button"
-          >Play</a
-        >
-        <a
-          :href="recording.recordingData.recordingFilesDownloadUrl[0]"
-          class="recording__button"
-          >Download</a
-        >
-      </section>
+        </section>
+        <section class="recording__download">
+          <a
+            target="_blank"
+            :href="recording.recordingData.shareUrl"
+            class="recording__button"
+            >Play</a
+          >
+          <a
+            :href="recording.recordingData.recordingFilesDownloadUrl[0]"
+            class="recording__button"
+            >Download</a
+          >
+        </section>
+      </article>
     </article>
     <div class="to-top">
       <a class="to-top" href="#">
@@ -125,7 +98,9 @@
 </template>
 
 <script>
-import { db } from "../../firebase";
+import PageHeader from "@/components/PageHeader.vue";
+import { fullTimeSchedule } from "../schedule/schedule.js";
+import { db } from "@/firebase";
 import {
   orderBy,
   query,
@@ -135,22 +110,27 @@ import {
   where,
   updateDoc,
 } from "firebase/firestore";
-import { defaultSchedule } from "../../schedule/schedule";
 
 export default {
   name: "CBERecordings",
+  components: {
+    PageHeader,
+  },
+
   data() {
     return {
       lastestRecordings: [],
       filteredRecordings: [],
       key: "",
-      selectedTopic: "",
+      scheduleTopic: "",
+      scheduleTopics: [],
     };
   },
 
   created() {
     // Always load latest recordings --> standard use case
     this.loadLastestRecordings();
+    this.loadScheduleTopics();
   },
   computed: {
     recordings() {
@@ -169,10 +149,6 @@ export default {
 
       return recordings;
     },
-    scheduleTopics() {
-      // Set is used to remove duplicates
-      return new Set(defaultSchedule.map((d) => d.topic));
-    },
   },
   methods: {
     async updateRecordingTopic(recording, scheduleTopic) {
@@ -180,6 +156,23 @@ export default {
       data.scheduleTopic = scheduleTopic;
 
       await updateDoc(recording.doc.ref, data);
+    },
+
+    loadScheduleTopics() {
+      this.schedule = fullTimeSchedule;
+
+      for (const module of this.schedule) {
+        for (const category of module.categories) {
+          this.scheduleTopics.push(category.title);
+        }
+      }
+
+      this.scheduleTopics = [
+        ...this.scheduleTopics,
+        "Abschlusspräsentation",
+        "Coaching",
+        "Sonstiges",
+      ];
     },
     async loadLastestRecordings() {
       const queryResult = await getDocs(
@@ -191,9 +184,16 @@ export default {
       );
       const latestRecordings = [];
       queryResult.forEach((doc) => {
-        const recordingDateTime = this.splitDateTime(doc.data().date);
-        const recordingDate = recordingDateTime[0];
-        const recordingTime = recordingDateTime[1];
+        const recordingDateTime = new Date(doc.data().date);
+        const recordingDate = recordingDateTime.toLocaleDateString("de-DE", {
+          day: "numeric",
+          month: "numeric",
+          year: "numeric",
+        });
+        const recordingTime = recordingDateTime.toLocaleTimeString("de-DE", {
+          hour: "2-digit",
+          minute: "2-digit",
+        });
 
         // recording files download
         let rfdurl = [];
@@ -319,93 +319,51 @@ export default {
 };
 </script>
 
-<style lang="css" scoped>
-*,
-*::before,
-*:after {
-  box-sizing: border-box;
+<style scoped>
+.content-container {
+  container-type: inline-size;
+  container-name: content;
 }
-a {
-  text-decoration: none;
-  color: #262626;
-  font-weight: 600;
-}
-p {
-  margin: 0;
-}
-h3 {
-  color: rgba(153, 153, 153, 1);
-}
-.recording__container {
-  padding: 0 0.8rem;
-}
-.recording__container-heading {
-  font-weight: 600;
-  text-transform: uppercase;
-  margin-bottom: 0;
-}
-.recording__container-subheading {
-  color: #999999;
-  font-weight: 600;
-  margin-bottom: 2rem;
-}
+
 .select__classes {
   border: 0.75px solid #262626;
   border-radius: 0.25rem;
   background-color: transparent;
   padding: 0.25rem 0.5rem;
 }
-.number-of-lessons {
-  display: flex;
-  justify-content: space-between;
-}
-.recording__box {
-  display: grid;
-  grid-template-columns: 2fr 1fr;
-  gap: 3rem;
-  padding: 1rem;
-  border: 1px solid black;
+
+.recording__card {
   margin-bottom: 1rem;
-  background-color: #e5e5e5;
-  border: 1px solid #e5e5e5;
-  border-radius: 1rem;
-  box-shadow: 1px 1px 9px 1px rgba(166, 166, 166, 0.47);
 }
-.recording__data {
-  display: flex;
-  flex-direction: column;
-}
+
 .recording__title {
-  margin-bottom: 1rem;
-}
-.recording__date-time {
-  display: flex;
-  justify-content: space-between;
-}
-.recording__date-time-headings {
-  color: rgba(153, 153, 153, 1);
-  font-weight: 400;
-}
-.recording__date-time-text {
-  color: rgba(38, 38, 38, 1);
+  font-size: 125%;
   font-weight: 600;
 }
+
+.topic {
+  margin-block: var(--s-large);
+}
+
 .recording__download {
+  margin-top: var(--s-large);
+
   display: flex;
-  flex-direction: column;
-  justify-content: flex-end;
-  align-items: center;
-  gap: 1rem;
+  gap: var(--s-base);
 }
+
 .recording__button {
-  border: 1.75px solid black;
-  border-radius: 0.5rem;
-  padding: 0.05rem 0.8rem;
+  background-color: var(--clr-white);
+  color: var(--clr-accent);
+  text-decoration: none;
+
+  padding: 0.25rem 0.75rem;
+  border-radius: var(--radius-inner);
 }
-.bi-file-earmark-arrow-down {
-  margin-right: 0.25rem;
-}
+
 .to-top {
+  color: var(--clr-accent);
+
   text-align: center;
   margin-top: 2rem;
   margin-right: 1rem;
@@ -417,5 +375,21 @@ h3 {
   align-items: center;
   grid-gap: 1rem 0.5rem;
   margin-bottom: 2rem;
+}
+
+@container content (min-width: 768px) {
+  .recordings__grid {
+    --columns: 2;
+
+    display: grid;
+    grid-template-columns: repeat(var(--columns), 1fr);
+    gap: var(--s-base);
+  }
+}
+
+@container content (min-width: 1400px) {
+  .recordings__grid {
+    --columns: 3;
+  }
 }
 </style>

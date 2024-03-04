@@ -5,11 +5,6 @@ import {
   loadUserDetails,
 } from "../firebase";
 import router from "../router";
-import {
-  bootcampDays,
-  calculateWorkingDaysSinceCampStart,
-  classNames,
-} from "../schedule/schedule";
 
 export default createStore({
   plugins: [],
@@ -43,13 +38,6 @@ export default createStore({
         state.fulltime = userDetails.fulltime;
         state.githubProfileUrl = userDetails.githubProfileUrl;
         state.email = userDetails.email;
-
-        if (state.className) {
-          const startDate = classNames.find((className) =>
-            className.startsWith(state.className)
-          );
-          state.startDate = startDate;
-        }
       } else {
         state.role = null;
         state.className = null;
@@ -138,29 +126,6 @@ export default createStore({
       const seconds = secondsLeft % 60;
 
       return `00:${formatTimer(minutes)}:${formatTimer(seconds)}`;
-    },
-    canShowDailyGoal: (state, getters) => {
-      if (!getters.isStudent) {
-        return false;
-      }
-
-      let daysInCamp = bootcampDays + 1;
-      if (state.startDate) {
-        daysInCamp = calculateWorkingDaysSinceCampStart(
-          new Date(state.startDate),
-          new Date()
-        );
-      }
-
-      return (
-        getters.isStudent &&
-        state.startDate &&
-        state.fulltime === true &&
-        daysInCamp <= bootcampDays
-      );
-    },
-    canShowSchedule: (state, getters) => {
-      return getters.isTeacher || getters.isStudent;
     },
   },
 });
