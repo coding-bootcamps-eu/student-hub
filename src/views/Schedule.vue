@@ -23,7 +23,10 @@
         v-for="module in selectedSchedule"
         :key="module.title"
       >
-        <header class="module__header">
+        <header
+          class="module__header"
+          @click="module.isShown = !module.isShown"
+        >
           <div class="module__header-content">
             <h3 class="module-title">{{ module.title }}</h3>
             <p class="module-length">Length: {{ module.length }}</p>
@@ -34,7 +37,6 @@
             class="toggle-accordeon"
             viewBox="0 0 16 16"
             v-if="!module.isShown"
-            @click="module.isShown = !module.isShown"
           >
             <path
               fill-rule="evenodd"
@@ -47,7 +49,6 @@
             class="toggle-accordeon"
             viewBox="0 0 16 16"
             v-if="module.isShown"
-            @click="module.isShown = !module.isShown"
           >
             <path
               fill-rule="evenodd"
