@@ -1,83 +1,97 @@
 <template>
-  <section class="content-container">
+  <section class="recording__container" id="recordings">
     <PageHeader
       title="Recordings"
-      sub="Watch live sessions, coaching and more"
+      sub="Watch recordings to live sessions and other events even after they happened"
     />
-
-    <div class="recording-filter">
-      <label for="name">Class:</label>
-      <select
-        class="select__classes"
-        name="classes"
-        @change="loadSelectedClass"
-        v-model="key"
-      >
-        <option value="">Last Recordings</option>
-        <option value="Live-Session Coaching">Coaching</option>
-        <option value="Live-Session Class 2023 Oktober">Oktober 2023</option>
-        <option value="Live-Session Class 2023 Dezember">Dezember 2023</option>
-        <option value="Live-Session Class 2024 Januar">Januar 2024</option>
-        <option value="Live-Session Class 2024 Februar">Februar 2024</option>
-        <option value="Live-Session Teilzeit">Live-Session Teilzeit</option>
-        <option value="Abschlusspräsentation">Abschlusspräsentation</option>
-      </select>
-    </div>
-    <article class="recordings__grid">
-      <article
-        class="recording__card card card-accent"
-        v-for="recording in recordings"
-        :key="recording.recordingKey"
-      >
-        <section class="recording__data">
-          <div class="recording__title">
-            <p class="recording__info-text">
-              {{ recording.recordingData.topic }}
-            </p>
-          </div>
-          <p class="recording__info-text timestamp">
-            {{ recording.recordingData.date }},
-            {{ recording.recordingData.time }}
-          </p>
-        </section>
-        <section class="recording__download">
-          <a
-            target="_blank"
-            :href="recording.recordingData.shareUrl"
-            class="recording__button"
-            >Play</a
-          >
-          <a
-            :href="recording.recordingData.recordingFilesDownloadUrl[0]"
-            class="recording__button"
-            >Download</a
-          >
-        </section>
-      </article>
-    </article>
-    <div class="to-top">
-      <a class="to-top" href="#">
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          width="36"
-          height="36"
-          fill="currentColor"
-          class="bi bi-arrow-up-circle"
-          viewBox="0 0 16 16"
+    <div class="filter">
+      <div class="select-filter__wrapper">
+        <label for="name">Class:</label>
+        <select
+          class="select__classes"
+          name="classes"
+          @change="loadSelectedClass"
+          v-model="key"
         >
-          <path
-            fill-rule="evenodd"
-            d="M1 8a7 7 0 1 0 14 0A7 7 0 0 0 1 8zm15 0A8 8 0 1 1 0 8a8 8 0 0 1 16 0zm-7.5 3.5a.5.5 0 0 1-1 0V5.707L5.354 7.854a.5.5 0 1 1-.708-.708l3-3a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1-.708.708L8.5 5.707V11.5z"
-          />
-        </svg>
-      </a>
+          <option value="">Last Recordings</option>
+          <option value="Live-Session Coaching">Coaching</option>
+          <option value="Wochenabschluss">Wochenabschluss</option>
+          <option value="Live-Session Class 2023 September">
+            September 2023
+          </option>
+          <option value="Live-Session Class 2023 Oktober">Oktober 2023</option>
+          <option value="Live-Session Class 2023 Dezember">
+            Dezember 2023
+          </option>
+          <option value="Live-Session Class 2024 Januar">Januar 2024</option>
+          <option value="Live-Session Class 2024 Februar">Februar 2024</option>
+          <option value="Live-Session Teilzeit">Live-Session Teilzeit</option>
+          <option value="Abschlusspräsentation">Abschlusspräsentation</option>
+        </select>
+      </div>
+      <div class="select-filter__wrapper">
+        <label for="name">Topic:</label
+        ><select class="select__classes" name="classes" v-model="selectedTopic">
+          <option value="">Any Topic</option>
+          <option v-for="topic in scheduleTopics" :value="topic" :key="topic">
+            {{ topic }}
+          </option>
+        </select>
+      </div>
     </div>
+    <table>
+      <thead>
+        <tr>
+          <th scope="col">Event</th>
+          <th scope="col">Day</th>
+          <th scope="col">Time</th>
+          <th scope="col">Topic</th>
+          <th scope="col">Video</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr v-for="recording in recordings" :key="recording.recordingKey">
+          <th scope="row">{{ recording.recordingData.topic }}</th>
+          <td>{{ recording.recordingData.date }}</td>
+          <td>{{ recording.recordingData.time }}</td>
+          <td>
+            <span
+              class="recording__date-time-text"
+              v-if="this.$store.getters.isTeacher"
+            >
+              <select
+                name="scheduleTopic"
+                id=""
+                v-model="recording.recordingData.scheduleTopic"
+                @input="updateRecordingTopic(recording, $event.target.value)"
+              >
+                <option value="-">-</option>
+                <option
+                  v-for="topic in scheduleTopics"
+                  :value="topic"
+                  :key="topic"
+                >
+                  {{ topic }}
+                </option>
+              </select>
+            </span>
+            <span
+              class="recording__date-time-text"
+              v-if="this.$store.getters.isStudent"
+            >
+              {{ recording.recordingData.scheduleTopic }}
+            </span>
+          </td>
+          <td>
+            <a :href="recording.recordingData.shareUrl">Play</a>
+          </td>
+        </tr>
+      </tbody>
+    </table>
   </section>
 </template>
-
 <script>
 import PageHeader from "@/components/PageHeader.vue";
-import { fullTimeSchedule } from "../schedule/schedule.js";
 import { db } from "@/firebase";
 import {
   orderBy,
@@ -88,27 +102,23 @@ import {
   where,
   updateDoc,
 } from "firebase/firestore";
-
+import { fullTimeSchedule } from "@/schedule/schedule";
 export default {
   name: "CBERecordings",
   components: {
     PageHeader,
   },
-
   data() {
     return {
       lastestRecordings: [],
       filteredRecordings: [],
       key: "",
-      scheduleTopic: "",
-      scheduleTopics: [],
+      selectedTopic: "",
     };
   },
-
   created() {
     // Always load latest recordings --> standard use case
     this.loadLastestRecordings();
-    this.loadScheduleTopics();
   },
   computed: {
     recordings() {
@@ -118,39 +128,44 @@ export default {
       } else {
         recordings = this.filteredRecordings;
       }
-
       if (this.selectedTopic !== "") {
         recordings = recordings.filter(
           (r) => r.recordingData.scheduleTopic === this.selectedTopic
         );
       }
-
       return recordings;
+    },
+    scheduleTopics() {
+      // Set is used to remove duplicates
+      const categories = [];
+
+      fullTimeSchedule.forEach((module) => {
+        module.categories.forEach((category) =>
+          categories.push(category.title)
+        );
+      });
+
+      return categories;
     },
   },
   methods: {
+    getFormattedDate(date) {
+      return date.toLocaleDateString("de-DE", {
+        year: "numeric",
+        month: "numeric",
+        day: "numeric",
+      });
+    },
+    getFormattedTime(date) {
+      return date.toLocaleTimeString("de-DE", {
+        hour: "2-digit",
+        minute: "2-digit",
+      });
+    },
     async updateRecordingTopic(recording, scheduleTopic) {
       const data = recording.doc.data();
       data.scheduleTopic = scheduleTopic;
-
       await updateDoc(recording.doc.ref, data);
-    },
-
-    loadScheduleTopics() {
-      this.schedule = fullTimeSchedule;
-
-      for (const module of this.schedule) {
-        for (const category of module.categories) {
-          this.scheduleTopics.push(category.title);
-        }
-      }
-
-      this.scheduleTopics = [
-        ...this.scheduleTopics,
-        "Abschlusspräsentation",
-        "Coaching",
-        "Sonstiges",
-      ];
     },
     async loadLastestRecordings() {
       const queryResult = await getDocs(
@@ -163,15 +178,8 @@ export default {
       const latestRecordings = [];
       queryResult.forEach((doc) => {
         const recordingDateTime = new Date(doc.data().date);
-        const recordingDate = recordingDateTime.toLocaleDateString("de-DE", {
-          day: "numeric",
-          month: "numeric",
-          year: "numeric",
-        });
-        const recordingTime = recordingDateTime.toLocaleTimeString("de-DE", {
-          hour: "2-digit",
-          minute: "2-digit",
-        });
+        const recordingDate = this.getFormattedDate(recordingDateTime);
+        const recordingTime = this.getFormattedTime(recordingDateTime);
 
         // recording files download
         let rfdurl = [];
@@ -182,7 +190,6 @@ export default {
         // share url
         let surl = [];
         this.urlIncludesComma(doc.data().shareUrl, surl);
-
         // add to dom array
         this.saveRecordings(
           doc,
@@ -205,14 +212,11 @@ export default {
       const querySnapshot = await getDocs(
         query(collection(db, "zoom-recordings"), where("topic", "==", this.key))
       );
-
       let filteredRecordings = [];
-
       querySnapshot.forEach((doc) => {
-        const recordingDateTime = this.splitDateTime(doc.data().date);
-        const recordingDate = recordingDateTime[0];
-        const recordingTime = recordingDateTime[1];
-
+        const recordingDateTime = new Date(doc.data().date);
+        const recordingDate = this.getFormattedDate(recordingDateTime);
+        const recordingTime = this.getFormattedTime(recordingDateTime);
         // recording files download
         let rfdurl = [];
         this.urlIncludesComma(doc.data().recordingFilesDownloadUrl, rfdurl);
@@ -222,7 +226,6 @@ export default {
         // share url
         let surl = [];
         this.urlIncludesComma(doc.data().shareUrl, surl);
-
         this.saveRecordings(
           doc,
           filteredRecordings,
@@ -272,16 +275,32 @@ export default {
     },
     sortArrayDate(elem) {
       elem.sort(function (a, b) {
-        const dateA = new Date(a.recordingData.date);
-        const dateB = new Date(b.recordingData.date);
+        const splitDateA = a.recordingData.date.split(".");
+        const dateObjA = {
+          day: splitDateA[0],
+          month: splitDateA[1],
+          year: splitDateA[2],
+        };
+
+        const splitDateB = b.recordingData.date.split(".");
+        const dateObjB = {
+          day: splitDateB[0],
+          month: splitDateB[1],
+          year: splitDateB[2],
+        };
+
+        const dateA = new Date(
+          `${dateObjA.month}-${dateObjA.day}-${dateObjA.year}`
+        );
+        const dateB = new Date(
+          `${dateObjB.month}-${dateObjB.day}-${dateObjB.year}`
+        );
+        /*         const dateA = new Date(a.recordingData.date.replaceAll(".", "-"));
+        console.log(dateA);
+        const dateB = new Date(b.recordingData.date.replaceAll(".", "-"));
+        console.log(dateB); */
         return dateA < dateB ? 1 : -1;
       });
-    },
-    splitDateTime(elem) {
-      elem = elem.replace("T", " ");
-      elem = elem.replace("Z", "");
-      elem = elem.split(" ");
-      return elem;
     },
     urlIncludesComma(docURL, targetArray) {
       if (docURL.includes(",")) {
@@ -296,78 +315,82 @@ export default {
   },
 };
 </script>
-
 <style scoped>
-.content-container {
-  container-type: inline-size;
-  container-name: content;
+.filter {
+  background-color: var(--clr-accent-light);
+
+  padding: var(--s-base);
+  border-radius: var(--radius-outer);
 }
 
-.select__classes {
-  border: 0.75px solid #262626;
-  border-radius: 0.25rem;
-  background-color: transparent;
-  padding: 0.25rem 0.5rem;
-}
-
-.recording__card {
-  margin-bottom: 1rem;
-}
-
-.recording__title {
-  font-size: 125%;
-  font-weight: 600;
-}
-
-.topic {
-  margin-block: var(--s-large);
-}
-
-.recording__download {
-  margin-top: var(--s-large);
-
+.select-filter__wrapper {
   display: flex;
+  align-items: center;
   gap: var(--s-base);
+
+  margin-block: var(--s-base);
 }
 
-.recording__button {
-  background-color: var(--clr-white);
+.filter label {
+  font-weight: 700;
+}
+
+.filter select {
+  background-color: var(--clr-background);
+
+  padding: var(--s-xs);
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  border-radius: var(--radius-outer);
+  margin-block: var(--s-large);
+
+  overflow: hidden;
+}
+
+th,
+td {
+  text-align: left;
+
+  padding: var(--s-base);
+}
+
+thead {
+  background-color: var(--clr-accent);
+  color: white;
+}
+
+tbody tr:nth-child(odd) {
+  background-color: var(--clr-accent-light);
+}
+
+tbody tr:nth-child(even) {
+  background-color: var(--clr-background);
+}
+
+tbody th {
   color: var(--clr-accent);
+}
+
+select {
+  width: 100%;
+}
+
+td a {
+  background-color: var(--clr-accent);
+  color: var(--clr-accent-light);
   text-decoration: none;
 
   padding: 0.25rem 0.75rem;
   border-radius: var(--radius-inner);
 }
 
-.to-top {
-  color: var(--clr-accent);
-
-  text-align: center;
-  margin-top: 2rem;
-  margin-right: 1rem;
-}
-
-.recording-filter {
-  display: grid;
-  grid-template-columns: min-content min-content;
-  align-items: center;
-  grid-gap: 1rem 0.5rem;
-  margin-bottom: 2rem;
-}
-
-@container content (min-width: 768px) {
-  .recordings__grid {
-    --columns: 2;
-
-    display: grid;
-    grid-template-columns: repeat(var(--columns), 1fr);
-    gap: var(--s-base);
-  }
-}
-
-@container content (min-width: 1400px) {
-  .recordings__grid {
-    --columns: 3;
+@media screen and (min-width: 768px) {
+  table,
+  .filter {
+    border-radius: var(--radius-inner);
   }
 }
 </style>
