@@ -341,39 +341,6 @@ export default {
   padding: var(--s-xs);
 }
 
-table {
-  width: 100%;
-  border-collapse: collapse;
-  border-radius: var(--radius-outer);
-  margin-block: var(--s-large);
-
-  overflow: hidden;
-}
-
-th,
-td {
-  text-align: left;
-
-  padding: var(--s-base);
-}
-
-thead {
-  background-color: var(--clr-accent);
-  color: white;
-}
-
-tbody tr:nth-child(odd) {
-  background-color: var(--clr-accent-light);
-}
-
-tbody tr:nth-child(even) {
-  background-color: var(--clr-background);
-}
-
-tbody th {
-  color: var(--clr-accent);
-}
-
 select {
   width: 100%;
 }
