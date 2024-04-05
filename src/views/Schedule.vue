@@ -17,7 +17,35 @@
         </label>
       </div>
     </form>
-    <ul class="schedule-list">
+    <div v-if="!isMobile">
+      <table v-for="module in selectedSchedule" :key="module.title">
+        <thead>
+          <tr>
+            <th scope="col">
+              {{ module.title }} (Length: {{ module.length }})
+            </th>
+            <th scope="col">Slides</th>
+            <th scope="col">Tasks</th>
+            <th scope="col">Slides</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr v-for="category of module.categories" :key="category">
+            <th scope="row">{{ category.title }}</th>
+            <td>
+              <a :href="category.videos" v-if="category.videos">Videos</a>
+            </td>
+            <td>
+              <a :href="category.tasks" v-if="category.tasks">Tasks</a>
+            </td>
+            <td>
+              <a :href="category.slides" v-if="category.slides">Slides</a>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <ul class="schedule-list" v-if="isMobile">
       <li
         class="module-card card card-accent"
         v-for="module in selectedSchedule"
@@ -104,6 +132,7 @@ export default {
       classes: ["Vollzeit", "Teilzeit"],
       fullTimeSchedule: fullTimeSchedule,
       partTimeSchedule: partTimeSchedule,
+      screenSize: 0,
     };
   },
   mounted() {
@@ -112,6 +141,10 @@ export default {
     } else {
       this.selectedClass = "Teilzeit";
     }
+
+    this.screenSize = window.innerWidth;
+
+    window.addEventListener("resize", this.changeScreenSize);
   },
   computed: {
     selectedSchedule() {
@@ -121,9 +154,14 @@ export default {
         return this.fullTimeSchedule;
       }
     },
+    isMobile() {
+      return this.screenSize < 768;
+    },
   },
   methods: {
-    toggleAccordeon() {},
+    changeScreenSize() {
+      this.screenSize = window.innerWidth;
+    },
   },
 };
 </script>
@@ -210,6 +248,27 @@ export default {
   text-decoration: underline;
   text-underline-offset: 0.25rem;
   text-decoration-thickness: 1px;
+}
+
+th[scope="row"] {
+  width: 40%;
+}
+
+table a {
+  background-color: var(--clr-accent);
+  color: white;
+  text-decoration: none;
+
+  padding: var(--s-xs) calc(var(--s-xs) * 3);
+  border-radius: var(--radius-inner);
+}
+
+thead > tr > th:not(:first-child) {
+  text-align: center;
+}
+
+td {
+  text-align: center;
 }
 
 @container content (min-width: 768px) {
