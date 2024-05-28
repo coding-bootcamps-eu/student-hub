@@ -25,6 +25,7 @@
           </option>
           <option value="Live-Session Class 2024 Januar">Januar 2024</option>
           <option value="Live-Session Class 2024 Februar">Februar 2024</option>
+          <option value="Live-Session Class 2024 Mai">Mai 2024</option>
           <option value="Live-Session Teilzeit">Live-Session Teilzeit</option>
           <option value="Abschlusspräsentation">Abschlusspräsentation</option>
         </select>
