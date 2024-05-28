@@ -68,12 +68,16 @@
         class="page-header__container"
         :title="'Students: ' + filteredStudents.length"
       />
-      <input
-        type="search"
-        name="search-students"
-        id="search-students"
-        v-model="searchQuery"
-      />
+      <form class="search-wrapper">
+        <input
+          type="search"
+          name="search-students"
+          id="search-students"
+          v-model="searchQuery"
+          placeholder=" "
+        />
+        <label for="search-students"> Type a name to search students </label>
+      </form>
       <form class="students-filter">
         <div>
           <label for="class-name" style="position: absolute; font-size: 0"
@@ -444,14 +448,42 @@ export default {
   grid-gap: 0.5rem;
 }
 
+.search-wrapper {
+  --p-inline: 0.5rem;
+  --border-size: 2px;
+
+  margin-bottom: var(--s-large);
+
+  position: relative;
+}
+
+.search-wrapper > label {
+  color: var(--clr-accent);
+  cursor: text;
+  position: absolute;
+  top: 50%;
+  left: calc(var(--p-inline) + var(--border-size));
+
+  transform: translateY(-50%);
+
+  transition: transform 200ms, top 200ms, font-size 200ms;
+}
+
 #search-students {
   font-size: 100%;
+  font-family: inherit;
 
   width: 100%;
-  border: 2px solid var(--clr-accent);
+  border: var(--border-size) solid var(--clr-accent);
   border-radius: var(--radius-outer);
-  padding: 0.5rem 1.5rem;
-  margin-bottom: var(--s-large);
+  padding-block: 1.25rem 0.75rem;
+  padding-inline: var(--p-inline);
+}
+
+#search-students:focus + label,
+#search-students:not(:placeholder-shown) + label {
+  font-size: 75%;
+  top: 0.75rem;
 }
 
 #class-name {
