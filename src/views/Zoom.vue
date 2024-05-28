@@ -77,7 +77,7 @@ export default {
         },
         {
           uuid: "9699d5b2-b139-4dc2-af28-8914ca5d8dfr",
-          className: "Januar 2024",
+          className: "Mai 2024",
           meetings: [
             {
               uuid: "9699d5b2-b139-4dc2-af28-8914ca5d8df0",
@@ -128,6 +128,7 @@ a {
   text-decoration: underline;
   cursor: pointer;
 }
+
 .week-input__label {
   font-size: 1rem;
   display: block;
@@ -143,6 +144,7 @@ a {
 .week-input__button {
   height: 2rem;
 }
+
 .meetings {
   list-style-type: none;
   padding: 0;
@@ -197,6 +199,7 @@ a {
   from {
     transform: rotate(0deg);
   }
+
   to {
     transform: rotate(359deg);
   }
