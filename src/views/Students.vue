@@ -68,12 +68,16 @@
         class="page-header__container"
         :title="'Students: ' + filteredStudents.length"
       />
-      <input
-        type="search"
-        name="search-students"
-        id="search-students"
-        v-model="searchQuery"
-      />
+      <form class="search-wrapper">
+        <input
+          type="search"
+          name="search-students"
+          id="search-students"
+          v-model="searchQuery"
+          placeholder=" "
+        />
+        <label for="search-students"> Type a name to search students </label>
+      </form>
       <form class="students-filter">
         <div>
           <label for="class-name" style="position: absolute; font-size: 0"
@@ -131,110 +135,73 @@
           Update All
         </button>
       </div>
-      <ul class="students-list">
-        <li
-          v-for="student in filteredStudents"
-          :key="student.data.uid"
-          class="student-list__item card"
-        >
-          <form
-            v-if="this.$store.getters.isTeacher"
-            @input="editStudent(student)"
-          >
-            <div class="name">
-              <input
-                type="checkbox"
-                name="toggle-edit"
-                :id="'toggle-edit' + student.data.uid"
-                v-model="student.editMode"
-              />
-              <label :for="'toggle-edit' + student.data.uid">
-                <span style="position: absolute; font-size: 0">
-                  Edit Name
-                </span>
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="currentColor"
-                  class="edit-icon"
-                  :class="{ active: student.editMode }"
-                  viewBox="0 0 16 16"
-                >
-                  <path
-                    d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"
-                  />
-                  <path
-                    fill-rule="evenodd"
-                    d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5z"
-                  />
-                </svg>
-              </label>
-              <input
-                type="text"
-                name="student-name"
-                :id="'student-name' + student.uid"
-                class="edit-name"
-                v-model="student.data.githubName"
-                v-show="student.editMode"
-              />
-            </div>
-            <div class="role__wrapper" v-if="student.editMode">
-              <div class="role__item" v-for="role of roles" :key="role">
+      <table>
+        <thead>
+          <tr>
+            <th scope="col" class="col-name">Name</th>
+            <th scope="col">Class</th>
+            <th scope="col">Role</th>
+            <th scope="col">GitHub</th>
+            <th scope="col">Edit</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr v-for="student in filteredStudents" :key="student.data.uid">
+            <th scope="row">
+              <span v-if="!student.editMode">
+                {{ student.data.githubName }}
+              </span>
+              <span v-else>
                 <input
-                  type="radio"
-                  :name="'role' + student.data.uid"
-                  :id="role + student.data.uid"
-                  :checked="role === student.data.role"
-                  @change="changeRole(student, role)"
+                  type="text"
+                  :name="'name' + student.data.uid"
+                  :id="'name' + student.data.uid"
+                  v-model="student.data.githubName"
                 />
-                <label :for="role + student.data.uid" class="role-tab">{{
-                  role
-                }}</label>
-              </div>
-            </div>
-            <span v-if="!student.editMode" class="student__name">{{
-              student.data.githubName
-            }}</span>
-            <span v-if="!student.editMode" class="role-tab selected-role-tab">
-              {{ student.data.role }}
-            </span>
-          </form>
-          <div class="student__info">
-            <a
-              :href="student.data.githubProfileUrl"
-              target="_blank"
-              rel="noopener noreferrer"
-              ><svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="16"
-                height="16"
-                fill="currentColor"
-                class="bi bi-github"
-                viewBox="0 0 16 16"
+              </span>
+            </th>
+            <td>
+              {{ getClassName(student.data) }}
+            </td>
+            <td class="col-role">
+              <span v-if="!student.editMode">
+                {{ student.data.role }}
+              </span>
+              <select name="role" id="role" v-else v-model="student.data.role">
+                <option value="student">Student</option>
+                <option value="alumni">Alumni</option>
+                <option value="guest">Guest</option>
+                <option value="teacher">Teacher</option>
+              </select>
+            </td>
+            <td>
+              <a
+                :href="student.data.githubProfileUrl"
+                target="_blank"
+                rel="noopener noreferrer"
+                class="student__github-link"
               >
-                <path
-                  d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27s1.36.09 2 .27c1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0 0 16 8c0-4.42-3.58-8-8-8"
-                />
-              </svg>
-              {{ getShortLink(student.data.githubProfileUrl) }}</a
-            >
-            <span class="class">{{ getClassName(student.data) }}</span>
-          </div>
-          <button
-            :disabled="student.isEdited !== true"
-            @click.prevent="updateUser(student)"
-            v-if="student.editMode"
-            class="btn-update"
-          >
-            Update User
-          </button>
-        </li>
-      </ul>
+                <GitHubIcon />
+                {{ getShortLink(student.data.githubProfileUrl) }}
+              </a>
+            </td>
+            <td class="col-edit">
+              <PenIcon
+                @click="student.editMode = !student.editMode"
+                v-if="!student.editMode"
+              />
+            </td>
+          </tr>
+        </tbody>
+      </table>
     </section>
   </section>
 </template>
 
 <script>
 import PageHeader from "@/components/PageHeader.vue";
+import GitHubIcon from "@/components/icons/GitHubIcon.vue";
+import PenIcon from "@/components/icons/PenIcon.vue";
 import {
   query,
   where,
@@ -256,6 +223,8 @@ export default {
 
   components: {
     PageHeader,
+    GitHubIcon,
+    PenIcon,
   },
 
   data() {
@@ -301,6 +270,7 @@ export default {
         this.editedStudents.push(student);
       }
     },
+
     changeRole(student, newRole) {
       student.data.role = newRole;
     },
@@ -464,14 +434,42 @@ export default {
   grid-gap: 0.5rem;
 }
 
+.search-wrapper {
+  --p-inline: 0.5rem;
+  --border-size: 2px;
+
+  margin-bottom: var(--s-large);
+
+  position: relative;
+}
+
+.search-wrapper > label {
+  color: var(--clr-accent);
+  cursor: text;
+  position: absolute;
+  top: 50%;
+  left: calc(var(--p-inline) + var(--border-size));
+
+  transform: translateY(-50%);
+
+  transition: transform 200ms, top 200ms, font-size 200ms;
+}
+
 #search-students {
   font-size: 100%;
+  font-family: inherit;
 
   width: 100%;
-  border: 2px solid var(--clr-accent);
+  border: var(--border-size) solid var(--clr-accent);
   border-radius: var(--radius-outer);
-  padding: 0.5rem 1.5rem;
-  margin-bottom: var(--s-large);
+  padding-block: 1.25rem 0.75rem;
+  padding-inline: var(--p-inline);
+}
+
+#search-students:focus + label,
+#search-students:not(:placeholder-shown) + label {
+  font-size: 75%;
+  top: 0.75rem;
 }
 
 #class-name {
@@ -505,6 +503,50 @@ export default {
 
 .length {
   margin-block: var(--s-base);
+}
+
+.col-name {
+  width: 30%;
+}
+
+.col-role {
+  text-transform: capitalize;
+}
+
+.col-edit {
+  text-align: center;
+}
+
+input[type="text"] {
+  all: unset;
+
+  width: 100%;
+  border-bottom: 1px solid var(--clr-accent);
+  margin-bottom: -1px;
+}
+
+input[type="text"]:focus {
+  border-color: var(--clr-white);
+}
+
+.student__github-link {
+  --padding: var(--s-xs);
+
+  color: var(--clr-white);
+  background-color: var(--clr-accent);
+  text-decoration: none;
+
+  padding: var(--padding) calc(var(--padding));
+  border-radius: var(--radius-inner);
+}
+
+.icon {
+  width: var(--s-base);
+}
+
+.icon-edit {
+  color: var(--clr-accent);
+  cursor: pointer;
 }
 
 .students-list {
