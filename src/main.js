@@ -14,7 +14,7 @@ try {
 }
 
 const app = createApp(App).use(store).use(router);
-// if (process.env.NODE_ENV) {
+// if (import.meta.env.NODE_ENV) {
 //   require("dotenv").config();
 // }
 

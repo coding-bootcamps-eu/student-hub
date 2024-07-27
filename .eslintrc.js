@@ -2,6 +2,7 @@ module.exports = {
   root: true,
   env: {
     node: true,
+    es2022: true,
   },
   extends: [
     "plugin:vue/vue3-essential",
@@ -9,13 +10,11 @@ module.exports = {
     "@vue/prettier",
     "plugin:cypress/recommended",
   ],
-  parserOptions: {
-    parser: "babel-eslint",
-  },
+  parserOptions: {},
   rules: {
     "no-unused-vars": 1,
-    "no-console": process.env.NODE_ENV === "production" ? "warn" : "off",
-    "no-debugger": process.env.NODE_ENV === "production" ? "warn" : "off",
+    "no-console": import.meta.env.NODE_ENV === "production" ? "warn" : "off",
+    "no-debugger": import.meta.env.NODE_ENV === "production" ? "warn" : "off",
     "prettier/prettier": [
       "error",
       {

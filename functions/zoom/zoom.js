@@ -21,7 +21,9 @@ restApi.get("/class-rooms", async (req, res) => {
         const auth =
           "Basic " +
           Buffer.from(
-            process.env.ZOOM_OAUTH_USER + ":" + process.env.ZOOM_OAUTH_PASSWORD
+            import.meta.env.ZOOM_OAUTH_USER +
+              ":" +
+              import.meta.env.ZOOM_OAUTH_PASSWORD
           ).toString("base64");
 
         const authResponse = await fetch(
