@@ -74,7 +74,7 @@ main,
 
 h1 {
   color: var(--clr-accent);
-  font-size: 125%;
+  font-size: 115%;
 }
 
 h1,
@@ -109,6 +109,42 @@ button {
   cursor: pointer;
 }
 
+/* TABLES */
+table {
+  box-shadow: rgba(17, 17, 26, 0.1) 0px 0px 16px;
+
+  width: 100%;
+  border-collapse: collapse;
+  border-radius: var(--radius-outer);
+  margin-block: var(--s-large);
+
+  overflow: hidden;
+}
+
+th,
+td {
+  text-align: left;
+
+  padding: var(--s-medium);
+}
+
+thead {
+  background-color: var(--clr-accent);
+  color: white;
+}
+
+tbody tr:nth-child(odd) {
+  background-color: var(--clr-accent-light);
+}
+
+tbody tr:nth-child(even) {
+  background-color: var(--clr-background);
+}
+
+tbody th {
+  color: var(--clr-accent);
+}
+
 /* MAIN HEADER */
 .main-header {
   --header-margin: var(--s-base);
@@ -129,6 +165,21 @@ button {
   position: sticky;
   top: var(--header-margin);
   z-index: 10;
+}
+
+.header-content {
+  display: flex;
+  align-items: center;
+  gap: var(--s-base);
+}
+
+.header-content__logo {
+  width: 50px;
+}
+
+.header-content__subtitle {
+  font-size: 80%;
+  color: var(--clr-text-lighter);
 }
 
 .toggle-menu__handle {
@@ -277,6 +328,10 @@ input[type="radio"].tab:checked + label.tab-text {
     grid-template-columns:
       var(--app-margin) 1fr var(--app-margin) repeat(3, 1fr)
       var(--app-margin);
+  }
+
+  table {
+    border-radius: var(--radius-inner);
   }
 
   .main-header {
