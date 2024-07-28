@@ -119,6 +119,7 @@ export default createStore({
     isLoggedIn: (state) => state.isLoggedIn,
     userName: (state) =>
       state.user ? state.user.displayName : "Captain Anonymous",
+    currentClassName: (state) => state.className,
     hasTimer: (state) => !!state.timerInterval,
     timer: (state) => {
       const secondsLeft = state.timeLeft;
