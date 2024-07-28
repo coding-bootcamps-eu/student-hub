@@ -95,7 +95,7 @@ export default {
       recordingTypes: [
         {
           title: "Teilzeit",
-          value: "Live-Session Coaching",
+          value: "Live-Session Teilzeit",
           id: "part-time"
         },
         {
