@@ -35,11 +35,8 @@
           <li class="header-nav__item">
             <router-link to="/schedule">Module</router-link>
           </li>
-          <li class="header-nav__item">
+          <li class="header-nav__item" v-if="isTeacher">
             <router-link to="/zoom">Zoom-Räume</router-link>
-          </li>
-          <li class="header-nav__item">
-            <router-link to="/slides">Folien</router-link>
           </li>
           <li class="header-nav__item">
             <a href="https://form.asana.com/?k=msqPDRYEAxA8uspT_xcYbw&d=1181024715195521" target="_blank"
