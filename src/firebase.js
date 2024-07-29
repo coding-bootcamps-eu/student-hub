@@ -13,20 +13,20 @@ import {
 import { getAuth } from "firebase/auth";
 import store from "./store";
 
-export const firebaseFunctionsPrefix =
-  process.env.VUE_APP_FIREBASE_FUNCTIONS_PREFIX;
+export const firebaseFunctionsPrefix = import.meta.env
+  .VITE_FIREBASE_FUNCTIONS_PREFIX;
 
 const firebaseApp = initializeApp({
-  apiKey: process.env.VUE_APP_API_KEY,
-  authDomain: process.env.VUE_APP_AUTH_DOMAIN,
-  projectId: process.env.VUE_APP_PROJECT_ID,
+  apiKey: import.meta.env.VITE_API_KEY,
+  authDomain: import.meta.env.VITE_AUTH_DOMAIN,
+  projectId: import.meta.env.VITE_PROJECT_ID,
 });
 export const db = getFirestore(firebaseApp);
 export const auth = getAuth();
 
-const mode = process.env.NODE_ENV;
-const emulator = process.env.VUE_APP_FIREBASE_EMULATOR
-  ? process.env.VUE_APP_FIREBASE_EMULATOR.toLocaleLowerCase()
+const mode = import.meta.env.NODE_ENV;
+const emulator = import.meta.env.VITE_FIREBASE_EMULATOR
+  ? import.meta.env.VITE_FIREBASE_EMULATOR.toLocaleLowerCase()
   : "off";
 
 if (mode === "development") {
