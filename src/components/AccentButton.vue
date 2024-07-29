@@ -1,5 +1,5 @@
 <template>
-  <a :href="to">
+  <a :href="to" target="_blank">
     <slot class="test" />
     <span>
       {{ title }}
