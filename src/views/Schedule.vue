@@ -1,17 +1,10 @@
 <template>
-  <PageHeader title="Schedule" />
+  <PageHeader title="Module" sub="Hier bekommst du eine Übersicht darüber, wie unser Bootcamp aufgebaut ist" />
   <div class="schedule">
     <form class="tabs__container">
       <div class="tab-wrapper" v-for="className in classes" :key="className">
-        <input
-          type="radio"
-          :id="className"
-          name="class-tab"
-          :value="className"
-          v-model="selectedClass"
-          class="tab"
-          @change="selectedClass = className"
-        />
+        <input type="radio" :id="className" name="class-tab" :value="className" v-model="selectedClass" class="tab"
+          @change="selectedClass = className" />
         <label :for="className" class="tab-text">
           {{ className }}
         </label>
@@ -21,25 +14,31 @@
       <table v-for="module in selectedSchedule" :key="module.title">
         <thead>
           <tr>
-            <th scope="col">
-              {{ module.title }} (Length: {{ module.length }})
+            <th scope="col" style="font-size: 1.5rem; width: 100%;">
+              {{ module.title }} (Dauer: {{ module.length }})
             </th>
-            <th scope="col">Slides</th>
-            <th scope="col">Tasks</th>
-            <th scope="col">Slides</th>
+            <th></th>
+            <th></th>
+            <th></th>
           </tr>
         </thead>
         <tbody>
           <tr v-for="category of module.categories" :key="category">
             <th scope="row">{{ category.title }}</th>
             <td>
-              <a :href="category.videos" v-if="category.videos">Videos</a>
+              <AccentButton v-if="category.videos" title="Videos" :to="category.videos" style="margin-inline: auto">
+                <PlayIcon color="white" />
+              </AccentButton>
             </td>
             <td>
-              <a :href="category.tasks" v-if="category.tasks">Tasks</a>
+              <AccentButton v-if="category.tasks" title="Tasks" :to="category.tasks" style="margin-inline: auto">
+                <TaskIcon color="white" />
+              </AccentButton>
             </td>
             <td>
-              <a :href="category.slides" v-if="category.slides">Slides</a>
+              <AccentButton v-if="category.slides" title="Slides" :to="category.slides" style="margin-inline: auto">
+                <SlideIcon color="white" />
+              </AccentButton>
             </td>
           </tr>
         </tbody>
@@ -49,11 +48,19 @@
 </template>
 <script>
 import PageHeader from "@/components/PageHeader.vue";
+import PlayIcon from "@/components/icons/PlayIcon.vue";
+import TaskIcon from "@/components/icons/TaskIcon.vue";
+import SlideIcon from "@/components/icons/SlideIcon.vue";
+import AccentButton from "@/components/AccentButton.vue";
 import { fullTimeSchedule, partTimeSchedule } from "../schedule/schedule.js";
 export default {
   name: "Schedule",
   components: {
     PageHeader,
+    PlayIcon,
+    TaskIcon,
+    SlideIcon,
+    AccentButton
   },
 
   data() {
@@ -172,21 +179,13 @@ th[scope="row"] {
   width: 40%;
 }
 
-table a {
-  background-color: var(--clr-accent);
-  color: white;
-  text-decoration: none;
-
-  padding: var(--s-xs) calc(var(--s-xs) * 3);
-  border-radius: var(--radius-inner);
-}
-
-thead > tr > th:not(:first-child) {
+thead>tr>th:not(:first-child) {
   text-align: center;
 }
 
 td {
   text-align: center;
+  margin-inline: auto;
 }
 
 @container content (min-width: 768px) {
