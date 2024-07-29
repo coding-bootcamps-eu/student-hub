@@ -2,28 +2,17 @@
   <section class="recording__container" id="recordings">
     <PageHeader title="Aufnahmen"
       sub="Schau dir nachträglich die Aufzeichnungen von Live Sessions und anderen Veranstaltugnen an" />
-    <div class="filter">
-      <div class="select-filter__wrapper">
-        <form @change="loadSelectedClass" class="filters-wrapper">
-          <div>
-            <input type="radio" name="filter" id="all-recordings" value="" v-model="key">
-            <label for="all-recordings">Letzte Aufnahmen</label>
-          </div>
-          <div v-for="recording of recordingTypes" :key="recording.id">
-            <input type="radio" name="filter" :id="recording.id" :value="recording.value" v-model="key">
-            <label :for="recording.id">{{ recording.title }}</label>
-          </div>
-        </form>
-      </div>
-      <div class="select-filter__wrapper">
-        <label for="name">Nach Thema filtern:</label>
-        <select class="select__classes" name="classes" v-model="selectedTopic">
-          <option value="">Alle Themen</option>
-          <option v-for="topic in scheduleTopics" :value="topic" :key="topic">
-            {{ topic }}
-          </option>
-        </select>
-      </div>
+    <div class="select-filter__wrapper">
+      <form @change="loadSelectedClass" class="filters-wrapper">
+        <div>
+          <input type="radio" name="filter" id="all-recordings" value="" v-model="key">
+          <label for="all-recordings">Letzte Aufnahmen</label>
+        </div>
+        <div v-for="recording of recordingTypes" :key="recording.id">
+          <input type="radio" name="filter" :id="'class-' + recording.id" :value="recording.value" v-model="key">
+          <label :for="'class-' + recording.id">{{ recording.title }}</label>
+        </div>
+      </form>
     </div>
     <table>
       <thead>
@@ -31,31 +20,25 @@
           <th scope="col">Event</th>
           <th scope="col">Datum</th>
           <th scope="col">Zeit</th>
-          <th scope="col">Thema</th>
-          <th scope="col"></th>
+          <th scope="col">Notizen</th>
+          <th scope="col">Aufnahme</th>
         </tr>
       </thead>
       <tbody>
-        <tr v-for="recording in recordings" :key="recording.recordingKey">
-          <th scope="row">{{ recording.recordingData.topic }}</th>
-          <td>{{ recording.recordingData.date }}</td>
-          <td>{{ recording.recordingData.time }}</td>
+        <tr v-for="{ recordingData, recordingKey } in recordings" :key="recordingKey">
+          <th scope="row">{{ recordingData.topic }}</th>
+          <td>{{ recordingData.date }}</td>
+          <td>{{ recordingData.time }}</td>
           <td>
-            <span class="recording__date-time-text" v-if="this.$store.getters.isTeacher">
-              <select name="scheduleTopic" id="" v-model="recording.recordingData.scheduleTopic"
-                @input="updateRecordingTopic(recording, $event.target.value)">
-                <option value="-">-</option>
-                <option v-for="topic in scheduleTopics" :value="topic" :key="topic">
-                  {{ topic }}
-                </option>
-              </select>
-            </span>
-            <span class="recording__date-time-text" v-if="this.$store.getters.isStudent">
-              {{ recording.recordingData.scheduleTopic }}
+            <span
+              v-if="recordingData.topic.includes('Teilzeit') === false && recordingData.topic.includes('Abschlusspräsentation') === false">
+              <AccentButton :to="getNotes(recordingData.topic, recordingData.date)" title="GitHub">
+                <GitHubIcon color="white" style="width: 1rem" />
+              </AccentButton>
             </span>
           </td>
           <td>
-            <AccentButton title="Video" :to="recording.recordingData.shareUrl">
+            <AccentButton title="Video" :to="recordingData.shareUrl">
               <PlayIcon color="white" />
             </AccentButton>
           </td>
@@ -67,6 +50,7 @@
 <script>
 import PageHeader from "@/components/PageHeader.vue";
 import PlayIcon from "@/components/icons/PlayIcon.vue";
+import GitHubIcon from "@/components/icons/GitHubIcon.vue";
 import AccentButton from "@/components/AccentButton.vue";
 import { db } from "@/firebase";
 import {
@@ -84,6 +68,7 @@ export default {
   components: {
     PageHeader,
     PlayIcon,
+    GitHubIcon,
     AccentButton
   },
   data() {
@@ -101,12 +86,12 @@ export default {
         {
           title: "VZ Mai 2024",
           value: "Live-Session Class 2024 Mai",
-          id: "vz-mai-24"
+          id: "2024-05",
         },
         {
           title: "VZ Juni 2024",
           value: "Live-Session Class 2024 Juni",
-          id: "vz-jun-24"
+          id: "2024-06"
         },
         {
           title: "Abschlusspräsentationen",
@@ -150,6 +135,35 @@ export default {
     },
   },
   methods: {
+    getNotes(topic, date) {
+      const months = {
+        Januar: "01",
+        Februar: "02",
+        März: "03",
+        April: "04",
+        Mai: "05",
+        Juni: "06",
+        Juli: "07",
+        August: "08",
+        September: "09",
+        Oktober: "10",
+        November: "11",
+        Dezember: "12"
+      }
+
+      const baseUrl = "https://github.com/coding-bootcamps-eu/"
+
+      topic = topic.replace("Live-Session Class ", "");
+      const year = topic.split(" ")[0];
+      const month = topic.split(" ")[1];
+      const classSlug = `${year}-${months[month]}`
+
+      date = date.split(".")
+      date = `${date[2]}-${date[1].length > 1 ? date[1] : "0" + date[1]}-${date[0]}`
+
+      return `${baseUrl}${classSlug}/tree/main/Vollzeit/${date}`
+
+    },
     getFormattedDate(date) {
       return date.toLocaleDateString("de-DE", {
         year: "numeric",
