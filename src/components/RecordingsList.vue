@@ -1,39 +1,24 @@
 <template>
   <section class="recording__container" id="recordings">
-    <PageHeader
-      title="Recordings"
-      sub="Watch recordings to live sessions and other events even after they happened"
-    />
+    <PageHeader title="Aufnahmen"
+      sub="Schau dir nachträglich die Aufzeichnungen von Live Sessions und anderen Veranstaltugnen an" />
     <div class="filter">
       <div class="select-filter__wrapper">
-        <label for="name">Class:</label>
-        <select
-          class="select__classes"
-          name="classes"
-          @change="loadSelectedClass"
-          v-model="key"
-        >
-          <option value="">Last Recordings</option>
-          <option value="Live-Session Coaching">Coaching</option>
-          <option value="Wochenabschluss">Wochenabschluss</option>
-          <option value="Live-Session Class 2023 September">
-            September 2023
-          </option>
-          <option value="Live-Session Class 2023 Oktober">Oktober 2023</option>
-          <option value="Live-Session Class 2023 Dezember">
-            Dezember 2023
-          </option>
-          <option value="Live-Session Class 2024 Januar">Januar 2024</option>
-          <option value="Live-Session Class 2024 Februar">Februar 2024</option>
-          <option value="Live-Session Class 2024 Mai">Mai 2024</option>
-          <option value="Live-Session Teilzeit">Live-Session Teilzeit</option>
-          <option value="Abschlusspräsentation">Abschlusspräsentation</option>
-        </select>
+        <form @change="loadSelectedClass" class="filters-wrapper">
+          <div>
+            <input type="radio" name="filter" id="all-recordings" value="" v-model="key">
+            <label for="all-recordings">Letzte Aufnahmen</label>
+          </div>
+          <div v-for="recording of recordingTypes" :key="recording.id">
+            <input type="radio" name="filter" :id="recording.id" :value="recording.value" v-model="key">
+            <label :for="recording.id">{{ recording.title }}</label>
+          </div>
+        </form>
       </div>
       <div class="select-filter__wrapper">
-        <label for="name">Topic:</label
-        ><select class="select__classes" name="classes" v-model="selectedTopic">
-          <option value="">Any Topic</option>
+        <label for="name">Nach Thema filtern:</label>
+        <select class="select__classes" name="classes" v-model="selectedTopic">
+          <option value="">Alle Themen</option>
           <option v-for="topic in scheduleTopics" :value="topic" :key="topic">
             {{ topic }}
           </option>
@@ -44,10 +29,10 @@
       <thead>
         <tr>
           <th scope="col">Event</th>
-          <th scope="col">Day</th>
-          <th scope="col">Time</th>
-          <th scope="col">Topic</th>
-          <th scope="col">Video</th>
+          <th scope="col">Datum</th>
+          <th scope="col">Zeit</th>
+          <th scope="col">Thema</th>
+          <th scope="col"></th>
         </tr>
       </thead>
       <tbody>
@@ -56,35 +41,23 @@
           <td>{{ recording.recordingData.date }}</td>
           <td>{{ recording.recordingData.time }}</td>
           <td>
-            <span
-              class="recording__date-time-text"
-              v-if="this.$store.getters.isTeacher"
-            >
-              <select
-                name="scheduleTopic"
-                id=""
-                v-model="recording.recordingData.scheduleTopic"
-                @input="updateRecordingTopic(recording, $event.target.value)"
-              >
+            <span class="recording__date-time-text" v-if="this.$store.getters.isTeacher">
+              <select name="scheduleTopic" id="" v-model="recording.recordingData.scheduleTopic"
+                @input="updateRecordingTopic(recording, $event.target.value)">
                 <option value="-">-</option>
-                <option
-                  v-for="topic in scheduleTopics"
-                  :value="topic"
-                  :key="topic"
-                >
+                <option v-for="topic in scheduleTopics" :value="topic" :key="topic">
                   {{ topic }}
                 </option>
               </select>
             </span>
-            <span
-              class="recording__date-time-text"
-              v-if="this.$store.getters.isStudent"
-            >
+            <span class="recording__date-time-text" v-if="this.$store.getters.isStudent">
               {{ recording.recordingData.scheduleTopic }}
             </span>
           </td>
           <td>
-            <a :href="recording.recordingData.shareUrl">Play</a>
+            <AccentButton title="Video" :to="recording.recordingData.shareUrl">
+              <PlayIcon color="white" />
+            </AccentButton>
           </td>
         </tr>
       </tbody>
@@ -93,6 +66,8 @@
 </template>
 <script>
 import PageHeader from "@/components/PageHeader.vue";
+import PlayIcon from "@/components/icons/PlayIcon.vue";
+import AccentButton from "@/components/AccentButton.vue";
 import { db } from "@/firebase";
 import {
   orderBy,
@@ -108,33 +83,58 @@ export default {
   name: "CBERecordings",
   components: {
     PageHeader,
+    PlayIcon,
+    AccentButton
   },
   data() {
     return {
-      lastestRecordings: [],
+      latestRecordings: [],
       filteredRecordings: [],
       key: "",
       selectedTopic: "",
+      recordingTypes: [
+        {
+          title: "Teilzeit",
+          value: "Live-Session Teilzeit",
+          id: "part-time"
+        },
+        {
+          title: "VZ Mai 2024",
+          value: "Live-Session Class 2024 Mai",
+          id: "vz-mai-24"
+        },
+        {
+          title: "VZ Juni 2024",
+          value: "Live-Session Class 2024 Juni",
+          id: "vz-jun-24"
+        },
+        {
+          title: "Abschlusspräsentationen",
+          value: "Abschlusspräsentation",
+          id: "abschluss"
+        }
+      ]
     };
   },
   created() {
     // Always load latest recordings --> standard use case
-    this.loadLastestRecordings();
+    this.loadlatestRecordings();
   },
   computed: {
     recordings() {
-      let recordings = [];
+      const currentRecordings = [];
+
       if (this.key === "") {
-        recordings = this.lastestRecordings;
+        currentRecordings.push(...this.latestRecordings);
       } else {
-        recordings = this.filteredRecordings;
+        currentRecordings.push(...this.filteredRecordings);
       }
       if (this.selectedTopic !== "") {
-        recordings = recordings.filter(
+        return currentRecordings.filter(
           (r) => r.recordingData.scheduleTopic === this.selectedTopic
         );
       }
-      return recordings;
+      return currentRecordings;
     },
     scheduleTopics() {
       // Set is used to remove duplicates
@@ -168,7 +168,7 @@ export default {
       data.scheduleTopic = scheduleTopic;
       await updateDoc(recording.doc.ref, data);
     },
-    async loadLastestRecordings() {
+    async loadlatestRecordings() {
       const queryResult = await getDocs(
         query(
           collection(db, "zoom-recordings"),
@@ -207,7 +207,7 @@ export default {
           doc.data().scheduleTopic
         );
       });
-      this.lastestRecordings = latestRecordings;
+      this.latestRecordings = latestRecordings;
     },
     async loadSelectedClass() {
       const querySnapshot = await getDocs(
@@ -321,15 +321,53 @@ export default {
   background-color: var(--clr-accent-light);
 
   padding: var(--s-base);
-  border-radius: var(--radius-outer);
+
+  display: flex;
+  flex-direction: column;
+  gap: 2.5rem;
+}
+
+.filters-wrapper {
+  display: flex;
+}
+
+.filters-wrapper input {
+  all: unset;
+
+  position: absolute;
+}
+
+.filters-wrapper label {
+  color: var(--clr-accent);
+
+  display: inline-block;
+  padding: .25rem .75rem;
+  border-block: 2px solid var(--clr-accent);
+}
+
+.filters-wrapper div:first-of-type label {
+  border-left: 2px solid var(--clr-accent);
+  border-radius: .25rem 0 0 .25rem;
+}
+
+.filters-wrapper div:last-of-type label {
+  border-right: 2px solid var(--clr-accent);
+  border-radius: 0 .25rem .25rem 0;
+}
+
+.filters-wrapper input:checked+label {
+  background-color: var(--clr-accent);
+  color: var(--clr-white);
+}
+
+.filters-wrapper input:focus-visible+label {
+  outline: 2px solid black;
 }
 
 .select-filter__wrapper {
   display: flex;
   align-items: center;
   gap: var(--s-base);
-
-  margin-block: var(--s-base);
 }
 
 .filter label {
@@ -337,13 +375,13 @@ export default {
 }
 
 .filter select {
-  background-color: var(--clr-background);
+  background-color: var(--clr-accent);
+  color: var(--clr-white);
+  font-weight: 700;
 
   padding: var(--s-xs);
-}
-
-select {
-  width: 100%;
+  border: none;
+  border-radius: .25rem;
 }
 
 td a {
@@ -356,8 +394,8 @@ td a {
 }
 
 @media screen and (min-width: 768px) {
-  table,
-  .filter {
+
+  table {
     border-radius: var(--radius-inner);
   }
 }

@@ -13,8 +13,8 @@ const calendarId = "c_g6tobjgvg073o6tf566630nks4@group.calendar.google.com";
 
 // Service Acccount / JWT
 const serviceAccountAuth = new google.auth.JWT({
-  email: process.env.SERVICE_ACCOUNT_EMAIL,
-  key: process.env.SERVICE_ACCOUNT_PRIVATE_KEY,
+  email: import.meta.env.SERVICE_ACCOUNT_EMAIL,
+  key: import.meta.env.SERVICE_ACCOUNT_PRIVATE_KEY,
   scopes: "https://www.googleapis.com/auth/calendar",
 });
 const calendarApi = google.calendar("v3");

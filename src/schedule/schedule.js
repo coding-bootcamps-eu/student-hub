@@ -1,7 +1,7 @@
 export const fullTimeSchedule = [
   {
     title: "Web Dev Foundation",
-    length: "2 Weeks",
+    length: "2 Wochen",
     categories: [
       {
         title: "Onboarding",
@@ -57,7 +57,7 @@ export const fullTimeSchedule = [
   },
   {
     title: "Coding Foundation",
-    length: "2 weeks",
+    length: "2 Wochen",
     categories: [
       {
         title: "Introduction to Programming with JavaScript",
@@ -81,7 +81,7 @@ export const fullTimeSchedule = [
   },
   {
     title: "Web Apps Foundation",
-    length: "2 weeks",
+    length: "2 Wochen",
     categories: [
       {
         title: "Wep App Basics",
@@ -105,7 +105,7 @@ export const fullTimeSchedule = [
   },
   {
     title: "RESTful Backends",
-    length: "1 week",
+    length: "1 Woche",
     categories: [
       {
         title: "Fetch and HTTP Requests",
@@ -137,7 +137,7 @@ export const fullTimeSchedule = [
   },
   {
     title: "Testing",
-    length: "2 Days",
+    length: "2 Tage",
     categories: [
       {
         title: "Intro to Software Testing",
@@ -158,7 +158,7 @@ export const fullTimeSchedule = [
   },
   {
     title: "Web Apps with Vue.js",
-    length: "2 weeks",
+    length: "2 Wochen",
     categories: [
       {
         title: "Vue Basics",
@@ -185,7 +185,7 @@ export const fullTimeSchedule = [
 export const partTimeSchedule = [
   {
     title: "Web Dev Foundation",
-    length: "6 Weeks",
+    length: "6 Wochen",
     categories: [
       {
         title: "Onboarding",
@@ -241,7 +241,7 @@ export const partTimeSchedule = [
   },
   {
     title: "Coding Foundation",
-    length: "6 weeks",
+    length: "6 Wochen",
     categories: [
       {
         title: "Introduction to Programming with JavaScript",
@@ -265,7 +265,7 @@ export const partTimeSchedule = [
   },
   {
     title: "Web Apps Foundation",
-    length: "6 weeks",
+    length: "6 Wochen",
     categories: [
       {
         title: "Wep App Basics",
@@ -289,7 +289,7 @@ export const partTimeSchedule = [
   },
   {
     title: "RESTful Backends",
-    length: "3 week",
+    length: "3 Wochen",
     categories: [
       {
         title: "Fetch and HTTP Requests",
@@ -321,7 +321,7 @@ export const partTimeSchedule = [
   },
   {
     title: "Testing",
-    length: "1 week",
+    length: "1 Woche",
     categories: [
       {
         title: "Intro to Software Testing",
@@ -342,7 +342,7 @@ export const partTimeSchedule = [
   },
   {
     title: "Web Apps with Vue.js",
-    length: "6 weeks",
+    length: "6 Wochen",
     categories: [
       {
         title: "Vue Basics",
