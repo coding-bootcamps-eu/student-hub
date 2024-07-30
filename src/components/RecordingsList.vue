@@ -25,20 +25,30 @@
         </tr>
       </thead>
       <tbody>
-        <tr v-for="{ recordingData, recordingKey } in recordings" :key="recordingKey">
-          <th scope="row">{{ recordingData.topic }}</th>
-          <td>{{ recordingData.date }}</td>
-          <td>{{ recordingData.time }}</td>
+        <tr v-for="recording in recordings" :key="recording.recordingKey">
+          <th scope="row">
+            {{ recordingTopic(recording, recording.recordingData.partTimeClass) }}
+            <select name="part-time-class" id="part-time-class"
+              v-if="recording.recordingData.topic.includes('Teilzeit') && this.$store.getters.isTeacher"
+              @input="updatePartTimeClass(recording, $event.target.value)"
+              v-model="recording.recordingData.partTimeClass">
+              <option :value="null">
+                Bitte wählen
+              </option>
+              <option :value="currentClass" v-for="currentClass of partTimeClasses">
+                {{ currentClass }}
+              </option>
+            </select>
+          </th>
+          <td>{{ recording.recordingData.date }}</td>
+          <td>{{ recording.recordingData.time }}</td>
           <td>
-            <span
-              v-if="recordingData.topic.includes('Teilzeit') === false && recordingData.topic.includes('Abschlusspräsentation') === false">
-              <AccentButton :to="getNotes(recordingData.topic, recordingData.date)" title="GitHub">
-                <GitHubIcon color="white" style="width: 1rem" />
-              </AccentButton>
-            </span>
+            <AccentButton :to="getNotes(recording)" title="GitHub" v-if="getNotes(recording)">
+              <GitHubIcon color=" white" style="width: 1rem" />
+            </AccentButton>
           </td>
           <td>
-            <AccentButton title="Video" :to="recordingData.shareUrl">
+            <AccentButton title="Video" :to="recording.recordingData.shareUrl">
               <PlayIcon color="white" />
             </AccentButton>
           </td>
@@ -98,6 +108,12 @@ export default {
           value: "Abschlusspräsentation",
           id: "abschluss"
         }
+      ],
+      partTimeClasses: [
+        "2023 Dezember",
+        "2024 Februar",
+        "2024 März",
+        "2024 Mai"
       ]
     };
   },
@@ -121,21 +137,39 @@ export default {
       }
       return currentRecordings;
     },
-    scheduleTopics() {
-      // Set is used to remove duplicates
-      const categories = [];
-
-      fullTimeSchedule.forEach((module) => {
-        module.categories.forEach((category) =>
-          categories.push(category.title)
-        );
-      });
-
-      return categories;
-    },
   },
   methods: {
-    getNotes(topic, date) {
+    recordingTopic(rec, partTimeClass) {
+      const topic = rec.recordingData.topic;
+
+      if (topic.includes("Abschlusspräsentation")) return topic;
+
+      let prefix = "";
+      let year = ""
+      let month = ""
+
+      if (topic.includes("Class")) {
+        prefix = "VZ";
+        year = topic.split(" ")[2];
+        month = topic.split(" ")[3]
+      }
+
+      if (topic.includes("Teilzeit")) {
+        prefix = "TZ";
+
+        if (partTimeClass) {
+          year = partTimeClass.split(" ")[0];
+          month = partTimeClass.split(" ")[1];
+        }
+      }
+
+      return `${prefix} ${year} ${month}`
+    },
+
+    getNotes(rec) {
+      if (rec.recordingData.topic.includes("Abschlusspräsentation")) return false;
+      if (rec.recordingData.topic.includes("Teilzeit") && rec.recordingData.partTimeClass === undefined) return false;
+
       const months = {
         Januar: "01",
         Februar: "02",
@@ -153,17 +187,32 @@ export default {
 
       const baseUrl = "https://github.com/coding-bootcamps-eu/"
 
-      topic = topic.replace("Live-Session Class ", "");
+      const isPartTime = rec.recordingData.topic.includes("Teilzeit");
+
+      if (isPartTime) {
+        const topic = rec.recordingData.partTimeClass;
+        const year = topic.split(" ")[0];
+        const month = topic.split(" ")[1];
+        const classSlug = `${year}-${months[month]}`
+
+        let date = rec.recordingData.date.split(".")
+        date = `${date[2]}-${date[1].length > 1 ? date[1] : "0" + date[1]}-${date[0]}`
+
+        return `${baseUrl}${classSlug}/tree/main/Teilzeit/${date}`
+      }
+
+      const topic = rec.recordingData.topic.replace("Live-Session Class ", "");
       const year = topic.split(" ")[0];
       const month = topic.split(" ")[1];
       const classSlug = `${year}-${months[month]}`
 
-      date = date.split(".")
+      let date = rec.recordingData.date.split(".")
       date = `${date[2]}-${date[1].length > 1 ? date[1] : "0" + date[1]}-${date[0]}`
 
       return `${baseUrl}${classSlug}/tree/main/Vollzeit/${date}`
 
     },
+
     getFormattedDate(date) {
       return date.toLocaleDateString("de-DE", {
         year: "numeric",
@@ -171,17 +220,23 @@ export default {
         day: "numeric",
       });
     },
+
     getFormattedTime(date) {
       return date.toLocaleTimeString("de-DE", {
         hour: "2-digit",
         minute: "2-digit",
       });
     },
-    async updateRecordingTopic(recording, scheduleTopic) {
+
+    async updatePartTimeClass(recording, chosenClass) {
+      if (chosenClass === null) return;
+
       const data = recording.doc.data();
-      data.scheduleTopic = scheduleTopic;
+      data.partTimeClass = chosenClass;
+
       await updateDoc(recording.doc.ref, data);
     },
+
     async loadlatestRecordings() {
       const queryResult = await getDocs(
         query(
@@ -218,7 +273,7 @@ export default {
           doc.data().topic,
           doc.data()["video-files-download-url"],
           doc.data().videoFilesDownloadUrl,
-          doc.data().scheduleTopic
+          doc.data().partTimeClass
         );
       });
       this.latestRecordings = latestRecordings;
@@ -253,7 +308,7 @@ export default {
           doc.data().topic,
           doc.data()["video-files-download-url"],
           doc.data().videoFilesDownloadUrl,
-          doc.data().scheduleTopic
+          doc.data().partTimeClass
         );
       });
       this.filteredRecordings = filteredRecordings;
@@ -271,7 +326,7 @@ export default {
       topic,
       vFilesDownOne,
       vFilesDownTwo,
-      scheduleTopic
+      partTimeClass
     ) {
       elem.push({
         doc: doc,
@@ -284,7 +339,7 @@ export default {
           shareUrl: share,
           topic: topic,
           videoFilesDownloadUrl: vFilesDownOne || vFilesDownTwo,
-          scheduleTopic: scheduleTopic,
+          partTimeClass: partTimeClass,
         },
       });
     },
