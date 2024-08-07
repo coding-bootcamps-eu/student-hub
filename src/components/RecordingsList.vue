@@ -196,7 +196,9 @@ export default {
         const classSlug = `${year}-${months[month]}`
 
         let date = rec.recordingData.date.split(".")
-        date = `${date[2]}-${date[1].length > 1 ? date[1] : "0" + date[1]}-${date[0]}`
+        console.log(date);
+        date = `${date[2]}-${date[1].length > 1 ? date[1] : "0" + date[1]}-${date[0].length > 1 ? date[0] : "0" + date[0]}`
+        console.log(date);
 
         return `${baseUrl}${classSlug}/tree/main/Teilzeit/${date}`
       }
@@ -207,7 +209,7 @@ export default {
       const classSlug = `${year}-${months[month]}`
 
       let date = rec.recordingData.date.split(".")
-      date = `${date[2]}-${date[1].length > 1 ? date[1] : "0" + date[1]}-${date[0]}`
+      date = `${date[2]}-${date[1].length > 1 ? date[1] : "0" + date[1]}-${date[0].length > 1 ? date[0] : "0" + date[0]}`
 
       return `${baseUrl}${classSlug}/tree/main/Vollzeit/${date}`
 
