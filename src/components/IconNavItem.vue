@@ -25,24 +25,37 @@ export default {
 
   data() {
     return {
-      linkClasses: `
-        bg-violet-100
-        text-violet-700
-        flex
-        flex-col
-        lg:flex-row
-        lg:gap-4
-        lg:text-base
-        lg:hover:bg-violet-200
-        lg:hover:rounded
-        items-center
-        p-4
-        text-xs
-      `,
       iconClasses: `
         w-6
       `,
     };
+  },
+
+  computed: {
+    linkClasses() {
+      let base = `
+        bg-violet-100
+        text-violet-700
+        flex
+        flex-col
+        md:px-12
+        md:flex-row
+        md:gap-4
+        md:text-base
+        md:hover:bg-violet-200
+        md:hover:text-violet-700
+        items-center
+        p-4
+        text-xs
+        md:rounded
+      `;
+
+      if (this.to === this.$route.path) {
+        base += " bg-violet-700 text-white";
+      }
+
+      return base;
+    },
   },
 };
 </script>

@@ -1,8 +1,5 @@
 <template>
   <section>
-    <PageHeader
-      title="Aufnahmen"
-      sub="Schau dir nachträglich die Aufzeichnungen von Live Sessions an" />
     <div>
       <form
         @change="loadSelectedClass"
@@ -11,7 +8,7 @@
           md:flex-nowrap
           gap-2
           bg-violet-100
-          p-2
+          p-4
           rounded-xl
         ">
         <div>
@@ -87,7 +84,6 @@
   </section>
 </template>
 <script>
-import PageHeader from "@/components/PageHeader.vue";
 import PlayIcon from "@/components/icons/PlayIcon.vue";
 import GitHubIcon from "@/components/icons/GitHubIcon.vue";
 import AccentButton from "@/components/AccentButton.vue";
@@ -103,9 +99,7 @@ import {
 } from "firebase/firestore";
 import { useAppStore } from "../stores/app";
 export default {
-  name: "CBERecordings",
   components: {
-    PageHeader,
     PlayIcon,
     GitHubIcon,
     AccentButton,
@@ -121,7 +115,7 @@ export default {
         [&:checked+label]:text-white
       `,
       labelClasses: `
-        py-1 px-3 inline-block border-2 border-violet-700 rounded
+        py-1 px-3 text-xs inline-block border-[1px] border-violet-700 rounded
       `,
       latestRecordings: [],
       filteredRecordings: [],

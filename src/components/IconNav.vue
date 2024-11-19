@@ -2,18 +2,19 @@
   <nav>
     <menu
       class="
+        fixed
+        z-50
+        bottom-0
         flex
         justify-between
         bg-violet-100
-        fixed
         w-full
-        bottom-0
-        px-4
-        lg:static lg:flex-col lg:h-full lg:justify-start
+        px-2
+        md:static md:flex-col md:h-full md:justify-start md:gap-4
         overflow-x-auto
       ">
       <IconNavItem
-        v-for="link of links"
+        v-for="link of store.links"
         :key="link.to"
         :to="link.to"
         :text="link.title">
@@ -30,6 +31,7 @@ import CalendarIcon from "./icons/lobby/CalendarIcon.vue";
 import HospitalIcon from "./icons/lobby/HospitalIcon.vue";
 
 import IconNavItem from "./IconNavItem.vue";
+import { useAppStore } from "../stores/app";
 
 export default {
   components: {
@@ -42,28 +44,7 @@ export default {
 
   data() {
     return {
-      links: [
-        {
-          title: "Lobby",
-          to: "/",
-          icon: "Home",
-        },
-        {
-          title: "Sessions",
-          to: "/recordings",
-          icon: "Play",
-        },
-        {
-          title: "Module",
-          to: "/schedule",
-          icon: "Calendar",
-        },
-        {
-          title: "Abmelden",
-          to: "https://form.asana.com/?k=msqPDRYEAxA8uspT_xcYbw&d=1181024715195521",
-          icon: "Hospital",
-        },
-      ],
+      store: useAppStore(),
     };
   },
 };

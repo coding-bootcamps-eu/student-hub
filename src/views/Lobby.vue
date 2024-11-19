@@ -2,33 +2,18 @@
   <section>
     <header class="page-heading">
       <p class="bg-indigo-100 p-2 rounded text-violet-700">
-        Hello {{ this.$store.getters.userName }}! 👋 {{ randomQuote }}
+        Hello {{ store.userName }}! 👋 {{ randomQuote }}
       </p>
     </header>
-    <form @change="selectedView = $event.target.value" v-if="isTeacher">
-      <span>Choose a layout: </span>
-      <input
-        type="radio"
-        name="view"
-        id="teacher-view"
-        value="teacher"
-        v-model="selectedView" />
-      <label for="teacher-view">Teacher</label>
-      <input
-        type="radio"
-        name="view"
-        id="student-view"
-        value="student"
-        v-model="selectedView" />
-      <label for="student-view">Student</label>
-    </form>
     <ItemsGrid :view="selectedView" />
   </section>
 </template>
 
 <script>
 import ItemsGrid from "@/components/Lobby/ItemsGrid.vue";
+
 import { useAppStore } from "../stores/app";
+
 export default {
   name: "Home",
   data() {

@@ -15,11 +15,29 @@ export const useAppStore = defineStore("app", {
       className: null,
       startDate: null,
       fulltime: null,
-      // Is the user logged in
       isLoggedIn: false,
-      timerInterval: undefined,
-      timeLeft: 0,
-      timerType: undefined,
+      links: [
+        {
+          title: "Lobby",
+          to: "/",
+          icon: "Home",
+        },
+        {
+          title: "Sessions",
+          to: "/recordings",
+          icon: "Play",
+        },
+        {
+          title: "Module",
+          to: "/schedule",
+          icon: "Calendar",
+        },
+        {
+          title: "Abmelden",
+          to: "https://form.asana.com/?k=msqPDRYEAxA8uspT_xcYbw&d=1181024715195521",
+          icon: "Hospital",
+        },
+      ],
     };
   },
 

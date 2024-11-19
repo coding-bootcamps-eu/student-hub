@@ -1,7 +1,17 @@
 <template>
-  <header class="pb-4 mb-4 border-b-2">
-    <h2 class="text-violet-700 font-bold text-xl">{{ title }}</h2>
-    <p class="text-violet-400 text-xs" v-if="sub">{{ sub }}</p>
+  <header>
+    <h2
+      class="
+        text-violet-700
+        bg-violet-200
+        text-xs
+        py-1
+        px-3
+        md:text-2xl md:py-2 md:px-6
+        rounded
+      ">
+      {{ title }}
+    </h2>
   </header>
 </template>
 
@@ -9,7 +19,6 @@
 export default {
   props: {
     title: String,
-    sub: String,
   },
 };
 </script>

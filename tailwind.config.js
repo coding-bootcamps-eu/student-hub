@@ -5,6 +5,7 @@ module.exports = {
     extend: {
       gridTemplateRows: {
         layout: "auto 1fr auto",
+        "2-layout": "1fr auto",
       },
       gridTemplateColumns: {
         layout: "auto 1fr",

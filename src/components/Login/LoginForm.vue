@@ -1,9 +1,7 @@
 <template>
-  <button v-if="this.$store.state.isLoggedIn" @click="logout">Logout</button>
+  <button v-if="store.isLoggedIn" @click="logout">Logout</button>
 
-  <button v-if="!this.$store.state.isLoggedIn" @click="login">
-    Mit GitHub anmelden
-  </button>
+  <button v-if="store.isLoggedIn" @click="login">Mit GitHub anmelden</button>
 </template>
 
 <script>
@@ -13,8 +11,15 @@ import {
   signOut,
   getAuth,
 } from "firebase/auth";
+import { useAppStore } from "../../stores/app";
 
 export default {
+  data() {
+    return {
+      store: useAppStore(),
+    };
+  },
+
   methods: {
     async login() {
       const provider = new GithubAuthProvider();
