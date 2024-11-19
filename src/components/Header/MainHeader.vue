@@ -1,15 +1,21 @@
 <template>
-  <header class="main-header">
-    <div class="header-content">
+  <header
+    class="
+      relative
+      flex
+      p-4
+      items-center
+      justify-between
+      bg-violet-100
+      top-0
+      shadow-sm shadow-violet-100/40
+    ">
+    <div class="flex items-center gap-4">
       <img
         src="/img/Logo_V2_rund.png"
         alt="Logo Coding Bootcamps Europe GmbH"
-        class="header-content__logo"
-      />
-      <div class="header-content__text">
-        <h1 class="header-content__title">Student Hub</h1>
-        <p class="header-content__subtitle">Coding Bootcamps Europe</p>
-      </div>
+        class="w-10" />
+      <h1 class="text-violet-700">CBE Hub</h1>
     </div>
     <MainNavigation />
   </header>

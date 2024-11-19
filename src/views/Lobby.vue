@@ -1,34 +1,26 @@
 <template>
   <section>
     <header class="page-heading">
-      <p class="greeting">
+      <p class="bg-indigo-100 p-2 rounded text-violet-700">
         Hello {{ this.$store.getters.userName }}! 👋 {{ randomQuote }}
       </p>
     </header>
-    <form
-      class="layout-switcher__wrapper"
-      @change="selectedView = $event.target.value"
-      v-if="isTeacher"
-    >
+    <form @change="selectedView = $event.target.value" v-if="isTeacher">
       <span>Choose a layout: </span>
       <input
         type="radio"
         name="view"
         id="teacher-view"
         value="teacher"
-        v-model="selectedView"
-        class="tab"
-      />
-      <label for="teacher-view" class="tab-text">Teacher</label>
+        v-model="selectedView" />
+      <label for="teacher-view">Teacher</label>
       <input
         type="radio"
         name="view"
         id="student-view"
-        class="tab"
         value="student"
-        v-model="selectedView"
-      />
-      <label for="student-view" class="tab-text">Student</label>
+        v-model="selectedView" />
+      <label for="student-view">Student</label>
     </form>
     <ItemsGrid :view="selectedView" />
   </section>
@@ -101,35 +93,3 @@ export default {
   },
 };
 </script>
-
-<style scoped>
-.page-heading {
-  background-color: var(--clr-accent-light);
-
-  padding: var(--s-base);
-  margin-top: 0;
-
-  border-radius: var(--radius-outer);
-}
-
-.page-heading:has(+ .lobby-grid__container) {
-  margin-block: 0 var(--s-base);
-}
-
-.layout-switcher__wrapper {
-  margin-block: var(--s-base);
-
-  display: flex;
-  gap: var(--s-base);
-}
-
-@media screen and (min-width: 768px) {
-  .page-heading {
-    border-radius: var(--radius-inner);
-  }
-
-  .layout-switcher__wrapper {
-    margin-block: var(--s-large);
-  }
-}
-</style>
