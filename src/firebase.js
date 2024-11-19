@@ -11,7 +11,7 @@ import {
   setDoc,
 } from "firebase/firestore";
 import { getAuth } from "firebase/auth";
-import store from "./store";
+import { useAppStore } from "@/stores/app.js";
 
 export const firebaseFunctionsPrefix = import.meta.env
   .VITE_FIREBASE_FUNCTIONS_PREFIX;
@@ -42,9 +42,9 @@ const onAuthStateChangedPromise = new Promise((resolve, reject) => {
   auth.onAuthStateChanged(
     async (user) => {
       if (user !== null) {
-        await store.dispatch("login", user);
+        await useAppStore().login(user);
       } else {
-        await store.dispatch("logout");
+        await useAppStore().logout();
       }
       resolve();
     },

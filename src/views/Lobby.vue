@@ -28,10 +28,12 @@
 
 <script>
 import ItemsGrid from "@/components/Lobby/ItemsGrid.vue";
+import { useAppStore } from "../stores/app";
 export default {
   name: "Home",
   data() {
     return {
+      store: useAppStore(),
       selectedView: "teacher",
       greetings: [
         "Embrace today's challenges.",
@@ -84,7 +86,7 @@ export default {
   },
   computed: {
     isTeacher() {
-      return this.$store.getters.isTeacher;
+      return this.store.isTeacher;
     },
 
     randomQuote() {

@@ -1,9 +1,17 @@
 <template>
-  <PageHeader title="Module" sub="Hier bekommst du eine Übersicht darüber, wie unser Bootcamp aufgebaut ist" />
+  <PageHeader
+    title="Module"
+    sub="Hier bekommst du eine Übersicht darüber, wie unser Bootcamp aufgebaut ist" />
   <div class="schedule">
     <form class="tabs__container">
       <div class="tab-wrapper" v-for="className in classes" :key="className">
-        <input type="radio" :id="className" name="class-tab" :value="className" v-model="selectedClass" class="tab"
+        <input
+          type="radio"
+          :id="className"
+          name="class-tab"
+          :value="className"
+          v-model="selectedClass"
+          class="tab"
           @change="selectedClass = className" />
         <label :for="className" class="tab-text">
           {{ className }}
@@ -14,7 +22,7 @@
       <table v-for="module in selectedSchedule" :key="module.title">
         <thead>
           <tr>
-            <th scope="col" style="font-size: 1.5rem; width: 100%;">
+            <th scope="col" style="font-size: 1.5rem; width: 100%">
               {{ module.title }} (Dauer: {{ module.length }})
             </th>
             <th></th>
@@ -26,17 +34,29 @@
           <tr v-for="category of module.categories" :key="category">
             <th scope="row">{{ category.title }}</th>
             <td>
-              <AccentButton v-if="category.videos" title="Videos" :to="category.videos" style="margin-inline: auto">
+              <AccentButton
+                v-if="category.videos"
+                title="Videos"
+                :to="category.videos"
+                style="margin-inline: auto">
                 <PlayIcon color="white" />
               </AccentButton>
             </td>
             <td>
-              <AccentButton v-if="category.tasks" title="Tasks" :to="category.tasks" style="margin-inline: auto">
+              <AccentButton
+                v-if="category.tasks"
+                title="Tasks"
+                :to="category.tasks"
+                style="margin-inline: auto">
                 <TaskIcon color="white" />
               </AccentButton>
             </td>
             <td>
-              <AccentButton v-if="category.slides" title="Slides" :to="category.slides" style="margin-inline: auto">
+              <AccentButton
+                v-if="category.slides"
+                title="Slides"
+                :to="category.slides"
+                style="margin-inline: auto">
                 <SlideIcon color="white" />
               </AccentButton>
             </td>
@@ -53,6 +73,7 @@ import TaskIcon from "@/components/icons/TaskIcon.vue";
 import SlideIcon from "@/components/icons/SlideIcon.vue";
 import AccentButton from "@/components/AccentButton.vue";
 import { fullTimeSchedule, partTimeSchedule } from "../schedule/schedule.js";
+import { useAppStore } from "../stores/app.js";
 export default {
   name: "Schedule",
   components: {
@@ -60,11 +81,12 @@ export default {
     PlayIcon,
     TaskIcon,
     SlideIcon,
-    AccentButton
+    AccentButton,
   },
 
   data() {
     return {
+      store: useAppStore(),
       selectedClass: "",
       classes: ["Vollzeit", "Teilzeit"],
       fullTimeSchedule: fullTimeSchedule,
@@ -73,7 +95,7 @@ export default {
     };
   },
   mounted() {
-    if (this.$store.state.fulltime) {
+    if (this.store.fulltime) {
       this.selectedClass = "Vollzeit";
     } else {
       this.selectedClass = "Teilzeit";
@@ -179,7 +201,7 @@ th[scope="row"] {
   width: 40%;
 }
 
-thead>tr>th:not(:first-child) {
+thead > tr > th:not(:first-child) {
   text-align: center;
 }
 

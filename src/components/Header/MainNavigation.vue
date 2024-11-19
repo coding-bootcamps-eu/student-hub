@@ -84,6 +84,7 @@
 <script>
 import LinkIcon from "@/components/icons/LinkIcon.vue";
 import MainFooter from "../MainFooter.vue";
+import { useAppStore } from "../../stores/app";
 
 export default {
   components: {
@@ -93,6 +94,7 @@ export default {
 
   data() {
     return {
+      store: useAppStore(),
       runOnce: false,
       showNavigation: false,
     };
@@ -100,7 +102,7 @@ export default {
 
   computed: {
     isLoggedIn() {
-      return this.$store.getters.isLoggedIn;
+      return this.store.isLoggedIn;
     },
 
     isHidden() {
@@ -110,7 +112,7 @@ export default {
     },
 
     isTeacher() {
-      return this.$store.getters.isTeacher;
+      return this.store.isTeacher;
     },
   },
 

@@ -16,7 +16,12 @@
         <h3>{{ meeting.className }}</h3>
         <ul>
           <li v-for="meeting in meeting.meetings" :key="meeting.uuid">
-            <a :href="meeting.join_url" target="_blank" rel="noopener noreferrer">{{ meeting.topic }}</a>
+            <a
+              :href="meeting.join_url"
+              target="_blank"
+              rel="noopener noreferrer"
+              >{{ meeting.topic }}</a
+            >
           </li>
         </ul>
       </li>
@@ -28,14 +33,14 @@
 </template>
 
 <script>
-import rooms from "@/zoom/rooms.js"
+import rooms from "@/zoom/rooms.js";
 
 export default {
   name: "Zoom",
   data: () => {
     return {
       isLoading: false,
-      meetings: rooms
+      meetings: rooms,
     };
   },
   computed: {},
@@ -113,7 +118,7 @@ a {
   align-items: center;
 }
 
-.meeting+.meeting {
+.meeting + .meeting {
   margin-top: 0.5rem;
 }
 

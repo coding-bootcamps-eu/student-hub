@@ -55,7 +55,7 @@
             id="part-time-class"
             v-if="
               recording.recordingData.topic.includes('Teilzeit') &&
-              this.$store.getters.isTeacher
+              store.isTeacher
             "
             @input="updatePartTimeClass(recording, $event.target.value)"
             v-model="recording.recordingData.partTimeClass">
@@ -101,7 +101,7 @@ import {
   where,
   updateDoc,
 } from "firebase/firestore";
-import { fullTimeSchedule } from "@/schedule/schedule";
+import { useAppStore } from "../stores/app";
 export default {
   name: "CBERecordings",
   components: {
@@ -110,10 +110,12 @@ export default {
     GitHubIcon,
     AccentButton,
   },
+
   data() {
     return {
+      store: useAppStore(),
       radioClasses: `
-        absolute 
+        absolute
         -top-[1000%]
         [&:checked+label]:bg-violet-700
         [&:checked+label]:text-white
@@ -130,6 +132,7 @@ export default {
           title: "Teilzeitklassen",
           value: "Live-Session Teilzeit",
           id: "part-time",
+          id: "part-time",
         },
         {
           title: "VZ Mai 24",
@@ -139,6 +142,7 @@ export default {
         {
           title: "VZ Juni 24",
           value: "Live-Session Class 2024 Juni",
+          id: "2024-06",
           id: "2024-06",
         },
         {
@@ -155,6 +159,7 @@ export default {
       ],
     };
   },
+
   created() {
     // Always load latest recordings --> standard use case
     this.loadlatestRecordings();

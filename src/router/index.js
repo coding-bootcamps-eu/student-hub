@@ -7,7 +7,7 @@ import Zoom from "../views/Zoom.vue";
 import Slides from "../views/Slides.vue";
 import Students from "../views/Students.vue";
 import Admin from "../views/Admin.vue";
-import store from "../store";
+import { useAppStore } from "@/stores/app.js";
 
 import { onAuthStateInit } from "../firebase";
 
@@ -87,18 +87,20 @@ const router = createRouter({
 });
 
 router.beforeEach(async (to) => {
+  const appStore = useAppStore();
+
   await onAuthStateInit();
 
   if (!to.meta.public) {
-    if (!store.getters.isLoggedIn) {
+    if (!appStore.isLoggedIn) {
       return "/login";
     }
-    if (store.getters.isGuest) {
+    if (appStore.isGuest) {
       return "/guest";
     }
   }
 
-  if (to.meta.teacher && !store.getters.isTeacher) {
+  if (to.meta.teacher && !appStore.isTeacher) {
     return "/";
   }
 });
