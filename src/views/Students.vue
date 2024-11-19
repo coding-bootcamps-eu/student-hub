@@ -1,21 +1,47 @@
 <template>
   <section class="content__container">
-    <form class="view-form__wrapper" @change="showStudents = $event.target.value === 'students'">
-      <input type="radio" name="students" id="show-students" value="students" :checked="showStudents" class="tab" />
+    <form
+      class="view-form__wrapper"
+      @change="showStudents = $event.target.value === 'students'">
+      <input
+        type="radio"
+        name="students"
+        id="show-students"
+        value="students"
+        :checked="showStudents"
+        class="tab" />
       <label for="show-students" class="tab-text">Students</label>
-      <input type="radio" name="students" id="show-guests" value="guests" class="tab" />
+      <input
+        type="radio"
+        name="students"
+        id="show-guests"
+        value="guests"
+        class="tab" />
       <label for="show-guests" class="tab-text">Guests</label>
     </form>
-    <section class="students-wrong-meta-data" v-if="this.$store.getters.isTeacher && showStudents === false">
-      <PageHeader class="page-header__container" :title="'Guests: ' + guests.length" />
+    <section
+      class="students-wrong-meta-data"
+      v-if="store.isTeacher && showStudents === false">
+      <PageHeader
+        class="page-header__container"
+        :title="'Guests: ' + guests.length" />
       <ul class="students-list">
-        <li v-for="user in guests" :key="user.data.uid" class="student-list__item">
+        <li
+          v-for="user in guests"
+          :key="user.data.uid"
+          class="student-list__item">
           <span>{{ user.data.githubName }}</span>
-          <a :href="user.data.githubProfileUrl" target="_blank" rel="noopener noreferrer">{{ user.data.githubProfileUrl
-            }}</a>
+          <a
+            :href="user.data.githubProfileUrl"
+            target="_blank"
+            rel="noopener noreferrer"
+            >{{ user.data.githubProfileUrl }}</a
+          >
           <div class="missing-meta-form">
-            <label for="">Classname</label><input type="text" v-model="user.data.className" />
-            <label for="">Fulltime</label><input type="checkbox" v-model="user.data.fulltime" />
+            <label for="">Classname</label
+            ><input type="text" v-model="user.data.className" />
+            <label for="">Fulltime</label
+            ><input type="checkbox" v-model="user.data.fulltime" />
             <label for="">Role</label>
 
             <select name="" id="" v-model="user.data.role">
@@ -32,27 +58,53 @@
       </ul>
     </section>
     <section class="students" v-if="showStudents">
-      <PageHeader class="page-header__container" :title="'Students: ' + filteredStudents.length" />
+      <PageHeader
+        class="page-header__container"
+        :title="'Students: ' + filteredStudents.length" />
       <form class="search-wrapper">
-        <input type="search" name="search-students" id="search-students" v-model="searchQuery" placeholder=" " />
+        <input
+          type="search"
+          name="search-students"
+          id="search-students"
+          v-model="searchQuery"
+          placeholder=" " />
         <label for="search-students"> Type a name to search students </label>
       </form>
       <form class="students-filter">
         <div>
-          <label for="class-name" style="position: absolute; font-size: 0">Show students from class</label><select
-            name="class-name" id="class-name" v-model="classNameFilter">
+          <label for="class-name" style="position: absolute; font-size: 0"
+            >Show students from class</label
+          ><select name="class-name" id="class-name" v-model="classNameFilter">
             <option value="all">All Classes</option>
-            <option :value="className" v-for="className of classNames" :key="className">
+            <option
+              :value="className"
+              v-for="className of classNames"
+              :key="className">
               {{ className }}
             </option>
           </select>
         </div>
         <div class="time-models__wrapper">
-          <input type="radio" id="time-model-all" value="all" v-model="timeModelFilter" class="tab" />
+          <input
+            type="radio"
+            id="time-model-all"
+            value="all"
+            v-model="timeModelFilter"
+            class="tab" />
           <label for="time-model-all" class="tab-text">All time models</label>
-          <input type="radio" id="time-model-fulltime" value="fulltime" v-model="timeModelFilter" class="tab" />
+          <input
+            type="radio"
+            id="time-model-fulltime"
+            value="fulltime"
+            v-model="timeModelFilter"
+            class="tab" />
           <label for="time-model-fulltime" class="tab-text">Full time</label>
-          <input type="radio" id="time-model-parttime" value="parttime" v-model="timeModelFilter" class="tab" />
+          <input
+            type="radio"
+            id="time-model-parttime"
+            value="parttime"
+            v-model="timeModelFilter"
+            class="tab" />
           <label for="time-model-parttime" class="tab-text">Part time</label>
         </div>
       </form>
@@ -63,7 +115,10 @@
         <button class="btn" @click="stopBulkEdit" v-if="bulkEdit">
           Cancel Bulk Edit
         </button>
-        <button class="btn btn-accent" @click.prevent="updateMultipleUsers" v-if="isMultipleEditsMode">
+        <button
+          class="btn btn-accent"
+          @click.prevent="updateMultipleUsers"
+          v-if="isMultipleEditsMode">
           Update All
         </button>
       </div>
@@ -84,7 +139,10 @@
                 {{ student.data.githubName }}
               </span>
               <span v-else>
-                <input type="text" :name="'name' + student.data.uid" :id="'name' + student.data.uid"
+                <input
+                  type="text"
+                  :name="'name' + student.data.uid"
+                  :id="'name' + student.data.uid"
                   v-model="student.data.githubName" />
               </span>
             </th>
@@ -103,12 +161,16 @@
               </select>
             </td>
             <td>
-              <AccentButton :to="student.data.githubProfileUrl" :title="getShortLink(student.data.githubProfileUrl)">
+              <AccentButton
+                :to="student.data.githubProfileUrl"
+                :title="getShortLink(student.data.githubProfileUrl)">
                 <GitHubIcon color="white" />
               </AccentButton>
             </td>
             <td class="col-edit">
-              <PenIcon @click="student.editMode = !student.editMode" v-if="!student.editMode" />
+              <PenIcon
+                @click="student.editMode = !student.editMode"
+                v-if="!student.editMode" />
             </td>
           </tr>
         </tbody>
@@ -119,7 +181,7 @@
 
 <script>
 import PageHeader from "@/components/PageHeader.vue";
-import AccentButton from "@/components/AccentButton.vue"
+import AccentButton from "@/components/AccentButton.vue";
 import GitHubIcon from "@/components/icons/GitHubIcon.vue";
 import PenIcon from "@/components/icons/PenIcon.vue";
 import {
@@ -131,6 +193,7 @@ import {
   deleteDoc,
 } from "firebase/firestore";
 import { db } from "../firebase";
+import { useAppStore } from "../stores/app";
 
 const defaultClassNameFilter = "all";
 const defaultTimeModelFilter = "all";
@@ -150,6 +213,7 @@ export default {
 
   data() {
     return {
+      store: useAppStore(),
       timeModelFilter: defaultTimeModelFilter,
       classNameFilter: defaultClassNameFilter,
       students: [],
@@ -235,8 +299,8 @@ export default {
 
     // TODO: move to store?
     async loadStudents() {
-      const isStudent = this.$store.getters.isStudent;
-      const isTeacher = this.$store.getters.isTeacher;
+      const isStudent = this.store.isStudent;
+      const isTeacher = this.store.isTeacher;
       this.students.length = 0;
 
       let studentDocs = [];
@@ -364,7 +428,7 @@ export default {
   position: relative;
 }
 
-.search-wrapper>label {
+.search-wrapper > label {
   color: var(--clr-accent);
   cursor: text;
   position: absolute;
@@ -387,8 +451,8 @@ export default {
   padding-inline: var(--p-inline);
 }
 
-#search-students:focus+label,
-#search-students:not(:placeholder-shown)+label {
+#search-students:focus + label,
+#search-students:not(:placeholder-shown) + label {
   font-size: 75%;
   top: 0.75rem;
 }
@@ -565,7 +629,7 @@ input[type="text"]:focus {
   padding: 0.25rem 0.75rem;
 }
 
-.role__wrapper input[type="radio"]:checked+.role-tab,
+.role__wrapper input[type="radio"]:checked + .role-tab,
 .selected-role-tab {
   background-color: var(--clr-accent-light);
   color: var(--clr-accent);
@@ -600,7 +664,7 @@ input[type="text"]:focus {
   justify-content: space-between;
 }
 
-.student__info>a {
+.student__info > a {
   color: inherit;
   text-decoration: underline;
   text-decoration-thickness: 1px;
@@ -653,18 +717,19 @@ input[type="text"]:focus {
     background-color: var(--clr-accent);
 
     padding: var(--inner-padding) calc(var(--inner-padding) * 1.5);
-    margin: calc(var(--inner-padding) * -1.5) calc(var(--inner-padding) * -1.5) 0 calc(var(--inner-padding) * -1.5);
+    margin: calc(var(--inner-padding) * -1.5) calc(var(--inner-padding) * -1.5)
+      0 calc(var(--inner-padding) * -1.5);
     border-radius: var(--radius-outer) var(--radius-outer) 0 0;
 
     gap: var(--s-large);
   }
 
-  .view-form__wrapper>.tab-text {
+  .view-form__wrapper > .tab-text {
     color: white;
     font-size: 115%;
   }
 
-  .view-form__wrapper>.tab:checked+.tab-text {
+  .view-form__wrapper > .tab:checked + .tab-text {
     text-decoration-color: white;
   }
 

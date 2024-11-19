@@ -1,15 +1,12 @@
 <template>
   <section>
     <header class="page-heading">
-      <p class="greeting">
-        Hello {{ this.$store.getters.userName }}! 👋 {{ randomQuote }}
-      </p>
+      <p class="greeting">Hello {{ store.userName }}! 👋 {{ randomQuote }}</p>
     </header>
     <form
       class="layout-switcher__wrapper"
       @change="selectedView = $event.target.value"
-      v-if="isTeacher"
-    >
+      v-if="isTeacher">
       <span>Choose a layout: </span>
       <input
         type="radio"
@@ -17,8 +14,7 @@
         id="teacher-view"
         value="teacher"
         v-model="selectedView"
-        class="tab"
-      />
+        class="tab" />
       <label for="teacher-view" class="tab-text">Teacher</label>
       <input
         type="radio"
@@ -26,8 +22,7 @@
         id="student-view"
         class="tab"
         value="student"
-        v-model="selectedView"
-      />
+        v-model="selectedView" />
       <label for="student-view" class="tab-text">Student</label>
     </form>
     <ItemsGrid :view="selectedView" />
@@ -36,10 +31,12 @@
 
 <script>
 import ItemsGrid from "@/components/Lobby/ItemsGrid.vue";
+import { useAppStore } from "../stores/app";
 export default {
   name: "Home",
   data() {
     return {
+      store: useAppStore(),
       selectedView: "teacher",
       greetings: [
         "Embrace today's challenges.",
@@ -92,7 +89,7 @@ export default {
   },
   computed: {
     isTeacher() {
-      return this.$store.getters.isTeacher;
+      return this.store.isTeacher;
     },
 
     randomQuote() {

@@ -1,15 +1,26 @@
 <template>
   <section class="recording__container" id="recordings">
-    <PageHeader title="Aufnahmen"
+    <PageHeader
+      title="Aufnahmen"
       sub="Schau dir nachträglich die Aufzeichnungen von Live Sessions und anderen Veranstaltugnen an" />
     <div class="select-filter__wrapper">
       <form @change="loadSelectedClass" class="filters-wrapper">
         <div>
-          <input type="radio" name="filter" id="all-recordings" value="" v-model="key">
+          <input
+            type="radio"
+            name="filter"
+            id="all-recordings"
+            value=""
+            v-model="key" />
           <label for="all-recordings">Letzte Aufnahmen</label>
         </div>
         <div v-for="recording of recordingTypes" :key="recording.id">
-          <input type="radio" name="filter" :id="'class-' + recording.id" :value="recording.value" v-model="key">
+          <input
+            type="radio"
+            name="filter"
+            :id="'class-' + recording.id"
+            :value="recording.value"
+            v-model="key" />
           <label :for="'class-' + recording.id">{{ recording.title }}</label>
         </div>
       </form>
@@ -27,15 +38,22 @@
       <tbody>
         <tr v-for="recording in recordings" :key="recording.recordingKey">
           <th scope="row">
-            {{ recordingTopic(recording, recording.recordingData.partTimeClass) }}
-            <select name="part-time-class" id="part-time-class"
-              v-if="recording.recordingData.topic.includes('Teilzeit') && this.$store.getters.isTeacher"
+            {{
+              recordingTopic(recording, recording.recordingData.partTimeClass)
+            }}
+            <select
+              name="part-time-class"
+              id="part-time-class"
+              v-if="
+                recording.recordingData.topic.includes('Teilzeit') &&
+                store.isTeacher
+              "
               @input="updatePartTimeClass(recording, $event.target.value)"
               v-model="recording.recordingData.partTimeClass">
-              <option :value="null">
-                Bitte wählen
-              </option>
-              <option :value="currentClass" v-for="currentClass of partTimeClasses">
+              <option :value="null">Bitte wählen</option>
+              <option
+                :value="currentClass"
+                v-for="currentClass of partTimeClasses">
                 {{ currentClass }}
               </option>
             </select>
@@ -43,7 +61,10 @@
           <td>{{ recording.recordingData.date }}</td>
           <td>{{ recording.recordingData.time }}</td>
           <td>
-            <AccentButton :to="getNotes(recording)" title="GitHub" v-if="getNotes(recording)">
+            <AccentButton
+              :to="getNotes(recording)"
+              title="GitHub"
+              v-if="getNotes(recording)">
               <GitHubIcon color=" white" style="width: 1rem" />
             </AccentButton>
           </td>
@@ -73,16 +94,18 @@ import {
   updateDoc,
 } from "firebase/firestore";
 import { fullTimeSchedule } from "@/schedule/schedule";
+import { useAppStore } from "../stores/app";
 export default {
   name: "CBERecordings",
   components: {
     PageHeader,
     PlayIcon,
     GitHubIcon,
-    AccentButton
+    AccentButton,
   },
   data() {
     return {
+      store: useAppStore(),
       latestRecordings: [],
       filteredRecordings: [],
       key: "",
@@ -91,7 +114,7 @@ export default {
         {
           title: "Teilzeit",
           value: "Live-Session Teilzeit",
-          id: "part-time"
+          id: "part-time",
         },
         {
           title: "VZ Mai 2024",
@@ -101,20 +124,20 @@ export default {
         {
           title: "VZ Juni 2024",
           value: "Live-Session Class 2024 Juni",
-          id: "2024-06"
+          id: "2024-06",
         },
         {
           title: "Abschlusspräsentationen",
           value: "Abschlusspräsentation",
-          id: "abschluss"
-        }
+          id: "abschluss",
+        },
       ],
       partTimeClasses: [
         "2023 Dezember",
         "2024 Februar",
         "2024 März",
-        "2024 Mai"
-      ]
+        "2024 Mai",
+      ],
     };
   },
   created() {
@@ -145,13 +168,13 @@ export default {
       if (topic.includes("Abschlusspräsentation")) return topic;
 
       let prefix = "";
-      let year = ""
-      let month = ""
+      let year = "";
+      let month = "";
 
       if (topic.includes("Class")) {
         prefix = "VZ";
         year = topic.split(" ")[2];
-        month = topic.split(" ")[3]
+        month = topic.split(" ")[3];
       }
 
       if (topic.includes("Teilzeit")) {
@@ -163,12 +186,17 @@ export default {
         }
       }
 
-      return `${prefix} ${year} ${month}`
+      return `${prefix} ${year} ${month}`;
     },
 
     getNotes(rec) {
-      if (rec.recordingData.topic.includes("Abschlusspräsentation")) return false;
-      if (rec.recordingData.topic.includes("Teilzeit") && rec.recordingData.partTimeClass === undefined) return false;
+      if (rec.recordingData.topic.includes("Abschlusspräsentation"))
+        return false;
+      if (
+        rec.recordingData.topic.includes("Teilzeit") &&
+        rec.recordingData.partTimeClass === undefined
+      )
+        return false;
 
       const months = {
         Januar: "01",
@@ -182,10 +210,10 @@ export default {
         September: "09",
         Oktober: "10",
         November: "11",
-        Dezember: "12"
-      }
+        Dezember: "12",
+      };
 
-      const baseUrl = "https://github.com/coding-bootcamps-eu/"
+      const baseUrl = "https://github.com/coding-bootcamps-eu/";
 
       const isPartTime = rec.recordingData.topic.includes("Teilzeit");
 
@@ -193,26 +221,29 @@ export default {
         const topic = rec.recordingData.partTimeClass;
         const year = topic.split(" ")[0];
         const month = topic.split(" ")[1];
-        const classSlug = `${year}-${months[month]}`
+        const classSlug = `${year}-${months[month]}`;
 
-        let date = rec.recordingData.date.split(".")
+        let date = rec.recordingData.date.split(".");
         console.log(date);
-        date = `${date[2]}-${date[1].length > 1 ? date[1] : "0" + date[1]}-${date[0].length > 1 ? date[0] : "0" + date[0]}`
+        date = `${date[2]}-${date[1].length > 1 ? date[1] : "0" + date[1]}-${
+          date[0].length > 1 ? date[0] : "0" + date[0]
+        }`;
         console.log(date);
 
-        return `${baseUrl}${classSlug}/tree/main/Teilzeit/${date}`
+        return `${baseUrl}${classSlug}/tree/main/Teilzeit/${date}`;
       }
 
       const topic = rec.recordingData.topic.replace("Live-Session Class ", "");
       const year = topic.split(" ")[0];
       const month = topic.split(" ")[1];
-      const classSlug = `${year}-${months[month]}`
+      const classSlug = `${year}-${months[month]}`;
 
-      let date = rec.recordingData.date.split(".")
-      date = `${date[2]}-${date[1].length > 1 ? date[1] : "0" + date[1]}-${date[0].length > 1 ? date[0] : "0" + date[0]}`
+      let date = rec.recordingData.date.split(".");
+      date = `${date[2]}-${date[1].length > 1 ? date[1] : "0" + date[1]}-${
+        date[0].length > 1 ? date[0] : "0" + date[0]
+      }`;
 
-      return `${baseUrl}${classSlug}/tree/main/Vollzeit/${date}`
-
+      return `${baseUrl}${classSlug}/tree/main/Vollzeit/${date}`;
     },
 
     getFormattedDate(date) {
@@ -412,26 +443,26 @@ export default {
   color: var(--clr-accent);
 
   display: inline-block;
-  padding: .25rem .75rem;
+  padding: 0.25rem 0.75rem;
   border-block: 2px solid var(--clr-accent);
 }
 
 .filters-wrapper div:first-of-type label {
   border-left: 2px solid var(--clr-accent);
-  border-radius: .25rem 0 0 .25rem;
+  border-radius: 0.25rem 0 0 0.25rem;
 }
 
 .filters-wrapper div:last-of-type label {
   border-right: 2px solid var(--clr-accent);
-  border-radius: 0 .25rem .25rem 0;
+  border-radius: 0 0.25rem 0.25rem 0;
 }
 
-.filters-wrapper input:checked+label {
+.filters-wrapper input:checked + label {
   background-color: var(--clr-accent);
   color: var(--clr-white);
 }
 
-.filters-wrapper input:focus-visible+label {
+.filters-wrapper input:focus-visible + label {
   outline: 2px solid black;
 }
 
@@ -452,7 +483,7 @@ export default {
 
   padding: var(--s-xs);
   border: none;
-  border-radius: .25rem;
+  border-radius: 0.25rem;
 }
 
 td a {
@@ -465,7 +496,6 @@ td a {
 }
 
 @media screen and (min-width: 768px) {
-
   table {
     border-radius: var(--radius-inner);
   }

@@ -1,9 +1,7 @@
 <template>
-  <button v-if="this.$store.state.isLoggedIn" @click="logout" class="button">
-    Logout
-  </button>
+  <button v-if="store.isLoggedIn" @click="logout" class="button">Logout</button>
 
-  <button v-if="!this.$store.state.isLoggedIn" @click="login" class="button">
+  <button v-if="!store.isLoggedIn" @click="login" class="button">
     Mit GitHub anmelden
   </button>
 </template>
@@ -15,9 +13,17 @@ import {
   signOut,
   getAuth,
 } from "firebase/auth";
+import { useAppStore } from "@/stores/app.js";
 
 export default {
   name: "CBELogin",
+
+  data() {
+    return {
+      store: useAppStore(),
+    };
+  },
+
   methods: {
     async login() {
       const provider = new GithubAuthProvider();
@@ -27,7 +33,7 @@ export default {
 
     logout() {
       signOut(getAuth())
-        .then(() => { })
+        .then(() => {})
         .catch((error) => {
           console.error("Error while signOut: ", error);
         });
@@ -43,7 +49,7 @@ export default {
   background-color: var(--clr-white);
   color: var(--clr-accent);
 
-  padding: .25em .75em;
+  padding: 0.25em 0.75em;
   border: none;
   border-radius: var(--radius-inner);
   width: max-content;
