@@ -35,6 +35,11 @@ export default {
         overflow-hidden
         relative
         shadow-sm
+        md:hover:bg-violet-200
+        md:[&:hover>div]:opacity-100
+        md:[&:hover>div]:rotate-0
+        md:[&:hover>div]:translate-y-[-15%]
+        md:[&:hover>div]:translate-x-2
       `,
       iconClasses: `
         w-12 
@@ -42,7 +47,8 @@ export default {
         opacity-25 
         rotate-6 
         left-0 
-        bottom-[-.25rem]
+        -bottom-1
+        transition-transform
       `,
     };
   },

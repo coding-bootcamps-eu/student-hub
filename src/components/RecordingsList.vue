@@ -3,14 +3,7 @@
     <div>
       <form
         @change="loadSelectedClass"
-        class="
-          flex flex-wrap
-          md:flex-nowrap
-          gap-2
-          bg-violet-100
-          p-4
-          rounded-xl
-        ">
+        class="flex flex-wrap md:flex-nowrap gap-2 bg-gray-100 p-4 rounded-md">
         <div>
           <input
             type="radio"
@@ -19,10 +12,7 @@
             :class="radioClasses"
             value=""
             v-model="key" />
-          <label
-            for="all-recordings"
-            class="py-1 px-3 inline-block border-2 border-violet-700 rounded"
-            :class="labelClasses"
+          <label for="all-recordings" :class="labelClasses"
             >Letzte Aufnahmen</label
           >
         </div>
@@ -40,12 +30,12 @@
         </div>
       </form>
     </div>
-    <div class="my-4 grid grid-cols-1 gap-4">
+    <div class="my-12 grid grid-cols-1 gap-12 md:grid-cols-3">
       <article
         v-for="recording in recordings"
         :key="recording.recordingKey"
-        class="bg-indigo-100 rounded p-4">
-        <h3 class="font-bold text-indigo-700 text-xl">
+        class="bg-violet-100 rounded p-4 relative overflow-hidden">
+        <h3 class="font-bold text-violet-700 text-xl">
           {{ recordingTopic(recording, recording.recordingData.partTimeClass) }}
           <select
             name="part-time-class"
@@ -64,7 +54,18 @@
             </option>
           </select>
         </h3>
-        <div class="flex gap-2 text-xs text-indigo-400">
+        <div
+          class="
+            flex
+            gap-8
+            text-xs text-white
+            bg-violet-700
+            py-1
+            px-3
+            absolute
+            right-0
+            top-0
+          ">
           <span>{{ recording.recordingData.date }}</span>
           <span>{{ recording.recordingData.time }}</span>
         </div>
@@ -115,7 +116,7 @@ export default {
         [&:checked+label]:text-white
       `,
       labelClasses: `
-        py-1 px-3 text-xs inline-block border-[1px] border-violet-700 rounded
+        py-1 px-3 text-xs inline-block border-[1px] border-violet-700 rounded-sm text-violet-700 cursor-pointer
       `,
       latestRecordings: [],
       filteredRecordings: [],

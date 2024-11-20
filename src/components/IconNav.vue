@@ -7,10 +7,10 @@
         bottom-0
         flex
         justify-between
-        bg-violet-100
+        bg-gray-100
         w-full
         px-2
-        md:static md:flex-col md:h-full md:justify-start md:gap-4
+        md:sticky md:top-0 md:flex-col md:h-full md:justify-start md:gap-4
         overflow-x-auto
       ">
       <IconNavItem

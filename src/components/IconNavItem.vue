@@ -26,7 +26,8 @@ export default {
   data() {
     return {
       iconClasses: `
-        w-6
+        w-4
+        md:hidden
       `,
     };
   },
@@ -34,7 +35,6 @@ export default {
   computed: {
     linkClasses() {
       let base = `
-        bg-violet-100
         text-violet-700
         flex
         flex-col
@@ -42,10 +42,11 @@ export default {
         md:flex-row
         md:gap-4
         md:text-base
-        md:hover:bg-violet-200
+        md:hover:bg-violet-100
         md:hover:text-violet-700
         items-center
-        p-4
+        py-2
+        px-4
         text-xs
         md:rounded
       `;

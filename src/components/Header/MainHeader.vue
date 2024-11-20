@@ -6,9 +6,9 @@
       p-4
       items-center
       justify-between
-      bg-violet-100
+      bg-gray-100
       top-0
-      shadow-sm shadow-violet-100/40
+      shadow-sm shadow-gray-100/40
     ">
     <div class="flex items-center gap-4">
       <img
