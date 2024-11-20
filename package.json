@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "vite",
-    "dev:stage": "vite --mode stage",
+    "dev:stage": "vite --mode stage --host",
     "build": "vite build",
     "build:prod": "vite build --mode production",
     "serve": "vite preview",
@@ -25,6 +25,7 @@
   },
   "devDependencies": {
     "ansi-regex": ">=5.0.1",
+    "autoprefixer": "^10.4.20",
     "babel-eslint": "^10.1.0",
     "cypress": "^9.0.0",
     "eslint": "^8.57.0",
@@ -33,7 +34,9 @@
     "googleapis": "^100.0.0",
     "jest": "^28.1.0",
     "lint-staged": "^9.5.0",
-    "prettier": "^2.2.1"
+    "postcss": "^8.4.49",
+    "prettier": "^2.2.1",
+    "tailwindcss": "^3.4.15"
   },
   "gitHooks": {
     "pre-commit": "lint-staged"

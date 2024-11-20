@@ -1,73 +1,44 @@
 <template>
-  <PageHeader
-    title="Module"
-    sub="Hier bekommst du eine Übersicht darüber, wie unser Bootcamp aufgebaut ist" />
-  <div class="schedule">
-    <form class="tabs__container">
-      <div class="tab-wrapper" v-for="className in classes" :key="className">
-        <input
-          type="radio"
-          :id="className"
-          name="class-tab"
-          :value="className"
-          v-model="selectedClass"
-          class="tab"
-          @change="selectedClass = className" />
-        <label :for="className" class="tab-text">
-          {{ className }}
-        </label>
-      </div>
-    </form>
-    <div v-if="!isMobile">
-      <table v-for="module in selectedSchedule" :key="module.title">
-        <thead>
-          <tr>
-            <th scope="col" style="font-size: 1.5rem; width: 100%">
-              {{ module.title }} (Dauer: {{ module.length }})
-            </th>
-            <th></th>
-            <th></th>
-            <th></th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr v-for="category of module.categories" :key="category">
-            <th scope="row">{{ category.title }}</th>
-            <td>
-              <AccentButton
-                v-if="category.videos"
-                title="Videos"
-                :to="category.videos"
-                style="margin-inline: auto">
-                <PlayIcon color="white" />
-              </AccentButton>
-            </td>
-            <td>
-              <AccentButton
-                v-if="category.tasks"
-                title="Tasks"
-                :to="category.tasks"
-                style="margin-inline: auto">
-                <TaskIcon color="white" />
-              </AccentButton>
-            </td>
-            <td>
-              <AccentButton
-                v-if="category.slides"
-                title="Slides"
-                :to="category.slides"
-                style="margin-inline: auto">
-                <SlideIcon color="white" />
-              </AccentButton>
-            </td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
+  <div class="schedule md:flex md:flex-wrap md:gap-14">
+    <article
+      v-for="(module, i) in selectedSchedule"
+      :key="module.title"
+      class="mb-14 md:mb-0">
+      <header>
+        <h3 class="font-bold text-violet-700">
+          {{ i + 1 + ". " + module.title }} (Dauer: {{ module.length }})
+        </h3>
+      </header>
+      <section
+        v-for="category of module.categories"
+        :key="category"
+        class="mb-4 border-b-2 py-2">
+        <h4 class="mb-2">{{ category.title }}</h4>
+        <div class="flex text-xs gap-2">
+          <AccentButton
+            v-if="category.videos"
+            title="Videos"
+            :to="category.videos">
+            <PlayIcon />
+          </AccentButton>
+          <AccentButton
+            v-if="category.tasks"
+            title="Tasks"
+            :to="category.tasks">
+            <TaskIcon />
+          </AccentButton>
+          <AccentButton
+            v-if="category.slides"
+            title="Slides"
+            :to="category.slides">
+            <SlideIcon />
+          </AccentButton>
+        </div>
+      </section>
+    </article>
   </div>
 </template>
 <script>
-import PageHeader from "@/components/PageHeader.vue";
 import PlayIcon from "@/components/icons/PlayIcon.vue";
 import TaskIcon from "@/components/icons/TaskIcon.vue";
 import SlideIcon from "@/components/icons/SlideIcon.vue";
@@ -75,9 +46,7 @@ import AccentButton from "@/components/AccentButton.vue";
 import { fullTimeSchedule, partTimeSchedule } from "../schedule/schedule.js";
 import { useAppStore } from "../stores/app.js";
 export default {
-  name: "Schedule",
   components: {
-    PageHeader,
     PlayIcon,
     TaskIcon,
     SlideIcon,

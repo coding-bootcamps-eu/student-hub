@@ -1,9 +1,7 @@
 <template>
-  <button v-if="store.isLoggedIn" @click="logout" class="button">Logout</button>
+  <button v-if="store.isLoggedIn" @click="logout">Logout</button>
 
-  <button v-if="!store.isLoggedIn" @click="login" class="button">
-    Mit GitHub anmelden
-  </button>
+  <button v-if="store.isLoggedIn" @click="login">Mit GitHub anmelden</button>
 </template>
 
 <script>
@@ -13,11 +11,9 @@ import {
   signOut,
   getAuth,
 } from "firebase/auth";
-import { useAppStore } from "@/stores/app.js";
+import { useAppStore } from "../../stores/app";
 
 export default {
-  name: "CBELogin",
-
   data() {
     return {
       store: useAppStore(),
@@ -41,22 +37,3 @@ export default {
   },
 };
 </script>
-
-<style lang="css" scoped>
-.button {
-  cursor: pointer;
-  font-size: 1.25rem;
-  background-color: var(--clr-white);
-  color: var(--clr-accent);
-
-  padding: 0.25em 0.75em;
-  border: none;
-  border-radius: var(--radius-inner);
-  width: max-content;
-}
-
-.button:hover {
-  background-color: #262626;
-  color: white;
-}
-</style>

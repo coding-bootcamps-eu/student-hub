@@ -1,85 +1,90 @@
 <template>
-  <section class="recording__container" id="recordings">
-    <PageHeader
-      title="Aufnahmen"
-      sub="Schau dir nachträglich die Aufzeichnungen von Live Sessions und anderen Veranstaltugnen an" />
-    <div class="select-filter__wrapper">
-      <form @change="loadSelectedClass" class="filters-wrapper">
+  <section>
+    <div>
+      <form
+        @change="loadSelectedClass"
+        class="flex flex-wrap md:flex-nowrap gap-2 bg-gray-100 p-4 rounded-md">
         <div>
           <input
             type="radio"
             name="filter"
             id="all-recordings"
+            :class="radioClasses"
             value=""
             v-model="key" />
-          <label for="all-recordings">Letzte Aufnahmen</label>
+          <label for="all-recordings" :class="labelClasses"
+            >Letzte Aufnahmen</label
+          >
         </div>
         <div v-for="recording of recordingTypes" :key="recording.id">
           <input
             type="radio"
             name="filter"
             :id="'class-' + recording.id"
+            :class="radioClasses"
             :value="recording.value"
             v-model="key" />
-          <label :for="'class-' + recording.id">{{ recording.title }}</label>
+          <label :for="'class-' + recording.id" :class="labelClasses">{{
+            recording.title
+          }}</label>
         </div>
       </form>
     </div>
-    <table>
-      <thead>
-        <tr>
-          <th scope="col">Event</th>
-          <th scope="col">Datum</th>
-          <th scope="col">Zeit</th>
-          <th scope="col">Notizen</th>
-          <th scope="col">Aufnahme</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr v-for="recording in recordings" :key="recording.recordingKey">
-          <th scope="row">
-            {{
-              recordingTopic(recording, recording.recordingData.partTimeClass)
-            }}
-            <select
-              name="part-time-class"
-              id="part-time-class"
-              v-if="
-                recording.recordingData.topic.includes('Teilzeit') &&
-                store.isTeacher
-              "
-              @input="updatePartTimeClass(recording, $event.target.value)"
-              v-model="recording.recordingData.partTimeClass">
-              <option :value="null">Bitte wählen</option>
-              <option
-                :value="currentClass"
-                v-for="currentClass of partTimeClasses">
-                {{ currentClass }}
-              </option>
-            </select>
-          </th>
-          <td>{{ recording.recordingData.date }}</td>
-          <td>{{ recording.recordingData.time }}</td>
-          <td>
-            <AccentButton
-              :to="getNotes(recording)"
-              title="GitHub"
-              v-if="getNotes(recording)">
-              <GitHubIcon color=" white" style="width: 1rem" />
-            </AccentButton>
-          </td>
-          <td>
-            <AccentButton title="Video" :to="recording.recordingData.shareUrl">
-              <PlayIcon color="white" />
-            </AccentButton>
-          </td>
-        </tr>
-      </tbody>
-    </table>
+    <div class="my-12 grid grid-cols-1 gap-12 md:grid-cols-3">
+      <article
+        v-for="recording in recordings"
+        :key="recording.recordingKey"
+        class="bg-violet-100 rounded p-4 relative overflow-hidden">
+        <h3 class="font-bold text-violet-700 text-xl">
+          {{ recordingTopic(recording, recording.recordingData.partTimeClass) }}
+          <select
+            name="part-time-class"
+            id="part-time-class"
+            v-if="
+              recording.recordingData.topic.includes('Teilzeit') &&
+              store.isTeacher
+            "
+            @input="updatePartTimeClass(recording, $event.target.value)"
+            v-model="recording.recordingData.partTimeClass">
+            <option :value="null">Bitte wählen</option>
+            <option
+              :value="currentClass"
+              v-for="currentClass of partTimeClasses">
+              {{ currentClass }}
+            </option>
+          </select>
+        </h3>
+        <div
+          class="
+            flex
+            gap-8
+            text-xs text-white
+            bg-violet-700
+            py-1
+            px-3
+            absolute
+            right-0
+            top-0
+          ">
+          <span>{{ recording.recordingData.date }}</span>
+          <span>{{ recording.recordingData.time }}</span>
+        </div>
+        <div class="flex gap-2 mt-4">
+          <AccentButton
+            :to="getNotes(recording)"
+            title="GitHub"
+            v-if="getNotes(recording)">
+            <GitHubIcon style="width: 1rem" />
+          </AccentButton>
+          <AccentButton title="Video" :to="recording.recordingData.shareUrl">
+            <PlayIcon />
+          </AccentButton>
+        </div>
+      </article>
+    </div>
   </section>
 </template>
 <script>
-import PageHeader from "@/components/PageHeader.vue";
 import PlayIcon from "@/components/icons/PlayIcon.vue";
 import GitHubIcon from "@/components/icons/GitHubIcon.vue";
 import AccentButton from "@/components/AccentButton.vue";
@@ -93,41 +98,50 @@ import {
   where,
   updateDoc,
 } from "firebase/firestore";
-import { fullTimeSchedule } from "@/schedule/schedule";
 import { useAppStore } from "../stores/app";
 export default {
-  name: "CBERecordings",
   components: {
-    PageHeader,
     PlayIcon,
     GitHubIcon,
     AccentButton,
   },
+
   data() {
     return {
       store: useAppStore(),
+      radioClasses: `
+        absolute
+        -top-[1000%]
+        [&:checked+label]:bg-violet-700
+        [&:checked+label]:text-white
+      `,
+      labelClasses: `
+        py-1 px-3 text-xs inline-block border-[1px] border-violet-700 rounded-sm text-violet-700 cursor-pointer
+      `,
       latestRecordings: [],
       filteredRecordings: [],
       key: "",
       selectedTopic: "",
       recordingTypes: [
         {
-          title: "Teilzeit",
+          title: "Teilzeitklassen",
           value: "Live-Session Teilzeit",
+          id: "part-time",
           id: "part-time",
         },
         {
-          title: "VZ Mai 2024",
+          title: "VZ Mai 24",
           value: "Live-Session Class 2024 Mai",
           id: "2024-05",
         },
         {
-          title: "VZ Juni 2024",
+          title: "VZ Juni 24",
           value: "Live-Session Class 2024 Juni",
+          id: "2024-06",
           id: "2024-06",
         },
         {
-          title: "Abschlusspräsentationen",
+          title: "Präsentationen",
           value: "Abschlusspräsentation",
           id: "abschluss",
         },
@@ -140,6 +154,7 @@ export default {
       ],
     };
   },
+
   created() {
     // Always load latest recordings --> standard use case
     this.loadlatestRecordings();
@@ -418,86 +433,3 @@ export default {
   },
 };
 </script>
-<style scoped>
-.filter {
-  background-color: var(--clr-accent-light);
-
-  padding: var(--s-base);
-
-  display: flex;
-  flex-direction: column;
-  gap: 2.5rem;
-}
-
-.filters-wrapper {
-  display: flex;
-}
-
-.filters-wrapper input {
-  all: unset;
-
-  position: absolute;
-}
-
-.filters-wrapper label {
-  color: var(--clr-accent);
-
-  display: inline-block;
-  padding: 0.25rem 0.75rem;
-  border-block: 2px solid var(--clr-accent);
-}
-
-.filters-wrapper div:first-of-type label {
-  border-left: 2px solid var(--clr-accent);
-  border-radius: 0.25rem 0 0 0.25rem;
-}
-
-.filters-wrapper div:last-of-type label {
-  border-right: 2px solid var(--clr-accent);
-  border-radius: 0 0.25rem 0.25rem 0;
-}
-
-.filters-wrapper input:checked + label {
-  background-color: var(--clr-accent);
-  color: var(--clr-white);
-}
-
-.filters-wrapper input:focus-visible + label {
-  outline: 2px solid black;
-}
-
-.select-filter__wrapper {
-  display: flex;
-  align-items: center;
-  gap: var(--s-base);
-}
-
-.filter label {
-  font-weight: 700;
-}
-
-.filter select {
-  background-color: var(--clr-accent);
-  color: var(--clr-white);
-  font-weight: 700;
-
-  padding: var(--s-xs);
-  border: none;
-  border-radius: 0.25rem;
-}
-
-td a {
-  background-color: var(--clr-accent);
-  color: var(--clr-accent-light);
-  text-decoration: none;
-
-  padding: 0.25rem 0.75rem;
-  border-radius: var(--radius-inner);
-}
-
-@media screen and (min-width: 768px) {
-  table {
-    border-radius: var(--radius-inner);
-  }
-}
-</style>
