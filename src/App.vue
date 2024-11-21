@@ -26,9 +26,9 @@
 </template>
 
 <script>
-import MainHeader from "@/components/Header/MainHeader.vue";
-import IconNav from "@/components/Navigation/IconNav.vue";
-import MainFooter from "@/components/MainFooter.vue";
+import MainHeader from "@/components/Layout/Header/MainHeader.vue";
+import IconNav from "@/components/Layout/Navigation/IconNav.vue";
+import MainFooter from "@/components/Layout/MainFooter.vue";
 
 export default {
   components: {
