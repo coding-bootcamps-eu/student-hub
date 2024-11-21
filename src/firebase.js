@@ -77,10 +77,6 @@ export const loadUserDetails = async (user) => {
 
     if (userDoc.id !== user.uid) {
       createUserDocument(user.uid, userData);
-
-      // const oldDocumentRef = userDoc.ref;
-      // await deleteDoc(oldDocumentRef);
-      // console.info("Deleted old user doc with incorrect id");
     }
 
     return userData;

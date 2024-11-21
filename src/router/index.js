@@ -1,13 +1,11 @@
 import { createRouter, createWebHistory } from "vue-router";
-import Login from "../views/Login.vue";
-import Guest from "../views/Guest.vue";
-import Lobby from "../views/Lobby.vue";
-import Schedule from "../views/Schedule.vue";
-import Zoom from "../views/Zoom.vue";
-import Admin from "../views/Admin.vue";
-import { useAppStore } from "@/stores/app.js";
+import Login from "@/views/Login.vue";
+import Guest from "@/views/Guest.vue";
+import Lobby from "@/views/Lobby.vue";
+import Schedule from "@/views/Schedule.vue";
 
-import { onAuthStateInit } from "../firebase";
+import { useAppStore } from "@/stores/app.js";
+import { onAuthStateInit } from "@/firebase";
 
 const routes = [
   {
@@ -60,19 +58,6 @@ const routes = [
     component: Schedule,
     meta: {
       title: "Kursaufbau",
-    },
-  },
-  {
-    path: "/zoom",
-    name: "Zoom Rooms",
-    component: Zoom,
-  },
-  {
-    path: "/admin",
-    name: "Admin",
-    component: Admin,
-    meta: {
-      teacher: true,
     },
   },
 ];

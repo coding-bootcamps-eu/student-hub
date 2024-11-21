@@ -12,7 +12,7 @@ try {
     }
   });
 } catch (e) {
-  console.log("Error while removing old service worker registrations: ", e);
+  console.error("Error while removing old service worker registrations: ", e);
 }
 
 const app = createApp(App).use(createPinia()).use(router);

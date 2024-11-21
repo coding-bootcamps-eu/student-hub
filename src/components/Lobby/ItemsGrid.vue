@@ -13,15 +13,15 @@
 </template>
 
 <script>
-import PlayIcon from "../icons/lobby/PlayIcon.vue";
-import CalendarIcon from "../icons/lobby/CalendarIcon.vue";
-import HospitalIcon from "../icons/lobby/HospitalIcon.vue";
+import PlayIcon from "@/components/icons/lobby/PlayIcon.vue";
+import CalendarIcon from "@/components/icons/lobby/CalendarIcon.vue";
+import HospitalIcon from "@/components/icons/lobby/HospitalIcon.vue";
 
 import LinkCard from "@/components/LinkCard.vue";
 import AccentButton from "@/components/AccentButton.vue";
 import rooms from "@/zoom/rooms.js";
 
-import { useAppStore } from "../../stores/app";
+import { useAppStore } from "@/stores/app";
 export default {
   components: {
     PlayIcon,

@@ -98,7 +98,7 @@ import {
   where,
   updateDoc,
 } from "firebase/firestore";
-import { useAppStore } from "../stores/app";
+import { useAppStore } from "@/stores/app";
 export default {
   components: {
     PlayIcon,
@@ -239,11 +239,9 @@ export default {
         const classSlug = `${year}-${months[month]}`;
 
         let date = rec.recordingData.date.split(".");
-        console.log(date);
         date = `${date[2]}-${date[1].length > 1 ? date[1] : "0" + date[1]}-${
           date[0].length > 1 ? date[0] : "0" + date[0]
         }`;
-        console.log(date);
 
         return `${baseUrl}${classSlug}/tree/main/Teilzeit/${date}`;
       }
@@ -413,10 +411,6 @@ export default {
         const dateB = new Date(
           `${dateObjB.month}-${dateObjB.day}-${dateObjB.year}`
         );
-        /*         const dateA = new Date(a.recordingData.date.replaceAll(".", "-"));
-        console.log(dateA);
-        const dateB = new Date(b.recordingData.date.replaceAll(".", "-"));
-        console.log(dateB); */
         return dateA < dateB ? 1 : -1;
       });
     },

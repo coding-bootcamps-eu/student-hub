@@ -1,11 +1,11 @@
 <template>
   <section>
-    <div class="login-container">
-      <div class="login">
+    <div>
+      <div>
         <GitHubIcon color="white" class="icon" />
         <LoginForm />
       </div>
-      <p class="login__hint">
+      <p>
         Um den Student Hub nutzen zu können, musst du eingeloggt und
         freigeschaltet sein.
       </p>
@@ -15,11 +15,10 @@
 
 <script>
 import LoginForm from "@/components/Login/LoginForm.vue";
-import PageHeader from "@/components/PageHeader.vue";
+import PageHeader from "@/components/Layout/Header/PageHeader.vue";
 import GitHubIcon from "@/components/icons/GitHubIcon.vue";
 
 export default {
-  name: "Login",
   components: { LoginForm, PageHeader, GitHubIcon },
 };
 </script>

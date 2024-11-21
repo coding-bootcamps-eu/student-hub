@@ -83,8 +83,9 @@
 </template>
 <script>
 import LinkIcon from "@/components/icons/LinkIcon.vue";
-import MainFooter from "../MainFooter.vue";
-import { useAppStore } from "../../stores/app";
+import MainFooter from "@/components/Layout/MainFooter.vue";
+
+import { useAppStore } from "@/stores/app";
 
 export default {
   components: {

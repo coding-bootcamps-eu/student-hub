@@ -25,13 +25,13 @@
 </template>
 
 <script>
-import HomeIcon from "./icons/lobby/HomeIcon.vue";
-import PlayIcon from "./icons/lobby/PlayIcon.vue";
-import CalendarIcon from "./icons/lobby/CalendarIcon.vue";
-import HospitalIcon from "./icons/lobby/HospitalIcon.vue";
+import HomeIcon from "@/components/icons/lobby/HomeIcon.vue";
+import PlayIcon from "@/components/icons/lobby/PlayIcon.vue";
+import CalendarIcon from "@/components/icons/lobby/CalendarIcon.vue";
+import HospitalIcon from "@/components/icons/lobby/HospitalIcon.vue";
+import IconNavItem from "@/components/Layout/Navigation/IconNavItem.vue";
 
-import IconNavItem from "./IconNavItem.vue";
-import { useAppStore } from "../stores/app";
+import { useAppStore } from "@/stores/app";
 
 export default {
   components: {
