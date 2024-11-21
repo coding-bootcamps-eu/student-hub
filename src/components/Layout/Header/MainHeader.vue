@@ -22,8 +22,8 @@
   </header>
 </template>
 <script>
-import PageHeader from "@/components/PageHeader.vue";
-import MainNavigation from "@/components/Header/MainNavigation.vue";
+import PageHeader from "@/components/Layout/Header/PageHeader.vue";
+import MainNavigation from "@/components/Layout/Navigation/MainNavigation.vue";
 
 export default {
   components: {

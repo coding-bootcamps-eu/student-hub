@@ -12,10 +12,9 @@
 <script>
 import ItemsGrid from "@/components/Lobby/ItemsGrid.vue";
 
-import { useAppStore } from "../stores/app";
+import { useAppStore } from "@/stores/app";
 
 export default {
-  name: "Home",
   data() {
     return {
       store: useAppStore(),
@@ -59,9 +58,11 @@ export default {
       ],
     };
   },
+
   components: {
     ItemsGrid,
   },
+
   methods: {
     getRandomQuote() {
       const randomIndex = Math.floor(Math.random() * this.greetings.length);
@@ -69,6 +70,7 @@ export default {
       return this.greetings[randomIndex];
     },
   },
+
   computed: {
     isTeacher() {
       return this.store.isTeacher;

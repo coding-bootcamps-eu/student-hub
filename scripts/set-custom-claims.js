@@ -35,8 +35,6 @@ async function setCustomClaims() {
     await admin.auth().setCustomUserClaims(uid, {
       role: role,
     });
-
-    console.log(`Updated role for UID "${uid}" to "${role}"`);
   });
 }
 
