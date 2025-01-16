@@ -110,10 +110,8 @@ export default {
         }
       ],
       partTimeClasses: [
-        "2023 Dezember",
-        "2024 Februar",
-        "2024 März",
-        "2024 Mai"
+        "2024 Mai",
+        "2024 August"
       ]
     };
   },
