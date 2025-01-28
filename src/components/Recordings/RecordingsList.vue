@@ -1,61 +1,37 @@
 <template>
   <section>
     <div>
-      <form
-        @change="loadSelectedClass"
-        class="flex flex-wrap md:flex-nowrap gap-2 bg-gray-100 p-4 rounded-md">
+      <form @change="loadSelectedClass" class="flex flex-wrap md:flex-nowrap gap-2 bg-gray-100 p-4 rounded-md">
         <div>
-          <input
-            type="radio"
-            name="filter"
-            id="all-recordings"
-            :class="radioClasses"
-            value=""
-            v-model="key" />
-          <label for="all-recordings" :class="labelClasses"
-            >Letzte Aufnahmen</label
-          >
+          <input type="radio" name="filter" id="all-recordings" :class="radioClasses" value="" v-model="key" />
+          <label for="all-recordings" :class="labelClasses">Letzte Aufnahmen</label>
         </div>
         <div v-for="recording of recordingTypes" :key="recording.id">
-          <input
-            type="radio"
-            name="filter"
-            :id="'class-' + recording.id"
-            :class="radioClasses"
-            :value="recording.value"
+          <input type="radio" name="filter" :id="'class-' + recording.id" :class="radioClasses" :value="recording.value"
             v-model="key" />
           <label :for="'class-' + recording.id" :class="labelClasses">{{
             recording.title
-          }}</label>
+            }}</label>
         </div>
       </form>
     </div>
     <div class="my-12 grid grid-cols-1 gap-12 md:grid-cols-3">
-      <article
-        v-for="recording in recordings"
-        :key="recording.recordingKey"
+      <article v-for="recording in recordings" :key="recording.recordingKey"
         class="bg-violet-100 rounded p-4 relative overflow-hidden">
         <h3 class="font-bold text-violet-700 text-xl">
           {{ recordingTopic(recording, recording.recordingData.partTimeClass) }}
-          <select
-            name="part-time-class"
-            id="part-time-class"
-            v-if="
-              recording.recordingData.topic.includes('Teilzeit') &&
-              store.isTeacher
-            "
-            @input="updatePartTimeClass(recording, $event.target.value)"
+          <select name="part-time-class" id="part-time-class" v-if="
+            recording.recordingData.topic.includes('Teilzeit') &&
+            store.isTeacher
+          " @input="updatePartTimeClass(recording, $event.target.value)"
             v-model="recording.recordingData.partTimeClass">
             <option :value="null">Bitte wählen</option>
-            <option
-              :value="currentClass"
-              v-for="currentClass of partTimeClasses">
+            <option :value="currentClass" v-for="currentClass of partTimeClasses">
               {{ currentClass }}
             </option>
           </select>
         </h3>
-        <div
-          class="
+        <div class="
             flex
             gap-8
             text-xs text-white
@@ -70,10 +46,7 @@
           <span>{{ recording.recordingData.time }}</span>
         </div>
         <div class="flex gap-2 mt-4">
-          <AccentButton
-            :to="getNotes(recording)"
-            title="GitHub"
-            v-if="getNotes(recording)">
+          <AccentButton :to="getNotes(recording)" title="GitHub" v-if="getNotes(recording)">
             <GitHubIcon style="width: 1rem" />
           </AccentButton>
           <AccentButton title="Video" :to="recording.recordingData.shareUrl">
@@ -147,11 +120,9 @@ export default {
         },
       ],
       partTimeClasses: [
-        "2023 Dezember",
-        "2024 Februar",
-        "2024 März",
         "2024 Mai",
-      ],
+        "2024 August"
+      ]
     };
   },
 
@@ -239,9 +210,8 @@ export default {
         const classSlug = `${year}-${months[month]}`;
 
         let date = rec.recordingData.date.split(".");
-        date = `${date[2]}-${date[1].length > 1 ? date[1] : "0" + date[1]}-${
-          date[0].length > 1 ? date[0] : "0" + date[0]
-        }`;
+        date = `${date[2]}-${date[1].length > 1 ? date[1] : "0" + date[1]}-${date[0].length > 1 ? date[0] : "0" + date[0]
+          }`;
 
         return `${baseUrl}${classSlug}/tree/main/Teilzeit/${date}`;
       }
@@ -252,9 +222,8 @@ export default {
       const classSlug = `${year}-${months[month]}`;
 
       let date = rec.recordingData.date.split(".");
-      date = `${date[2]}-${date[1].length > 1 ? date[1] : "0" + date[1]}-${
-        date[0].length > 1 ? date[0] : "0" + date[0]
-      }`;
+      date = `${date[2]}-${date[1].length > 1 ? date[1] : "0" + date[1]}-${date[0].length > 1 ? date[0] : "0" + date[0]
+        }`;
 
       return `${baseUrl}${classSlug}/tree/main/Vollzeit/${date}`;
     },
