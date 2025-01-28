@@ -2,9 +2,8 @@
   <RecordingsList />
 </template>
 <script>
-import RecordingsList from "../components/RecordingsList.vue";
+import RecordingsList from "@/components/Recordings/RecordingsList.vue";
 export default {
-  name: "LR-Main-View",
   components: { RecordingsList },
 };
 </script>

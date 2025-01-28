@@ -30,8 +30,6 @@ restApi.get("/meetings/today", async (req, res) => {
         (user.customClaims.role === "teacher" ||
           user.customClaims.role === "student")
       ) {
-        console.log(user.customClaims);
-
         const meetings = await getTodaysMeetings(
           calendarApi,
           calendarId,

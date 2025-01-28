@@ -1,5 +1,19 @@
 <template>
-  <a :href="to" target="_blank">
+  <a
+    :href="to"
+    target="_blank"
+    class="
+      py-2
+      px-6
+      bg-violet-300
+      flex
+      items-center
+      gap-2
+      w-fit
+      rounded-sm
+      text-violet-700
+      font-bold
+    ">
     <slot class="test" />
     <span>
       {{ title }}
@@ -9,31 +23,6 @@
 
 <script>
 export default {
-  props: ["to", "title"]
-}
+  props: ["to", "title"],
+};
 </script>
-
-<style scoped>
-a {
-  background-color: var(--clr-accent);
-  color: white;
-  text-decoration: none;
-
-  padding: var(--s-xs) calc(var(--s-xs) * 3);
-  border: 2px solid transparent;
-  border-radius: var(--radius-inner);
-  width: fit-content;
-}
-
-a:has(svg) {
-  display: flex;
-  align-items: center;
-  gap: .5rem;
-}
-
-a:hover {
-  background-color: var(--clr-accent-hover);
-
-  border-color: var(--clr-accent);
-}
-</style>

@@ -1,20 +1,31 @@
 <template>
   <section>
     <header class="page-heading">
-      <p class="greeting">
-        Hello {{ this.$store.getters.userName }}! 👋 {{ randomQuote }}
+      <p class="bg-indigo-100 p-2 rounded text-violet-700">
+        Hello {{ store.userName }}! 👋 {{ randomQuote }}
       </p>
     </header>
+<<<<<<< HEAD
     <ItemsGrid />
+=======
+    <ItemsGrid :view="selectedView" />
+>>>>>>> 48d5a7b6beedb32133e75759f62a57569da0adfa
   </section>
 </template>
 
 <script>
 import ItemsGrid from "@/components/Lobby/ItemsGrid.vue";
+
+import { useAppStore } from "@/stores/app";
+
 export default {
-  name: "Home",
   data() {
     return {
+<<<<<<< HEAD
+=======
+      store: useAppStore(),
+      selectedView: "teacher",
+>>>>>>> 48d5a7b6beedb32133e75759f62a57569da0adfa
       greetings: [
         "Embrace today's challenges.",
         "Every line of code is a step forward.",
@@ -54,9 +65,11 @@ export default {
       ],
     };
   },
+
   components: {
     ItemsGrid,
   },
+
   methods: {
     getRandomQuote() {
       const randomIndex = Math.floor(Math.random() * this.greetings.length);
@@ -64,9 +77,10 @@ export default {
       return this.greetings[randomIndex];
     },
   },
+
   computed: {
     isTeacher() {
-      return this.$store.getters.isTeacher;
+      return this.store.isTeacher;
     },
 
     randomQuote() {
@@ -75,35 +89,3 @@ export default {
   },
 };
 </script>
-
-<style scoped>
-.page-heading {
-  background-color: var(--clr-accent-light);
-
-  padding: var(--s-base);
-  margin-top: 0;
-
-  border-radius: var(--radius-outer);
-}
-
-.page-heading:has(+ .lobby-grid__container) {
-  margin-block: 0 var(--s-base);
-}
-
-.layout-switcher__wrapper {
-  margin-block: var(--s-base);
-
-  display: flex;
-  gap: var(--s-base);
-}
-
-@media screen and (min-width: 768px) {
-  .page-heading {
-    border-radius: var(--radius-inner);
-  }
-
-  .layout-switcher__wrapper {
-    margin-block: var(--s-large);
-  }
-}
-</style>
