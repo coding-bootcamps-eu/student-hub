@@ -17,6 +17,7 @@ import { useAppStore } from "@/stores/app";
 export default {
   data() {
     return {
+      store: useAppStore(),
       greetings: [
         "Embrace today's challenges.",
         "Every line of code is a step forward.",
