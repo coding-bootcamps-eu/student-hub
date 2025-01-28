@@ -5,11 +5,7 @@
         Hello {{ store.userName }}! 👋 {{ randomQuote }}
       </p>
     </header>
-<<<<<<< HEAD
     <ItemsGrid />
-=======
-    <ItemsGrid :view="selectedView" />
->>>>>>> 48d5a7b6beedb32133e75759f62a57569da0adfa
   </section>
 </template>
 
@@ -21,11 +17,6 @@ import { useAppStore } from "@/stores/app";
 export default {
   data() {
     return {
-<<<<<<< HEAD
-=======
-      store: useAppStore(),
-      selectedView: "teacher",
->>>>>>> 48d5a7b6beedb32133e75759f62a57569da0adfa
       greetings: [
         "Embrace today's challenges.",
         "Every line of code is a step forward.",
