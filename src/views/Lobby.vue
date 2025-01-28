@@ -5,32 +5,7 @@
         Hello {{ this.$store.getters.userName }}! 👋 {{ randomQuote }}
       </p>
     </header>
-    <form
-      class="layout-switcher__wrapper"
-      @change="selectedView = $event.target.value"
-      v-if="isTeacher"
-    >
-      <span>Choose a layout: </span>
-      <input
-        type="radio"
-        name="view"
-        id="teacher-view"
-        value="teacher"
-        v-model="selectedView"
-        class="tab"
-      />
-      <label for="teacher-view" class="tab-text">Teacher</label>
-      <input
-        type="radio"
-        name="view"
-        id="student-view"
-        class="tab"
-        value="student"
-        v-model="selectedView"
-      />
-      <label for="student-view" class="tab-text">Student</label>
-    </form>
-    <ItemsGrid :view="selectedView" />
+    <ItemsGrid />
   </section>
 </template>
 
@@ -40,7 +15,6 @@ export default {
   name: "Home",
   data() {
     return {
-      selectedView: "teacher",
       greetings: [
         "Embrace today's challenges.",
         "Every line of code is a step forward.",

@@ -6,7 +6,7 @@
     "dev": "vite",
     "dev:stage": "vite --mode stage",
     "build": "vite build",
-    "build:prod": "vite build --mode production",
+    "build:prod": "vite build",
     "serve": "vite preview",
     "lint": "eslint --ext .js,.vue --ignore-path .gitignore --fix src",
     "firebase:emulator": "firebase emulators:start --import ./firestore-export"
