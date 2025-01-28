@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "vite",
-    "dev:stage": "vite --mode stage",
+    "dev:stage": "vite --mode stage --host",
     "build": "vite build",
     "build:prod": "vite build --mode production",
     "serve": "vite preview",
@@ -17,14 +17,15 @@
     "dotenv": "^10.0.0",
     "eslint-plugin-cypress": "^2.12.1",
     "firebase": "^9.0.1",
+    "pinia": "^2.2.6",
     "vite": "^2.5.4",
     "vue": "^3.2.20",
     "vue-router": "^4.0.12",
-    "vue3-markdown-it": "^1.0.9",
-    "vuex": "^4.0.2"
+    "vue3-markdown-it": "^1.0.9"
   },
   "devDependencies": {
     "ansi-regex": ">=5.0.1",
+    "autoprefixer": "^10.4.20",
     "babel-eslint": "^10.1.0",
     "cypress": "^9.0.0",
     "eslint": "^8.57.0",
@@ -33,7 +34,9 @@
     "googleapis": "^100.0.0",
     "jest": "^28.1.0",
     "lint-staged": "^9.5.0",
-    "prettier": "^2.2.1"
+    "postcss": "^8.4.49",
+    "prettier": "^2.2.1",
+    "tailwindcss": "^3.4.15"
   },
   "gitHooks": {
     "pre-commit": "lint-staged"

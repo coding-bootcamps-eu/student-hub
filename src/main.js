@@ -1,7 +1,9 @@
 import { createApp } from "vue";
+import { createPinia } from "pinia";
 import App from "./App.vue";
 import router from "./router";
-import store from "./store";
+
+import "@/assets/style.css";
 
 try {
   navigator.serviceWorker.getRegistrations().then(function (registrations) {
@@ -10,10 +12,10 @@ try {
     }
   });
 } catch (e) {
-  console.log("Error while removing old service worker registrations: ", e);
+  console.error("Error while removing old service worker registrations: ", e);
 }
 
-const app = createApp(App).use(store).use(router);
+const app = createApp(App).use(createPinia()).use(router);
 // if (import.meta.env.NODE_ENV) {
 //   require("dotenv").config();
 // }

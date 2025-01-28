@@ -1,45 +1,23 @@
 <template>
   <section>
     <header class="page-heading">
-      <p class="greeting">
-        Hello {{ this.$store.getters.userName }}! 👋 {{ randomQuote }}
+      <p class="bg-indigo-100 p-2 rounded text-violet-700">
+        Hello {{ store.userName }}! 👋 {{ randomQuote }}
       </p>
     </header>
-    <form
-      class="layout-switcher__wrapper"
-      @change="selectedView = $event.target.value"
-      v-if="isTeacher"
-    >
-      <span>Choose a layout: </span>
-      <input
-        type="radio"
-        name="view"
-        id="teacher-view"
-        value="teacher"
-        v-model="selectedView"
-        class="tab"
-      />
-      <label for="teacher-view" class="tab-text">Teacher</label>
-      <input
-        type="radio"
-        name="view"
-        id="student-view"
-        class="tab"
-        value="student"
-        v-model="selectedView"
-      />
-      <label for="student-view" class="tab-text">Student</label>
-    </form>
     <ItemsGrid :view="selectedView" />
   </section>
 </template>
 
 <script>
 import ItemsGrid from "@/components/Lobby/ItemsGrid.vue";
+
+import { useAppStore } from "@/stores/app";
+
 export default {
-  name: "Home",
   data() {
     return {
+      store: useAppStore(),
       selectedView: "teacher",
       greetings: [
         "Embrace today's challenges.",
@@ -80,9 +58,11 @@ export default {
       ],
     };
   },
+
   components: {
     ItemsGrid,
   },
+
   methods: {
     getRandomQuote() {
       const randomIndex = Math.floor(Math.random() * this.greetings.length);
@@ -90,9 +70,10 @@ export default {
       return this.greetings[randomIndex];
     },
   },
+
   computed: {
     isTeacher() {
-      return this.$store.getters.isTeacher;
+      return this.store.isTeacher;
     },
 
     randomQuote() {
@@ -101,35 +82,3 @@ export default {
   },
 };
 </script>
-
-<style scoped>
-.page-heading {
-  background-color: var(--clr-accent-light);
-
-  padding: var(--s-base);
-  margin-top: 0;
-
-  border-radius: var(--radius-outer);
-}
-
-.page-heading:has(+ .lobby-grid__container) {
-  margin-block: 0 var(--s-base);
-}
-
-.layout-switcher__wrapper {
-  margin-block: var(--s-base);
-
-  display: flex;
-  gap: var(--s-base);
-}
-
-@media screen and (min-width: 768px) {
-  .page-heading {
-    border-radius: var(--radius-inner);
-  }
-
-  .layout-switcher__wrapper {
-    margin-block: var(--s-large);
-  }
-}
-</style>

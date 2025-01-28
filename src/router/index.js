@@ -1,15 +1,11 @@
 import { createRouter, createWebHistory } from "vue-router";
-import Login from "../views/Login.vue";
-import Guest from "../views/Guest.vue";
-import Lobby from "../views/Lobby.vue";
-import Schedule from "../views/Schedule.vue";
-import Zoom from "../views/Zoom.vue";
-import Slides from "../views/Slides.vue";
-import Students from "../views/Students.vue";
-import Admin from "../views/Admin.vue";
-import store from "../store";
+import Login from "@/views/Login.vue";
+import Guest from "@/views/Guest.vue";
+import Lobby from "@/views/Lobby.vue";
+import Schedule from "@/views/Schedule.vue";
 
-import { onAuthStateInit } from "../firebase";
+import { useAppStore } from "@/stores/app.js";
+import { onAuthStateInit } from "@/firebase";
 
 const routes = [
   {
@@ -18,6 +14,7 @@ const routes = [
     component: Lobby,
     meta: {
       public: false,
+      title: "Lobby",
     },
   },
   {
@@ -26,6 +23,7 @@ const routes = [
     component: Login,
     meta: {
       public: true,
+      title: "Anmelden",
     },
   },
   {
@@ -34,6 +32,7 @@ const routes = [
     component: Guest,
     meta: {
       public: true,
+      title: "Du bist Gast",
     },
   },
   {
@@ -41,42 +40,24 @@ const routes = [
     name: "Logout",
     meta: {
       public: true,
+      title: "Ausloggen",
     },
-    component: () =>
-      import(/* webpackChunkName: "loggedout" */ "../views/Logout.vue"),
+    component: () => import("@/views/Logout.vue"),
   },
   {
     path: "/recordings",
     name: "Recordings",
-    component: () =>
-      import(/* webpackChunkName: "recordings" */ "../views/Recordings.vue"),
-  },
-  {
-    path: "/students",
-    name: "Students",
-    component: Students,
-  },
-  {
-    path: "/slides",
-    name: "Slides",
-    component: Slides,
+    meta: {
+      title: "Aufzeichnungen",
+    },
+    component: () => import("@/views/Recordings.vue"),
   },
   {
     path: "/schedule",
     name: "Schedule",
     component: Schedule,
-  },
-  {
-    path: "/zoom",
-    name: "Zoom Rooms",
-    component: Zoom,
-  },
-  {
-    path: "/admin",
-    name: "Admin",
-    component: Admin,
     meta: {
-      teacher: true,
+      title: "Kursaufbau",
     },
   },
 ];
@@ -87,18 +68,20 @@ const router = createRouter({
 });
 
 router.beforeEach(async (to) => {
+  const appStore = useAppStore();
+
   await onAuthStateInit();
 
   if (!to.meta.public) {
-    if (!store.getters.isLoggedIn) {
+    if (!appStore.isLoggedIn) {
       return "/login";
     }
-    if (store.getters.isGuest) {
+    if (appStore.isGuest) {
       return "/guest";
     }
   }
 
-  if (to.meta.teacher && !store.getters.isTeacher) {
+  if (to.meta.teacher && !appStore.isTeacher) {
     return "/";
   }
 });
