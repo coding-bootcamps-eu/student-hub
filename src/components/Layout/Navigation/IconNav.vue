@@ -1,7 +1,6 @@
 <template>
   <nav>
-    <menu
-      class="
+    <menu class="
         fixed
         z-50
         bottom-0
@@ -13,13 +12,11 @@
         md:sticky md:top-0 md:flex-col md:h-full md:justify-start md:gap-4
         overflow-x-auto
       ">
-      <IconNavItem
-        v-for="link of store.links"
-        :key="link.to"
-        :to="link.to"
-        :text="link.title">
-        <component :is="link.icon + 'Icon'" />
-      </IconNavItem>
+      <template v-if="isLoggedIn">
+        <IconNavItem v-for="link of store.links" :key="link.to" :to="link.to" :text="link.title">
+          <component :is="link.icon + 'Icon'" />
+        </IconNavItem>
+      </template>
     </menu>
   </nav>
 </template>
