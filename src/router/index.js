@@ -6,6 +6,7 @@ import Schedule from "@/views/Schedule.vue";
 
 import { useAppStore } from "@/stores/app.js";
 import { onAuthStateInit } from "@/firebase";
+import Logout from "../views/Logout.vue";
 
 const routes = [
   {
@@ -42,7 +43,7 @@ const routes = [
       public: true,
       title: "Ausloggen",
     },
-    component: () => import("@/views/Logout.vue"),
+    component: Logout,
   },
   {
     path: "/recordings",
@@ -72,7 +73,7 @@ router.beforeEach(async (to) => {
 
   await onAuthStateInit();
 
-  if (!to.meta.public) {
+  if (to.meta.public !== true) {
     if (!appStore.isLoggedIn) {
       return "/login";
     }

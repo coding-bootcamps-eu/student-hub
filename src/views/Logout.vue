@@ -5,7 +5,6 @@
       <p>Du hast dich erfolgreich ausgeloggt</p>
     </header>
     <LoginForm />
-    <p>Wenn du möchtest, kannst du dich jederzeit wieder einloggen.</p>
   </section>
 </template>
 
