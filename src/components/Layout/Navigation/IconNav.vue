@@ -12,7 +12,7 @@
         md:sticky md:top-0 md:flex-col md:h-full md:justify-start md:gap-4
         overflow-x-auto
       ">
-      <template v-if="isLoggedIn">
+      <template v-if="store.user">
         <IconNavItem v-for="link of store.links" :key="link.to" :to="link.to" :text="link.title">
           <component :is="link.icon + 'Icon'" />
         </IconNavItem>
